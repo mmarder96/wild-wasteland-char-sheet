@@ -181,14 +181,14 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
                   <span name='attr_energy_weapons_bonus' title='@{energy_weapons_bonus}'>0</span>
                   <button type='roll' name='roll_energy_weapons'
                     value='@{wtype}&{template:simple} {{rname=^{energy_weapons-u}}} {{mod=@{energy_weapons_bonus}}} {{r1=[[@{d20}+@{energy_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{energy_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='energy_weapons-core'>Energy Weapons<span>[PER]</span></button>
+                    data-i18n='energy_weapons-core'>Energy Weapons <span>[PER]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="explosives">
                   <input type="checkbox" name="attr_explosives_prof" title="@{explosives_prof}" value="(@{pb}*@{explosives_type})">
                   <span name='attr_explosives_bonus' title='@{explosives_bonus}'>0</span>
                   <button type='roll' name='roll_explosives'
                     value='@{wtype}&{template:simple} {{rname=^{explosives-u}}} {{mod=@{explosives_bonus}}} {{r1=[[@{d20}+@{explosives_bonus}@{pbd_safe}]]}} @{rtype}+@{explosives_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='explosives-core'>Explosives <span>[Int]</span></button>
+                    data-i18n='explosives-core'>Explosives <span>[INT]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="guns">
                   <input type="checkbox" name="attr_guns_prof" title="@{guns_prof}" value="(@{pb}*@{guns_type})">
@@ -198,67 +198,67 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
                     data-i18n='guns-core'>Guns <span>[PER]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="lockpick">
-                  <input type="checkbox" name="attr_deception_prof" title="@{deception_prof}" value="(@{pb}*@{deception_type})">
-                  <span name='attr_deception_bonus' title='@{deception_bonus}'>0</span>
-                  <button type='roll' name='roll_deception'
-                    value='@{wtype}&{template:simple} {{rname=^{deception-u}}} {{mod=@{deception_bonus}}} {{r1=[[@{d20}+@{deception_bonus}@{pbd_safe}]]}} @{rtype}+@{deception_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='deception-core'>Deception <span>(Cha)</span></button>
+                  <input type="checkbox" name="attr_lockpick_prof" title="@{lockpick_prof}" value="(@{pb}*@{lockpick_type})">
+                  <span name='attr_lockpick_bonus' title='@{lockpick_bonus}'>0</span>
+                  <button type='roll' name='roll_lockpick'
+                    value='@{wtype}&{template:simple} {{rname=^{lockpick-u}}} {{mod=@{lockpick_bonus}}} {{r1=[[@{d20}+@{lockpick_bonus}@{pbd_safe}]]}} @{rtype}+@{lockpick_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='lockpick-core'>Lockpick <span>[AGL]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="medicine">
-                  <input type="checkbox" name="attr_history_prof" title="@{history_prof}" value="(@{pb}*@{history_type})">
-                  <span name='attr_history_bonus' title='@{history_bonus}'>0</span>
-                  <button type='roll' name='roll_history'
-                    value='@{wtype}&{template:simple} {{rname=^{history-u}}} {{mod=@{history_bonus}}} {{r1=[[@{d20}+@{history_bonus}@{pbd_safe}]]}} @{rtype}+@{history_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='history-core'>History <span>(Int)</span></button>
+                  <input type="checkbox" name="attr_medicine_prof" title="@{medicine_prof}" value="(@{pb}*@{medicine_type})">
+                  <span name='attr_medicine_bonus' title='@{medicine_bonus}'>0</span>
+                  <button type='roll' name='roll_medicine'
+                    value='@{wtype}&{template:simple} {{rname=^{medicine-u}}} {{mod=@{medicine_bonus}}} {{r1=[[@{d20}+@{medicine_bonus}@{pbd_safe}]]}} @{rtype}+@{medicine_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='medicine-core'>Medicine <span>[INT]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="melee_weapons">
-                  <input type="checkbox" name="attr_insight_prof" title="@{insight_prof}" value="(@{pb}*@{insight_type})">
-                  <span name='attr_insight_bonus' title='@{insight_bonus}'>0</span>
-                  <button type='roll' name='roll_insight'
-                    value='@{wtype}&{template:simple} {{rname=^{insight-u}}} {{mod=@{insight_bonus}}} {{r1=[[@{d20}+@{insight_bonus}@{pbd_safe}]]}} @{rtype}+@{insight_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='insight-core'>Insight <span>(Wis)</span></button>
+                  <input type="checkbox" name="attr_melee_weapons_prof" title="@{melee_weapons_prof}" value="(@{pb}*@{melee_weapons_type})">
+                  <span name='attr_melee_weapons_bonus' title='@{melee_weapons_bonus}'>0</span>
+                  <button type='roll' name='roll_melee_weapons'
+                    value='@{wtype}&{template:simple} {{rname=^{melee_weapons-u}}} {{mod=@{melee_weapons_bonus}}} {{r1=[[@{d20}+@{melee_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{melee_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='melee_weapons-core'>Melee Weapons <span>[STR]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="repair">
-                  <input type="checkbox" name="attr_intimidation_prof" title="@{intimidation_prof}" value="(@{pb}*@{intimidation_type})">
-                  <span name='attr_intimidation_bonus' title='@{intimidation_bonus}'>0</span>
-                  <button type='roll' name='roll_intimidation'
-                    value='@{wtype}&{template:simple} {{rname=^{intimidation-u}}} {{mod=@{intimidation_bonus}}} {{r1=[[@{d20}+@{intimidation_bonus}@{pbd_safe}]]}} @{rtype}+@{intimidation_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='intimidation-core'>Intimidation <span>(Cha)</span></button>
+                  <input type="checkbox" name="attr_repair_prof" title="@{repair_prof}" value="(@{pb}*@{repair_type})">
+                  <span name='attr_repair_bonus' title='@{repair_bonus}'>0</span>
+                  <button type='roll' name='roll_repair'
+                    value='@{wtype}&{template:simple} {{rname=^{repair-u}}} {{mod=@{repair_bonus}}} {{r1=[[@{d20}+@{repair_bonus}@{pbd_safe}]]}} @{rtype}+@{repair_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='repair-core'>Repair <span>[INT]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="science">
-                  <input type="checkbox" name="attr_investigation_prof" title="@{investigation_prof}" value="(@{pb}*@{investigation_type})">
-                  <span name='attr_investigation_bonus' title='@{investigation_bonus}'>0</span>
-                  <button type='roll' name='roll_investigation'
-                    value='@{wtype}&{template:simple} {{rname=^{investigation-u}}} {{mod=@{investigation_bonus}}} {{r1=[[@{d20}+@{investigation_bonus}@{pbd_safe}]]}} @{rtype}+@{investigation_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='investigation-core'>Investigation <span>(Int)</span></button>
+                  <input type="checkbox" name="attr_science_prof" title="@{science_prof}" value="(@{pb}*@{science_type})">
+                  <span name='attr_science_bonus' title='@{science_bonus}'>0</span>
+                  <button type='roll' name='roll_science'
+                    value='@{wtype}&{template:simple} {{rname=^{science-u}}} {{mod=@{science_bonus}}} {{r1=[[@{d20}+@{science_bonus}@{pbd_safe}]]}} @{rtype}+@{science_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='science-core'>Science <span>[INT]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="sneak">
-                  <input type="checkbox" name="attr_stealth_prof" title="@{stealth_prof}" value="(@{pb}*@{stealth_type})">
-                  <span name='attr_stealth_bonus' title='@{stealth_bonus}'>0</span>
-                  <button type='roll' name='roll_stealth'
-                    value='@{wtype}&{template:simple} {{rname=^{stealth-u}}} {{mod=@{stealth_bonus}}} {{r1=[[@{d20}+@{stealth_bonus}@{pbd_safe}]]}} @{rtype}+@{stealth_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='stealth-core'>Stealth <span>(Dex)</span></button>
+                  <input type="checkbox" name="attr_sneak_prof" title="@{sneak_prof}" value="(@{pb}*@{sneak_type})">
+                  <span name='attr_sneak_bonus' title='@{sneak_bonus}'>0</span>
+                  <button type='roll' name='roll_sneak'
+                    value='@{wtype}&{template:simple} {{rname=^{sneak-u}}} {{mod=@{sneak_bonus}}} {{r1=[[@{d20}+@{sneak_bonus}@{pbd_safe}]]}} @{rtype}+@{sneak_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='sneak-core'>Sneak <span>[AGL]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="speech">
-                  <input type="checkbox" name="attr_nature_prof" title="@{nature_prof}" value="(@{pb}*@{nature_type})">
-                  <span name='attr_nature_bonus' title='@{nature_bonus}'>0</span>
-                  <button type='roll' name='roll_nature'
-                    value='@{wtype}&{template:simple} {{rname=^{nature-u}}} {{mod=@{nature_bonus}}} {{r1=[[@{d20}+@{nature_bonus}@{pbd_safe}]]}} @{rtype}+@{nature_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='nature-core'>Nature <span>(Int)</span></button>
+                  <input type="checkbox" name="attr_speech_prof" title="@{speech_prof}" value="(@{pb}*@{speech_type})">
+                  <span name='attr_speech_bonus' title='@{speech_bonus}'>0</span>
+                  <button type='roll' name='roll_speech'
+                    value='@{wtype}&{template:simple} {{rname=^{speech-u}}} {{mod=@{speech_bonus}}} {{r1=[[@{d20}+@{speech_bonus}@{pbd_safe}]]}} @{rtype}+@{speech_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='speech-core'>Speech <span>[CHA]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="survival">
                   <input type="checkbox" name="attr_survival_prof" title="@{survival_prof}" value="(@{pb}*@{survival_type})">
                   <span name='attr_survival_bonus' title='@{survival_bonus}'>0</span>
                   <button type='roll' name='roll_survival'
                     value='@{wtype}&{template:simple} {{rname=^{survival-u}}} {{mod=@{survival_bonus}}} {{r1=[[@{d20}+@{survival_bonus}@{pbd_safe}]]}} @{rtype}+@{survival_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='survival-core'>Survival <span>(Wis)</span></button>
+                    data-i18n='survival-core'>Survival <span>[INT]</span></button>
                 </div>
                 <div class="skill" data-i18n-list-item="unarmed">
-                  <input type="checkbox" name="attr_performance_prof" title="@{performance_prof}" value="(@{pb}*@{performance_type})">
-                  <span name='attr_performance_bonus' title='@{performance_bonus}'>0</span>
-                  <button type='roll' name='roll_performance'
-                    value='@{wtype}&{template:simple} {{rname=^{performance-u}}} {{mod=@{performance_bonus}}} {{r1=[[@{d20}+@{performance_bonus}@{pbd_safe}]]}} @{rtype}+@{performance_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                    data-i18n='performance-core'>Performance <span>(Cha)</span></button>
+                  <input type="checkbox" name="attr_unarmed_prof" title="@{unarmed_prof}" value="(@{pb}*@{unarmed_type})">
+                  <span name='attr_unarmed_bonus' title='@{unarmed_bonus}'>0</span>
+                  <button type='roll' name='roll_unarmed'
+                    value='@{wtype}&{template:simple} {{rname=^{unarmed-u}}} {{mod=@{unarmed_bonus}}} {{r1=[[@{d20}+@{unarmed_bonus}@{pbd_safe}]]}} @{rtype}+@{unarmed_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                    data-i18n='unarmed-core'>Unarmed <span>[STR]</span></button>
                 </div>
               </div>
               <div class="label">
