@@ -32,7 +32,7 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
     <div class="page core">
       <div id="core-header" class="header">
         <div class="name-container">
-          <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/Falllout%20Tactics.png" style="padding-bottom: 5px; width: 200px" alt="SRD5 by Roll20">
+          <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/Falllout%20Tactics.png" style="padding-bottom: 5px; width: 100px" alt="SRD5 by Roll20">
           <input type="text" name="attr_character_name" style="width: 100%;">
           <span class="label" data-i18n="char-name-u">CHARACTER NAME</span>
         </div>
@@ -171,6 +171,24 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
               </div>
               <div class="insp-prof-container">
                 <div class="value">
+                  <!-- <input type="text" name="attr_passive_wisdom" title="@{passive_wisdom}" value="(10+@{perception_bonus}+@{passiveperceptionmod})" disabled="true" ><span></span> -->
+                  <span name="attr_passive_perception"></span>
+                </div>
+                <div class="label">
+                  <span data-i18n="pass-per-u">PASSIVE PERCEPTION</span>
+                </div>
+              </div>
+              <div class="insp-prof-container">
+                <div class="value">
+                  <!-- <input type="text" name="attr_passive_wisdom" title="@{passive_wisdom}" value="(10+@{perception_bonus}+@{passiveperceptionmod})" disabled="true" ><span></span> -->
+                  <span name="attr_passive_perception"></span>
+                </div>
+                <div class="label">
+                  <span data-i18n="pass-per-u">PASSIVE PERCEPTION</span>
+                </div>
+              </div>
+              <div class="insp-prof-container">
+                <div class="value">
                   <span name="attr_pb" title="@{pb}"></span>
                 </div>
                 <div class="label">
@@ -274,15 +292,6 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
                 <div class="label">
                   <span data-i18n="skills-u">SKILLS</span>
                 </div>
-              </div>
-            </div>
-            <div class="insp-prof-container" style="width: 100%; margin-top: 2px;">
-              <div class="value">
-                <!-- <input type="text" name="attr_passive_wisdom" title="@{passive_wisdom}" value="(10+@{perception_bonus}+@{passiveperceptionmod})" disabled="true" ><span></span> -->
-                <span name="attr_passive_wisdom"></span>
-              </div>
-              <div class="label" style="width: 217px;">
-                <span data-i18n="pass-wis-u">PASSIVE WISDOM (PERCEPTION)</span>
               </div>
             </div>
             <div class="textbox-container proficiencies">
