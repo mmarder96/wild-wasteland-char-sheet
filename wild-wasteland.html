@@ -275,83 +275,6 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
               <span data-i18n="pass-wis-u">PASSIVE WISDOM (PERCEPTION)</span>
             </div>
           </div>
-          <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 100px; position: relative;">
-            <div class="top">
-              <span class="label" style="width: 106px;" data-i18n="tool-u">TOOL</span>
-              <span class="label" style="width: 35px;" data-i18n="pro-u">PRO</span>
-              <span class="label" style="width: 50px;" data-i18n="attr-u">ATTRIBUTE</span>
-            </div>
-            <fieldset class="repeating_tool">
-              <div class="tool">
-                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                <div class="options">
-                  <div class="row">
-                    <span data-i18n="name:-u">NAME:</span>
-                    <input type="text" name="attr_toolname" style="width: 120px;">
-                  </div>
-                  <div class="row">
-                    <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
-                    <select name="attr_toolbonus_base">
-                      <option value="(@{pb})" selected="selected" data-i18n="prof-u">PROFICIENT</option>
-                      <option value="(@{pb}*2)" data-i18n="expertise-u">EXPERTISE</option>
-                      <option value="(floor(@{pb}/2))" data-i18n="jack-of-all-u">JACK OF ALL TRADES</option>
-                    </select>
-                  </div>
-                  <div class="row">
-                    <span data-i18n="attr:-u">ATTRIBUTE:</span>
-                    <select name="attr_toolattr_base">
-                      <option value="@{strength_mod}" selected="selected" data-i18n="strength-u">STRENGTH</option>
-                      <option value="@{dexterity_mod}" data-i18n="dexterity-u">DEXTERITY</option>
-                      <option value="@{constitution_mod}" data-i18n="constitution-u">CONSTITUTION</option>
-                      <option value="@{intelligence_mod}" data-i18n="intelligence-u">INTELLIGENCE</option>
-                      <option value="@{wisdom_mod}" data-i18n="wisdom-u">WISDOM</option>
-                      <option value="@{charisma_mod}" data-i18n="charisma-u">CHARISMA</option>
-                      <option value="?{Attribute?|Strength,@{strength_mod}|Dexterity,@{dexterity_mod}|Constitution,@{constitution_mod}|Intelligence,@{intelligence_mod}|Wisdom,@{wisdom_mod}|Charisma,@{charisma_mod}}" data-i18n="query-attr-u">QUERY
-                        ATTRIBUTE</option>
-                    </select>
-                    <span data-i18n="mods:-u">MODS:</span>
-                    <input type="text" class="num" name="attr_tool_mod" title="@{tool_mod}" value="0">
-                  </div>
-                </div>
-                <div class="display">
-                  <button type="roll" name="roll_tool"
-                    value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}@{pbd_safe}]]}} @{rtype}+@{toolbonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
-                    <span name="attr_toolname" style="width: 100px;"></span>
-                    <input type="text" name="attr_toolbonus_display" style="width: 40px; text-align: center;">
-                    <input type="hidden" name="attr_toolbonus">
-                    <input type="text" name="attr_toolattr" style="width: 80px;">
-                  </button>
-                </div>
-              </div>
-            </fieldset>
-            <input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
-            <div class="hidden textarea globalattack">
-              <span class="label" data-i18n="global-skill-u">GLOBAL SKILL MODIFIER</span>
-              <fieldset class="repeating_skillmod">
-                <div class="global-mod">
-                  <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                  <input type="checkbox" name="attr_global_skill_active_flag" value="1" class="active-flag">
-                  <div class="options">
-                    <div class="row">
-                      <span data-i18n="name:-u">NAME:</span>
-                      <input type="text" name="attr_global_skill_name" value="" placeholder="Guidance">
-                    </div>
-                    <div class="row">
-                      <span data-i18n="roll:-u">ROLL:</span>
-                      <input type="text" name="attr_global_skill_roll" value="" placeholder="1d4">
-                    </div>
-                  </div>
-                  <div class="globaldisplay">
-                    <span name="attr_global_skill_roll"></span>
-                    [<span name="attr_global_skill_name"></span>]
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
-              <span data-i18n="tool-prof-u" style="display: inline;">TOOL PROFICIENCIES</span><span style="display: inline;"> & </span><span data-i18n="custom-skills-u" style="display: inline;">CUSTOM SKILLS</span>
-            </div>
-          </div>
           <div class="textbox-container proficiencies">
             <input type="hidden" class="inventoryflag" name="attr_simpleproficencies" value="complex">
             <textarea class="sheet-simple" name="attr_other_proficiencies_and_languages" style="min-height: 91px; height: 91px;"></textarea>
@@ -393,43 +316,13 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
           </div>
         </div>
         <div class="col col2">
-          <div class="ac-init-speed-container">
-            <div class="ac">
-              <input type="text" name="attr_ac" title="@{ac}">
-              <span class="label pc-ac" data-i18n="armor-class-u">ARMOR CLASS</span>
-            </div>
-            <div class="init">
-              <span name="attr_initiative_bonus" title="@{initiative_bonus}"></span>
-              <button type="roll" name="roll_initiative" value="@{wtype}&{template:simple} {{rname=^{init-u}}} {{mod=@{initiative_bonus}}} {{r1=[[@{initiative_style}+@{initiative_bonus}@{pbd_safe}[INIT] &{tracker}]]}} {{normal=1}} @{charname_output}"
-                data-i18n="init-u">INITIATIVE</button>
-            </div>
-            <div class="speed">
-              <input type="text" name="attr_speed" title="@{speed}">
-              <span class="label" data-i18n="speed-u">SPEED</span>
-            </div>
-          </div>
-          <div class="hp">
-            <div class="top">
-              <span data-i18n="hp-max-u">Hit Point Maximum</span>
-              <input type="text" name="attr_hp_max" title="@{hp_max}">
-            </div>
-            <input type="number" name="attr_hp" title="@{hp}">
-            <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
-          </div>
-          <div class="hp" style="height: 56px;">
-            <input type="number" name="attr_hp_temp" title="@{hp_temp}">
-            <span class="label" data-i18n="hp-temp-u">TEMPORARY HIT POINTS</span>
-          </div>
           <div class="hdice-dsaves-container" style="width: 242px;">
             <div class="subcontainer">
-              <div class="top">
-                <span data-i18n="total">Total</span>
-                <input type="text" name="attr_hit_dice_max" title="@{hit_dice_max}">
-              </div>
-              <input type="number" name="attr_hit_dice" title="@{hit_dice}" style="margin-bottom: -6px;">
-              <button type="roll" name="roll_hit_dice"
-                value="@{wtype}&{template:simple} {{rname=^{hit-dice-u}}} {{mod=D@{hitdie_final}+[[@{constitution_mod}[CON]]]}} {{r1=[[1d@{hitdie_final}+[[@{constitution_mod}]][CON]]]}} {{normal=1}} @{charname_output}" data-i18n="hit-dice-u">HIT
-                DICE</button>
+                <div class="init">
+                  <span name="attr_initiative_bonus" title="@{initiative_bonus}"></span>
+                  <button type="roll" name="roll_initiative" value="@{wtype}&{template:simple} {{rname=^{init-u}}} {{mod=@{initiative_bonus}}} {{r1=[[@{initiative_style}+@{initiative_bonus}@{pbd_safe}[INIT] &{tracker}]]}} {{normal=1}} @{charname_output}"
+                    data-i18n="init-u">INITIATIVE</button>
+                </div>
             </div>
             <div class="subcontainer" style="float: right;">
               <div class="row-container">
@@ -447,6 +340,32 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
               <button type="roll" name="roll_death_save" style="margin-top: 6px;"
                 value="@{wtype}&{template:simple} {{rname=^{death-save-u}}} {{mod=@{death_save_bonus}}} {{r1=[[@{d20}+@{death_save_bonus}[MOD]@{globalsavingthrowbonus}]]}} {{normal=1}} {{global=@{global_save_mod}}} @{charname_output}"
                 data-i18n="death-saves-u">DEATH SAVES</button>
+            </div>
+          </div>
+          <div class="hp">
+              <div class="top">
+                  <span data-i18n="hp-max-u">Hit Point Maximum</span>
+                  <input type="text" name="attr_hp_max" title="@{hp_max}">
+              </div>
+              <input type="number" name="attr_hp" title="@{hp}">
+              <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
+          </div>
+          <div class="hp" style="height: 56px;">
+              <input type="number" name="attr_hp_temp" title="@{hp_temp}">
+              <span class="label" data-i18n="hp-temp-u">TEMPORARY HIT POINTS</span>
+          </div>
+          <div class="ac-init-speed-container">
+            <div class="def">
+              <input type="text" name="attr_def" title="@{def}">
+              <span class="label pc-def" data-i18n="defense-u">DEFENSE</span>
+            </div>
+            <div class="dt">
+              <input type="text" name="attr_dt" title="@{dt}">
+              <span class="label pc-dt" data-i18n="armor-class-u">DAMAGE THRESHOLD</span>
+            </div>
+            <div class="speed">
+              <input type="text" name="attr_speed" title="@{speed}">
+              <span class="label" data-i18n="speed-u">SPEED</span>
             </div>
           </div>
           <input type="hidden" class="exhaustion-toggle" name="attr_exhaustion_toggle" value="0">
