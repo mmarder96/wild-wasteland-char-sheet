@@ -491,6 +491,7 @@ button[type=roll] * {
   z-index: 2;
   position: relative;
   margin: inherit;
+  margin-bottom: 2px;
 }
 
 .sheet-insp-prof-container .sheet-value input[type=checkbox] ~ span {

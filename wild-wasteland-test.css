@@ -484,6 +484,7 @@ button[type=roll] * {
   z-index: 2;
   position: relative;
   margin: inherit;
+  margin-bottom: 2px;
 }
 
 .insp-prof-container .value input[type=checkbox] ~ span {
@@ -579,10 +580,6 @@ button[type=roll] * {
 .saving-throw,
 .skill
 {
-  position: relative !important;
-  margin: 0 auto !important;
-  vertical-align: middle !important;
-  display: inline-block !important;
   width: 165px;
   height: 18px;
 }
@@ -614,12 +611,14 @@ button[type=roll] * {
 .saving-throw button[type=roll],
 .skill button[type=roll]
 {
-  width: calc(100% - 72px);
+  width: calc(100% - 50px);
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 .saving-throw-container .label span,
