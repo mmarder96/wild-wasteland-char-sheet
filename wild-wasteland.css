@@ -1,12 +1,10 @@
 .sheet-pc,
-.sheet-npc
-{
+.sheet-npc {
   display: none;
 }
 
 .sheet-npc_toggle[value="0"] ~ .sheet-pc,
-.sheet-npc_toggle[value="1"] ~ .sheet-npc
-{
+.sheet-npc_toggle[value="1"] ~ .sheet-npc {
   display: block;
 }
 
@@ -127,14 +125,12 @@ input[type=radio].sheet-tab-button:checked + span {
 .sheet-toggleflag[value*="advantagetoggle"] + .sheet-advantagetoggle,
 .sheet-toggleflag[value*="whispertoggle"] + .sheet-whispertoggle,
 .sheet-toggleflag[value="1"] + .sheet-hidden,
-.sheet-toggleflag[value="1"] + .sheet-row.sheet-hidden
-{
+.sheet-toggleflag[value="1"] + .sheet-row.sheet-hidden {
   display: block;
 }
 
 .sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc,
-.sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-spells .sheet-header
-{
+.sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-spells .sheet-header {
   display: block;
   visibility: hidden;
   width: 0px;
@@ -149,8 +145,7 @@ input[type=radio].sheet-tab-button:checked + span {
 
 .sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-core,
 .sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-bio,
-.sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-options
-{
+.sheet-npc_toggle[value="1"] + .sheet-npcspellcastingflag[value="1"] ~ .sheet-pc .sheet-page.sheet-options {
   display: none;
 }
 
@@ -163,8 +158,7 @@ input[type=radio].sheet-tab-button:checked + span {
 }
 
 .sheet-hidden,
-.sheet-options .sheet-row.sheet-hidden
-{
+.sheet-options .sheet-row.sheet-hidden {
   display: none;
 }
 
@@ -197,8 +191,7 @@ input[type=radio].sheet-tab-button:checked + span {
 input[type=radio].sheet-tab-button.sheet-core:checked ~ .sheet-page.sheet-core,
 input[type=radio].sheet-tab-button.sheet-bio:checked ~ .sheet-page.sheet-bio,
 input[type=radio].sheet-tab-button.sheet-spells:checked ~ .sheet-page.sheet-spells,
-input[type=radio].sheet-tab-button.sheet-options:checked ~ .sheet-page.sheet-options
-{
+input[type=radio].sheet-tab-button.sheet-options:checked ~ .sheet-page.sheet-options {
   display: block;
 }
 
@@ -289,8 +282,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 }
 
 .sheet-header input[type=number]::-webkit-inner-spin-button,
-.sheet-header input[type=number]::-webkit-outer-spin-button
-{
+.sheet-header input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -360,7 +352,6 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 }
 
 .sheet-attributes-container {
-  font-family:monofonto;
   width: 70px;
   margin-right: 5px;
   display: inline-block;
@@ -383,8 +374,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 .sheet-skill button[type=roll],
 .sheet-ac-init-speed-container button[type=roll],
 .sheet-subcontainer button[type=roll],
-.sheet-npc button[type=roll]
-{
+.sheet-npc button[type=roll] {
   background-color: transparent;
   color: black;
   border: none;
@@ -404,8 +394,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 .sheet-skill button[type=roll]::before,
 .sheet-ac-init-speed-container button[type=roll]::before,
 .sheet-subcontainer button[type=roll]::before,
-.sheet-npc button[type=roll]::before
-{
+.sheet-npc button[type=roll]::before {
   content: "" !important;
 }
 
@@ -416,8 +405,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 button[type=roll]:hover,
 button[type=roll]:hover *,
 .sheet-spell button[type=roll]:hover input[type=text],
-.sheet-action .sheet-display button[type=roll]:hover *
-{
+.sheet-action .sheet-display button[type=roll]:hover * {
   color: #EC2127;
 }
 
@@ -490,8 +478,8 @@ button[type=roll] * {
   opacity: 0;
   z-index: 2;
   position: relative;
-  margin: inherit;
-  margin-bottom: 2px;
+  margin: 2px;
+  margin-bottom: 32px;
 }
 
 .sheet-insp-prof-container .sheet-value input[type=checkbox] ~ span {
@@ -552,8 +540,7 @@ button[type=roll] * {
 .sheet-pc .sheet-traits input,
 .sheet-spell input,
 .sheet-options .sheet-body input,
-.sheet-resources input[type=number]
-{
+.sheet-resources input[type=number] {
   width: 100%;
   text-align: center;
   font-size: 20px;
@@ -568,15 +555,13 @@ button[type=roll] * {
 }
 
 .sheet-resources input[type=number],
-.sheet-hdice-dsaves-container input[type=number]
-{
+.sheet-hdice-dsaves-container input[type=number] {
   padding-right: 0px;
   padding-left: 10px;
 }
 
 .sheet-saving-throw-container,
-.sheet-skills-container
-{
+.sheet-skills-container {
   width: 165px;
   border: 1px solid #666;
   border-radius: 5px;
@@ -585,30 +570,26 @@ button[type=roll] * {
 }
 
 .sheet-saving-throw,
-.sheet-skill
-{
+.sheet-skill {
   width: 165px;
   height: 18px;
 }
 
 .sheet-saving-throw input[type=checkbox],
-.sheet-skill input[type=checkbox]
-{
+.sheet-skill input[type=checkbox] {
   margin-left: 5px;
   -webkit-appearance: checkbox;
   box-sizing: border-box;
 }
 
 .sheet-saving-throw input[type=text],
-.sheet-skill input[type=text]
-{
+.sheet-skill input[type=text] {
   font-size: 12px;
   width: 21px;
 }
 
 .sheet-col1 .sheet-saving-throw > span,
-.sheet-col1 .sheet-skill > span
-{
+.sheet-col1 .sheet-skill > span {
   font-size: 12px;
   display: inline-block;
   text-align: center;
@@ -616,14 +597,15 @@ button[type=roll] * {
 }
 
 .sheet-saving-throw button[type=roll],
-.sheet-skill button[type=roll]
-{
-  width: calc(100% - 72px);
+.sheet-skill button[type=roll] {
+  width: calc(100% - 50px);
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 .sheet-saving-throw-container .sheet-label span,
@@ -641,8 +623,7 @@ button[type=roll] * {
 .sheet-proficiencies span,
 .sheet-traits span,
 .sheet-spells span,
-.sheet-options .sheet-body span
-{
+.sheet-options .sheet-body span {
   display: block;
   font-size: 9px;
   line-height: 12px;
@@ -670,8 +651,7 @@ button[type=roll] * {
   width: 3.5em;
 }
 
-.sheet-exhaustion div span.sheet-ex-description
-{
+.sheet-exhaustion div span.sheet-ex-description {
   font-size: 9px;
   line-height: 9px;
   text-align: left;
@@ -679,26 +659,22 @@ button[type=roll] * {
   display: block;
 }
 
-.sheet-exhaustion span.sheet-label
-{
+.sheet-exhaustion span.sheet-label {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
 
-.sheet-exhaustion div.sheet-ex-descriptions
-{
+.sheet-exhaustion div.sheet-ex-descriptions {
   display: inline-block;
   padding-top: 5px;
 }
 
-.sheet-exhaustion-toggle[value="0"] ~ .sheet-exhaustion,
-{
+.sheet-exhaustion-toggle[value="0"] ~ .sheet-exhaustion, {
   display: none;
 }
 
-.sheet-exhaustion input[type="number"]
-{
+.sheet-exhaustion input[type="number"] {
   width: 116px;
   display:inline-block;
   vertical-align: top;
@@ -706,31 +682,27 @@ button[type=roll] * {
 
 .sheet-skill button span,
 .sheet-options .sheet-body .sheet-skill span span,
-.sheet-rolltemplate-spell .sheet-grey
-{
+.sheet-rolltemplate-spell .sheet-grey {
   color: #A0A0A0;
   font-weight: normal;
 }
 
 .sheet-textbox-container,
-.sheet-proficiencies
-{
+.sheet-proficiencies {
   border: 1px solid #666;
   border-radius: 5px;
-  width: 165px;
+  width: 243px;
 }
 
 .sheet-textbox-container,
-.sheet-tool_proficiencies
-{
+.sheet-tool_proficiencies {
   border: 1px solid #666;
   border-radius: 5px;
   width: 243px;
 }
 
 .sheet-tool_proficiencies,
-.sheet-attacks
-{
+.sheet-attacks {
   padding-bottom: 10px;
 }
 
@@ -745,8 +717,7 @@ button[type=roll] * {
 .sheet-exhaustion,
 .sheet-hdice-dsaves-container,
 .sheet-attacks,
-.sheet-equipment
-{
+.sheet-equipment {
   width: 240px;
   margin-bottom: 10px;
 }
@@ -772,24 +743,20 @@ button[type=roll] * {
 .sheet-exhaustion,
 .sheet-subcontainer,
 .sheet-attacks,
-.sheet-equipment
-{
+.sheet-equipment {
   border: 1px solid #666;
   border-radius: 5px;
 }
 
-.sheet-hp input
-{
+.sheet-hp input {
   font-size: 30px;
 }
 
-.sheet-exhaustion input
-{
+.sheet-exhaustion input {
   font-size: 20px;
 }
 
-.sheet-hp input[type="number"],
-{
+.sheet-hp input[type="number"], {
   width: 100%;
   padding-right: 10px;
   padding-left: 20px;
@@ -797,8 +764,7 @@ button[type=roll] * {
 
 .sheet-hp span.sheet-label,
 .sheet-exhuastion span .sheet-label,
-.sheet-hdice-dsaves-container span.sheet-label
-{
+.sheet-hdice-dsaves-container span.sheet-label {
   margin-top: 0px;
 }
 
@@ -807,8 +773,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-top span,
 .sheet-tool_proficiencies .sheet-top span,
 .sheet-proficiencies .sheet-top span,
-.sheet-traits .sheet-top span
-{
+.sheet-traits .sheet-top span {
   text-align: left;
   margin-left: 5px;
   color: #A0A0A0;
@@ -818,8 +783,7 @@ button[type=roll] * {
 }
 
 .sheet-hp .sheet-top input,
-.sheet-hdice-dsaves-container .sheet-top input[type=text]
-{
+.sheet-hdice-dsaves-container .sheet-top input[type=text] {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -913,8 +877,7 @@ button[type=roll] * {
 }
 
 .sheet-equipment span,
-.sheet-textbox span
-{
+.sheet-textbox span {
   margin-top: 0px;
 }
 
@@ -964,8 +927,7 @@ button[type=roll] * {
 
 .sheet-attacks .sheet-display button[type=roll],
 .sheet-tool .sheet-display button[type=roll],
-.sheet-proficiency .sheet-display button[type=roll]
-{
+.sheet-proficiency .sheet-display button[type=roll] {
   background-color: transparent;
   color: black;
   border: none;
@@ -974,14 +936,13 @@ button[type=roll] * {
   box-shadow: none;
   padding: 0px;
   margin: 0px;
-  width: 135px;
+  width: 100%;
   font-weight: bold;
 }
 
 .sheet-attacks .sheet-display button[type=roll]::before,
 .sheet-tool .sheet-display button[type=roll]::before,
-.sheet-proficiency .sheet-display button[type=roll]::before
-{
+.sheet-proficiency .sheet-display button[type=roll]::before {
   content: "" !important;
 }
 
@@ -991,9 +952,8 @@ button[type=roll] * {
 .sheet-attacks .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-equipment .sheet-item span,
-.sheet-proficiencies .sheet-display span
-{
-  font-size: 12px;
+.sheet-proficiencies .sheet-display span {
+  /* font-size: 12px; */
   line-height: 12px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -1007,8 +967,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-equipment .sheet-item span,
-.sheet-proficiencies .sheet-display span
-{
+.sheet-proficiencies .sheet-display span {
   min-height: 12px;
   display: inline-block;
   margin-top: 0px;
@@ -1019,8 +978,7 @@ button[type=roll] * {
   white-space: nowrap;
 }
 
-.sheet-traits .sheet-display .sheet-title
-{
+.sheet-traits .sheet-display .sheet-title {
   font-family: "Times New Roman", Times, serif;
   font-size: 16px;
   text-transform: capitalize;
@@ -1029,15 +987,13 @@ button[type=roll] * {
   color: rgb(126, 45, 64);
 }
 
-.sheet-traits .sheet-display .sheet-subheader
-{
+.sheet-traits .sheet-display .sheet-subheader {
   font-style: italic;
   color: #A0A0A0;
   margin-top: -3px;
 }
 
-.sheet-traits .sheet-display .sheet-subheader span
-{
+.sheet-traits .sheet-display .sheet-subheader span {
   font-size: 10px;
   display: inline;
 
@@ -1054,8 +1010,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options-flag,
 .sheet-traits .sheet-options-flag,
 .sheet-equipment .sheet-inventorysubflag,
-.sheet-header .sheet-options-flag
-{
+.sheet-header .sheet-options-flag {
   opacity: 0;
   position: absolute;
   top: 0px;
@@ -1076,8 +1031,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options-flag + span,
 .sheet-traits .sheet-options-flag + span,
 .sheet-equipment .sheet-inventorysubflag + span,
-.sheet-header .sheet-options-flag + span
-{
+.sheet-header .sheet-options-flag + span {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -1109,8 +1063,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options-flag:checked + span,
 .sheet-traits .sheet-options-flag:checked + span,
 .sheet-equipment .sheet-inventorysubflag:checked + span,
-.sheet-header .sheet-options-flag:checked + span
-{
+.sheet-header .sheet-options-flag:checked + span {
   color: black;
   display: block;
 }
@@ -1126,8 +1079,7 @@ button[type=roll] * {
 .sheet-proficiency:hover .sheet-options-flag + span,
 .sheet-item:hover .sheet-inventorysubflag + span,
 .sheet-pc .sheet-trait:hover .sheet-output,
-.sheet-pc .sheet-header:hover .sheet-options-flag + span
-{
+.sheet-pc .sheet-header:hover .sheet-options-flag + span {
   display: block;
 }
 
@@ -1157,8 +1109,7 @@ button[type=roll] * {
   height: 0px;
 }
 
-.sheet-pc .sheet-trait .sheet-display-flag:checked ~ .sheet-display .sheet-desc
-{
+.sheet-pc .sheet-trait .sheet-display-flag:checked ~ .sheet-display .sheet-desc {
   display: none;
 }
 
@@ -1193,8 +1144,7 @@ button[type=roll] * {
 .sheet-action,
 .sheet-textbox,
 .sheet-proficiencies,
-.sheet-traits
-{
+.sheet-traits {
   position: relative;
 }
 
@@ -1207,15 +1157,13 @@ button[type=roll] * {
 .sheet-action .sheet-options,
 .sheet-textbox .sheet-options,
 .sheet-proficiencies .sheet-options,
-.sheet-trait .sheet-options
-{
+.sheet-trait .sheet-options {
   display: none;
   border-top: 2px dashed gold;
 }
 
 .sheet-item .sheet-subitem,
-.sheet-header .sheet-options
-{
+.sheet-header .sheet-options {
   display: none;
 }
 
@@ -1245,20 +1193,19 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag:checked ~ .sheet-options,
 .sheet-proficiencies .sheet-options-flag:checked ~ .sheet-options,
 .sheet-traits .sheet-options-flag:checked ~ .sheet-options,
-.sheet-item .sheet-inventorysubflag:checked ~ .sheet-subitem
-{
+.sheet-item .sheet-inventorysubflag:checked ~ .sheet-subitem {
   display: inherit;
 }
 
 .sheet-header .sheet-options-flag:checked ~ .sheet-options {
   min-height: 74px;
+  width: calc(100% - 10px);
   vertical-align: top;
   display: inline-block;
 }
 
 .sheet-textbox .sheet-options-flag:checked ~ .sheet-display,
-.sheet-header .sheet-options-flag:checked ~ .sheet-display
-{
+.sheet-header .sheet-options-flag:checked ~ .sheet-display {
   display: none;
 }
 
@@ -1394,8 +1341,7 @@ button[type=roll] * {
   position: relative;
 }
 
-.sheet-spell .sheet-display button[type=roll]
-{
+.sheet-spell .sheet-display button[type=roll] {
   background-color: transparent;
   color: black;
   border-top: none;
@@ -1412,14 +1358,12 @@ button[type=roll] * {
   text-align: left;
 }
 
-.sheet-spell .sheet-display button[type=roll]::before
-{
+.sheet-spell .sheet-display button[type=roll]::before {
   content: "" !important;
 }
 
 span.sheet-spellritual,
-span.sheet-spellconcentration
-{
+span.sheet-spellconcentration {
   display: none;
   font-size: 8px;
   font-weight: normal;
@@ -1433,14 +1377,12 @@ span.sheet-spellconcentration
   line-height: 10px;
 }
 
-.sheet-spellicon_flag:not([value="none"]) + .sheet-body .sheet-spell .sheet-display .sheet-spellritual:not([value="0"]) ~ span.sheet-spellritual
-{
+.sheet-spellicon_flag:not([value="none"]) + .sheet-body .sheet-spell .sheet-display .sheet-spellritual:not([value="0"]) ~ span.sheet-spellritual {
   display: inline-block;
   right: 11px;
 }
 
-.sheet-spellicon_flag:not([value="none"]) + .sheet-body .sheet-spell .sheet-display .sheet-spellconcentration:not([value="0"]) ~ span.sheet-spellconcentration
-{
+.sheet-spellicon_flag:not([value="none"]) + .sheet-body .sheet-spell .sheet-display .sheet-spellconcentration:not([value="0"]) ~ span.sheet-spellconcentration {
   border-radius: 100%;
   display: inline-block;
   right: 0;
@@ -1455,22 +1397,19 @@ span.sheet-spellconcentration
 
 .sheet-spell .sheet-display .sheet-v,
 .sheet-spell .sheet-display .sheet-s,
-.sheet-spell .sheet-display .sheet-m
-{
+.sheet-spell .sheet-display .sheet-m {
   display: none;
 }
 
 .sheet-spellicon_flag[value="all"] + .sheet-body .sheet-spell .sheet-display input.sheet-v:not([value="0"]) ~ .sheet-componentscontainer span.sheet-v,
 .sheet-spellicon_flag[value="all"] + .sheet-body .sheet-spell .sheet-display input.sheet-s:not([value="0"]) ~ .sheet-componentscontainer span.sheet-s,
-.sheet-spellicon_flag[value="all"] + .sheet-body .sheet-spell .sheet-display input.sheet-m:not([value="0"]) ~ .sheet-componentscontainer span.sheet-m
-{
+.sheet-spellicon_flag[value="all"] + .sheet-body .sheet-spell .sheet-display input.sheet-m:not([value="0"]) ~ .sheet-componentscontainer span.sheet-m {
   display: inline;
   width: initial;
   font-size: 8px;
 }
 
-.sheet-spell .sheet-display input[type=text]
-{
+.sheet-spell .sheet-display input[type=text] {
   font-size: 12px;
   line-height: 12px;
   cursor: pointer;
@@ -1488,8 +1427,7 @@ span.sheet-spellconcentration
   width: 100%;
 }
 
-.sheet-spell .sheet-display span.sheet-spellname
-{
+.sheet-spell .sheet-display span.sheet-spellname {
   font-size: 12px;
   text-align: left;
   font-weight: normal;
@@ -1502,8 +1440,7 @@ span.sheet-spellconcentration
   max-width: 220px;
 }
 
-.sheet-spell .sheet-display .sheet-prep ~ span.sheet-spellname
-{
+.sheet-spell .sheet-display .sheet-prep ~ span.sheet-spellname {
   margin-left: 14px;
 }
 
@@ -1561,8 +1498,7 @@ span.sheet-spellconcentration
 }
 
 .repcontrol .repcontrol_edit:hover:after,
-.repcontrol .repcontrol_add:hover:before
-{
+.repcontrol .repcontrol_add:hover:before {
   background-color: #EFEFEF;
 }
 
@@ -1595,8 +1531,7 @@ span.sheet-spellconcentration
 .sheet-spell .sheet-options,
 .sheet-proficiencies .sheet-options,
 .sheet-traits .sheet-options,
-.sheet-global-mod .sheet-options
-{
+.sheet-global-mod .sheet-options {
   padding-left: 5px;
 }
 
@@ -1606,8 +1541,7 @@ span.sheet-spellconcentration
 .sheet-options .sheet-body span,
 .sheet-proficiencies .sheet-options span,
 .sheet-traits .sheet-options span,
-.sheet-global-mod .sheet-options span
-{
+.sheet-global-mod .sheet-options span {
   width: initial;
   display: inline-block;
   text-align: left;
@@ -1619,8 +1553,7 @@ span.sheet-spellconcentration
 .sheet-options .sheet-body input[type=text],
 .sheet-proficiencies .sheet-options input[type=text],
 .sheet-traits .sheet-options input[type=text],
-.sheet-global-mod .sheet-options input[type=text]
-{
+.sheet-global-mod .sheet-options input[type=text] {
   display: inline-block;
   text-align: left;
   font-size: 12px;
@@ -1634,8 +1567,7 @@ span.sheet-spellconcentration
 .sheet-spell .sheet-options select,
 .sheet-options .sheet-body select,
 .sheet-proficiencies .sheet-options select,
-.sheet-traits .sheet-options select
-{
+.sheet-traits .sheet-options select {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -1663,8 +1595,7 @@ span.sheet-spellconcentration
 .sheet-npc .sheet-npc_options input[type=checkbox],
 .sheet-proficiencies .sheet-options input[type=checkbox],
 .sheet-traits .sheet-options input[type=checkbox],
-.sheet-global-mod .sheet-options input[type=checkbox]
-{
+.sheet-global-mod .sheet-options input[type=checkbox] {
   width: 13px;
   font-size: initial;
   -webkit-appearance: checkbox;
@@ -1672,8 +1603,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-attack .sheet-options input[type=text].sheet-num,
-.sheet-options input[type=text].sheet-num
-{
+.sheet-options input[type=text].sheet-num {
   width: 15px;
   text-align: center;
 }
@@ -1728,8 +1658,7 @@ span.sheet-spellconcentration
 
 .sheet-class_options,
 .sheet-skill_options,
-.sheet-general_options
-{
+.sheet-general_options {
   border: 1px solid #666;
   border-radius: 5px;
   padding: 5px;
@@ -1743,15 +1672,13 @@ span.sheet-spellconcentration
 .sheet-hlabel-container .sheet-showing,
 .sheet-hlabel-container .sheet-hiding,
 .sheet-header .sheet-showing,
-.sheet-header input[value="1"].sheet-flag ~ .sheet-hiding
-{
+.sheet-header input[value="1"].sheet-flag ~ .sheet-hiding {
   display: none;
 }
 
 .sheet-hlabel-container input[value="1"].sheet-flag ~ .sheet-showing,
 .sheet-hlabel-container input[value="0"].sheet-flag ~ .sheet-hiding,
-.sheet-header input[value="1"].sheet-flag ~ .sheet-showing
-{
+.sheet-header input[value="1"].sheet-flag ~ .sheet-showing {
   display: inline-block;
 }
 
@@ -1793,8 +1720,7 @@ span.sheet-spellconcentration
   display: none;
 }
 
-.sheet-rolltemplate-simple .sheet-containerold
-{
+.sheet-rolltemplate-simple .sheet-containerold {
   width: 189px;
   background: url(http://i.imgur.com/53WSdhx.png) top left;
   background-size: 189px 100%;
@@ -1802,8 +1728,7 @@ span.sheet-spellconcentration
   color: black;
 }
 
-.sheet-rolltemplate-simple .sheet-container
-{
+.sheet-rolltemplate-simple .sheet-container {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1813,8 +1738,7 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-containerold,
 .sheet-rolltemplate-atkdmg .sheet-container.sheet-atkold,
-.sheet-rolltemplate-dmg .sheet-atkold
-{
+.sheet-rolltemplate-dmg .sheet-atkold {
   width: 189px;
   background: url(http://i.imgur.com/4RCRsAd.png) top left;
   background-size: 189px 100%;
@@ -1824,8 +1748,7 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-container,
 .sheet-rolltemplate-atkdmg .sheet-container.sheet-atk,
-.sheet-rolltemplate-dmg .sheet-atk
-{
+.sheet-rolltemplate-dmg .sheet-atk {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1837,8 +1760,7 @@ span.sheet-spellconcentration
 
 
 .sheet-rolltemplate-dmg .sheet-containerold,
-.sheet-rolltemplate-atkdmg .sheet-container.sheet-damagetemplateold
-{
+.sheet-rolltemplate-atkdmg .sheet-container.sheet-damagetemplateold {
   width: 189px;
   background: url(http://i.imgur.com/gw9HTsq.png) top left;
   background-size: 189px 100%;
@@ -1847,8 +1769,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-rolltemplate-dmg .sheet-container,
-.sheet-rolltemplate-atkdmg .sheet-container.sheet-damagetemplate
-{
+.sheet-rolltemplate-atkdmg .sheet-container.sheet-damagetemplate {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1861,22 +1782,19 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atk .sheet-result,
 .sheet-rolltemplate-atkdmg .sheet-result,
 .sheet-rolltemplate-dmg .sheet-result,
-.sheet-npc .sheet-subtitle .sheet-italics
-{
+.sheet-npc .sheet-subtitle .sheet-italics {
   width: 100%;
 }
 
 .sheet-rolltemplate-atkdmg .sheet-damagetemplate .sheet-result,
-.sheet-rolltemplate-dmg .sheet-damagetemplate .sheet-result
-{
+.sheet-rolltemplate-dmg .sheet-damagetemplate .sheet-result {
   min-height: 45px;
 }
 
 .sheet-rolltemplate-simple .sheet-adv,
 .sheet-rolltemplate-atk .sheet-adv,
 .sheet-rolltemplate-atkdmg .sheet-adv,
-.sheet-rolltemplate-dmg .sheet-adv
-{
+.sheet-rolltemplate-dmg .sheet-adv {
   width: 84px;
   display: inline-block;
   text-align: center;
@@ -1887,8 +1805,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-adv:first-child,
 .sheet-rolltemplate-atk .sheet-adv:first-child,
 .sheet-rolltemplate-atkdmg .sheet-adv:first-child,
-.sheet-rolltemplate-dmg .sheet-adv:first-child
-{
+.sheet-rolltemplate-dmg .sheet-adv:first-child {
   margin-left: 8px;
   margin-right: -3px;
 }
@@ -1896,8 +1813,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-adv:nth-child(3),
 .sheet-rolltemplate-atk .sheet-adv:nth-child(3),
 .sheet-rolltemplate-atkdmg .sheet-adv:nth-child(3),
-.sheet-rolltemplate-dmg .sheet-adv:nth-child(3)
-{
+.sheet-rolltemplate-dmg .sheet-adv:nth-child(3) {
   margin-right: 8px;
   margin-left: -3px;
 }
@@ -1909,8 +1825,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atkdmg .sheet-adv span,
 .sheet-rolltemplate-atkdmg .sheet-solo span,
 .sheet-rolltemplate-dmg .sheet-adv span,
-.sheet-rolltemplate-dmg .sheet-solo span
-{
+.sheet-rolltemplate-dmg .sheet-solo span {
   width: 30px;
   font-size: 20px;
   background-color: transparent;
@@ -1921,8 +1836,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-advspacer,
 .sheet-rolltemplate-atk .sheet-advspacer,
 .sheet-rolltemplate-atkdmg .sheet-advspacer,
-.sheet-rolltemplate-dmg .sheet-advspacer
-{
+.sheet-rolltemplate-dmg .sheet-advspacer {
   width: 0px;
   border: 1px solid black;
   display: inline-block;
@@ -1932,8 +1846,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-solo,
 .sheet-rolltemplate-atk .sheet-solo,
 .sheet-rolltemplate-atkdmg .sheet-solo,
-.sheet-rolltemplate-dmg .sheet-solo
-{
+.sheet-rolltemplate-dmg .sheet-solo {
   width: 100%;
   text-align: center;
   height: 23px;
@@ -1944,8 +1857,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atk span,
 .sheet-rolltemplate-atkdmg span,
 .sheet-rolltemplate-dmg span,
-.sheet-rolltemplate-desc span
-{
+.sheet-rolltemplate-desc span {
   font-size: 12px;
   line-height: 12px;
   text-align: center;
@@ -1953,8 +1865,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-rolltemplate-dmg .sheet-desc span.sheet-plus,
-.sheet-rolltemplate-atkdmg .sheet-desc span.sheet-plus
-{
+.sheet-rolltemplate-atkdmg .sheet-desc span.sheet-plus {
   font-weight: bold;
   font-size: 20px;
   display: inline;
@@ -1991,8 +1902,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npcatk .sheet-grey,
 .sheet-rolltemplate-npcatk .sheet-grey .inlinerollresult.fullcrit,
 .sheet-rolltemplate-npcatk .sheet-grey .inlinerollresult.fullfail,
-.sheet-rolltemplate-npcatk .sheet-grey .inlinerollresult.importantroll
-{
+.sheet-rolltemplate-npcatk .sheet-grey .inlinerollresult.importantroll {
   color: #A0A0A0;
   border: 0px;
   font-weight: normal;
@@ -2001,8 +1911,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-label,
 .sheet-rolltemplate-atk .sheet-label,
 .sheet-rolltemplate-atkdmg .sheet-label,
-.sheet-rolltemplate-dmg .sheet-label
-{
+.sheet-rolltemplate-dmg .sheet-label {
   text-align: center;
   margin-top: -3px;
   padding-bottom: 5px;
@@ -2011,8 +1920,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-label span span,
 .sheet-rolltemplate-atk .sheet-label span span,
 .sheet-rolltemplate-atkdmg .sheet-label span span,
-.sheet-rolltemplate-dmg .sheet-label span span
-{
+.sheet-rolltemplate-dmg .sheet-label span span {
   padding: 0px;
   border: 0px;
   background-color: transparent;
@@ -2022,8 +1930,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .inlinerollresult.fullcrit,
 .sheet-rolltemplate-atk .inlinerollresult.fullcrit,
 .sheet-rolltemplate-atkdmg .inlinerollresult.fullcrit,
-.sheet-rolltemplate-dmg .inlinerollresult.fullcrit
-{
+.sheet-rolltemplate-dmg .inlinerollresult.fullcrit {
   color: #3FB315;
   border: 0px;
 }
@@ -2031,8 +1938,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .inlinerollresult.fullfail,
 .sheet-rolltemplate-atk .inlinerollresult.fullfail,
 .sheet-rolltemplate-atkdmg .inlinerollresult.fullfail,
-.sheet-rolltemplate-dmg .inlinerollresult.fullfail
-{
+.sheet-rolltemplate-dmg .inlinerollresult.fullfail {
   color: #B31515;
   border: 0px;
 }
@@ -2040,16 +1946,14 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .inlinerollresult.importantroll,
 .sheet-rolltemplate-atk .inlinerollresult.importantroll,
 .sheet-rolltemplate-atkdmg .inlinerollresult.importantroll,
-.sheet-rolltemplate-dmg .inlinerollresult.importantroll
-{
+.sheet-rolltemplate-dmg .inlinerollresult.importantroll {
   color: #4A57ED;
   border: 0px;
 }
 
 .sheet-rolltemplate-atk .sheet-damage,
 .sheet-rolltemplate-atkdmg .sheet-damage,
-.sheet-rolltemplate-dmg .sheet-damage
-{
+.sheet-rolltemplate-dmg .sheet-damage {
   text-align: center;
   margin-top: -5px;
 }
@@ -2080,16 +1984,14 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-mancerroll .inlinerollresult.fullfail,
 .sheet-rolltemplate-mancerhproll .inlinerollresult.fullcrit,
 .sheet-rolltemplate-mancerhproll .inlinerollresult.importantroll,
-.sheet-rolltemplate-mancerhproll .inlinerollresult.fullfail
-{
+.sheet-rolltemplate-mancerhproll .inlinerollresult.fullfail {
   color: black;
   border: 0px;
 }
 
 .sheet-rolltemplate-atk .sheet-save .sheet-savedc,
 .sheet-rolltemplate-dmg .sheet-save .sheet-savedc,
-.sheet-rolltemplate-atkdmg .sheet-save .sheet-savedc
-{
+.sheet-rolltemplate-atkdmg .sheet-save .sheet-savedc {
   padding-bottom: 5px;
   padding-top: 15px;
   text-align: center;
@@ -2097,23 +1999,20 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-save .sheet-savedc span,
 .sheet-rolltemplate-dmg .sheet-save .sheet-savedc span,
-.sheet-rolltemplate-atkdmg .sheet-save .sheet-savedc span
-{
+.sheet-rolltemplate-atkdmg .sheet-save .sheet-savedc span {
   font-size: 15px;
   font-weight: bold;
 }
 
 .sheet-rolltemplate-atk .sheet-save .sheet-label span,
 .sheet-rolltemplate-dmg .sheet-save .sheet-label span,
-.sheet-rolltemplate-atkdmg .sheet-save .sheet-label span
-{
+.sheet-rolltemplate-atkdmg .sheet-save .sheet-label span {
   font-weight: bold;
 }
 
 .sheet-rolltemplate-atk .sheet-save .inlinerollresult,
 .sheet-rolltemplate-dmg .sheet-save .inlinerollresult,
-.sheet-rolltemplate-atkdmg .sheet-save .inlinerollresult
-{
+.sheet-rolltemplate-atkdmg .sheet-save .inlinerollresult {
   background-color: transparent;
   border: 0px;
   padding: 0px;
@@ -2125,8 +2024,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atkdmg .sheet-desc .inlinerollresult,
 .sheet-rolltemplate-atk .sheet-desc .inlinerollresult,
 .sheet-rolltemplate-mancerroll .inlinerollresult,
-.sheet-rolltemplate-mancerhproll .inlinerollresult
-{
+.sheet-rolltemplate-mancerhproll .inlinerollresult {
   background-color: transparent;
   border: 0px;
   display: inline-block;
@@ -2143,8 +2041,7 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-save span,
 .sheet-rolltemplate-dmg .sheet-save span,
-.sheet-rolltemplate-atkdmg .sheet-save span
-{
+.sheet-rolltemplate-atkdmg .sheet-save span {
   font-weight: normal;
   line-height: 12px;
   display: block;
@@ -2152,16 +2049,14 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-save span.sheet-bold,
 .sheet-rolltemplate-dmg .sheet-save span.sheet-bold,
-.sheet-rolltemplate-atkdmg .sheet-save span.sheet-bold
-{
+.sheet-rolltemplate-atkdmg .sheet-save span.sheet-bold {
   font-weight: bold;
   display: inline-block;
 }
 
 .sheet-rolltemplate-atk .sheet-sublabel,
 .sheet-rolltemplate-atkdmg .sheet-sublabel,
-.sheet-rolltemplate-dmg .sheet-sublabel
-{
+.sheet-rolltemplate-dmg .sheet-sublabel {
   text-align: center;
   font-style: italic;
   margin-top: -2px;
@@ -2170,8 +2065,7 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-descold,
 .sheet-rolltemplate-atkdmg .sheet-descold,
-.sheet-rolltemplate-dmg .sheet-descold
-{
+.sheet-rolltemplate-dmg .sheet-descold {
   width: 189px;
   background: url(http://i.imgur.com/4988JS0.png) top left;
   background-size: 189px 100%;
@@ -2185,8 +2079,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atk .sheet-desc,
 .sheet-rolltemplate-atkdmg .sheet-desc,
 .sheet-rolltemplate-dmg .sheet-desc,
-.sheet-rolltemplate-desc .sheet-desc
-{
+.sheet-rolltemplate-desc .sheet-desc {
   width: 189px;
   border: 1px solid black;
   color: black;
@@ -2199,8 +2092,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atk .sheet-desc span,
 .sheet-rolltemplate-atkdmg .sheet-desc span,
 .sheet-rolltemplate-dmg .sheet-desc span,
-.sheet-rolltemplate-desc .sheet-desc span
-{
+.sheet-rolltemplate-desc .sheet-desc span {
   font-weight: normal;
   line-height: 12px;
   display: block;
@@ -2208,16 +2100,14 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-info span,
 .sheet-rolltemplate-atkdmg .sheet-info span,
-.sheet-rolltemplate-dmg .sheet-info span
-{
+.sheet-rolltemplate-dmg .sheet-info span {
   text-align: left;
   padding: 0px 5px 0px 5px;
 }
 
 .sheet-rolltemplate-atk .sheet-info .inlinerollresult,
 .sheet-rolltemplate-atkdmg .sheet-info .inlinerollresult,
-.sheet-rolltemplate-dmg .sheet-info .inlinerollresult
-{
+.sheet-rolltemplate-dmg .sheet-info .inlinerollresult {
   font-size: inherit;
   padding: 0px;
 }
@@ -2225,8 +2115,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-atkdmg .sheet-damagetemplate .sheet-sublabel,
 .sheet-rolltemplate-dmg .sheet-damagetemplate .sheet-sublabel,
 .sheet-rolltemplate-atkdmg .sheet-desc .sheet-sublabel,
-.sheet-rolltemplate-dmg .sheet-desc .sheet-sublabel
-{
+.sheet-rolltemplate-dmg .sheet-desc .sheet-sublabel {
   display: block;
   width: 100%;
   font-size: 10px;
@@ -2237,16 +2126,14 @@ span.sheet-spellconcentration
 
 .sheet-rolltemplate-atk .sheet-sublabel span,
 .sheet-rolltemplate-atkdmg .sheet-sublabel span,
-.sheet-rolltemplate-dmg .sheet-sublabel span,
-{
+.sheet-rolltemplate-dmg .sheet-sublabel span, {
   font-weight: normal;
   color: black;
 }
 
 .sheet-rolltemplate-atk .sheet-spacer,
 .sheet-rolltemplate-atkdmg .sheet-spacer,
-.sheet-rolltemplate-dmg .sheet-spacer
-{
+.sheet-rolltemplate-dmg .sheet-spacer {
   height: 10px;
 }
 
@@ -2296,14 +2183,12 @@ span.sheet-spellconcentration
 }
 
 .sheet-rolltemplate-spell .sheet-italics,
-.sheet-npc .sheet-italics
-{
+.sheet-npc .sheet-italics {
   font-style: italic;
 }
 
 .sheet-rolltemplate-spell .sheet-bold,
-.sheet-actions .sheet-bold
-{
+.sheet-actions .sheet-bold {
   font-weight: bold;
 }
 
@@ -2375,13 +2260,11 @@ span.sheet-spellconcentration
 
 .sheet-red,
 .sheet-npc .sheet-display .sheet-red input,
-.sheet-npc .sheet-display .sheet-red span
-{
+.sheet-npc .sheet-display .sheet-red span {
   color: rgb(126, 45, 64);
 }
 
-.sheet-npc .sheet-npc_options input
-{
+.sheet-npc .sheet-npc_options input {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -2399,8 +2282,7 @@ span.sheet-spellconcentration
   padding: 0px;
 }
 
-.sheet-npc .sheet-npc_options span
-{
+.sheet-npc .sheet-npc_options span {
   display: inline-block;
   font-size: 9px;
   line-height: 12px;
@@ -2448,8 +2330,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-display input,
-.sheet-npc .sheet-reaction input
-{
+.sheet-npc .sheet-reaction input {
   border: none;
   background: none;
   box-shadow: none;
@@ -2511,8 +2392,7 @@ span.sheet-spellconcentration
   content: " XP)";
 }
 
-.sheet-npc .sheet-display span.sheet-npc-init-die
-{
+.sheet-npc .sheet-display span.sheet-npc-init-die {
   font-family: "dicefontd20";
   font-size: 16px;
   display: block;
@@ -2560,13 +2440,11 @@ span.sheet-spellconcentration
 .sheet-npc .sheet-display .sheet-flag[value="0"] + div,
 .sheet-npc .sheet-display .sheet-flag[value=""] + button,
 .sheet-npc .sheet-display .sheet-flag[value=""] + div,
-.sheet-npc .sheet-display .sheet-status
-{
+.sheet-npc .sheet-display .sheet-status {
   display: none;
 }
 
-.sheet-npc .sheet-display .sheet-flag[value]:not([value=""]) + div,
-{
+.sheet-npc .sheet-display .sheet-flag[value]:not([value=""]) + div, {
   display: block;
 }
 
@@ -2586,15 +2464,13 @@ span.sheet-spellconcentration
   line-height: 16px;
 }
 
-.sheet-npc button[type=roll]
-{
+.sheet-npc button[type=roll] {
   width: auto;
   white-space: nowrap;
 }
 
 .sheet-npc .sheet-saving button[type=roll] span,
-.sheet-npc .sheet-skills button[type=roll] span,
-{
+.sheet-npc .sheet-skills button[type=roll] span, {
   font-size: 13px;
   font-weight: normal;
   width: auto;
@@ -2605,8 +2481,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-display .sheet-flag[value="1"] + button .sheet-spacer,
-.sheet-npc .sheet-display .sheet-flag[value="2"] + button .sheet-spacer,
-{
+.sheet-npc .sheet-display .sheet-flag[value="2"] + button .sheet-spacer, {
   display: none;
 }
 
@@ -2616,19 +2491,16 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-display .sheet-flag[value="1"] + button .sheet-stat::before,
-.sheet-npc .sheet-display .sheet-flag[value="2"] + button .sheet-stat::before
-{
+.sheet-npc .sheet-display .sheet-flag[value="2"] + button .sheet-stat::before {
   content: "+";
 }
 
 .sheet-npc .sheet-display .sheet-flag[value="1"] + button .sheet-stat::after,
-.sheet-npc .sheet-display .sheet-flag[value="3"] + button .sheet-stat::after
-{
+.sheet-npc .sheet-display .sheet-flag[value="3"] + button .sheet-stat::after {
   content: ", ";
 }
 
-.sheet-negativeflag[value="1"] + .sheet-npcattr::before,
-{
+.sheet-negativeflag[value="1"] + .sheet-npcattr::before, {
   content: "(";
 }
 
@@ -2645,15 +2517,13 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-display .sheet-traits .sheet-trait,
-.sheet-npc .sheet-reaction .sheet-trait
-{
+.sheet-npc .sheet-reaction .sheet-trait {
   position: relative;
 }
 
 .sheet-npc .sheet-display .sheet-traits input,
 .sheet-npc .sheet-reaction input
-
-{
+ {
   pointer-events: initial;
   font-weight: bold;
   width: 100%;
@@ -2661,8 +2531,7 @@ span.sheet-spellconcentration
 
 .sheet-npc .sheet-display .sheet-traits textarea,
 .sheet-npc .sheet-reaction textarea,
-.sheet-attack textarea
-{
+.sheet-attack textarea {
   resize: vertical;
   height: 36px;
   min-height: 36px;
@@ -2691,8 +2560,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-description_flag[value="0"] + textarea,
-.sheet-npc .sheet-description_flag[value=""] + textarea
-{
+.sheet-npc .sheet-description_flag[value=""] + textarea {
   display: none;
   height: 36px;
   min-height: 36px;
@@ -2703,8 +2571,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-attack_options[value="on"] ~ .sheet-attack_option,
-.sheet-npc .sheet-attack_options[value="{{attack=1}}"] ~ .sheet-attack_option
-{
+.sheet-npc .sheet-attack_options[value="{{attack=1}}"] ~ .sheet-attack_option {
   display: block;
 }
 
@@ -2763,8 +2630,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-npc .sheet-action .sheet-display textarea,
-.sheet-legendaryactions
-{
+.sheet-legendaryactions {
   border: none;
   margin-bottom: 0px;
   padding: 0px;
@@ -2791,20 +2657,17 @@ span.sheet-spellconcentration
 .sheet-container.sheet-npc .sheet-legendary,
 .sheet-container.sheet-npc .sheet-reaction,
 .sheet-npcspell_flag[value="0"] ~ .sheet-npcspell,
-.sheet-npcspellcastingflag:not(:checked) ~ .sheet-npcspelloptions
-{
+.sheet-npcspellcastingflag:not(:checked) ~ .sheet-npcspelloptions {
   display: none;
 }
 
 .sheet-legendary_flag:not([value="0"]) ~ .sheet-legendary,
-.sheet-reaction_flag[value="1"] ~ .sheet-reaction
-{
+.sheet-reaction_flag[value="1"] ~ .sheet-reaction {
   display: block;
 }
 
 .sheet-npc .sheet-action textarea,
-.sheet-pc .sheet-globalattack textarea
-{
+.sheet-pc .sheet-globalattack textarea {
   resize: vertical;
 }
 
@@ -2812,16 +2675,14 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npcaction .sheet-container,
 .sheet-rolltemplate-npcatk,
 .sheet-rolltemplate-npcdmg,
-.sheet-rolltemplate-traits
-{
+.sheet-rolltemplate-traits {
   width: 188px;
   border: 1px solid;
   background-color: #ffffff;
   padding: 5px;
 }
 
-.sheet-rolltemplate-npcaction .sheet-container.sheet-dmgcontainer
-{
+.sheet-rolltemplate-npcaction .sheet-container.sheet-dmgcontainer {
   margin-top: 5px;
 }
 
@@ -2832,8 +2693,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .sheet-header,
 .sheet-rolltemplate-npcaction .sheet-header,
 .sheet-rolltemplate-npcatk .sheet-header,
-.sheet-rolltemplate-npcdmg .sheet-header
-{
+.sheet-rolltemplate-npcdmg .sheet-header {
   color: rgb(126, 45, 64);
   font-size: 18px;
   text-align: left;
@@ -2854,22 +2714,19 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npcaction .sheet-italics,
 .sheet-rolltemplate-npcatk .sheet-italics,
 .sheet-rolltemplate-npcdmg .sheet-italics,
-.sheet-rolltemplate-traits .sheet-italics
-{
+.sheet-rolltemplate-traits .sheet-italics {
   font-style: italic;
 }
 
 .sheet-rolltemplate-npc .sheet-subheader,
 .sheet-rolltemplate-npcaction .sheet-subheader,
 .sheet-rolltemplate-npcatk .sheet-subheader,
-.sheet-rolltemplate-npcdmg .sheet-subheader
-{
+.sheet-rolltemplate-npcdmg .sheet-subheader {
   line-height: 13px;
   margin-top: -3px;
 }
 
-.sheet-rolltemplate-traits .sheet-subheader
-{
+.sheet-rolltemplate-traits .sheet-subheader {
   font-style: italic;
   color: #A0A0A0;
   margin-top: -5px;
@@ -2878,8 +2735,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .sheet-subheader span,
 .sheet-rolltemplate-npcaction .sheet-subheader span,
 .sheet-rolltemplate-npcatk .sheet-subheader span,
-.sheet-rolltemplate-npcdmg .sheet-subheader span
-{
+.sheet-rolltemplate-npcdmg .sheet-subheader span {
   font-size: 11px;
   line-height: 11px;
 }
@@ -2903,8 +2759,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .sheet-arrow-rightold,
 .sheet-rolltemplate-npcaction .sheet-arrow-rightold,
 .sheet-rolltemplate-npcatk .sheet-arrow-rightold,
-.sheet-rolltemplate-npcdmg .sheet-arrow-rightold
-{
+.sheet-rolltemplate-npcdmg .sheet-arrow-rightold {
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
   border-left: 195px solid rgb(126, 45, 64);
@@ -2913,8 +2768,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .sheet-arrow-right,
 .sheet-rolltemplate-npcaction .sheet-arrow-right,
 .sheet-rolltemplate-npcatk .sheet-arrow-right,
-.sheet-rolltemplate-npcdmg .sheet-arrow-right
-{
+.sheet-rolltemplate-npcdmg .sheet-arrow-right {
   border: 1px solid rgb(126, 45, 64);
   margin-bottom: 2px;
   margin-top: 2px;
@@ -2924,8 +2778,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npcaction .inlinerollresult,
 .sheet-rolltemplate-npcatk .inlinerollresult,
 .sheet-rolltemplate-npcdmg .inlinerollresult,
-.sheet-rolltemplate-traits .inlinerollresult
-{
+.sheet-rolltemplate-traits .inlinerollresult {
   background-color: #ffffff;
   border: none;
 }
@@ -2933,8 +2786,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .inlinerollresult.fullcrit,
 .sheet-rolltemplate-npcaction .inlinerollresult.fullcrit,
 .sheet-rolltemplate-npcatk .inlinerollresult.fullcrit,
-.sheet-rolltemplate-npcdmg .inlinerollresult.fullcrit
-{
+.sheet-rolltemplate-npcdmg .inlinerollresult.fullcrit {
   color: #3FB315;
   border: none;
 }
@@ -2942,8 +2794,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .inlinerollresult.fullfail,
 .sheet-rolltemplate-npcaction .inlinerollresult.fullfail,
 .sheet-rolltemplate-npcatk .inlinerollresult.fullfail,
-.sheet-rolltemplate-npcdmg .inlinerollresult.fullfail
-{
+.sheet-rolltemplate-npcdmg .inlinerollresult.fullfail {
   color: #B31515;
   border: none;
 }
@@ -2951,8 +2802,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-npc .inlinerollresult.importantroll,
 .sheet-rolltemplate-npcaction .inlinerollresult.importantroll,
 .sheet-rolltemplate-npcatk .inlinerollresult.importantroll,
-.sheet-rolltemplate-npcdmg .inlinerollresult.importantroll
-{
+.sheet-rolltemplate-npcdmg .inlinerollresult.importantroll {
   color: #4A57ED;
   border: none;
 }
@@ -2977,8 +2827,7 @@ span.sheet-spellconcentration
 .sheet-proficiencies .sheet-complex,
 .sheet-proficiencies .sheet-simple,
 .sheet-traits .sheet-complex,
-.sheet-traits .sheet-simple,
-{
+.sheet-traits .sheet-simple, {
   display: none;
 }
 
@@ -2987,13 +2836,11 @@ span.sheet-spellconcentration
 .sheet-proficiencies .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
 .sheet-proficiencies .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
 .sheet-traits .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-traits .sheet-inventoryflag[value="simple"] ~ .sheet-simple
-{
+.sheet-traits .sheet-inventoryflag[value="simple"] ~ .sheet-simple {
   display: inline-block;
 }
 
-.sheet-equipment .sheet-inventorysubflag
-{
+.sheet-equipment .sheet-inventorysubflag {
   height: 10px;
   width: 10px;
   top: 10px;
@@ -3001,8 +2848,7 @@ span.sheet-spellconcentration
 }
 
 
-.sheet-equipment .sheet-inventorysubflag + span
-{
+.sheet-equipment .sheet-inventorysubflag + span {
   height: 10px;
   width: 10px;
   top: 10px;
@@ -3019,8 +2865,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-proficiencies .sheet-complex,
-.sheet-traits .sheet-complex
-{
+.sheet-traits .sheet-complex {
   width: 240px;
   vertical-align: top;
   padding-top: 5px;
@@ -3082,8 +2927,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-equipment .sheet-warning,
-.sheet-charactermancer_options .sheet-warning
-{
+.sheet-charactermancer_options .sheet-warning {
   display: none;
   padding: 6px;
   border: 1px solid gray;
@@ -3091,8 +2935,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-equipment .sheet-warning label,
-.sheet-charactermancer_options .sheet-warning label
-{
+.sheet-charactermancer_options .sheet-warning label {
   font-family: pictos;
   border: 1px solid gray;
   font-size: 8px;
@@ -3106,26 +2949,22 @@ span.sheet-spellconcentration
 }
 
 .sheet-equipment .sheet-warning label input,
-.sheet-charactermancer_options .sheet-warning label input
-{
+.sheet-charactermancer_options .sheet-warning label input {
   display: none;
 }
 
 .sheet-equipment .sheet-warningflag[value="show"] + .sheet-warning,
-.sheet-charactermancer_options .sheet-warningflag[value="show"] + .sheet-warning
-{
+.sheet-charactermancer_options .sheet-warningflag[value="show"] + .sheet-warning {
   display: block;
 }
 
 .sheet-equipment .sheet-warning span,
 .sheet-charactermancer_options .sheet-warning span,
-.sheet-equipment .sheet-encumb
-{
+.sheet-equipment .sheet-encumb {
   color: red;
 }
 
-.sheet-equipment .sheet-encumb
-{
+.sheet-equipment .sheet-encumb {
   display: none;
   font-size: 9px;
 }
@@ -3138,14 +2977,12 @@ span.sheet-spellconcentration
 .sheet-equipment .sheet-encumberance[value="IMMOBILE"] ~ .sheet-immobile,
 .sheet-equipment .sheet-encumberance[value="HEAVILY ENCUMBERED"] ~ .sheet-heavily,
 .sheet-equipment .sheet-encumberance[value="ENCUMBERED"] ~ .sheet-encumbered,
-.sheet-equipment .sheet-encumberance[value="OVER CARRYING CAPACITY"] ~ .sheet-over
-{
+.sheet-equipment .sheet-encumberance[value="OVER CARRYING CAPACITY"] ~ .sheet-over {
   display: block;
 }
 
 .sheet-equipment .sheet-warning input[type="checkbox"],
-.sheet-charactermancer_options .sheet-warning input[type="checkbox"]
-{
+.sheet-charactermancer_options .sheet-warning input[type="checkbox"] {
   -webkit-appearance: checkbox;
   -moz-appearance: checkbox;
   width: auto;
@@ -3185,8 +3022,7 @@ span.sheet-spellconcentration
 }
 
 .charsheet .sheet-spells .sheet-spellattackinfoflag[value="ATTACK"] ~ .sheet-spellattackinfo,
-.charsheet .sheet-npc .sheet-spellattackinfoflag[value="ATTACK"] ~ .sheet-spellattackinfo,
-{
+.charsheet .sheet-npc .sheet-spellattackinfoflag[value="ATTACK"] ~ .sheet-spellattackinfo, {
   display: block;
 }
 
@@ -3202,8 +3038,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-charname,
 .sheet-rolltemplate-atk .sheet-charname,
 .sheet-rolltemplate-dmg .sheet-charname,
-.sheet-rolltemplate-atkdmg .sheet-charname
-{
+.sheet-rolltemplate-atkdmg .sheet-charname {
   text-align: center;
   margin-top: -10px;
 }
@@ -3211,8 +3046,7 @@ span.sheet-spellconcentration
 .sheet-rolltemplate-simple .sheet-charname span,
 .sheet-rolltemplate-atk .sheet-charname span,
 .sheet-rolltemplate-dmg .sheet-charname span,
-.sheet-rolltemplate-atkdmg .sheet-charname span
-{
+.sheet-rolltemplate-atkdmg .sheet-charname span {
   font-size: 11px;
   font-weight: normal;
   color: #A0A0A0;
@@ -3301,8 +3135,7 @@ span.sheet-spellconcentration
 }
 
 .sheet-attr-mod:hover .sheet-baseattr,
-.sheet-attr-mod .sheet-baseattr:focus
-{
+.sheet-attr-mod .sheet-baseattr:focus {
   /*display: inline;*/
   opacity: 1;
   height: 20px;
@@ -3312,18 +3145,15 @@ span.sheet-spellconcentration
 }
 
 .sheet-attr-mod:hover .sheet-finalattr,
-.sheet-attr-mod .sheet-baseattr:focus ~ .sheet-finalattr
-{
+.sheet-attr-mod .sheet-baseattr:focus ~ .sheet-finalattr {
   display: none;
 }
 
-.sheet-attr-mod .sheet-attr-flag[value="1"] + .sheet-finalattr
-{
+.sheet-attr-mod .sheet-attr-flag[value="1"] + .sheet-finalattr {
   color: #3e99e8;
 }
 
-.sheet-attr-mod .sheet-attr-flag[value="1"] + .sheet-finalattr:after
-{
+.sheet-attr-mod .sheet-attr-flag[value="1"] + .sheet-finalattr:after {
   content: '*';
   font-size: 15px;
   position: absolute;
@@ -3340,8 +3170,7 @@ span.sheet-spellconcentration
 
 .sheet-licensecontainer.active-drop-target.dropping,
 .sheet-monster_confirm_flag[value="1"] ~ .sheet-licensecontainer,
-.sheet-mancer_confirm_flag[value="1"] ~ .sheet-licensecontainer
-{
+.sheet-mancer_confirm_flag[value="1"] ~ .sheet-licensecontainer {
   opacity: 0.5;
   transition: opacity .15s ease-in-out;
   -moz-transition: opacity .15s ease-in-out;
@@ -3351,15 +3180,13 @@ span.sheet-spellconcentration
 
 .sheet-compendium_warning,
 .sheet-monster_confirm,
-.sheet-mancer_confirm
-{
+.sheet-mancer_confirm {
   display: none;
 }
 
 .sheet-licensecontainer.active-drop-target.dropping ~ .sheet-compendium_warning,
 .sheet-monster_confirm_flag[value="1"] ~ .sheet-monster_confirm,
-.sheet-mancer_confirm_flag[value="1"] ~ .sheet-mancer_confirm
-{
+.sheet-mancer_confirm_flag[value="1"] ~ .sheet-mancer_confirm {
   display: block;
   position: fixed;
   top: 50%;
@@ -3398,8 +3225,7 @@ span.sheet-spellconcentration
   border: 1px solid black;
 }
 
-.sheet-mancer_confirm_flag[value="1"] ~ .sheet-mancer_confirm
-{
+.sheet-mancer_confirm_flag[value="1"] ~ .sheet-mancer_confirm {
   width: 350px;
   margin: -70px 0 0 -195px;
 }
@@ -3461,8 +3287,7 @@ span.sheet-spellconcentration
 .sheet-attribute_options,
 .sheet-save_options,
 .sheet-general_options,
-.sheet-transition_options
-{
+.sheet-transition_options {
   border: 1px solid #666;
   border-radius: 5px;
   padding: 5px;
@@ -3527,14 +3352,12 @@ span.sheet-spellconcentration
 
 .sheet-missing-info-flag[value="1"] + .sheet-missing-info,
 .sheet-missing-info:hover .sheet-missing-info-desc,
-.sheet-missing-info-desc:hover
-{
+.sheet-missing-info-desc:hover {
   display: block;
 }
 
 .sheet-actions.sheet-npcspell.sheet-spells,
-.sheet-missing-info-desc
-{
+.sheet-missing-info-desc {
   display: none;
 }
 
@@ -4885,8 +4708,7 @@ div.sheet-globaldisplay span {
 
 .sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container input,
 .sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container select,
-.sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container button
-{
+.sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container button {
   background-color: #f5f5f5 !important;
   color: #888888 !important;
   cursor: not-allowed !important;
@@ -4894,8 +4716,7 @@ div.sheet-globaldisplay span {
 
 .sheet-charmancer .sheet-custom_warning,
 .sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container .sheet-class_features_container,
-.sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container .sheet-subclass_features_container
-{
+.sheet-charmancer .sheet-lock-custom-class[value="1"] ~ .sheet-class1_container .sheet-subclass_features_container {
   display: none;
 }
 

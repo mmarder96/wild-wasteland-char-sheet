@@ -1192,6 +1192,7 @@ button[type=roll] * {
 
 .header .options-flag:checked~.options {
   min-height: 74px;
+  width: 100%;
   vertical-align: top;
   display: inline-block;
 }

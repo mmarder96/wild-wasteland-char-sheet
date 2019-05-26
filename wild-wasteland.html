@@ -40,7 +40,7 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
 
   -->
 
-  <div class="page core">
+  <div class="page-core">
       <div id="core-header" class="header">
         <div class="name-container">
           <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="SRD5 by Roll20">
@@ -225,7 +225,7 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
                     <span name='attr_explosives_bonus' title='@{explosives_bonus}'>0</span>
                     <button type='roll' name='roll_explosives'
                       value='@{wtype}&{template:simple} {{rname=^{explosives-u}}} {{mod=@{explosives_bonus}}} {{r1=[[@{d20}+@{explosives_bonus}@{pbd_safe}]]}} @{rtype}+@{explosives_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                      data-i18n='explosives-core'>Explosives  <span>[INT]</span></button>
+                      data-i18n='explosives-core'>Explosives <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="guns">
                     <input type="checkbox" name="attr_guns_prof" title="@{guns_prof}" value="(@{pb}*@{guns_type})">

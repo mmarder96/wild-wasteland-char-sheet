@@ -1,6 +1,10 @@
+
+
+
+
+
 .npc_toggle[value="0"] ~ .pc,
-.npc_toggle[value="1"] ~ .npc
-{
+.npc_toggle[value="1"] ~ .npc {
   display: block;
 }
 
@@ -121,14 +125,12 @@ input[type=radio].tab-button:checked + span {
 .toggleflag[value*="advantagetoggle"] + .advantagetoggle,
 .toggleflag[value*="whispertoggle"] + .whispertoggle,
 .toggleflag[value="1"] + .hidden,
-.toggleflag[value="1"] + .row.hidden
-{
+.toggleflag[value="1"] + .row.hidden {
   display: block;
 }
 
 .npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc,
-.npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.spells .header
-{
+.npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.spells .header {
   display: block;
   visibility: hidden;
   width: 0px;
@@ -143,8 +145,7 @@ input[type=radio].tab-button:checked + span {
 
 .npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.core,
 .npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.bio,
-.npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.options
-{
+.npc_toggle[value="1"] + .npcspellcastingflag[value="1"] ~ .pc .page.options {
   display: none;
 }
 
@@ -157,8 +158,7 @@ input[type=radio].tab-button:checked + span {
 }
 
 .hidden,
-.options .row.hidden
-{
+.options .row.hidden {
   display: none;
 }
 
@@ -191,8 +191,7 @@ input[type=radio].tab-button:checked + span {
 input[type=radio].tab-button.core:checked ~ .page.core,
 input[type=radio].tab-button.bio:checked ~ .page.bio,
 input[type=radio].tab-button.spells:checked ~ .page.spells,
-input[type=radio].tab-button.options:checked ~ .page.options
-{
+input[type=radio].tab-button.options:checked ~ .page.options {
   display: block;
 }
 
@@ -283,8 +282,7 @@ input[type=radio].tab-button.spells + span {
 }
 
 .header input[type=number]::-webkit-inner-spin-button,
-.header input[type=number]::-webkit-outer-spin-button
-{
+.header input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -354,7 +352,6 @@ input[type=radio].tab-button.spells + span {
 }
 
 .attributes-container {
-  font-family:monofonto;
   width: 70px;
   margin-right: 5px;
   display: inline-block;
@@ -397,8 +394,7 @@ input[type=radio].tab-button.spells + span {
 .skill button[type=roll]::before,
 .ac-init-speed-container button[type=roll]::before,
 .subcontainer button[type=roll]::before,
-.npc button[type=roll]::before
-{
+.npc button[type=roll]::before {
   content: "" !important;
 }
 
@@ -409,8 +405,7 @@ input[type=radio].tab-button.spells + span {
 button[type=roll]:hover,
 button[type=roll]:hover *,
 .spell button[type=roll]:hover input[type=text],
-.action .display button[type=roll]:hover *
-{
+.action .display button[type=roll]:hover * {
   color: #EC2127;
 }
 
@@ -453,10 +448,10 @@ button[type=roll] * {
 .attr-mod input {
   text-align: center;
   font-size: 20px;
-  line-height: 22px;
   margin: 0px;
   padding: 0px;
   vertical-align: middle;
+  line-height: 22px;
 }
 
 .skills-saves-container {
@@ -483,8 +478,8 @@ button[type=roll] * {
   opacity: 0;
   z-index: 2;
   position: relative;
-  margin: inherit;
-  margin-bottom: 2px;
+  margin: 2px;
+  margin-bottom: 32px;
 }
 
 .insp-prof-container .value input[type=checkbox] ~ span {
@@ -545,8 +540,7 @@ button[type=roll] * {
 .pc .traits input,
 .spell input,
 .options .body input,
-.resources input[type=number]
-{
+.resources input[type=number] {
   width: 100%;
   text-align: center;
   font-size: 20px;
@@ -561,15 +555,13 @@ button[type=roll] * {
 }
 
 .resources input[type=number],
-.hdice-dsaves-container input[type=number]
-{
+.hdice-dsaves-container input[type=number] {
   padding-right: 0px;
   padding-left: 10px;
 }
 
 .saving-throw-container,
-.skills-container
-{
+.skills-container {
   width: 165px;
   border: 1px solid #666;
   border-radius: 5px;
@@ -578,39 +570,34 @@ button[type=roll] * {
 }
 
 .saving-throw,
-.skill
-{
+.skill {
   width: 165px;
   height: 18px;
 }
 
 .saving-throw input[type=checkbox],
-.skill input[type=checkbox]
-{
+.skill input[type=checkbox] {
   margin-left: 5px;
   -webkit-appearance: checkbox;
   box-sizing: border-box;
 }
 
 .saving-throw input[type=text],
-.skill input[type=text]
-{
+.skill input[type=text] {
   font-size: 12px;
   width: 21px;
 }
 
 .col1 .saving-throw > span,
-.col1 .skill > span
-{
-  font-size: 12px !important;
-  display: inline-block !important;
-  text-align: center !important;
-  min-width: 21px !important;
+.col1 .skill > span {
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+  min-width: 21px;
 }
 
 .saving-throw button[type=roll],
-.skill button[type=roll]
-{
+.skill button[type=roll] {
   width: calc(100% - 50px);
   overflow: hidden;
   word-wrap: break-word;
@@ -636,8 +623,7 @@ button[type=roll] * {
 .proficiencies span,
 .traits span,
 .spells span,
-.options .body span
-{
+.options .body span {
   display: block;
   font-size: 9px;
   line-height: 12px;
@@ -665,8 +651,7 @@ button[type=roll] * {
   width: 3.5em;
 }
 
-.exhaustion div span.ex-description
-{
+.exhaustion div span.ex-description {
   font-size: 9px;
   line-height: 9px;
   text-align: left;
@@ -674,26 +659,22 @@ button[type=roll] * {
   display: block;
 }
 
-.exhaustion span.label
-{
+.exhaustion span.label {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
 
-.exhaustion div.ex-descriptions
-{
+.exhaustion div.ex-descriptions {
   display: inline-block;
   padding-top: 5px;
 }
 
-.exhaustion-toggle[value="0"] ~ .exhaustion,
-{
+.exhaustion-toggle[value="0"] ~ .exhaustion, {
   display: none;
 }
 
-.exhaustion input[type="number"]
-{
+.exhaustion input[type="number"] {
   width: 116px;
   display:inline-block;
   vertical-align: top;
@@ -701,31 +682,26 @@ button[type=roll] * {
 
 .skill button span,
 .options .body .skill span span,
-.rolltemplate-spell .grey
-{
+.rolltemplate-spell .grey {
   color: #A0A0A0;
   font-weight: normal;
 }
 
-.textbox-container,
-.proficiencies
-{
+.proficiencies {
   border: 1px solid #666;
   border-radius: 5px;
   width: 165px;
 }
 
 .textbox-container,
-.tool_proficiencies
-{
+.tool_proficiencies {
   border: 1px solid #666;
   border-radius: 5px;
   width: 243px;
 }
 
 .tool_proficiencies,
-.attacks
-{
+.attacks {
   padding-bottom: 10px;
 }
 
@@ -740,8 +716,7 @@ button[type=roll] * {
 .exhaustion,
 .hdice-dsaves-container,
 .attacks,
-.equipment
-{
+.equipment {
   width: 240px;
   margin-bottom: 10px;
 }
@@ -767,24 +742,20 @@ button[type=roll] * {
 .exhaustion,
 .subcontainer,
 .attacks,
-.equipment
-{
+.equipment {
   border: 1px solid #666;
   border-radius: 5px;
 }
 
-.hp input
-{
+.hp input {
   font-size: 30px;
 }
 
-.exhaustion input
-{
+.exhaustion input {
   font-size: 20px;
 }
 
-.hp input[type="number"],
-{
+.hp input[type="number"], {
   width: 100%;
   padding-right: 10px;
   padding-left: 20px;
@@ -792,8 +763,7 @@ button[type=roll] * {
 
 .hp span.label,
 .exhuastion span .label,
-.hdice-dsaves-container span.label
-{
+.hdice-dsaves-container span.label {
   margin-top: 0px;
 }
 
@@ -802,8 +772,7 @@ button[type=roll] * {
 .attacks .top span,
 .tool_proficiencies .top span,
 .proficiencies .top span,
-.traits .top span
-{
+.traits .top span {
   text-align: left;
   margin-left: 5px;
   color: #A0A0A0;
@@ -813,8 +782,7 @@ button[type=roll] * {
 }
 
 .hp .top input,
-.hdice-dsaves-container .top input[type=text]
-{
+.hdice-dsaves-container .top input[type=text] {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -908,8 +876,7 @@ button[type=roll] * {
 }
 
 .equipment span,
-.textbox span
-{
+.textbox span {
   margin-top: 0px;
 }
 
@@ -959,8 +926,7 @@ button[type=roll] * {
 
 .attacks .display button[type=roll],
 .tool .display button[type=roll],
-.proficiency .display button[type=roll]
-{
+.proficiency .display button[type=roll] {
   background-color: transparent;
   color: black;
   border: none;
@@ -969,14 +935,13 @@ button[type=roll] * {
   box-shadow: none;
   padding: 0px;
   margin: 0px;
-  width: 135px;
+  width: 100%;
   font-weight: bold;
 }
 
 .attacks .display button[type=roll]::before,
 .tool .display button[type=roll]::before,
-.proficiency .display button[type=roll]::before
-{
+.proficiency .display button[type=roll]::before {
   content: "" !important;
 }
 
@@ -986,8 +951,7 @@ button[type=roll] * {
 .attacks .display span,
 .tool .display span,
 .equipment .item span,
-.proficiencies .display span
-{
+.proficiencies .display span {
   font-size: 12px;
   line-height: 12px;
   border-top-left-radius: 5px;
@@ -1002,8 +966,7 @@ button[type=roll] * {
 .attacks .display span,
 .tool .display span,
 .equipment .item span,
-.proficiencies .display span
-{
+.proficiencies .display span {
   min-height: 12px;
   display: inline-block;
   margin-top: 0px;
@@ -1014,8 +977,7 @@ button[type=roll] * {
   white-space: nowrap;
 }
 
-.traits .display .title
-{
+.traits .display .title {
   font-family: "Times New Roman", Times, serif;
   font-size: 16px;
   text-transform: capitalize;
@@ -1024,15 +986,13 @@ button[type=roll] * {
   color: rgb(126, 45, 64);
 }
 
-.traits .display .subheader
-{
+.traits .display .subheader {
   font-style: italic;
   color: #A0A0A0;
   margin-top: -3px;
 }
 
-.traits .display .subheader span
-{
+.traits .display .subheader span {
   font-size: 10px;
   display: inline;
 
@@ -1049,8 +1009,7 @@ button[type=roll] * {
 .proficiencies .options-flag,
 .traits .options-flag,
 .equipment .inventorysubflag,
-.header .options-flag
-{
+.header .options-flag {
   opacity: 0;
   position: absolute;
   top: 0px;
@@ -1071,8 +1030,7 @@ button[type=roll] * {
 .proficiencies .options-flag + span,
 .traits .options-flag + span,
 .equipment .inventorysubflag + span,
-.header .options-flag + span
-{
+.header .options-flag + span {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -1104,8 +1062,7 @@ button[type=roll] * {
 .proficiencies .options-flag:checked + span,
 .traits .options-flag:checked + span,
 .equipment .inventorysubflag:checked + span,
-.header .options-flag:checked + span
-{
+.header .options-flag:checked + span {
   color: black;
   display: block;
 }
@@ -1121,8 +1078,7 @@ button[type=roll] * {
 .proficiency:hover .options-flag + span,
 .item:hover .inventorysubflag + span,
 .pc .trait:hover .output,
-.pc .header:hover .options-flag + span
-{
+.pc .header:hover .options-flag + span {
   display: block;
 }
 
@@ -1152,8 +1108,7 @@ button[type=roll] * {
   height: 0px;
 }
 
-.pc .trait .display-flag:checked ~ .display .desc
-{
+.pc .trait .display-flag:checked ~ .display .desc {
   display: none;
 }
 
@@ -1188,8 +1143,7 @@ button[type=roll] * {
 .action,
 .textbox,
 .proficiencies,
-.traits
-{
+.traits {
   position: relative;
 }
 
@@ -1197,20 +1151,17 @@ button[type=roll] * {
 .spell .options,
 .tool .options,
 .npc .npc_options,
-.trait .options,
 .global-mod .options,
 .action .options,
 .textbox .options,
 .proficiencies .options,
-.trait .options
-{
+.trait .options {
   display: none;
   border-top: 2px dashed gold;
 }
 
 .item .subitem,
-.header .options
-{
+.header .options {
   display: none;
 }
 
@@ -1240,20 +1191,19 @@ button[type=roll] * {
 .textbox .options-flag:checked ~ .options,
 .proficiencies .options-flag:checked ~ .options,
 .traits .options-flag:checked ~ .options,
-.item .inventorysubflag:checked ~ .subitem
-{
+.item .inventorysubflag:checked ~ .subitem {
   display: inherit;
 }
 
 .header .options-flag:checked ~ .options {
   min-height: 74px;
+  width: calc(100% - 10px);
   vertical-align: top;
   display: inline-block;
 }
 
 .textbox .options-flag:checked ~ .display,
-.header .options-flag:checked ~ .display
-{
+.header .options-flag:checked ~ .display {
   display: none;
 }
 
@@ -1389,8 +1339,7 @@ button[type=roll] * {
   position: relative;
 }
 
-.spell .display button[type=roll]
-{
+.spell .display button[type=roll] {
   background-color: transparent;
   color: black;
   border-top: none;
@@ -1407,14 +1356,12 @@ button[type=roll] * {
   text-align: left;
 }
 
-.spell .display button[type=roll]::before
-{
+.spell .display button[type=roll]::before {
   content: "" !important;
 }
 
 span.spellritual,
-span.spellconcentration
-{
+span.spellconcentration {
   display: none;
   font-size: 8px;
   font-weight: normal;
@@ -1428,14 +1375,12 @@ span.spellconcentration
   line-height: 10px;
 }
 
-.spellicon_flag:not([value="none"]) + .body .spell .display .spellritual:not([value="0"]) ~ span.spellritual
-{
+.spellicon_flag:not([value="none"]) + .body .spell .display .spellritual:not([value="0"]) ~ span.spellritual {
   display: inline-block;
   right: 11px;
 }
 
-.spellicon_flag:not([value="none"]) + .body .spell .display .spellconcentration:not([value="0"]) ~ span.spellconcentration
-{
+.spellicon_flag:not([value="none"]) + .body .spell .display .spellconcentration:not([value="0"]) ~ span.spellconcentration {
   border-radius: 100%;
   display: inline-block;
   right: 0;
@@ -1450,22 +1395,19 @@ span.spellconcentration
 
 .spell .display .v,
 .spell .display .s,
-.spell .display .m
-{
+.spell .display .m {
   display: none;
 }
 
 .spellicon_flag[value="all"] + .body .spell .display input.v:not([value="0"]) ~ .componentscontainer span.v,
 .spellicon_flag[value="all"] + .body .spell .display input.s:not([value="0"]) ~ .componentscontainer span.s,
-.spellicon_flag[value="all"] + .body .spell .display input.m:not([value="0"]) ~ .componentscontainer span.m
-{
+.spellicon_flag[value="all"] + .body .spell .display input.m:not([value="0"]) ~ .componentscontainer span.m {
   display: inline;
   width: initial;
   font-size: 8px;
 }
 
-.spell .display input[type=text]
-{
+.spell .display input[type=text] {
   font-size: 12px;
   line-height: 12px;
   cursor: pointer;
@@ -1483,8 +1425,7 @@ span.spellconcentration
   width: 100%;
 }
 
-.spell .display span.spellname
-{
+.spell .display span.spellname {
   font-size: 12px;
   text-align: left;
   font-weight: normal;
@@ -1497,8 +1438,7 @@ span.spellconcentration
   max-width: 220px;
 }
 
-.spell .display .prep ~ span.spellname
-{
+.spell .display .prep ~ span.spellname {
   margin-left: 14px;
 }
 
@@ -1556,8 +1496,7 @@ span.spellconcentration
 }
 
 .repcontrol .repcontrol_edit:hover:after,
-.repcontrol .repcontrol_add:hover:before
-{
+.repcontrol .repcontrol_add:hover:before {
   background-color: #EFEFEF;
 }
 
@@ -1590,8 +1529,7 @@ span.spellconcentration
 .spell .options,
 .proficiencies .options,
 .traits .options,
-.global-mod .options
-{
+.global-mod .options {
   padding-left: 5px;
 }
 
@@ -1601,8 +1539,7 @@ span.spellconcentration
 .options .body span,
 .proficiencies .options span,
 .traits .options span,
-.global-mod .options span
-{
+.global-mod .options span {
   width: initial;
   display: inline-block;
   text-align: left;
@@ -1614,8 +1551,7 @@ span.spellconcentration
 .options .body input[type=text],
 .proficiencies .options input[type=text],
 .traits .options input[type=text],
-.global-mod .options input[type=text]
-{
+.global-mod .options input[type=text] {
   display: inline-block;
   text-align: left;
   font-size: 12px;
@@ -1629,8 +1565,7 @@ span.spellconcentration
 .spell .options select,
 .options .body select,
 .proficiencies .options select,
-.traits .options select
-{
+.traits .options select {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -1658,8 +1593,7 @@ span.spellconcentration
 .npc .npc_options input[type=checkbox],
 .proficiencies .options input[type=checkbox],
 .traits .options input[type=checkbox],
-.global-mod .options input[type=checkbox]
-{
+.global-mod .options input[type=checkbox] {
   width: 13px;
   font-size: initial;
   -webkit-appearance: checkbox;
@@ -1667,8 +1601,7 @@ span.spellconcentration
 }
 
 .attack .options input[type=text].num,
-.options input[type=text].num
-{
+.options input[type=text].num {
   width: 15px;
   text-align: center;
 }
@@ -1723,8 +1656,7 @@ span.spellconcentration
 
 .class_options,
 .skill_options,
-.general_options
-{
+.general_options {
   border: 1px solid #666;
   border-radius: 5px;
   padding: 5px;
@@ -1738,15 +1670,13 @@ span.spellconcentration
 .hlabel-container .showing,
 .hlabel-container .hiding,
 .header .showing,
-.header input[value="1"].flag ~ .hiding
-{
+.header input[value="1"].flag ~ .hiding {
   display: none;
 }
 
 .hlabel-container input[value="1"].flag ~ .showing,
 .hlabel-container input[value="0"].flag ~ .hiding,
-.header input[value="1"].flag ~ .showing
-{
+.header input[value="1"].flag ~ .showing {
   display: inline-block;
 }
 
@@ -1788,8 +1718,7 @@ span.spellconcentration
   display: none;
 }
 
-.rolltemplate-simple .containerold
-{
+.rolltemplate-simple .containerold {
   width: 189px;
   background: url(http://i.imgur.com/53WSdhx.png) top left;
   background-size: 189px 100%;
@@ -1797,8 +1726,7 @@ span.spellconcentration
   color: black;
 }
 
-.rolltemplate-simple .container
-{
+.rolltemplate-simple .container {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1808,8 +1736,7 @@ span.spellconcentration
 
 .rolltemplate-atk .containerold,
 .rolltemplate-atkdmg .container.atkold,
-.rolltemplate-dmg .atkold
-{
+.rolltemplate-dmg .atkold {
   width: 189px;
   background: url(http://i.imgur.com/4RCRsAd.png) top left;
   background-size: 189px 100%;
@@ -1819,8 +1746,7 @@ span.spellconcentration
 
 .rolltemplate-atk .container,
 .rolltemplate-atkdmg .container.atk,
-.rolltemplate-dmg .atk
-{
+.rolltemplate-dmg .atk {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1832,8 +1758,7 @@ span.spellconcentration
 
 
 .rolltemplate-dmg .containerold,
-.rolltemplate-atkdmg .container.damagetemplateold
-{
+.rolltemplate-atkdmg .container.damagetemplateold {
   width: 189px;
   background: url(http://i.imgur.com/gw9HTsq.png) top left;
   background-size: 189px 100%;
@@ -1842,8 +1767,7 @@ span.spellconcentration
 }
 
 .rolltemplate-dmg .container,
-.rolltemplate-atkdmg .container.damagetemplate
-{
+.rolltemplate-atkdmg .container.damagetemplate {
   width: 189px;
   color: black;
   border: 1px solid black;
@@ -1856,22 +1780,19 @@ span.spellconcentration
 .rolltemplate-atk .result,
 .rolltemplate-atkdmg .result,
 .rolltemplate-dmg .result,
-.npc .subtitle .italics
-{
+.npc .subtitle .italics {
   width: 100%;
 }
 
 .rolltemplate-atkdmg .damagetemplate .result,
-.rolltemplate-dmg .damagetemplate .result
-{
+.rolltemplate-dmg .damagetemplate .result {
   min-height: 45px;
 }
 
 .rolltemplate-simple .adv,
 .rolltemplate-atk .adv,
 .rolltemplate-atkdmg .adv,
-.rolltemplate-dmg .adv
-{
+.rolltemplate-dmg .adv {
   width: 84px;
   display: inline-block;
   text-align: center;
@@ -1882,8 +1803,7 @@ span.spellconcentration
 .rolltemplate-simple .adv:first-child,
 .rolltemplate-atk .adv:first-child,
 .rolltemplate-atkdmg .adv:first-child,
-.rolltemplate-dmg .adv:first-child
-{
+.rolltemplate-dmg .adv:first-child {
   margin-left: 8px;
   margin-right: -3px;
 }
@@ -1891,8 +1811,7 @@ span.spellconcentration
 .rolltemplate-simple .adv:nth-child(3),
 .rolltemplate-atk .adv:nth-child(3),
 .rolltemplate-atkdmg .adv:nth-child(3),
-.rolltemplate-dmg .adv:nth-child(3)
-{
+.rolltemplate-dmg .adv:nth-child(3) {
   margin-right: 8px;
   margin-left: -3px;
 }
@@ -1904,8 +1823,7 @@ span.spellconcentration
 .rolltemplate-atkdmg .adv span,
 .rolltemplate-atkdmg .solo span,
 .rolltemplate-dmg .adv span,
-.rolltemplate-dmg .solo span
-{
+.rolltemplate-dmg .solo span {
   width: 30px;
   font-size: 20px;
   background-color: transparent;
@@ -1916,8 +1834,7 @@ span.spellconcentration
 .rolltemplate-simple .advspacer,
 .rolltemplate-atk .advspacer,
 .rolltemplate-atkdmg .advspacer,
-.rolltemplate-dmg .advspacer
-{
+.rolltemplate-dmg .advspacer {
   width: 0px;
   border: 1px solid black;
   display: inline-block;
@@ -1927,8 +1844,7 @@ span.spellconcentration
 .rolltemplate-simple .solo,
 .rolltemplate-atk .solo,
 .rolltemplate-atkdmg .solo,
-.rolltemplate-dmg .solo
-{
+.rolltemplate-dmg .solo {
   width: 100%;
   text-align: center;
   height: 23px;
@@ -1939,8 +1855,7 @@ span.spellconcentration
 .rolltemplate-atk span,
 .rolltemplate-atkdmg span,
 .rolltemplate-dmg span,
-.rolltemplate-desc span
-{
+.rolltemplate-desc span {
   font-size: 12px;
   line-height: 12px;
   text-align: center;
@@ -1948,8 +1863,7 @@ span.spellconcentration
 }
 
 .rolltemplate-dmg .desc span.plus,
-.rolltemplate-atkdmg .desc span.plus
-{
+.rolltemplate-atkdmg .desc span.plus {
   font-weight: bold;
   font-size: 20px;
   display: inline;
@@ -1986,8 +1900,7 @@ span.spellconcentration
 .rolltemplate-npcatk .grey,
 .rolltemplate-npcatk .grey .inlinerollresult.fullcrit,
 .rolltemplate-npcatk .grey .inlinerollresult.fullfail,
-.rolltemplate-npcatk .grey .inlinerollresult.importantroll
-{
+.rolltemplate-npcatk .grey .inlinerollresult.importantroll {
   color: #A0A0A0;
   border: 0px;
   font-weight: normal;
@@ -1996,8 +1909,7 @@ span.spellconcentration
 .rolltemplate-simple .label,
 .rolltemplate-atk .label,
 .rolltemplate-atkdmg .label,
-.rolltemplate-dmg .label
-{
+.rolltemplate-dmg .label {
   text-align: center;
   margin-top: -3px;
   padding-bottom: 5px;
@@ -2006,8 +1918,7 @@ span.spellconcentration
 .rolltemplate-simple .label span span,
 .rolltemplate-atk .label span span,
 .rolltemplate-atkdmg .label span span,
-.rolltemplate-dmg .label span span
-{
+.rolltemplate-dmg .label span span {
   padding: 0px;
   border: 0px;
   background-color: transparent;
@@ -2017,8 +1928,7 @@ span.spellconcentration
 .rolltemplate-simple .inlinerollresult.fullcrit,
 .rolltemplate-atk .inlinerollresult.fullcrit,
 .rolltemplate-atkdmg .inlinerollresult.fullcrit,
-.rolltemplate-dmg .inlinerollresult.fullcrit
-{
+.rolltemplate-dmg .inlinerollresult.fullcrit {
   color: #3FB315;
   border: 0px;
 }
@@ -2026,8 +1936,7 @@ span.spellconcentration
 .rolltemplate-simple .inlinerollresult.fullfail,
 .rolltemplate-atk .inlinerollresult.fullfail,
 .rolltemplate-atkdmg .inlinerollresult.fullfail,
-.rolltemplate-dmg .inlinerollresult.fullfail
-{
+.rolltemplate-dmg .inlinerollresult.fullfail {
   color: #B31515;
   border: 0px;
 }
@@ -2035,16 +1944,14 @@ span.spellconcentration
 .rolltemplate-simple .inlinerollresult.importantroll,
 .rolltemplate-atk .inlinerollresult.importantroll,
 .rolltemplate-atkdmg .inlinerollresult.importantroll,
-.rolltemplate-dmg .inlinerollresult.importantroll
-{
+.rolltemplate-dmg .inlinerollresult.importantroll {
   color: #4A57ED;
   border: 0px;
 }
 
 .rolltemplate-atk .damage,
 .rolltemplate-atkdmg .damage,
-.rolltemplate-dmg .damage
-{
+.rolltemplate-dmg .damage {
   text-align: center;
   margin-top: -5px;
 }
@@ -2075,16 +1982,14 @@ span.spellconcentration
 .rolltemplate-mancerroll .inlinerollresult.fullfail,
 .rolltemplate-mancerhproll .inlinerollresult.fullcrit,
 .rolltemplate-mancerhproll .inlinerollresult.importantroll,
-.rolltemplate-mancerhproll .inlinerollresult.fullfail
-{
+.rolltemplate-mancerhproll .inlinerollresult.fullfail {
   color: black;
   border: 0px;
 }
 
 .rolltemplate-atk .save .savedc,
 .rolltemplate-dmg .save .savedc,
-.rolltemplate-atkdmg .save .savedc
-{
+.rolltemplate-atkdmg .save .savedc {
   padding-bottom: 5px;
   padding-top: 15px;
   text-align: center;
@@ -2092,23 +1997,20 @@ span.spellconcentration
 
 .rolltemplate-atk .save .savedc span,
 .rolltemplate-dmg .save .savedc span,
-.rolltemplate-atkdmg .save .savedc span
-{
+.rolltemplate-atkdmg .save .savedc span {
   font-size: 15px;
   font-weight: bold;
 }
 
 .rolltemplate-atk .save .label span,
 .rolltemplate-dmg .save .label span,
-.rolltemplate-atkdmg .save .label span
-{
+.rolltemplate-atkdmg .save .label span {
   font-weight: bold;
 }
 
 .rolltemplate-atk .save .inlinerollresult,
 .rolltemplate-dmg .save .inlinerollresult,
-.rolltemplate-atkdmg .save .inlinerollresult
-{
+.rolltemplate-atkdmg .save .inlinerollresult {
   background-color: transparent;
   border: 0px;
   padding: 0px;
@@ -2120,8 +2022,7 @@ span.spellconcentration
 .rolltemplate-atkdmg .desc .inlinerollresult,
 .rolltemplate-atk .desc .inlinerollresult,
 .rolltemplate-mancerroll .inlinerollresult,
-.rolltemplate-mancerhproll .inlinerollresult
-{
+.rolltemplate-mancerhproll .inlinerollresult {
   background-color: transparent;
   border: 0px;
   display: inline-block;
@@ -2138,8 +2039,7 @@ span.spellconcentration
 
 .rolltemplate-atk .save span,
 .rolltemplate-dmg .save span,
-.rolltemplate-atkdmg .save span
-{
+.rolltemplate-atkdmg .save span {
   font-weight: normal;
   line-height: 12px;
   display: block;
@@ -2147,16 +2047,14 @@ span.spellconcentration
 
 .rolltemplate-atk .save span.bold,
 .rolltemplate-dmg .save span.bold,
-.rolltemplate-atkdmg .save span.bold
-{
+.rolltemplate-atkdmg .save span.bold {
   font-weight: bold;
   display: inline-block;
 }
 
 .rolltemplate-atk .sublabel,
 .rolltemplate-atkdmg .sublabel,
-.rolltemplate-dmg .sublabel
-{
+.rolltemplate-dmg .sublabel {
   text-align: center;
   font-style: italic;
   margin-top: -2px;
@@ -2165,8 +2063,7 @@ span.spellconcentration
 
 .rolltemplate-atk .descold,
 .rolltemplate-atkdmg .descold,
-.rolltemplate-dmg .descold
-{
+.rolltemplate-dmg .descold {
   width: 189px;
   background: url(http://i.imgur.com/4988JS0.png) top left;
   background-size: 189px 100%;
@@ -2180,8 +2077,7 @@ span.spellconcentration
 .rolltemplate-atk .desc,
 .rolltemplate-atkdmg .desc,
 .rolltemplate-dmg .desc,
-.rolltemplate-desc .desc
-{
+.rolltemplate-desc .desc {
   width: 189px;
   border: 1px solid black;
   color: black;
@@ -2194,8 +2090,7 @@ span.spellconcentration
 .rolltemplate-atk .desc span,
 .rolltemplate-atkdmg .desc span,
 .rolltemplate-dmg .desc span,
-.rolltemplate-desc .desc span
-{
+.rolltemplate-desc .desc span {
   font-weight: normal;
   line-height: 12px;
   display: block;
@@ -2203,16 +2098,14 @@ span.spellconcentration
 
 .rolltemplate-atk .info span,
 .rolltemplate-atkdmg .info span,
-.rolltemplate-dmg .info span
-{
+.rolltemplate-dmg .info span {
   text-align: left;
   padding: 0px 5px 0px 5px;
 }
 
 .rolltemplate-atk .info .inlinerollresult,
 .rolltemplate-atkdmg .info .inlinerollresult,
-.rolltemplate-dmg .info .inlinerollresult
-{
+.rolltemplate-dmg .info .inlinerollresult {
   font-size: inherit;
   padding: 0px;
 }
@@ -2220,8 +2113,7 @@ span.spellconcentration
 .rolltemplate-atkdmg .damagetemplate .sublabel,
 .rolltemplate-dmg .damagetemplate .sublabel,
 .rolltemplate-atkdmg .desc .sublabel,
-.rolltemplate-dmg .desc .sublabel
-{
+.rolltemplate-dmg .desc .sublabel {
   display: block;
   width: 100%;
   font-size: 10px;
@@ -2232,16 +2124,14 @@ span.spellconcentration
 
 .rolltemplate-atk .sublabel span,
 .rolltemplate-atkdmg .sublabel span,
-.rolltemplate-dmg .sublabel span,
-{
+.rolltemplate-dmg .sublabel span, {
   font-weight: normal;
   color: black;
 }
 
 .rolltemplate-atk .spacer,
 .rolltemplate-atkdmg .spacer,
-.rolltemplate-dmg .spacer
-{
+.rolltemplate-dmg .spacer {
   height: 10px;
 }
 
@@ -2291,14 +2181,12 @@ span.spellconcentration
 }
 
 .rolltemplate-spell .italics,
-.npc .italics
-{
+.npc .italics {
   font-style: italic;
 }
 
 .rolltemplate-spell .bold,
-.actions .bold
-{
+.actions .bold {
   font-weight: bold;
 }
 
@@ -2370,13 +2258,11 @@ span.spellconcentration
 
 .red,
 .npc .display .red input,
-.npc .display .red span
-{
+.npc .display .red span {
   color: rgb(126, 45, 64);
 }
 
-.npc .npc_options input
-{
+.npc .npc_options input {
   border-bottom: 1px solid #D3D3D3;
   border-top: 0px;
   border-left: 0px;
@@ -2394,8 +2280,7 @@ span.spellconcentration
   padding: 0px;
 }
 
-.npc .npc_options span
-{
+.npc .npc_options span {
   display: inline-block;
   font-size: 9px;
   line-height: 12px;
@@ -2443,8 +2328,7 @@ span.spellconcentration
 }
 
 .npc .display input,
-.npc .reaction input
-{
+.npc .reaction input {
   border: none;
   background: none;
   box-shadow: none;
@@ -2506,8 +2390,7 @@ span.spellconcentration
   content: " XP)";
 }
 
-.npc .display span.npc-init-die
-{
+.npc .display span.npc-init-die {
   font-family: "dicefontd20";
   font-size: 16px;
   display: block;
@@ -2555,13 +2438,11 @@ span.spellconcentration
 .npc .display .flag[value="0"] + div,
 .npc .display .flag[value=""] + button,
 .npc .display .flag[value=""] + div,
-.npc .display .status
-{
+.npc .display .status {
   display: none;
 }
 
-.npc .display .flag[value]:not([value=""]) + div,
-{
+.npc .display .flag[value]:not([value=""]) + div, {
   display: block;
 }
 
@@ -2581,15 +2462,13 @@ span.spellconcentration
   line-height: 16px;
 }
 
-.npc button[type=roll]
-{
+.npc button[type=roll] {
   width: auto;
   white-space: nowrap;
 }
 
 .npc .saving button[type=roll] span,
-.npc .skills button[type=roll] span,
-{
+.npc .skills button[type=roll] span, {
   font-size: 13px;
   font-weight: normal;
   width: auto;
@@ -2600,8 +2479,7 @@ span.spellconcentration
 }
 
 .npc .display .flag[value="1"] + button .spacer,
-.npc .display .flag[value="2"] + button .spacer,
-{
+.npc .display .flag[value="2"] + button .spacer, {
   display: none;
 }
 
@@ -2611,19 +2489,16 @@ span.spellconcentration
 }
 
 .npc .display .flag[value="1"] + button .stat::before,
-.npc .display .flag[value="2"] + button .stat::before
-{
+.npc .display .flag[value="2"] + button .stat::before {
   content: "+";
 }
 
 .npc .display .flag[value="1"] + button .stat::after,
-.npc .display .flag[value="3"] + button .stat::after
-{
+.npc .display .flag[value="3"] + button .stat::after {
   content: ", ";
 }
 
-.negativeflag[value="1"] + .npcattr::before,
-{
+.negativeflag[value="1"] + .npcattr::before, {
   content: "(";
 }
 
@@ -2640,15 +2515,12 @@ span.spellconcentration
 }
 
 .npc .display .traits .trait,
-.npc .reaction .trait
-{
+.npc .reaction .trait {
   position: relative;
 }
 
 .npc .display .traits input,
-.npc .reaction input
-
-{
+.npc .reaction input {
   pointer-events: initial;
   font-weight: bold;
   width: 100%;
@@ -2656,8 +2528,7 @@ span.spellconcentration
 
 .npc .display .traits textarea,
 .npc .reaction textarea,
-.attack textarea
-{
+.attack textarea {
   resize: vertical;
   height: 36px;
   min-height: 36px;
@@ -2686,8 +2557,7 @@ span.spellconcentration
 }
 
 .npc .description_flag[value="0"] + textarea,
-.npc .description_flag[value=""] + textarea
-{
+.npc .description_flag[value=""] + textarea {
   display: none;
   height: 36px;
   min-height: 36px;
@@ -2698,8 +2568,7 @@ span.spellconcentration
 }
 
 .npc .attack_options[value="on"] ~ .attack_option,
-.npc .attack_options[value="{{attack=1}}"] ~ .attack_option
-{
+.npc .attack_options[value="{{attack=1}}"] ~ .attack_option {
   display: block;
 }
 
@@ -2758,8 +2627,7 @@ span.spellconcentration
 }
 
 .npc .action .display textarea,
-.legendaryactions
-{
+.legendaryactions {
   border: none;
   margin-bottom: 0px;
   padding: 0px;
@@ -2786,20 +2654,17 @@ span.spellconcentration
 .container.npc .legendary,
 .container.npc .reaction,
 .npcspell_flag[value="0"] ~ .npcspell,
-.npcspellcastingflag:not(:checked) ~ .npcspelloptions
-{
+.npcspellcastingflag:not(:checked) ~ .npcspelloptions {
   display: none;
 }
 
 .legendary_flag:not([value="0"]) ~ .legendary,
-.reaction_flag[value="1"] ~ .reaction
-{
+.reaction_flag[value="1"] ~ .reaction {
   display: block;
 }
 
 .npc .action textarea,
-.pc .globalattack textarea
-{
+.pc .globalattack textarea {
   resize: vertical;
 }
 
@@ -2807,16 +2672,14 @@ span.spellconcentration
 .rolltemplate-npcaction .container,
 .rolltemplate-npcatk,
 .rolltemplate-npcdmg,
-.rolltemplate-traits
-{
+.rolltemplate-traits {
   width: 188px;
   border: 1px solid;
   background-color: #ffffff;
   padding: 5px;
 }
 
-.rolltemplate-npcaction .container.dmgcontainer
-{
+.rolltemplate-npcaction .container.dmgcontainer {
   margin-top: 5px;
 }
 
@@ -2827,8 +2690,7 @@ span.spellconcentration
 .rolltemplate-npc .header,
 .rolltemplate-npcaction .header,
 .rolltemplate-npcatk .header,
-.rolltemplate-npcdmg .header
-{
+.rolltemplate-npcdmg .header {
   color: rgb(126, 45, 64);
   font-size: 18px;
   text-align: left;
@@ -2849,22 +2711,19 @@ span.spellconcentration
 .rolltemplate-npcaction .italics,
 .rolltemplate-npcatk .italics,
 .rolltemplate-npcdmg .italics,
-.rolltemplate-traits .italics
-{
+.rolltemplate-traits .italics {
   font-style: italic;
 }
 
 .rolltemplate-npc .subheader,
 .rolltemplate-npcaction .subheader,
 .rolltemplate-npcatk .subheader,
-.rolltemplate-npcdmg .subheader
-{
+.rolltemplate-npcdmg .subheader {
   line-height: 13px;
   margin-top: -3px;
 }
 
-.rolltemplate-traits .subheader
-{
+.rolltemplate-traits .subheader {
   font-style: italic;
   color: #A0A0A0;
   margin-top: -5px;
@@ -2873,8 +2732,7 @@ span.spellconcentration
 .rolltemplate-npc .subheader span,
 .rolltemplate-npcaction .subheader span,
 .rolltemplate-npcatk .subheader span,
-.rolltemplate-npcdmg .subheader span
-{
+.rolltemplate-npcdmg .subheader span {
   font-size: 11px;
   line-height: 11px;
 }
@@ -2898,8 +2756,7 @@ span.spellconcentration
 .rolltemplate-npc .arrow-rightold,
 .rolltemplate-npcaction .arrow-rightold,
 .rolltemplate-npcatk .arrow-rightold,
-.rolltemplate-npcdmg .arrow-rightold
-{
+.rolltemplate-npcdmg .arrow-rightold {
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
   border-left: 195px solid rgb(126, 45, 64);
@@ -2908,8 +2765,7 @@ span.spellconcentration
 .rolltemplate-npc .arrow-right,
 .rolltemplate-npcaction .arrow-right,
 .rolltemplate-npcatk .arrow-right,
-.rolltemplate-npcdmg .arrow-right
-{
+.rolltemplate-npcdmg .arrow-right {
   border: 1px solid rgb(126, 45, 64);
   margin-bottom: 2px;
   margin-top: 2px;
@@ -2919,8 +2775,7 @@ span.spellconcentration
 .rolltemplate-npcaction .inlinerollresult,
 .rolltemplate-npcatk .inlinerollresult,
 .rolltemplate-npcdmg .inlinerollresult,
-.rolltemplate-traits .inlinerollresult
-{
+.rolltemplate-traits .inlinerollresult {
   background-color: #ffffff;
   border: none;
 }
@@ -2928,8 +2783,7 @@ span.spellconcentration
 .rolltemplate-npc .inlinerollresult.fullcrit,
 .rolltemplate-npcaction .inlinerollresult.fullcrit,
 .rolltemplate-npcatk .inlinerollresult.fullcrit,
-.rolltemplate-npcdmg .inlinerollresult.fullcrit
-{
+.rolltemplate-npcdmg .inlinerollresult.fullcrit {
   color: #3FB315;
   border: none;
 }
@@ -2937,8 +2791,7 @@ span.spellconcentration
 .rolltemplate-npc .inlinerollresult.fullfail,
 .rolltemplate-npcaction .inlinerollresult.fullfail,
 .rolltemplate-npcatk .inlinerollresult.fullfail,
-.rolltemplate-npcdmg .inlinerollresult.fullfail
-{
+.rolltemplate-npcdmg .inlinerollresult.fullfail {
   color: #B31515;
   border: none;
 }
@@ -2946,8 +2799,7 @@ span.spellconcentration
 .rolltemplate-npc .inlinerollresult.importantroll,
 .rolltemplate-npcaction .inlinerollresult.importantroll,
 .rolltemplate-npcatk .inlinerollresult.importantroll,
-.rolltemplate-npcdmg .inlinerollresult.importantroll
-{
+.rolltemplate-npcdmg .inlinerollresult.importantroll {
   color: #4A57ED;
   border: none;
 }
@@ -2972,8 +2824,7 @@ span.spellconcentration
 .proficiencies .complex,
 .proficiencies .simple,
 .traits .complex,
-.traits .simple,
-{
+.traits .simple, {
   display: none;
 }
 
@@ -2982,13 +2833,11 @@ span.spellconcentration
 .proficiencies .inventoryflag[value="complex"] ~ .complex,
 .proficiencies .inventoryflag[value="simple"] ~ .simple,
 .traits .inventoryflag[value="complex"] ~ .complex,
-.traits .inventoryflag[value="simple"] ~ .simple
-{
+.traits .inventoryflag[value="simple"] ~ .simple {
   display: inline-block;
 }
 
-.equipment .inventorysubflag
-{
+.equipment .inventorysubflag {
   height: 10px;
   width: 10px;
   top: 10px;
@@ -2996,8 +2845,7 @@ span.spellconcentration
 }
 
 
-.equipment .inventorysubflag + span
-{
+.equipment .inventorysubflag + span {
   height: 10px;
   width: 10px;
   top: 10px;
@@ -3014,8 +2862,7 @@ span.spellconcentration
 }
 
 .proficiencies .complex,
-.traits .complex
-{
+.traits .complex {
   width: 240px;
   vertical-align: top;
   padding-top: 5px;
@@ -3077,8 +2924,7 @@ span.spellconcentration
 }
 
 .equipment .warning,
-.charactermancer_options .warning
-{
+.charactermancer_options .warning {
   display: none;
   padding: 6px;
   border: 1px solid gray;
@@ -3086,8 +2932,7 @@ span.spellconcentration
 }
 
 .equipment .warning label,
-.charactermancer_options .warning label
-{
+.charactermancer_options .warning label {
   font-family: pictos;
   border: 1px solid gray;
   font-size: 8px;
@@ -3101,26 +2946,22 @@ span.spellconcentration
 }
 
 .equipment .warning label input,
-.charactermancer_options .warning label input
-{
+.charactermancer_options .warning label input {
   display: none;
 }
 
 .equipment .warningflag[value="show"] + .warning,
-.charactermancer_options .warningflag[value="show"] + .warning
-{
+.charactermancer_options .warningflag[value="show"] + .warning {
   display: block;
 }
 
 .equipment .warning span,
 .charactermancer_options .warning span,
-.equipment .encumb
-{
+.equipment .encumb {
   color: red;
 }
 
-.equipment .encumb
-{
+.equipment .encumb {
   display: none;
   font-size: 9px;
 }
@@ -3133,14 +2974,12 @@ span.spellconcentration
 .equipment .encumberance[value="IMMOBILE"] ~ .immobile,
 .equipment .encumberance[value="HEAVILY ENCUMBERED"] ~ .heavily,
 .equipment .encumberance[value="ENCUMBERED"] ~ .encumbered,
-.equipment .encumberance[value="OVER CARRYING CAPACITY"] ~ .over
-{
+.equipment .encumberance[value="OVER CARRYING CAPACITY"] ~ .over {
   display: block;
 }
 
 .equipment .warning input[type="checkbox"],
-.charactermancer_options .warning input[type="checkbox"]
-{
+.charactermancer_options .warning input[type="checkbox"] {
   -webkit-appearance: checkbox;
   -moz-appearance: checkbox;
   width: auto;
@@ -3180,8 +3019,7 @@ span.spellconcentration
 }
 
 .charsheet .spells .spellattackinfoflag[value="ATTACK"] ~ .spellattackinfo,
-.charsheet .npc .spellattackinfoflag[value="ATTACK"] ~ .spellattackinfo,
-{
+.charsheet .npc .spellattackinfoflag[value="ATTACK"] ~ .spellattackinfo, {
   display: block;
 }
 
@@ -3197,8 +3035,7 @@ span.spellconcentration
 .rolltemplate-simple .charname,
 .rolltemplate-atk .charname,
 .rolltemplate-dmg .charname,
-.rolltemplate-atkdmg .charname
-{
+.rolltemplate-atkdmg .charname {
   text-align: center;
   margin-top: -10px;
 }
@@ -3206,8 +3043,7 @@ span.spellconcentration
 .rolltemplate-simple .charname span,
 .rolltemplate-atk .charname span,
 .rolltemplate-dmg .charname span,
-.rolltemplate-atkdmg .charname span
-{
+.rolltemplate-atkdmg .charname span {
   font-size: 11px;
   font-weight: normal;
   color: #A0A0A0;
@@ -3296,8 +3132,7 @@ span.spellconcentration
 }
 
 .attr-mod:hover .baseattr,
-.attr-mod .baseattr:focus
-{
+.attr-mod .baseattr:focus {
   /*display: inline;*/
   opacity: 1;
   height: 20px;
@@ -3307,18 +3142,15 @@ span.spellconcentration
 }
 
 .attr-mod:hover .finalattr,
-.attr-mod .baseattr:focus ~ .finalattr
-{
+.attr-mod .baseattr:focus ~ .finalattr {
   display: none;
 }
 
-.attr-mod .attr-flag[value="1"] + .finalattr
-{
+.attr-mod .attr-flag[value="1"] + .finalattr {
   color: #3e99e8;
 }
 
-.attr-mod .attr-flag[value="1"] + .finalattr:after
-{
+.attr-mod .attr-flag[value="1"] + .finalattr:after {
   content: '*';
   font-size: 15px;
   position: absolute;
@@ -3335,8 +3167,7 @@ span.spellconcentration
 
 .licensecontainer.active-drop-target.dropping,
 .monster_confirm_flag[value="1"] ~ .licensecontainer,
-.mancer_confirm_flag[value="1"] ~ .licensecontainer
-{
+.mancer_confirm_flag[value="1"] ~ .licensecontainer {
   opacity: 0.5;
   transition: opacity .15s ease-in-out;
   -moz-transition: opacity .15s ease-in-out;
@@ -3346,15 +3177,13 @@ span.spellconcentration
 
 .compendium_warning,
 .monster_confirm,
-.mancer_confirm
-{
+.mancer_confirm {
   display: none;
 }
 
 .licensecontainer.active-drop-target.dropping ~ .compendium_warning,
 .monster_confirm_flag[value="1"] ~ .monster_confirm,
-.mancer_confirm_flag[value="1"] ~ .mancer_confirm
-{
+.mancer_confirm_flag[value="1"] ~ .mancer_confirm {
   display: block;
   position: fixed;
   top: 50%;
@@ -3393,8 +3222,7 @@ span.spellconcentration
   border: 1px solid black;
 }
 
-.mancer_confirm_flag[value="1"] ~ .mancer_confirm
-{
+.mancer_confirm_flag[value="1"] ~ .mancer_confirm {
   width: 350px;
   margin: -70px 0 0 -195px;
 }
@@ -3456,8 +3284,7 @@ span.spellconcentration
 .attribute_options,
 .save_options,
 .general_options,
-.transition_options
-{
+.transition_options {
   border: 1px solid #666;
   border-radius: 5px;
   padding: 5px;
@@ -3522,14 +3349,12 @@ span.spellconcentration
 
 .missing-info-flag[value="1"] + .missing-info,
 .missing-info:hover .missing-info-desc,
-.missing-info-desc:hover
-{
+.missing-info-desc:hover {
   display: block;
 }
 
 .actions.npcspell.spells,
-.missing-info-desc
-{
+.missing-info-desc {
   display: none;
 }
 
@@ -4880,8 +4705,7 @@ div.globaldisplay span {
 
 .charmancer .lock-custom-class[value="1"] ~ .class1_container input,
 .charmancer .lock-custom-class[value="1"] ~ .class1_container select,
-.charmancer .lock-custom-class[value="1"] ~ .class1_container button
-{
+.charmancer .lock-custom-class[value="1"] ~ .class1_container button {
   background-color: #f5f5f5 !important;
   color: #888888 !important;
   cursor: not-allowed !important;
@@ -4889,8 +4713,7 @@ div.globaldisplay span {
 
 .charmancer .custom_warning,
 .charmancer .lock-custom-class[value="1"] ~ .class1_container .class_features_container,
-.charmancer .lock-custom-class[value="1"] ~ .class1_container .subclass_features_container
-{
+.charmancer .lock-custom-class[value="1"] ~ .class1_container .subclass_features_container {
   display: none;
 }
 
