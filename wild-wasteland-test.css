@@ -562,7 +562,7 @@ button[type=roll] * {
 
 .saving-throw-container,
 .skills-container {
-  width: 165px;
+  width: 100%;
   border: 1px solid #666;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -578,8 +578,6 @@ button[type=roll] * {
 .saving-throw input[type=checkbox],
 .skill input[type=checkbox] {
   margin-left: 5px;
-  -webkit-appearance: checkbox;
-  box-sizing: border-box;
 }
 
 .saving-throw input[type=text],
@@ -1193,7 +1191,7 @@ button[type=roll] * {
 
 .header .options-flag:checked ~ .options {
   min-height: 74px;
-  width: calc(100% - 10px);
+  /* width: calc(100% - 10px); */
   vertical-align: top;
   display: inline-block;
 }
