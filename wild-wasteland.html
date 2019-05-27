@@ -302,29 +302,159 @@ $$ |      \$$$$$$  |      \$$$$$$  | $$$$$$  |$$ | \$$ |   $$ |   $$ |  $$ |$$$$
                   <span data-i18n="skills-u">SKILLS</span>
                 </div>
               </div>
-              <div class="textbox-container proficiencies">
-                <input type="hidden" class="inventoryflag" name="attr_simpleproficencies" value="complex">
-                <textarea class="sheet-simple" name="attr_other_proficiencies_and_languages" style="min-height: 150px; height: 100px;"></textarea>
-                <div class="complex">
-                  <fieldset class="repeating_proficiencies">
-                    <div class="proficiency">
-                      <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+              <div class="saving-throw-container">
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_strength_save_prof" title="@{strength_save_prof}" value="(@{pb})">
+                  <span name="attr_strength_save_bonus" title="@{strength_save_bonus}">0</span>
+                  <button type="roll" name="roll_strength_save"
+                    value="@{wtype}&{template:simple} {{rname=^{strength-save-u}}} {{mod=@{strength_save_bonus}}} {{r1=[[@{d20}+@{strength_save_bonus}@{pbd_safe}]]}} @{rtype}+@{strength_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="strength">Strength</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_perception_save_prof" title="@{perception_save_prof}" value="(@{pb})">
+                  <span name="attr_perception_save_bonus" title="@{perception_save_bonus}">0</span>
+                  <button type="roll" name="roll_perception_save"
+                    value="@{wtype}&{template:simple} {{rname=^{perception-save-u}}} {{mod=@{perception_save_bonus}}} {{r1=[[@{d20}+@{perception_save_bonus}@{pbd_safe}]]}} @{rtype}+@{perception_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="perception">Perception</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_endurance_save_prof" title="@{endurance_save_prof}" value="(@{pb})">
+                  <span name="attr_endurance_save_bonus" title="@{endurance_save_bonus}">0</span>
+                  <button type="roll" name="roll_endurance_save"
+                    value="@{wtype}&{template:simple} {{rname=^{endurance-save-u}}} {{mod=@{endurance_save_bonus}}} {{r1=[[@{d20}+@{endurance_save_bonus}@{pbd_safe}]]}} @{rtype}+@{endurance_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="endurance">Endurance</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_charisma_save_prof" title="@{charisma_save_prof}" value="(@{pb})">
+                  <span name="attr_charisma_save_bonus" title="@{charisma_save_bonus}">0</span>
+                  <button type="roll" name="roll_charisma_save"
+                    value="@{wtype}&{template:simple} {{rname=^{charisma-save-u}}} {{mod=@{charisma_save_bonus}}} {{r1=[[@{d20}+@{charisma_save_bonus}@{pbd_safe}]]}} @{rtype}+@{charisma_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="charisma">Charisma</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_intelligence_save_prof" title="@{intelligence_save_prof}" value="(@{pb})">
+                  <span name="attr_intelligence_save_bonus" title="@{intelligence_save_bonus}">0</span>
+                  <button type="roll" name="roll_intelligence_save"
+                    value="@{wtype}&{template:simple} {{rname=^{intelligence-save-u}}} {{mod=@{intelligence_save_bonus}}} {{r1=[[@{d20}+@{intelligence_save_bonus}@{pbd_safe}]]}} @{rtype}+@{intelligence_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="intelligence">Intelligence</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_agility_save_prof" title="@{agility_save_prof}" value="(@{pb})">
+                  <span name="attr_agility_save_bonus" title="@{agility_save_bonus}">0</span>
+                  <button type="roll" name="roll_agility_save"
+                    value="@{wtype}&{template:simple} {{rname=^{agility-save-u}}} {{mod=@{agility_save_bonus}}} {{r1=[[@{d20}+@{agility_save_bonus}@{pbd_safe}]]}} @{rtype}+@{agility_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="agility">Agility</button>
+                </div>
+                <div class="saving-throw">
+                  <input type="checkbox" name="attr_luck_save_prof" title="@{luck_save_prof}" value="(@{pb})">
+                  <span name="attr_luck_save_bonus" title="@{luck_save_bonus}">0</span>
+                  <button type="roll" name="roll_luck_save"
+                    value="@{wtype}&{template:simple} {{rname=^{luck-save-u}}} {{mod=@{luck_save_bonus}}} {{r1=[[@{d20}+@{luck_save_bonus}@{pbd_safe}]]}} @{rtype}+@{luck_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    data-i18n="luck">Luck</button>
+                </div>
+                <input type="hidden" class="toggleflag" name="attr_global_save_mod_flag">
+                <div class="hidden textarea globalattack">
+                  <span class="label" data-i18n="global-save-u" style="position: relative; padding-bottom: 5px;">GLOBAL SAVE MODIFIER</span>
+                  <fieldset class="repeating_savemod">
+                    <div class="global-mod">
+                      <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
+                      <input type="checkbox" name="attr_global_save_active_flag" value="1" class="active-flag">
                       <div class="options">
-                        <div class="row" style="margin-bottom: 3px;">
-                          <span data-i18n="proficency-u">SKILL</span><span>:</span>
-                          <input type="text" name="attr_name" style="width: 125px;" placeholder="Slight of hand">
+                        <div class="row">
+                          <span data-i18n="name:-u">NAME:</span>
+                          <input type="text" name="attr_global_save_name" value="" placeholder="Bless" style="width:75px">
+                        </div>
+                        <div class="row">
+                          <span data-i18n="roll:-u">ROLL:</span>
+                          <input type="text" name="attr_global_save_roll" value="" placeholder="1d4" style="width:75px">
                         </div>
                       </div>
-                      <div class="display" style="margin-bottom: 2px;">
-                        <button type="roll" name="roll_output" value="@{wtype}&{template:traits} @{charname_output} {{name=@{prof_type} PROFICIENCY}} {{description=@{name}}}">
-                          <span name="attr_name" style="width: 125px;"></span>
-                        </button>
+                      <div class="globaldisplay" style="width: 75%">
+                        <span name="attr_global_save_roll"></span>
+                        [<span name="attr_global_save_name"></span>]
                       </div>
                     </div>
                   </fieldset>
                 </div>
                 <div class="label">
-                  <span style="margin-top: -10px;" data-i18n="other-prof-langs-u">OTHER SKILLS</span>
+                  <span data-i18n="saving-throws-u">SAVING THROWS</span>
+                </div>
+              </div>
+              <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 100px; position: relative;">
+                <div class="top">
+                  <span class="label" style="width: 106px;" data-i18n="tool-u">SKILL</span>
+                  <span class="label" style="width: 35px;" data-i18n="pro-u">PRO</span>
+                  <span class="label" style="width: 50px;" data-i18n="attr-u">ATTRIBUTE</span>
+                </div>
+                <fieldset class="repeating_tool">
+                  <div class="tool">
+                    <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                    <div class="options">
+                      <div class="row">
+                        <span data-i18n="name:-u">NAME:</span>
+                        <input type="text" name="attr_toolname" style="width: 120px;">
+                      </div>
+                      <div class="row">
+                        <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
+                        <select name="attr_toolbonus_base">
+                          <option value="(@{pb})" selected="selected" data-i18n="prof-u">PROFICIENT</option>
+                          <option value="(@{pb}*2)" data-i18n="expertise-u">EXPERTISE</option>
+                          <option value="(floor(@{pb}/2))" data-i18n="jack-of-all-u">JACK OF ALL TRADES</option>
+                        </select>
+                      </div>
+                      <div class="row">
+                        <span data-i18n="attr:-u">ATTRIBUTE:</span>
+                        <select name="attr_toolattr_base">
+                          <option value="@{strength_mod}" selected="selected" data-i18n="strength-u">STRENGTH</option>
+                          <option value="@{dexterity_mod}" data-i18n="dexterity-u">DEXTERITY</option>
+                          <option value="@{constitution_mod}" data-i18n="constitution-u">CONSTITUTION</option>
+                          <option value="@{intelligence_mod}" data-i18n="intelligence-u">INTELLIGENCE</option>
+                          <option value="@{wisdom_mod}" data-i18n="wisdom-u">WISDOM</option>
+                          <option value="@{charisma_mod}" data-i18n="charisma-u">CHARISMA</option>
+                          <option value="?{Attribute?|Strength,@{strength_mod}|Dexterity,@{dexterity_mod}|Constitution,@{constitution_mod}|Intelligence,@{intelligence_mod}|Wisdom,@{wisdom_mod}|Charisma,@{charisma_mod}}" data-i18n="query-attr-u">QUERY
+                            ATTRIBUTE</option>
+                        </select>
+                        <span data-i18n="mods:-u">MODS:</span>
+                        <input type="text" class="num" name="attr_tool_mod" title="@{tool_mod}" value="0">
+                      </div>
+                    </div>
+                    <div class="display">
+                      <button type="roll" name="roll_tool"
+                        value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}@{pbd_safe}]]}} @{rtype}+@{toolbonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
+                        <span name="attr_toolname" style="width: 100px;"></span>
+                        <input type="text" name="attr_toolbonus_display" style="width: 40px; text-align: center;">
+                        <input type="hidden" name="attr_toolbonus">
+                        <input type="text" name="attr_toolattr" style="width: 80px;">
+                      </button>
+                    </div>
+                  </div>
+                </fieldset>
+                <input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
+                <div class="hidden textarea globalattack">
+                  <span class="label" data-i18n="global-skill-u">GLOBAL SKILL MODIFIER</span>
+                  <fieldset class="repeating_skillmod">
+                    <div class="global-mod">
+                      <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
+                      <input type="checkbox" name="attr_global_skill_active_flag" value="1" class="active-flag">
+                      <div class="options">
+                        <div class="row">
+                          <span data-i18n="name:-u">NAME:</span>
+                          <input type="text" name="attr_global_skill_name" value="" placeholder="Guidance">
+                        </div>
+                        <div class="row">
+                          <span data-i18n="roll:-u">ROLL:</span>
+                          <input type="text" name="attr_global_skill_roll" value="" placeholder="1d4">
+                        </div>
+                      </div>
+                      <div class="globaldisplay">
+                        <span name="attr_global_skill_roll"></span>
+                        [<span name="attr_global_skill_name"></span>]
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
+                  <span data-i18n="custom-skills-u" style="display: inline;">CUSTOM SKILLS</span>
                 </div>
               </div>
             </div>
