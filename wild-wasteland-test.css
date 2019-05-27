@@ -1,3 +1,8 @@
+.pc,
+.npc {
+  display: none;
+}
+
 .npc_toggle[value="0"] ~ .pc,
 .npc_toggle[value="1"] ~ .npc {
   display: block;
