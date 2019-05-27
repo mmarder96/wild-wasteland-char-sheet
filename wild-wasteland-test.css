@@ -318,7 +318,8 @@ input[type=radio].tab-button.spells + span {
   width: 482px;
   margin-left: -2px;
   display: inline-block;
-  border: 3px double #666;
+  border: 1.5px solid #666;
+  border-radius: 5px;
   padding: 5px;
   max-height: 74px;
 }
@@ -3253,7 +3254,7 @@ span.spellconcentration {
 
 .init span {
   font-size: 20px;
-  line-height: 31px;
+  line-height: 40px;
 }
 
 .class_options .subclass {
