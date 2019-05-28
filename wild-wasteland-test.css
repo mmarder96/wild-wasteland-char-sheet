@@ -573,7 +573,7 @@ button[type=roll] * {
 .saving-throw,
 .skill {
   width: 165px;
-  height: 18px;
+  height: 20px;
 }
 
 .saving-throw input[type=checkbox],
@@ -2878,7 +2878,7 @@ span.spellconcentration {
 }
 
 .item .name {
-  width: 100px;
+  width: 175px;
 }
 
 .item input[type="text"].weight {

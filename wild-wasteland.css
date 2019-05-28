@@ -573,7 +573,7 @@ button[type=roll] * {
 .sheet-saving-throw,
 .sheet-skill {
   width: 165px;
-  height: 18px;
+  height: 20px;
 }
 
 .sheet-saving-throw input[type=checkbox],
@@ -2881,7 +2881,7 @@ span.sheet-spellconcentration {
 }
 
 .sheet-item .sheet-name {
-  width: 100px;
+  width: 175px;
 }
 
 .sheet-item input[type="text"].sheet-weight {
