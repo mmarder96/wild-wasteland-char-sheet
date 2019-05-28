@@ -1020,10 +1020,10 @@
       | |   / ____ \| |__| || |____      | | / ____ \ | |_) | ____) |
       |_|  /_/    \_\\_____||______|     |_|/_/    \_\|____/ |_____/
       -->
-
+      
       <input class="tab-button core" type="radio" name="attr_tab" value="core" checked="checked"><span data-i18n="core-u">CORE</span>
       <input class="tab-button bio" type="radio" name="attr_tab" value="bio"><span data-i18n="bio-u">BIO</span>
-      <input class="tab-button spells" type="radio" name="attr_tab" value="spells"><span data-i18n="spells-u">SPELLS</span>
+      <!-- <input class="tab-button spells" type="radio" name="attr_tab" value="spells"><span data-i18n="spells-u">SPELLS</span> -->
       <input class="tab-button options" type="radio" name="attr_tab" value="options"><span style="font-family: pictos">y</span>
 
       <!--
@@ -1380,8 +1380,7 @@
             <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 150px; position: relative;">
               <div class="top">
                 <span class="label" style="width: 106px;" data-i18n="tool-u">SKILL</span>
-                <span class="label" style="width: 35px;" data-i18n="pro-u">PRO</span>
-                <span class="label" style="width: 50px;" data-i18n="attr-u">ATTRIBUTE</span>
+                <span class="label" style="width: 85px;" data-i18n="attr-u">ATTRIBUTE</span>
               </div>
               <fieldset class="repeating_tool">
                 <div class="tool">
@@ -1390,14 +1389,6 @@
                     <div class="row">
                       <span data-i18n="name:-u">NAME:</span>
                       <input type="text" name="attr_toolname" style="width: 120px;">
-                    </div>
-                    <div class="row">
-                      <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
-                      <select name="attr_toolbonus_base">
-                        <option value="(@{pb})" selected="selected" data-i18n="prof-u">PROFICIENT</option>
-                        <option value="(@{pb}*2)" data-i18n="expertise-u">EXPERTISE</option>
-                        <option value="(floor(@{pb}/2))" data-i18n="jack-of-all-u">JACK OF ALL TRADES</option>
-                      </select>
                     </div>
                     <div class="row">
                       <span data-i18n="attr:-u">ATTRIBUTE:</span>
@@ -1419,9 +1410,8 @@
                     <button type="roll" name="roll_tool"
                       value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}@{pbd_safe}]]}} @{rtype}+@{toolbonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
                       <span name="attr_toolname" style="width: 100px;"></span>
-                      <input type="text" name="attr_toolbonus_display" style="width: 40px; text-align: center;">
                       <input type="hidden" name="attr_toolbonus">
-                      <input type="text" name="attr_toolattr" style="width: 80px;">
+                      <input type="text" name="attr_toolattr" style="width: 120px;">
                     </button>
                   </div>
                 </div>
@@ -2040,7 +2030,7 @@
       |_____/  |_|      |______| |______| |______| |_____/
       -->
 
-      <div class="page spells">
+      <!-- <div class="page spells">
         <div class="header">
           <div class="name-container">
             <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
@@ -4159,7 +4149,7 @@
 
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!--
         ____    _____    _______   _____    ____    _   _    _____

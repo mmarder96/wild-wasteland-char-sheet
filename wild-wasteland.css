@@ -1498,10 +1498,6 @@ span.sheet-spellconcentration {
   background-color: #EFEFEF;
 }
 
-.sheet-resources .repcontrol {
-  margin-top: -10px;
-}
-
 .itemcontrol {
   z-index: 10;
 }
@@ -2906,9 +2902,8 @@ span.sheet-spellconcentration {
 }
 
 .sheet-equipment .sheet-weighttotal {
-  position: absolute;
-  left: 0px;
-  top: 160px;
+  position: relative;
+  left: 5px;
   width: 70px;
 }
 

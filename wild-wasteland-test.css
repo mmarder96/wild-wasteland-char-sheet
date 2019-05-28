@@ -1495,10 +1495,6 @@ span.spellconcentration {
   background-color: #EFEFEF;
 }
 
-.resources .repcontrol {
-  margin-top: -10px;
-}
-
 .itemcontrol {
   z-index: 10;
 }
@@ -2903,9 +2899,9 @@ span.spellconcentration {
 }
 
 .equipment .weighttotal {
-  position: absolute;
+  position: relative;
   left: 0px;
-  top: 160px;
+  /* top: 160px; */
   width: 70px;
 }
 
