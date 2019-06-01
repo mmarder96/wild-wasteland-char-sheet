@@ -197,13 +197,13 @@ input[type=radio].tab-button.options:checked ~ .page.options {
 
 input[type=radio].tab-button.core,
 input[type=radio].tab-button.core + span {
-  right: 116px;
+  right: 57px;
   width: 45px;
 }
 
 input[type=radio].tab-button.bio,
 input[type=radio].tab-button.bio + span {
-  right: 83px;
+  right: 22px;
   width: 30px;
 }
 
@@ -603,7 +603,6 @@ button[type=roll] * {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
-  display: inline-flex;
   vertical-align: middle;
 }
 

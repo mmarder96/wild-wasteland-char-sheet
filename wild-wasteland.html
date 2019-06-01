@@ -1020,7 +1020,7 @@
       | |   / ____ \| |__| || |____      | | / ____ \ | |_) | ____) |
       |_|  /_/    \_\\_____||______|     |_|/_/    \_\|____/ |_____/
       -->
-      
+
       <input class="tab-button core" type="radio" name="attr_tab" value="core" checked="checked"><span data-i18n="core-u">CORE</span>
       <input class="tab-button bio" type="radio" name="attr_tab" value="bio"><span data-i18n="bio-u">BIO</span>
       <!-- <input class="tab-button spells" type="radio" name="attr_tab" value="spells"><span data-i18n="spells-u">SPELLS</span> -->
@@ -1209,12 +1209,12 @@
                       value="@{wtype}&{template:simple} {{rname=^{barter-u}}} {{mod=@{barter_bonus}}} {{r1=[[@{d20}+@{barter_bonus}@{pbd_safe}]]}} @{rtype}+@{barter_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}"
                       data-i18n="barter-core">Barter <span>[CHA]</span></button>
                   </div>
-                  <div class="skill" data-i18n-list-item="energy_weapons">
+                  <div class="skill" data-i18n-list-item="energy-weapons">
                     <input type="checkbox" name="attr_energy_weapons_prof" title="@{energy_weapons_prof}" value="(@{pb}*@{energy_weapons_type})">
                     <span name='attr_energy_weapons_bonus' title='@{energy_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_energy_weapons'
-                      value='@{wtype}&{template:simple} {{rname=^{energy_weapons-u}}} {{mod=@{energy_weapons_bonus}}} {{r1=[[@{d20}+@{energy_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{energy_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                      data-i18n='energy_weapons-core'>Energy Weapons <span>[PER]</span></button>
+                      value='@{wtype}&{template:simple} {{rname=^{energy-weapons-u}}} {{mod=@{energy_weapons_bonus}}} {{r1=[[@{d20}+@{energy_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{energy_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      data-i18n='energy-weapons-core'>Energy Weapons <span>[PER]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="explosives">
                     <input type="checkbox" name="attr_explosives_prof" title="@{explosives_prof}" value="(@{pb}*@{explosives_type})">
@@ -1244,12 +1244,12 @@
                       value='@{wtype}&{template:simple} {{rname=^{medicine-u}}} {{mod=@{medicine_bonus}}} {{r1=[[@{d20}+@{medicine_bonus}@{pbd_safe}]]}} @{rtype}+@{medicine_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='medicine-core'>Medicine <span>[INT]</span></button>
                   </div>
-                  <div class="skill" data-i18n-list-item="melee_weapons">
+                  <div class="skill" data-i18n-list-item="melee-weapons">
                     <input type="checkbox" name="attr_melee_weapons_prof" title="@{melee_weapons_prof}" value="(@{pb}*@{melee_weapons_type})">
                     <span name='attr_melee_weapons_bonus' title='@{melee_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_melee_weapons'
                       value='@{wtype}&{template:simple} {{rname=^{melee_weapons-u}}} {{mod=@{melee_weapons_bonus}}} {{r1=[[@{d20}+@{melee_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{melee_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
-                      data-i18n='melee_weapons-core'>Melee Weapons <span>[STR]</span></button>
+                      data-i18n='melee-weapons-core'>Melee Weapons <span>[STR]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="repair">
                     <input type="checkbox" name="attr_repair_prof" title="@{repair_prof}" value="(@{pb}*@{repair_type})">
