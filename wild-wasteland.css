@@ -531,7 +531,7 @@ button[type=roll] * {
 .sheet-skill input[type=text],
 .sheet-ac-init-speed-container input,
 .sheet-hp input,
-.sheet-exhaustion input,
+.sheet-radiation input,
 .sheet-hdice-dsaves-container input[type=text],
 .sheet-hdice-dsaves-container input[type=number],
 .sheet-attacks input,
@@ -613,7 +613,7 @@ button[type=roll] * {
 .sheet-textbox-container .sheet-label span,
 .sheet-ac-init-speed-container span.sheet-label,
 .sheet-hp span,
-.sheet-exhaustion span.sheet-label,
+.sheet-radiation span.sheet-label,
 .sheet-hdice-dsaves-container span,
 .sheet-attacks span,
 .sheet-globalattack span,
@@ -651,31 +651,31 @@ button[type=roll] * {
   width: 3.5em;
 }
 
-.sheet-exhaustion div span.sheet-ex-description {
+.sheet-radiation div span.sheet-ex-description {
   font-size: 9px;
   line-height: 9px;
   text-align: left;
-  width: 116px;
+  width: 152px;
   display: block;
 }
 
-.sheet-exhaustion span.sheet-label {
+.sheet-radiation span.sheet-label {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
 
-.sheet-exhaustion div.sheet-ex-descriptions {
+.sheet-radiation div.sheet-ex-descriptions {
   display: inline-block;
   padding-top: 5px;
 }
 
-.sheet-exhaustion-toggle[value="0"] ~ .sheet-exhaustion, {
+.sheet-radiation-toggle[value="0"] ~ .sheet-radiation, {
   display: none;
 }
 
-.sheet-exhaustion input[type="number"] {
-  width: 116px;
+.sheet-radiation input[type="number"] {
+  width: 80px;
   display:inline-block;
   vertical-align: top;
 }
@@ -692,8 +692,7 @@ button[type=roll] * {
 .sheet-proficiencies {
   border: 1px solid #666;
   border-radius: 5px;
-  min-height: 200px
-  width: 100%;
+  width: calc(100% - 5px);
 }
 
 .sheet-tool_proficiencies,
@@ -709,7 +708,7 @@ button[type=roll] * {
 
 .sheet-ac-init-speed-container,
 .sheet-hp,
-.sheet-exhaustion,
+.sheet-radiation,
 .sheet-hdice-dsaves-container,
 .sheet-attacks,
 .sheet-equipment {
@@ -735,7 +734,7 @@ button[type=roll] * {
 }
 
 .sheet-hp,
-.sheet-exhaustion,
+.sheet-radiation,
 .sheet-subcontainer,
 .sheet-attacks,
 .sheet-equipment {
@@ -747,7 +746,7 @@ button[type=roll] * {
   font-size: 30px;
 }
 
-.sheet-exhaustion input {
+.sheet-radiation input {
   font-size: 20px;
 }
 
@@ -3054,14 +3053,21 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-hlabel-container [name="attr_base_level"] {
+  text-align: center;
+  width: 200px !important;
+}
+.sheet-hlabel-container [name="attr_experience"] {
+  text-align: center;
+  width: 250px !important;
+}
 .sheet-hlabel-container [name="attr_race_display"] {
+  text-align: center;
   width: 200px;
 }
 .sheet-hlabel-container [name="attr_alignment"] {
-  width: 180px;
-}
-.sheet-hlabel-container [name="attr_experience"] {
-  width: 100px;
+  text-align: center;
+  width: 250px;
 }
 
 .sheet-class {
