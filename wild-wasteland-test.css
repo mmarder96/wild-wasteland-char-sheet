@@ -119,11 +119,9 @@ input[type=radio].tab-button:checked + span {
 }
 
 .advantagetoggle {
-  display: none;
+  display: block;
 }
 
-.toggleflag[value*="advantagetoggle"] + .advantagetoggle,
-.toggleflag[value*="whispertoggle"] + .whispertoggle,
 .toggleflag[value="1"] + .hidden,
 .toggleflag[value="1"] + .row.hidden {
   display: block;
@@ -373,7 +371,7 @@ input[type=radio].tab-button.spells + span {
 .attr-container button[type=roll],
 .saving-throw button[type=roll],
 .skill button[type=roll],
-.ac-init-speed-container button[type=roll],
+.def-dt-speed-container button[type=roll],
 .subcontainer button[type=roll],
 .npc button[type=roll] {
   background-color: transparent;
@@ -393,7 +391,7 @@ input[type=radio].tab-button.spells + span {
 .attr-container button[type=roll]::before,
 .saving-throw button[type=roll]::before,
 .skill button[type=roll]::before,
-.ac-init-speed-container button[type=roll]::before,
+.def-dt-speed-container button[type=roll]::before,
 .subcontainer button[type=roll]::before,
 .npc button[type=roll]::before {
   content: "" !important;
@@ -529,12 +527,13 @@ button[type=roll] * {
 .insp-prof-container .value input,
 .saving-throw input[type=text],
 .skill input[type=text],
-.ac-init-speed-container input,
+.def-dt-speed-container input,
 .hp input,
-.exhaustion input,
+.radiation input,
 .hdice-dsaves-container input[type=text],
 .hdice-dsaves-container input[type=number],
 .attacks input,
+.weapons input,
 .equipment input,
 .tool input,
 .proficiencies input,
@@ -611,12 +610,13 @@ button[type=roll] * {
 .saving-throw-container .label span,
 .skills-container .label span,
 .textbox-container .label span,
-.ac-init-speed-container span.label,
+.def-dt-speed-container span.label,
 .hp span,
-.exhaustion span.label,
+.radiation span.label,
 .hdice-dsaves-container span,
 .attacks span,
 .globalattack span,
+.weapons span,
 .equipment span,
 .textbox span,
 .tool_proficiencies span,
@@ -651,31 +651,31 @@ button[type=roll] * {
   width: 3.5em;
 }
 
-.exhaustion div span.ex-description {
+.radiation div span.ex-description {
   font-size: 9px;
   line-height: 9px;
   text-align: left;
-  width: 70%;
+  width: 152px;
   display: block;
 }
 
-.exhaustion span.label {
+.radiation span.label {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
 
-.exhaustion div.ex-descriptions {
+.radiation div.ex-descriptions {
   display: inline-block;
   padding-top: 5px;
 }
 
-.exhaustion-toggle[value="0"] ~ .exhaustion, {
+.radiation-toggle[value="0"] ~ .radiation, {
   display: none;
 }
 
-.exhaustion input[type="number"] {
-  width: 30%;
+.radiation input[type="number"] {
+  width: 80px;
   display:inline-block;
   vertical-align: top;
 }
@@ -696,7 +696,8 @@ button[type=roll] * {
 }
 
 .tool_proficiencies,
-.attacks {
+.attacks,
+.weapons {
   padding-bottom: 10px;
 }
 
@@ -706,17 +707,18 @@ button[type=roll] * {
   border: none;
 }
 
-.ac-init-speed-container,
+.def-dt-speed-container,
 .hp,
-.exhaustion,
+.radiation,
 .hdice-dsaves-container,
 .attacks,
+.weapons,
 .equipment {
   width: 240px;
   margin-bottom: 10px;
 }
 
-.ac-init-speed-container div {
+.def-dt-speed-container div {
   width: calc(31%);
   height: 100%;
   border: 1px solid #666;
@@ -725,18 +727,19 @@ button[type=roll] * {
   vertical-align: top;
 }
 
-.ac-init-speed-container span.label {
+.def-dt-speed-container span.label {
   margin-top: 0px;
 }
 
-.ac-init-speed-container button[type=roll] {
+.def-dt-speed-container button[type=roll] {
   display: block;
 }
 
 .hp,
-.exhaustion,
+.radiation,
 .subcontainer,
 .attacks,
+.weapons,
 .equipment {
   border: 1px solid #666;
   border-radius: 5px;
@@ -746,7 +749,7 @@ button[type=roll] * {
   font-size: 30px;
 }
 
-.exhaustion input {
+.radiation input {
   font-size: 20px;
 }
 
@@ -765,6 +768,7 @@ button[type=roll] * {
 .hp .top span,
 .hdice-dsaves-container .top span,
 .attacks .top span,
+.weapons .top span,
 .tool_proficiencies .top span,
 .proficiencies .top span,
 .traits .top span {
@@ -910,7 +914,8 @@ button[type=roll] * {
   display: inline-block;
 }
 
-.attacks {
+.attacks,
+.weapons {
   min-height: 150px;
   margin-bottom: 10px;
 }
@@ -920,6 +925,7 @@ button[type=roll] * {
 }
 
 .attacks .display button[type=roll],
+.weapons .display button[type=roll],
 .tool .display button[type=roll],
 .proficiency .display button[type=roll] {
   background-color: transparent;
@@ -935,15 +941,18 @@ button[type=roll] * {
 }
 
 .attacks .display button[type=roll]::before,
+.weapons .display button[type=roll]::before,
 .tool .display button[type=roll]::before,
 .proficiency .display button[type=roll]::before {
   content: "" !important;
 }
 
 .attacks .display input,
+.weapons .display input,
 .tool .display input,
 .equipment .item input,
 .attacks .display span,
+.weapons .display span,
 .tool .display span,
 .equipment .item span,
 .proficiencies .display span {
@@ -959,6 +968,7 @@ button[type=roll] * {
 }
 
 .attacks .display span,
+.weapons .display span,
 .tool .display span,
 .equipment .item span,
 .proficiencies .display span {
@@ -994,6 +1004,7 @@ button[type=roll] * {
 }
 
 .attacks .options-flag,
+.weapons .options-flag,
 .spell .options-flag,
 .tool .options-flag,
 .npc .npc_options-flag,
@@ -1015,6 +1026,7 @@ button[type=roll] * {
 }
 
 .attacks .options-flag + span,
+.weapons .options-flag + span,
 .spell .options-flag + span,
 .tool .options-flag + span,
 .npc .npc_options-flag + span,
@@ -1047,6 +1059,7 @@ button[type=roll] * {
 }
 
 .attacks .options-flag:checked + span,
+.weapons .options-flag:checked + span,
 .spell .options-flag:checked + span,
 .tool .options-flag:checked + span,
 .npc .npc_options-flag:checked + span,
@@ -1063,6 +1076,7 @@ button[type=roll] * {
 }
 
 .attacks .attack:hover .options-flag + span,
+.weapons .attack:hover .options-flag + span,
 .spell:hover .options-flag + span,
 .tool:hover .options-flag + span,
 .npc:hover > .npc_options-flag + span,
@@ -1178,6 +1192,7 @@ button[type=roll] * {
 }
 
 .attacks .options-flag:checked ~ .options,
+.weapons .options-flag:checked ~ .options,
 .spell .options-flag:checked ~ .options,
 .tool .options-flag:checked ~ .options,
 .npc .npc_options-flag:checked ~ .npc_options,
@@ -1579,6 +1594,7 @@ span.spellconcentration {
 }
 
 .tool .options input[type=checkbox],
+.attack input[type=checkbox],
 .attack .options input[type=checkbox],
 .spell .options input[type=checkbox],
 .options .body input[type=checkbox],
@@ -3045,11 +3061,13 @@ span.spellconcentration {
   font-weight: normal;
 }
 
-.attacks .ammo {
+.attacks .ammo,
+.weapons .ammo {
   display: none;
 }
 
-.ammoflag[value="on"] + .attacks .ammo {
+.ammoflag[value="on"] + .attacks .ammo,
+.ammoflag[value="on"] + .weapons .ammo {
   display: block;
 }
 
@@ -3402,13 +3420,13 @@ span.spellconcentration {
   width: 184px;
 }
 
-.lang-es .ac-init-speed-container div {
+.lang-es .def-dt-speed-container div {
   position: relative;
   height: 56px;
 }
 
-.lang-es .ac-init-speed-container button,
-.lang-es .ac-init-speed-container .label {
+.lang-es .def-dt-speed-container button,
+.lang-es .def-dt-speed-container .label {
   position: absolute;
   bottom: 0;
 }
@@ -3497,7 +3515,7 @@ span.spellconcentration {
 .charsheet.lang-cs .spell .options span[data-i18n="add-ability-mod-u"],
 .charsheet.lang-cs .spell .options span[data-i18n="saving-throw:-u"],
 .charsheet.lang-cs .spell .options span[data-i18n="effect:-u"],
-.charsheet.lang-cs .ac-init-speed-container .ac > span {
+.charsheet.lang-cs .def-dt-speed-container .ac > span {
   font-size: 8px;
 }
 

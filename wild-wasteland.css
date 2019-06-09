@@ -119,11 +119,9 @@ input[type=radio].sheet-tab-button:checked + span {
 }
 
 .sheet-advantagetoggle {
-  display: none;
+  display: block;
 }
 
-.sheet-toggleflag[value*="advantagetoggle"] + .sheet-advantagetoggle,
-.sheet-toggleflag[value*="whispertoggle"] + .sheet-whispertoggle,
 .sheet-toggleflag[value="1"] + .sheet-hidden,
 .sheet-toggleflag[value="1"] + .sheet-row.sheet-hidden {
   display: block;
@@ -373,7 +371,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 .sheet-attr-container button[type=roll],
 .sheet-saving-throw button[type=roll],
 .sheet-skill button[type=roll],
-.sheet-ac-init-speed-container button[type=roll],
+.sheet-def-dt-speed-container button[type=roll],
 .sheet-subcontainer button[type=roll],
 .sheet-npc button[type=roll] {
   background-color: transparent;
@@ -393,7 +391,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 .sheet-attr-container button[type=roll]::before,
 .sheet-saving-throw button[type=roll]::before,
 .sheet-skill button[type=roll]::before,
-.sheet-ac-init-speed-container button[type=roll]::before,
+.sheet-def-dt-speed-container button[type=roll]::before,
 .sheet-subcontainer button[type=roll]::before,
 .sheet-npc button[type=roll]::before {
   content: "" !important;
@@ -529,12 +527,13 @@ button[type=roll] * {
 .sheet-insp-prof-container .sheet-value input,
 .sheet-saving-throw input[type=text],
 .sheet-skill input[type=text],
-.sheet-ac-init-speed-container input,
+.sheet-def-dt-speed-container input,
 .sheet-hp input,
 .sheet-radiation input,
 .sheet-hdice-dsaves-container input[type=text],
 .sheet-hdice-dsaves-container input[type=number],
 .sheet-attacks input,
+.sheet-weapons input,
 .sheet-equipment input,
 .sheet-tool input,
 .sheet-proficiencies input,
@@ -611,12 +610,13 @@ button[type=roll] * {
 .sheet-saving-throw-container .sheet-label span,
 .sheet-skills-container .sheet-label span,
 .sheet-textbox-container .sheet-label span,
-.sheet-ac-init-speed-container span.sheet-label,
+.sheet-def-dt-speed-container span.sheet-label,
 .sheet-hp span,
 .sheet-radiation span.sheet-label,
 .sheet-hdice-dsaves-container span,
 .sheet-attacks span,
 .sheet-globalattack span,
+.sheet-weapons span,
 .sheet-equipment span,
 .sheet-textbox span,
 .sheet-tool_proficiencies span,
@@ -696,7 +696,8 @@ button[type=roll] * {
 }
 
 .sheet-tool_proficiencies,
-.sheet-attacks {
+.sheet-attacks,
+.sheet-weapons {
   padding-bottom: 10px;
 }
 
@@ -706,17 +707,18 @@ button[type=roll] * {
   border: none;
 }
 
-.sheet-ac-init-speed-container,
+.sheet-def-dt-speed-container,
 .sheet-hp,
 .sheet-radiation,
 .sheet-hdice-dsaves-container,
 .sheet-attacks,
+.sheet-weapons,
 .sheet-equipment {
   width: 240px;
   margin-bottom: 10px;
 }
 
-.sheet-ac-init-speed-container div {
+.sheet-def-dt-speed-container div {
   width: calc(31%);
   height: 100%;
   border: 1px solid #666;
@@ -725,11 +727,11 @@ button[type=roll] * {
   vertical-align: top;
 }
 
-.sheet-ac-init-speed-container span.sheet-label {
+.sheet-def-dt-speed-container span.sheet-label {
   margin-top: 0px;
 }
 
-.sheet-ac-init-speed-container button[type=roll] {
+.sheet-def-dt-speed-container button[type=roll] {
   display: block;
 }
 
@@ -737,6 +739,7 @@ button[type=roll] * {
 .sheet-radiation,
 .sheet-subcontainer,
 .sheet-attacks,
+.sheet-weapons,
 .sheet-equipment {
   border: 1px solid #666;
   border-radius: 5px;
@@ -765,6 +768,7 @@ button[type=roll] * {
 .sheet-hp .sheet-top span,
 .sheet-hdice-dsaves-container .sheet-top span,
 .sheet-attacks .sheet-top span,
+.sheet-weapons .sheet-top span,
 .sheet-tool_proficiencies .sheet-top span,
 .sheet-proficiencies .sheet-top span,
 .sheet-traits .sheet-top span {
@@ -910,7 +914,8 @@ button[type=roll] * {
   display: inline-block;
 }
 
-.sheet-attacks {
+.sheet-attacks,
+.sheet-weapons {
   min-height: 150px;
   margin-bottom: 10px;
 }
@@ -920,6 +925,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-display button[type=roll],
+.sheet-weapons .sheet-display button[type=roll],
 .sheet-tool .sheet-display button[type=roll],
 .sheet-proficiency .sheet-display button[type=roll] {
   background-color: transparent;
@@ -935,15 +941,18 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-display button[type=roll]::before,
+.sheet-weapons .sheet-display button[type=roll]::before,
 .sheet-tool .sheet-display button[type=roll]::before,
 .sheet-proficiency .sheet-display button[type=roll]::before {
   content: "" !important;
 }
 
 .sheet-attacks .sheet-display input,
+.sheet-weapons .sheet-display input,
 .sheet-tool .sheet-display input,
 .sheet-equipment .sheet-item input,
 .sheet-attacks .sheet-display span,
+.sheet-weapons .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-equipment .sheet-item span,
 .sheet-proficiencies .sheet-display span {
@@ -959,6 +968,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-display span,
+.sheet-weapons .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-equipment .sheet-item span,
 .sheet-proficiencies .sheet-display span {
@@ -994,6 +1004,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-options-flag,
+.sheet-weapons .sheet-options-flag,
 .sheet-spell .sheet-options-flag,
 .sheet-tool .sheet-options-flag,
 .sheet-npc .sheet-npc_options-flag,
@@ -1015,6 +1026,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-options-flag + span,
+.sheet-weapons .sheet-options-flag + span,
 .sheet-spell .sheet-options-flag + span,
 .sheet-tool .sheet-options-flag + span,
 .sheet-npc .sheet-npc_options-flag + span,
@@ -1047,6 +1059,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-options-flag:checked + span,
+.sheet-weapons .sheet-options-flag:checked + span,
 .sheet-spell .sheet-options-flag:checked + span,
 .sheet-tool .sheet-options-flag:checked + span,
 .sheet-npc .sheet-npc_options-flag:checked + span,
@@ -1063,6 +1076,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-attack:hover .sheet-options-flag + span,
+.sheet-weapons .sheet-attack:hover .sheet-options-flag + span,
 .sheet-spell:hover .sheet-options-flag + span,
 .sheet-tool:hover .sheet-options-flag + span,
 .sheet-npc:hover > .sheet-npc_options-flag + span,
@@ -1178,6 +1192,7 @@ button[type=roll] * {
 }
 
 .sheet-attacks .sheet-options-flag:checked ~ .sheet-options,
+.sheet-weapons .sheet-options-flag:checked ~ .sheet-options,
 .sheet-spell .sheet-options-flag:checked ~ .sheet-options,
 .sheet-tool .sheet-options-flag:checked ~ .sheet-options,
 .sheet-npc .sheet-npc_options-flag:checked ~ .sheet-npc_options,
@@ -3045,11 +3060,13 @@ span.sheet-spellconcentration {
   font-weight: normal;
 }
 
-.sheet-attacks .sheet-ammo {
+.sheet-attacks .sheet-ammo,
+.sheet-weapons .sheet-ammo {
   display: none;
 }
 
-.sheet-ammoflag[value="on"] + .sheet-attacks .sheet-ammo {
+.sheet-ammoflag[value="on"] + .sheet-attacks .sheet-ammo,
+.sheet-ammoflag[value="on"] + .sheet-weapons .sheet-ammo {
   display: block;
 }
 
@@ -3317,6 +3334,16 @@ span.sheet-spellconcentration {
   color: #F00;
 }
 
+.sheet-weapons input[type="checkbox"] {
+  display: inline;
+  height: 12px;
+  width: 12px;
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
 .sheet-globalattack input[type="checkbox"] {
   display: inline;
   height: 12px;
@@ -3402,13 +3429,13 @@ span.sheet-spellconcentration {
   width: 184px;
 }
 
-.lang-es .sheet-ac-init-speed-container div {
+.lang-es .sheet-def-dt-speed-container div {
   position: relative;
   height: 56px;
 }
 
-.lang-es .sheet-ac-init-speed-container button,
-.lang-es .sheet-ac-init-speed-container .sheet-label {
+.lang-es .sheet-def-dt-speed-container button,
+.lang-es .sheet-def-dt-speed-container .sheet-label {
   position: absolute;
   bottom: 0;
 }
@@ -3497,7 +3524,7 @@ span.sheet-spellconcentration {
 .charsheet.lang-cs .sheet-spell .sheet-options span[data-i18n="add-ability-mod-u"],
 .charsheet.lang-cs .sheet-spell .sheet-options span[data-i18n="saving-throw:-u"],
 .charsheet.lang-cs .sheet-spell .sheet-options span[data-i18n="effect:-u"],
-.charsheet.lang-cs .sheet-ac-init-speed-container .sheet-ac > span {
+.charsheet.lang-cs .sheet-def-dt-speed-container .sheet-ac > span {
   font-size: 8px;
 }
 

@@ -22,24 +22,23 @@
 
   -->
 
-  <input class="monster_confirm_flag" type="hidden" name="attr_monster_confirm_flag">
-  <input class="mancer_confirm_flag" type="hidden" name="attr_mancer_confirm_flag">
+  <input type="hidden" class="monster_confirm_flag" name="attr_monster_confirm_flag">
+  <input type="hidden" class="mancer_confirm_flag" name="attr_mancer_confirm_flag">
 
   <div class="licensecontainer compendium-drop-target monsters"> <!-- licensecontainer div open -->
 
-    <input class="npc_toggle" name="attr_npc" type="hidden" value="0">
+    <input type="hidden" class="npc_toggle" name="attr_npc" value="0">
     <input type="hidden" class="npcspellcastingflag" name="attr_npcspellcastingflag">
-    <input type="hidden" class="toggleflag" name="attr_rtype">
+    <input type="hidden" class="toggleflag" name="attr_rtype" value ="@advantagetoggle">
     <div class="advantagetoggle">
-      <input type="radio" class="toggle-left" name="attr_advantagetoggle"
-        value="{{query=1}} {{advantage=1}} {{r2=[[@{d20}"><span data-i18n="adv-u">ADVANTAGE</span>
+      <input type="radio" class="toggle-left" name="attr_advantagetoggle" value="{{query=1}} {{advantage=1}} {{r2=[[@{d20}"><span data-i18n="adv-u">ADVANTAGE</span>
       <input type="radio" class="toggle-center" name="attr_advantagetoggle" value="{{query=1}} {{normal=1}} {{r2=[[0d20" checked="checked"><span data-i18n="norm-u">NORMAL</span>
       <input type="radio" class="toggle-right" name="attr_advantagetoggle" value="{{query=1}} {{disadvantage=1}} {{r2=[[@{d20}"><span data-i18n="disadv-u">DISADVANTAGE</span>
     </div>
-    <input type="hidden" class="toggleflag" name="attr_wtype">
+    <input type="hidden" class="toggleflag" name="attr_wtype" value="@whispertoggle">
     <div class="advantagetoggle whispertoggle">
-        <input type="radio" class="toggle-left" name="attr_whispertoggle" value="" checked="checked"><span data-i18n="public:-u">PUBLIC</span>
-        <input type="radio" class="toggle-right" name="attr_whispertoggle" value="/w gm "><span data-i18n="to-gm:-u">TO <span class="togm">GM</span></span>
+      <input type="radio" class="toggle-left" name="attr_whispertoggle" value="" checked="checked"><span data-i18n="public:-u">PUBLIC</span>
+      <input type="radio" class="toggle-right" name="attr_whispertoggle" value="/w gm "><span data-i18n="to-gm:-u">TO <span class="togm">GM</span></span>
     </div>
 
     <!--
@@ -308,24 +307,24 @@
           <input type="checkbox" name="attr_npc" value="1">
           <span data-i18n="npc-u">NPC</span>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <span data-i18n="roll-queries:-u">ROLL QUERIES:</span>
           <select name="attr_rtype">
-            <option value="{{always=1}} {{r2=[[@{d20}" data-i18n="always-adv">Always Roll Advantage</option>
             <option value="@{advantagetoggle}" data-i18n="adv-toggle">Advantage Toggle</option>
             <option value="{{query=1}} ?{Advantage?|Normal Roll,&#123&#123normal=1&#125&#125 &#123&#123r2=[[0d20|Advantage,&#123&#123advantage=1&#125&#125 &#123&#123r2=[[@{d20}|Disadvantage,&#123&#123disadvantage=1&#125&#125 &#123&#123r2=[[@{d20}}" data-i18n="query-adv">Query Advantage</option>
+            <option value="{{always=1}} {{r2=[[@{d20}" data-i18n="always-adv">Always Roll Advantage</option>
             <option value="{{normal=1}} {{r2=[[0d20" data-i18n="never-adv">Never Roll Advantage</option>
-            </select>
-        </div>
-        <div class="row">
+          </select>
+        </div> -->
+        <!-- <div class="row">
           <span data-i18n="whisp-rolls-gm:-u">WHISPER ROLLS TO GM:</span>
           <select name="attr_wtype">
-            <option value="" data-i18n="never-whisper-roll">Never Whisper Rolls</option>
             <option value="@{whispertoggle}" data-i18n="toggle-roll-whisper">Whisper Toggle</option>
             <option value="?{Whisper?|Public Roll,|Whisper Roll,/w gm }" data-i18n="query-whisper-roll">Query Whisper</option>
             <option value="/w gm " data-i18n="always-whisper-roll">Always Whisper Rolls</option>
+            <option value="" data-i18n="never-whisper-roll">Never Whisper Rolls</option>
           </select>
-        </div>
+        </div> -->
         <div class="row">
           <span data-i18n="auto-dmg-roll:-u">AUTO DAMAGE ROLL:</span>
           <select class="dtype" name="attr_dtype">
@@ -1494,7 +1493,7 @@
               <input type="number" name="attr_hp" title="@{hp}" step="1" min="0">
               <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
             </div>
-            <div class="ac-init-speed-container">
+            <div class="def-dt-speed-container">
               <div class="def">
                 <input type="text" name="attr_def" title="@{def}">
                 <span class="label pc-def" data-i18n="defense-u">DEFENSE</span>
@@ -1525,8 +1524,8 @@
             <div class="attacks" style="position: relative;">
               <div class="top">
                 <span class="label" style="width: 95px;" data-i18n="name-u">NAME</span>
-                <span class="label" style="width: 35px;" data-i18n="atk-u">ATK</span>
-                <span class="label" style="width: 65px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
+                <span class="label" style="width: 35px;" data-i18n="atk-mod-u">ATK +/-</span>
+                <span class="label" style="width: 65px;" data-i18n="dmg-mod-u">DAMAGE +/-</span>
               </div>
               <fieldset class="repeating_attack">
                 <div class="attack">
@@ -1728,7 +1727,160 @@
                   </div>
                 </fieldset>
               </div>
-              <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-spellcasting-u">ATTACKS & SPELLCASTING</span>
+              <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
+            </div>
+            <div class="weapons" style="position: relative;">
+              <div class="top">
+                <span class="label" style="margin-left: 10px; width: 90px;" data-i18n="name-u">NAME</span>
+                <span class="label" style="width: 35px;" data-i18n="atk-u">ATK</span>
+                <span class="label" style="width: 65px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
+              </div>
+              <fieldset class="repeating_attack">
+                <div class="attack">
+                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                  <div class="options">
+                    <div class="row">
+                      <span data-i18n="name:-u">NAME:</span>
+                      <input type="text" name="attr_atkname">
+                    </div>
+                    <div class="row">
+                      <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
+                      <span data-i18n="attack:-u">ATTACK:</span>
+                      <select name="attr_atkattr_base">
+                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
+                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
+                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
+                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
+                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
+                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
+                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
+                        <option value="0">-</option>
+                      </select>
+                      <span>+</span>
+                      <input type="text" class="num" name="attr_atkmod" placeholder="0">
+                      <span>+</span>
+                      <input type="checkbox" name="attr_atkprofflag" value="(@{pb})" checked="checked" style="margin-left: 3px;">
+                      <span data-i18n="proficient-u">PROFICIENT</span>
+                    </div>
+                    <div class="row">
+                      <span style="margin-left: 17px;" data-i18n="range:-u">RANGE:</span>
+                      <input type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 170px;" data-i18n-placeholder="range-place">
+                    </div>
+                    <div class="row">
+                      <span style="margin-left: 17px;" data-i18n="magic-bonus:-u">MAGIC BONUS:</span>
+                      <input type="text" class="num" name="attr_atkmagic" placeholder="0">
+                      <span data-i18n="crit-range-u">CRIT RANGE:</span>
+                      <input type="text" class="num" name="attr_atkcritrange" value="20" placeholder="20">
+                    </div>
+                    <div class="row">
+                      <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
+                      <span data-i18n="damage:-u">DAMAGE:</span>
+                      <input type="text" name="attr_dmgbase" placeholder="1d6" style="width: 50px;">
+                      <span>+</span>
+                      <select name="attr_dmgattr">
+                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
+                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
+                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
+                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
+                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
+                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
+                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
+                        <option value="0">-</option>
+                      </select>
+                      <span>+</span>
+                      <input type="text" class="num" name="attr_dmgmod" placeholder="0">
+                    </div>
+                    <div class="row">
+                      <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
+                      <input type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
+                      <span data-i18n="crit:-u">CRIT:</span>
+                      <input type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 80px;">
+                    </div>
+                    <div class="row">
+                      <input type="checkbox" name="attr_dmg2flag" value="{{damage=1}} {{dmg2flag=1}}">
+                      <span data-i18n="damage2:-u">DAMAGE2:</span>
+                      <input type="text" name="attr_dmg2base" placeholder="1d6" style="width: 50px;">
+                      <span>+</span>
+                      <select name="attr_dmg2attr">
+                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
+                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
+                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
+                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
+                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
+                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
+                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
+                        <option value="0">-</option>
+                      </select>
+                      <span>+</span>
+                      <input type="text" class="num" name="attr_dmg2mod" placeholder="0">
+                    </div>
+                    <div class="row">
+                      <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
+                      <input type="text" name="attr_dmg2type" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
+                      <span data-i18n="crit:-u">CRIT:</span>
+                      <input type="text" name="attr_dmg2custcrit" placeholder="1d6" style="width: 80px;">
+                    </div>
+                    <div class="row">
+                      <input type="checkbox" name="attr_saveflag" value="{{save=1}} {{saveattr=@{saveattr}}} {{savedesc=@{saveeffect}}} {{savedc=[[[[@{savedc}]][SAVE]]]}}">
+                      <span data-i18n="saving-throw:-u">SAVING THROW:</span>
+                      <select name="attr_saveattr">
+                        <option value="Strength" selected="selected" data-i18n="str-u">STR</option>
+                        <option value="Perception" data-i18n="per-u">PER</option>
+                        <option value="Endurance" data-i18n="end-u">END</option>
+                        <option value="Charisma" data-i18n="cha-u">CHA</option>
+                        <option value="Intelligence" data-i18n="int-u">INT</option>
+                        <option value="Agility" data-i18n="cha-u">AGL</option>
+                        <option value="Luck" data-i18n="cha-u">LUK</option>
+                      </select>
+                      <span data-i18n="vs-dc:-u">VS DC:</span>
+                      <select name="attr_savedc">
+                        <option value="(@{strength_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="str-u">STR</option>
+                        <option value="(@{perception_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="per-u">PER</option>
+                        <option value="(@{endurance_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="end-u">END</option>
+                        <option value="(@{charisma_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="cha-u">CHA</option>
+                        <option value="(@{intelligence_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="int-u">INT</option>
+                        <option value="(@{agility_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="agl-u">AGL</option>
+                        <option value="(@{luck_mod}+8+@{spell_dc_mod}+@{pb})" data-i18n="agl-u">LUK</option>
+                        <option value="(@{saveflat})" data-i18n="flat-u">FLAT</option>
+                      </select>
+                      <input class="flatflag" type="hidden" name="attr_savedc">
+                      <input class="num flat" type="text" name="attr_saveflat" placeholder="10" value="10">
+                    </div>
+                    <div class="row">
+                      <span data-i18n="save-effect:-u">SAVE EFFECT:</span>
+                      <input type="text" name="attr_saveeffect" placeholder="half damage" style="width: 160px;" data-i18n-placeholder="save-effect-place">
+                    </div>
+                    <div class="row ammo">
+                      <span data-i18n="ammunition:-u">AMMUNITION:</span>
+                      <input type="text" name="attr_ammo" placeholder="Arrows" style="width: 160px;" data-i18n-placeholder="ammunition-place">
+                    </div>
+                    <div class="row">
+                      <span data-i18n="description:-u">DESCRIPTION:</span>
+                      <textarea name="attr_atk_desc" placeholder="Up to 2 creatures within 5 feet" data-i18n-placeholder="description-place"></textarea>
+                    </div>
+                  </div>
+                  <div class="display">
+                    <input type="checkbox" name="attr_global_damage_active_flag" value="1" class="active-flag">
+                    <button type="roll" name="roll_attack" value="@{rollbase}">
+                      <span name="attr_atkname" style="width: 85px;"></span>
+                      <input type="text" name="attr_atkbonus" style="width: 40px; text-align: center;" value="">
+                      <input type="text" name="attr_atkdmgtype" style="width: 90px;" value="">
+                    </button>
+                  </div>
+                </div>
+                <input type="hidden" name="attr_rollbase">
+                <input type="hidden" name="attr_rollbase_dmg">
+                <input type="hidden" name="attr_rollbase_crit">
+                <input type="hidden" name="attr_hldmg">
+                <input type="hidden" name="attr_spelllevel">
+                <input type="hidden" name="attr_itemid">
+                <input type="hidden" name="attr_spellid">
+                <input type="hidden" name="attr_spell_innate">
+                <input type="hidden" name="attr_versatile_alt">
+                <button type="roll" name="roll_attack_dmg" style="display: none;" value="@{rollbase_dmg}"></button>
+                <button type="roll" name="roll_attack_crit" style="display: none;" value="@{rollbase_crit}"></button>
+              </fieldset>
+              <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
             </div>
             <input type="hidden" class="toggleflag" name="attr_global_ac_mod_flag">
             <div class="equipment hidden">
@@ -1821,7 +1973,7 @@
             </div>
           </div>
           <div class="col col3">
-            <!-- <div class="textbox pibf">
+            <div class="textbox pibf">
               <input class="options-flag" type="checkbox" name="attr_options-flag-personality" checked="checked"><span>y</span>
               <div class="options">
                 <textarea name="attr_personality_traits" style="min-height: 50px; height: 50px;"></textarea>
@@ -1903,7 +2055,7 @@
                   </div>
                 </div>
               </fieldset>
-            </div> -->
+            </div>
             <div class="textbox traits" style="min-height: 350px;">
               <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="complex">
               <textarea class="sheet-simple" name="attr_features_and_traits" style="min-height: 450px; height: 450px;"></textarea>
@@ -1923,7 +2075,7 @@
                         <select name="attr_source">
                           <option selected="selected" data-i18n="racial">Racial</option>
                           <option data-i18n="class">Class</option>
-                          <option data-i18n="feat">Feat</option>
+                          <option data-i18n="perk">Perk</option>
                           <option data-i18n="background">Background</option>
                           <option data-i18n="other">Other</option>
                         </select>
@@ -1946,7 +2098,7 @@
                   </div>
                 </fieldset>
               </div>
-              <span class="label" data-i18n="feats-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">FEATURES & TRAITS</span>
+              <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">PERKS & TRAITS</span>
             </div>
             <input type="hidden" class="missing-info-flag" name="attr_missing_info">
             <div class="missing-info">
@@ -2026,7 +2178,7 @@
             </div>
             <div class="textbox">
               <textarea name="attr_additional_feature_and_traits" style="min-height: 289px; height: 300px;"></textarea>
-              <span class="label" data-i18n="add-feats-traits-u">ADDITIONAL FEATURES & TRAITS</span>
+              <span class="label" data-i18n="add-perks-traits-u">ADDITIONAL PERKS & TRAITS</span>
             </div>
             <div class="textbox">
               <textarea name="attr_treasure" style="min-height: 300px; height: 300px;"></textarea>
@@ -4733,71 +4885,69 @@
                 <input type="checkbox" name="attr_npc" value="1">
                 <span data-i18n="npc-u">NPC</span>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <span data-i18n="roll-queries:-u">ROLL QUERIES:</span>
                 <select name="attr_rtype">
-                  <option
-                    value="{{always=1}} {{r2=[[@{d20}" data-i18n="always-roll-adv">Always Roll Advantage</option>
-                        <option value="@{advantagetoggle}" data-i18n="toggle-roll-adv">Advantage Toggle</option>
-                        <option value="{{query=1}} ?{Advantage?|Normal Roll,&#123&#123normal=1&#125&#125 &#123&#123r2=[[0d20|Advantage,&#123&#123advantage=1&#125&#125 &#123&#123r2=[[@{d20}|Disadvantage,&#123&#123disadvantage=1&#125&#125 &#123&#123r2=[[@{d20}}"
-                    data-i18n="query-roll-adv">Query Advantage</option>
+                  <option value="@{advantagetoggle}" data-i18n="toggle-roll-adv" selected="selected">Advantage Toggle</option>
+                  <option value="{{query=1}} ?{Advantage?|Normal Roll,&#123&#123normal=1&#125&#125 &#123&#123r2=[[0d20|Advantage,&#123&#123advantage=1&#125&#125 &#123&#123r2=[[@{d20}|Disadvantage,&#123&#123disadvantage=1&#125&#125 &#123&#123r2=[[@{d20}}" data-i18n="query-roll-adv">Query Advantage</option>
+                  <option value="{{always=1}} {{r2=[[@{d20}" data-i18n="always-roll-adv">Always Roll Advantage</option>
                   <option value="{{normal=1}} {{r2=[[0d20" data-i18n="never-roll-adv">Never Roll Advantage</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <span data-i18n="whisp-rolls-gm:-u">WHISPER ROLLS TO GM:</span>
-                    <select name="attr_wtype">
-                        <option value="" data-i18n="never-whisper-roll">Never Whisper Rolls</option>
-                        <option value="@{whispertoggle}" data-i18n="toggle-roll-whisper">Whisper Toggle</option>
-                        <option value="?{Whisper?|Public Roll,|Whisper Roll,/w gm }" data-i18n="query-whisper-roll">Query Whisper</option>
-                        <option value="/w gm " data-i18n="always-whisper-roll">Always Whisper Rolls</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <span data-i18n="auto-dmg-roll:-u">AUTO DAMAGE ROLL:</span>
-                    <select class="dtype" name="attr_dtype">
-                        <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
-                        <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
-                    <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
-                </div>
-                <div class="row">
-                    <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
-                    <select class="dtype" name="attr_pb_type">
-                        <option value="level" data-i18n="by-level">By Level (Default)</option>
-                        <option value="die" data-i18n="prof-die">Proficency Die (DMG)</option>
-                        <option value="custom" data-i18n="custom">Custom</option>
-                    </select>
-                    <input type="hidden" name="attr_pb_type">
-                    <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
-                </div>
-                <div class="row">
-                    <input type="checkbox" name="attr_global_save_mod_flag" value="1">
-                    <span data-i18n="show-global-save-field-u">SHOW GLOBAL SAVE MODIFIER FIELD</span>
-                </div>
-                <div class="row">
-                    <input type="checkbox" name="attr_global_skill_mod_flag" value="1">
-                    <span data-i18n="show-global-skill-field-u">SHOW GLOBAL SKILL MODIFIER FIELD</span>
-                </div>
-                <div class="row">
-                    <input type="checkbox" name="attr_global_attack_mod_flag" value="1">
-                    <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
-                </div>
-                <div class="row">
-                    <input type="checkbox" name="attr_global_damage_mod_flag" value="1">
-                    <span data-i18n="show-global-damage-field-u">SHOW GLOBAL DAMAGE MODIFIER FIELD</span>
-                </div>
-                <div class="row">
-                    <input type="checkbox" name="attr_global_ac_mod_flag" value="1">
-                    <span data-i18n="show-global-ac-field-u">SHOW GLOBAL AC MODIFIER FIELD</span>
-                </div>
-                <div class="row">
-                    <span data-i18n="add-char-to-templates:-u">ADD CHARACTER NAME TO TEMPLATES:</span>
-                    <select class="dtype" name="attr_charname_output">
-                        <option value="{{charname=@{character_name}}}" data-i18n="on">On</option>
+                </select>
+              </div> -->
+              <!-- <div class="row">
+                <span data-i18n="whisp-rolls-gm:-u">WHISPER ROLLS TO GM:</span>
+                <select name="attr_wtype">
+                  <option value="@{whispertoggle}" data-i18n="toggle-roll-whisper">Whisper Toggle</option>
+                  <option value="?{Whisper?|Public Roll,|Whisper Roll,/w gm }" data-i18n="query-whisper-roll">Query Whisper</option>
+                  <option value="/w gm " data-i18n="always-whisper-roll">Always Whisper Rolls</option>
+                  <option value="" data-i18n="never-whisper-roll">Never Whisper Rolls</option>
+                </select>
+              </div> -->
+              <div class="row">
+                <span data-i18n="auto-dmg-roll:-u">AUTO DAMAGE ROLL:</span>
+                <select class="dtype" name="attr_dtype">
+                  <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
+                  <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
+                </select>
+              </div>
+              <div class="row">
+                <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
+                <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
+              </div>
+              <div class="row">
+                <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
+                <select class="dtype" name="attr_pb_type">
+                  <option value="level" data-i18n="by-level">By Level (Default)</option>
+                  <option value="die" data-i18n="prof-die">Proficency Die (DMG)</option>
+                  <option value="custom" data-i18n="custom">Custom</option>
+                </select>
+                <input type="hidden" name="attr_pb_type">
+                <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
+              </div>
+              <div class="row">
+                <input type="checkbox" name="attr_global_save_mod_flag" value="1">
+                <span data-i18n="show-global-save-field-u">SHOW GLOBAL SAVE MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                <input type="checkbox" name="attr_global_skill_mod_flag" value="1">
+                <span data-i18n="show-global-skill-field-u">SHOW GLOBAL SKILL MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                  <input type="checkbox" name="attr_global_attack_mod_flag" value="1">
+                  <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                  <input type="checkbox" name="attr_global_damage_mod_flag" value="1">
+                  <span data-i18n="show-global-damage-field-u">SHOW GLOBAL DAMAGE MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                  <input type="checkbox" name="attr_global_ac_mod_flag" value="1">
+                  <span data-i18n="show-global-ac-field-u">SHOW GLOBAL AC MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                <span data-i18n="add-char-to-templates:-u">ADD CHARACTER NAME TO TEMPLATES:</span>
+                <select class="dtype" name="attr_charname_output">
+                      <option value="{{charname=@{character_name}}}" data-i18n="on">On</option>
                   <option value="charname=@{character_name}" selected="selected" data-i18n="off">Off</option>
                 </select>
               </div>
@@ -4824,7 +4974,7 @@
                 </select>
               </div>
               <div class="row">
-                <span data-i18n="feats-traits-u">FEATURES AND TRAITS</span><span>:</span>
+                <span data-i18n="perks-traits-u">PERKS AND TRAITS</span><span>:</span>
                 <select name="attr_simpletraits">
                   <option value="complex" data-i18n="compendium-compatible">Compendium Compatible</option>
                   <option value="simple" data-i18n="simple">Simple</option>
@@ -4993,7 +5143,7 @@
   <input type="hidden" name="attr_agility_maximum" value="20">
   <input type="hidden" name="attr_luck_maximum" value="20">
 
-  <input type='hidden' name='attr_speech_bonus' value='0'>
+  <input type='hidden' name='attr_barter_bonus' value='0'>
   <input type='hidden' name='attr_energy_weapons_bonus' value='0'>
   <input type='hidden' name='attr_explosives_bonus' value='0'>
   <input type='hidden' name='attr_guns_bonus' value='0'>
@@ -6400,7 +6550,7 @@
         update_save("death");
     });
 
-    ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneek','speech','survival','unarmed'].forEach(attr => {
+    ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'].forEach(attr => {
         on(`change:${attr}_prof change:${attr}_type change:${attr}_flat`, function(eventinfo) {
             if(eventinfo.sourceType === "sheetworker") {return;};
             update_skills([`${attr}`]);
@@ -7076,11 +7226,11 @@
 
     var update_all_ability_checks = function(){
         update_initiative();
-        update_skills(["speech", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
+        update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
     };
 
     var update_skills = function (skills_array) {
-        var skill_parent = {speech: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
+        var skill_parent = {barter: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
         var attrs_to_get = ["pb","pb_type","jack_of_all_trades","jack"];
         var update = {};
         var callbacks = [];
@@ -7635,7 +7785,7 @@
             if(page.name && page.name != "") {update["npc_name"] = page.name};
 
             //ABILITY SCORES
-            const npcAbilites = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"];
+            const npcAbilites = ["strength", "perception", "endurance", "charisma", "intelligence", "agility", "luck"];
             npcAbilites.forEach((ability) => {
                 const abbreviation = ability.slice(0, 3).toUpperCase();
                 update[`${ability}_base`] = (page.data[`${abbreviation}`]) ? page.data[`${abbreviation}`] : "";
@@ -7687,7 +7837,7 @@
             update["npc_senses"] = senses;
 
             //SAVES & SKILLS
-            const npcSavesSkills = ["str_save", "dex_save", "con_save", "int_save", "wis_save", "cha_save",'speech','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'];
+            const npcSavesSkills = ["str_save", "dex_save", "con_save", "int_save", "wis_save", "cha_save",'barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'];
             npcSavesSkills.forEach((attr) => {
                 update[`npc_${attr}_base`] = "";
             });
@@ -9581,7 +9731,7 @@
     const update_class = () => {
         getAttrs(["class", "base_level","custom_class","cust_hitdietype","cust_spellcasting_ability","cust_strength_save_prof","cust_dexterity_save_prof","cust_constitution_save_prof","cust_intelligence_save_prof","cust_wisdom_save_prof","cust_charisma_save_prof", "npc"], (v) => {
             if (v.npc && v.npc == "1") { return; }
-            const abilites = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+            const abilites = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"];
             //Custom Classes
             if (v.custom_class && v.custom_class != "0") {
                 update = {};
@@ -9810,7 +9960,7 @@
             callbacks.push( function() {update_initiative();} );
             callbacks.push( function() {update_tool("all");} );
             callbacks.push( function() {update_all_saves();} );
-            callbacks.push( function() {update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival","deception", "intimidation", "performance", "persuasion"]);} );
+            callbacks.push( function() {update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);} );
 
             setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
         });
@@ -10602,7 +10752,7 @@
                     update_mod("wisdom");
                     update_mod("charisma");
                     update_all_saves();
-                    update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival","deception", "intimidation", "performance", "persuasion"]);
+                    update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
                     update_tool("all")
                     update_attacks("all");
                     update_pb();
@@ -10991,7 +11141,7 @@
     /*********************************************************************/
 
     var proficiencyList = ["Weapon", "Armor", "Skill", "Tool", "Language"];
-    var abilityList = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+    var abilityList = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"];
     var changeListeners = "mancerchange:race_ability_choice1 mancerchange:race_ability_choice2 mancerchange:subrace_ability_choice1 mancerchange:subrace_ability_choice2 mancerchange:custom_hit_die mancerchange:feat_ability_choice";
     var proficiencyNum = 4;
     var customListeners = "";
@@ -13838,7 +13988,7 @@
         var allDrops = [];
         var currentDrop = 0;
         var totalDrops = 1;
-        var allSkills = ["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival","deception", "intimidation", "performance", "persuasion"];
+        var allSkills = ["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"];
         var allAbilities = abilityList.map(function(x) {return x.toLowerCase()});
         var eraseSections = ["attack", "inventory", "traits", "resource", "proficiencies", "tool", "damagemod", "spell-cantrip", "hpmod", "acmod", "tohitmod", "savemod", "skillmod"];
         console.log(blobs);
@@ -14298,7 +14448,7 @@
             }).join(" ");
         };
         var spellSections = ["spell-cantrip"];
-        var allSkills = ["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival","deception", "intimidation", "performance", "persuasion"];
+        var allSkills = ["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"];
         var skillget = [];
         for(var x=1; x<=9; x++) {
             spellSections.push("spell-" + x);
@@ -16356,7 +16506,7 @@
         var allDrops = [];
         var currentDrop = 0;
         var totalDrops = 1;
-        var allSkills = ["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival","deception", "intimidation", "performance", "persuasion"];
+        var allSkills = ["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"];
         var allAbilities = abilityList.map(function(x) {return x.toLowerCase()});
         set["lp-mancer_status"] = "";
         console.log(blobs);
