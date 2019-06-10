@@ -1157,6 +1157,7 @@ button[type=roll] * {
 }
 
 .sheet-attack .sheet-options,
+.sheet-weapon .sheet-options,
 .sheet-spell .sheet-options,
 .sheet-tool .sheet-options,
 .sheet-npc .sheet-npc_options,
@@ -1533,6 +1534,7 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options,
 .sheet-attack .sheet-options,
+.sheet-weapon .sheet-options,
 .sheet-spell .sheet-options,
 .sheet-proficiencies .sheet-options,
 .sheet-traits .sheet-options,
@@ -1542,6 +1544,7 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options span,
 .sheet-attack .sheet-options span,
+.sheet-weapon .sheet-options span,
 .sheet-spell .sheet-options span,
 .sheet-options .sheet-body span,
 .sheet-proficiencies .sheet-options span,
@@ -1554,6 +1557,7 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options input,
 .sheet-attack .sheet-options input[type=text],
+.sheet-weapon .sheet-options input[type=text],
 .sheet-spell .sheet-options input[type=text],
 .sheet-options .sheet-body input[type=text],
 .sheet-proficiencies .sheet-options input[type=text],
@@ -1569,6 +1573,7 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options select,
 .sheet-attack .sheet-options select,
+.sheet-weapon .sheet-options select,
 .sheet-spell .sheet-options select,
 .sheet-options .sheet-body select,
 .sheet-proficiencies .sheet-options select,
@@ -1595,6 +1600,7 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options input[type=checkbox],
 .sheet-attack .sheet-options input[type=checkbox],
+.sheet-weapon .sheet-options input[type=checkbox],
 .sheet-spell .sheet-options input[type=checkbox],
 .sheet-options .sheet-body input[type=checkbox],
 .sheet-npc .sheet-npc_options input[type=checkbox],
@@ -1608,8 +1614,9 @@ span.sheet-spellconcentration {
 }
 
 .sheet-attack .sheet-options input[type=text].sheet-num,
+.sheet-weapon .sheet-options input[type=text].sheet-num,
 .sheet-options input[type=text].sheet-num {
-  width: 15px;
+  width: 20px;
   text-align: center;
 }
 
@@ -2536,7 +2543,8 @@ span.sheet-spellconcentration {
 
 .sheet-npc .sheet-display .sheet-traits textarea,
 .sheet-npc .sheet-reaction textarea,
-.sheet-attack textarea {
+.sheet-attack textarea,
+.sheet-weapon textarea {
   resize: vertical;
   height: 36px;
   min-height: 36px;
@@ -2902,7 +2910,7 @@ span.sheet-spellconcentration {
   font-weight: normal;
   background-color: transparent;
   padding: 0px;
-  width: 112px;
+  width: 185px;
 }
 
 .sheet-item .sheet-subitem .sheet-subtextarea {
@@ -3030,11 +3038,13 @@ span.sheet-spellconcentration {
   display: block;
 }
 
-.sheet-attack input[type=text].sheet-flat {
+.sheet-attack input[type=text].sheet-flat,
+.sheet-weapon input[type=text].sheet-flat {
   display: none;
 }
 
-.sheet-attack .sheet-flatflag[value*="saveflat"] ~ input[type=text].sheet-flat {
+.sheet-attack .sheet-flatflag[value*="saveflat"] ~ input[type=text].sheet-flat,
+.sheet-weapon .sheet-flatflag[value*="saveflat"] ~ input[type=text].sheet-flat {
   display: inline-block;
 }
 
@@ -3334,7 +3344,7 @@ span.sheet-spellconcentration {
   color: #F00;
 }
 
-.sheet-weapons input[type="checkbox"] {
+/* .sheet-weapons input[type="checkbox"] {
   display: inline;
   height: 12px;
   width: 12px;
@@ -3342,7 +3352,7 @@ span.sheet-spellconcentration {
   -moz-appearance: checkbox;
   margin-left: 5px;
   margin-top: 10px;
-}
+} */
 
 .sheet-globalattack input[type="checkbox"] {
   display: inline;

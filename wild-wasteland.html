@@ -1082,7 +1082,7 @@
             </div>
             <div class="bottom">
               <div class="hlabel-container">
-                <input type="text" name="attr_race_display" class="sheet-no_events">
+                <input type="text" name="attr_race" class="sheet-no_events">
                 <span class="label" data-i18n="race-u">RACE</span>
               </div>
               <div class="hlabel-container">
@@ -1524,8 +1524,8 @@
             <div class="attacks" style="position: relative;">
               <div class="top">
                 <span class="label" style="width: 95px;" data-i18n="name-u">NAME</span>
-                <span class="label" style="width: 35px;" data-i18n="atk-mod-u">ATK +/-</span>
-                <span class="label" style="width: 65px;" data-i18n="dmg-mod-u">DAMAGE +/-</span>
+                <span class="label" style="width: 35px;" data-i18n="atk-u">ATK</span>
+                <span class="label" style="width: 65px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
               </div>
               <fieldset class="repeating_attack">
                 <div class="attack">
@@ -1559,8 +1559,8 @@
                       <input type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 170px;" data-i18n-placeholder="range-place">
                     </div>
                     <div class="row">
-                      <span style="margin-left: 17px;" data-i18n="magic-bonus:-u">MAGIC BONUS:</span>
-                      <input type="text" class="num" name="attr_atkmagic" placeholder="0">
+                      <!-- <span style="margin-left: 17px;" data-i18n="magic-bonus:-u">MAGIC BONUS:</span>
+                      <input type="text" class="num" name="attr_atkmagic" placeholder="0"> -->
                       <span data-i18n="crit-range-u">CRIT RANGE:</span>
                       <input type="text" class="num" name="attr_atkcritrange" value="20" placeholder="20">
                     </div>
@@ -1729,14 +1729,14 @@
               </div>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
             </div>
-            <div class="weapons" style="position: relative;">
+            <!-- <div class="weapons" style="position: relative;">
               <div class="top">
                 <span class="label" style="margin-left: 10px; width: 90px;" data-i18n="name-u">NAME</span>
                 <span class="label" style="width: 35px;" data-i18n="atk-u">ATK</span>
                 <span class="label" style="width: 65px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
               </div>
-              <fieldset class="repeating_attack">
-                <div class="attack">
+              <fieldset class="repeating_weapon">
+                <div class="weapon">
                   <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
                   <div class="options">
                     <div class="row">
@@ -1745,7 +1745,7 @@
                     </div>
                     <div class="row">
                       <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
-                      <span data-i18n="attack:-u">ATTACK:</span>
+                      <span data-i18n="weapon:-u">WEAPON:</span>
                       <select name="attr_atkattr_base">
                         <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
                         <option value="@{perception_mod}" data-i18n="per-u">PER</option>
@@ -1881,7 +1881,7 @@
                 <button type="roll" name="roll_attack_crit" style="display: none;" value="@{rollbase_crit}"></button>
               </fieldset>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
-            </div>
+            </div> -->
             <input type="hidden" class="toggleflag" name="attr_global_ac_mod_flag">
             <div class="equipment hidden">
               <div class="textarea globalattack acmod">
@@ -4363,7 +4363,7 @@
             </div>
             <div class="bottom">
               <div class="hlabel-container">
-                <input type="text" name="attr_race_display" class="sheet-no_events">
+                <input type="text" name="attr_race" class="sheet-no_events">
                 <span class="label" data-i18n="race-u">RACE</span>
               </div>
               <div class="hlabel-container">
@@ -4375,7 +4375,105 @@
           </div>
         <div class="body">
           <div class="col col1">
-            <div class="class_options">
+            <div class="attribute_options" style="width: 234px;">
+              <div class="row skill">
+                <span data-i18n="strength-u">STRENGTH</span>
+                <span>+</span><input type="text" class="num" name="attr_strength_bonus" value="0" placeholder="0" title="@{strength_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="perception-u">PERCEPTION</span>
+                <span>+</span><input type="text" class="num" name="attr_perception_bonus" value="0" placeholder="0" title="@{perception_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="endurance-u">ENDURANCE</span>
+                <span>+</span><input type="text" class="num" name="attr_endurance_bonus" value="0" placeholder="0" title="@{endurance_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="charisma-u">CHARISMA</span>
+                <span>+</span><input type="text" class="num" name="attr_charisma_bonus" value="0" placeholder="0" title="@{charisma_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="intelligence-u">INTELLIGENCE</span>
+                <span>+</span><input type="text" class="num" name="attr_intelligence_bonus" value="0" placeholder="0" title="@{intelligence_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="agility-u">AGILITY</span>
+                <span>+</span><input type="text" class="num" name="attr_agility_bonus" value="0" placeholder="0" title="@{agility_bonus}">
+              </div>
+              <div class="row skill">
+                <span data-i18n="luck-u">LUCK</span>
+                <span>+</span><input type="text" class="num" name="attr_luck_bonus" value="0" placeholder="0" title="@{luck_bonus}">
+              </div>
+              <div class="row">
+                <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
+                <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
+              </div>
+              <div class="row">
+                <span data-i18n="initiative-style:-u">INITIATIVE STYLE:</span>
+                <select name="attr_initiative_style">
+                  <option value="@{d20}" selected="selected" data-i18n="norm">Normal</option>
+                  <option value="{@{d20},@{d20}}kh1" data-i18n="adv">Advantage</option>
+                  <option value="{@{d20},@{d20}}kl1" data-i18n="disadv">Disadvantage</option>
+                </select>
+              </div>
+              <div class="row">
+                <input type="checkbox" name="attr_init_tiebreaker" value="@{agility}/100">
+                <span data-i18n="add-agl-tiebreaker-u">ADD AGL TIEBREAKER TO INITIATIVE</span>
+              </div>
+              <div class="row">
+                <span data-i18n="armor-class-tracking:-u">ARMOR CLASS TRACKING:</span>
+                <select name="attr_custom_ac_flag">
+                  <option value="0" selected="selected" data-i18n="automatic">Automatic</option>
+                  <option value="1" data-i18n="custom">Custom</option>
+                  <option value="2" data-i18n="off">Off</option>
+                </select>
+              </div>
+              <input class="toggleflag" type="hidden" name="attr_custom_ac_flag">
+              <div class="row hidden">
+                <span data-i18n="custom_ac:-u">CUSTOM AC:</span>
+                <input type="text" class="num" name="attr_custom_ac_base" placeholder="10" value="10">
+                <span>+</span>
+                <select name="attr_custom_ac_part1">
+                  <option value="none" selected="selected" data-i18n="none-u">NONE</option>
+                  <option value="Strength" data-i18n="str-u">STR</option>
+                  <option value="Perception" data-i18n="per-u">PER</option>
+                  <option value="Endurance" data-i18n="end-u">END</option>
+                  <option value="Charisma" data-i18n="cha-u">CHA</option>
+                  <option value="Intelligence" data-i18n="int-u">INT</option>
+                  <option value="Agility" data-i18n="agl-u">AGL</option>
+                  <option value="Luck" data-i18n="luk-u">LUK</option>
+                </select>
+                <span>+</span>
+                <select name="attr_custom_ac_part2">
+                  <option value="none" selected="selected" data-i18n="none-u">NONE</option>
+                  <option value="Strength" data-i18n="str-u">STR</option>
+                  <option value="Perception" data-i18n="per-u">PER</option>
+                  <option value="Endurance" data-i18n="end-u">END</option>
+                  <option value="Charisma" data-i18n="cha-u">CHA</option>
+                  <option value="Intelligence" data-i18n="int-u">INT</option>
+                  <option value="Agility" data-i18n="agl-u">AGL</option>
+                  <option value="Luck" data-i18n="luk-u">LUK</option>
+                </select><br>
+                <input type="checkbox" name="attr_custom_ac_shield" value="yes" checked>
+                <span data-i18n="allow-shields-u">ALLOW SHIELDS?</span>
+                <hr style="margin: 2px">
+              </div>
+              <div class="row">
+                <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
+              </div>
+              <fieldset class="repeating_hpmod">
+                <div style="padding-left: 15px; padding-bottom: 10px;">
+                  <span data-i18n="source:-u">SOURCE:</span>
+                  <input type="text" name="attr_source"><br>
+                  <span data-i18n="mod:-u">MOD:</span>
+                  <input type="text" name="attr_mod" class="num">
+                </div>
+              </fieldset>
+              <div class="row title">
+                <span data-i18n="attribute-opts-u">ATTRIBUTE OPTIONS</span>
+              </div>
+            </div>
+            <!-- <div class="class_options">
               <div class="row">
                 <span data-i18n="hit-die:-u">HIT DIE:</span>
                 <select name="attr_hitdietype">
@@ -4516,7 +4614,7 @@
                   <option value="12">D12</option>
                 </select>
               </div>
-              <!-- <div class="row">
+              <div class="row">
                 <span data-i18n="spellcasting-ability:-u">SPELLCASTING ABILITY:</span>
                 <select name="attr_cust_spellcasting_ability">
                   <option value="0*" data-i18n="none-u">NONE</option>
@@ -4527,7 +4625,7 @@
                   <option value="@{wisdom_mod}+" data-i18n="wisdom-u">WISDOM</option>
                   <option value="@{charisma_mod}+" data-i18n="charisma-u">CHARISMA</option>
                 </select>
-              </div> -->
+              </div>
               <div class="row">
                 <span data-i18n="spell-slots:-u">SPELL SLOTS:</span>
                 <select name="attr_cust_spellslots">
@@ -4618,115 +4716,9 @@
               <div class="row title">
                 <span data-i18n="spell_slot_modifiers-u">SPELL SLOT MODIFIERS</span>
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="col col2">
-            <div class="attribute_options" style="width: 234px;">
-              <div class="row skill">
-                <span data-i18n="strength-u">STRENGTH</span>
-                <span>+</span><input type="text" class="num" name="attr_strength_bonus" value="0" placeholder="0" title="@{strength_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="perception-u">PERCEPTION</span>
-                <span>+</span><input type="text" class="num" name="attr_perception_bonus" value="0" placeholder="0" title="@{perception_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="endurance-u">ENDURANCE</span>
-                <span>+</span><input type="text" class="num" name="attr_endurance_bonus" value="0" placeholder="0" title="@{endurance_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="charisma-u">CHARISMA</span>
-                <span>+</span><input type="text" class="num" name="attr_charisma_bonus" value="0" placeholder="0" title="@{charisma_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="intelligence-u">INTELLIGENCE</span>
-                <span>+</span><input type="text" class="num" name="attr_intelligence_bonus" value="0" placeholder="0" title="@{intelligence_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="agility-u">AGILITY</span>
-                <span>+</span><input type="text" class="num" name="attr_agility_bonus" value="0" placeholder="0" title="@{agility_bonus}">
-              </div>
-              <div class="row skill">
-                <span data-i18n="luck-u">LUCK</span>
-                <span>+</span><input type="text" class="num" name="attr_luck_bonus" value="0" placeholder="0" title="@{luck_bonus}">
-              </div>
-              <div class="row">
-                <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
-                <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
-              </div>
-              <div class="row">
-                <span data-i18n="initiative-style:-u">INITIATIVE STYLE:</span>
-                <select name="attr_initiative_style">
-                  <option value="@{d20}" selected="selected" data-i18n="norm">Normal</option>
-                  <option value="{@{d20},@{d20}}kh1" data-i18n="adv">Advantage</option>
-                  <option value="{@{d20},@{d20}}kl1" data-i18n="disadv">Disadvantage</option>
-                </select>
-              </div>
-              <div class="row">
-                <input type="checkbox" name="attr_init_tiebreaker" value="@{agility}/100">
-                <span data-i18n="add-agl-tiebreaker-u">ADD AGL TIEBREAKER TO INITIATIVE</span>
-              </div>
-              <div class="row">
-                <span data-i18n="armor-class-tracking:-u">ARMOR CLASS TRACKING:</span>
-                <select name="attr_custom_ac_flag">
-                  <option value="0" selected="selected" data-i18n="automatic">Automatic</option>
-                  <option value="1" data-i18n="custom">Custom</option>
-                  <option value="2" data-i18n="off">Off</option>
-                </select>
-              </div>
-              <input class="toggleflag" type="hidden" name="attr_custom_ac_flag">
-              <div class="row hidden">
-                <span data-i18n="custom_ac:-u">CUSTOM AC:</span>
-                <input type="text" class="num" name="attr_custom_ac_base" placeholder="10" value="10">
-                <span>+</span>
-                <select name="attr_custom_ac_part1">
-                  <option value="none" selected="selected" data-i18n="none-u">NONE</option>
-                  <option value="Strength" data-i18n="str-u">STR</option>
-                  <option value="Perception" data-i18n="per-u">PER</option>
-                  <option value="Endurance" data-i18n="end-u">END</option>
-                  <option value="Charisma" data-i18n="cha-u">CHA</option>
-                  <option value="Intelligence" data-i18n="int-u">INT</option>
-                  <option value="Agility" data-i18n="agl-u">AGL</option>
-                  <option value="Luck" data-i18n="luk-u">LUK</option>
-                </select>
-                <span>+</span>
-                <select name="attr_custom_ac_part2">
-                  <option value="none" selected="selected" data-i18n="none-u">NONE</option>
-                  <option value="Strength" data-i18n="str-u">STR</option>
-                  <option value="Perception" data-i18n="per-u">PER</option>
-                  <option value="Endurance" data-i18n="end-u">END</option>
-                  <option value="Charisma" data-i18n="cha-u">CHA</option>
-                  <option value="Intelligence" data-i18n="int-u">INT</option>
-                  <option value="Agility" data-i18n="agl-u">AGL</option>
-                  <option value="Luck" data-i18n="luk-u">LUK</option>
-                </select><br>
-                <input type="checkbox" name="attr_custom_ac_shield" value="yes" checked>
-                <span data-i18n="allow-shields-u">ALLOW SHIELDS?</span>
-                <hr style="margin: 2px">
-              </div>
-              <div class="row">
-                <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
-              </div>
-              <fieldset class="repeating_hpmod">
-                <div style="padding-left: 15px; padding-bottom: 10px;">
-                  <span data-i18n="levels:-u">LEVELS:</span>
-                  <select name="attr_levels">
-                    <option value="total" selected="selected" data-i18n="total-level-u">TOTAL LEVEL</option>
-                    <option value="base" data-i18n="main-class-level-u">MAIN CLASS LEVEL</option>
-                    <option value="multiclass1" data-i18n="class-2-level-u">CLASS 2 LEVEL</option>
-                    <option value="multiclass2" data-i18n="class-3-level-u">CLASS 3 LEVEL</option>
-                    <option value="multiclass3" data-i18n="class-4-level-u">CLASS 4 LEVEL</option>
-                  </select><br>
-                  <span data-i18n="source:-u">SOURCE:</span>
-                  <input type="text" name="attr_source">
-                  <span data-i18n="mod:-u">MOD:</span>
-                  <input type="text" name="attr_mod" class="num">
-                </div>
-              </fieldset>
-              <div class="row title">
-                <span data-i18n="attribute-opts-u">ATTRIBUTE OPTIONS</span>
-              </div>
-            </div>
             <div class="save_options" style="width: 234px;">
               <div class="row skill">
                 <span data-i18n="strength-save-u">Strength Save</span>
@@ -5006,7 +4998,7 @@
                 <span data-i18n="general-opts-u">GENERAL OPTIONS</span>
               </div>
             </div>
-            <div class="general_options charactermancer_options">
+            <!-- <div class="general_options charactermancer_options">
               <input type="hidden" class="warningflag" name="attr_leveler_warningflag">
               <div class="warning">
                 <span>
@@ -5029,7 +5021,7 @@
               <div class="row title">
                 <span data-i18n="mancer-opts-u">CHARACTERMANCER OPTIONS</span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -6515,8 +6507,7 @@
                     break;
                 case "perception":
                     update_skills(["energy_weapons", "guns"]);
-                    update_ac();
-                    update_initiative();
+                    update_passive_perception();
                     break;
                 case "intelligence":
                     update_skills(["explosives", "medicine", "repair", "science", "survival"]);
@@ -6526,7 +6517,11 @@
                     break;
                 case "agility":
                     update_skills(["lockpick", "sneak"]);
+                    update_initiative();
+                    update_ac();
                     break;
+                case "luck":
+                    update_critical_strike();
                 default:
                     false;
             }
@@ -7432,6 +7427,7 @@
             {name: "acmod", list: ["global_ac_name"]},
             {name: "skillmod", list: ["global_skill_name"]},
             {name: "attack", list: ["atkname", "spellid"]},
+            {name: "weapon", list: ["wpnname", "spellid"]},
             {name: "hpmod", list: ["levels", "source", "mod"]}
         ];
         for(var x=1; x<=9; x++) {
@@ -8977,8 +8973,57 @@
         };
     };
 
+    const update_weapons = (update_id, source) => {
+        if (update_id.substring(0,1) === "-" && update_id.length === 20) {
+            do_update_weapon([update_id], source);
+        } else if(["strength","perception","endurance","charisma","intelligence","agility","luck","spells","all"].indexOf(update_id) > -1) {
+            getSectionIDs("repeating_weapon", function(idarray) {
+                if(update_id === "all") {
+                    do_update_weapon(idarray);
+                } else if(update_id === "spells") {
+                    var weapon_attribs = [];
+                    _.each(idarray, function(id) {
+                        weapon_attribs.push("repeating_weapon_" + id + "_spellid", "repeating_weapon_" + id + "_spelllevel");
+                    });
+                    getAttrs(weapon_attribs, function(v) {
+                        var filteredIds = _.filter(idarray, function(id) {
+                            return v["repeating_weapon_" + id + "_spellid"] && v["repeating_weapon_" + id + "_spellid"] != "";
+                        });
+                        var spell_weapons = {};
+                        _.each(filteredIds, function(weapon_id) {
+                            spell_weapons[weapon_id] = {
+                                spell_id: v["repeating_weapon_" + weapon_id + "_spellid"],
+                                spell_lvl: v["repeating_weapon_" + weapon_id + "_spelllevel"]
+                            };
+                        });
+                        _.each(spell_weapons, function(data, weapon_id) { update_weapon_from_spell(data.spell_lvl, data.spell_id, weapon_id); });
+                    });
+                } else {
+                    var weapon_attribs = ["spellcasting_ability"];
+                    _.each(idarray, function(id) {
+                        weapon_attribs.push("repeating_weapon_" + id + "_atkattr_base");
+                        weapon_attribs.push("repeating_weapon_" + id + "_dmgattr");
+                        weapon_attribs.push("repeating_weapon_" + id + "_dmg2attr");
+                        weapon_attribs.push("repeating_weapon_" + id + "_savedc");
+                    });
+                    getAttrs(weapon_attribs, function(v) {
+                        var attr_weapon_ids = [];
+                        _.each(idarray, function(id) {
+                            if((v["repeating_weapon_" + id + "_atkattr_base"] && v["repeating_weapon_" + id + "_atkattr_base"].indexOf(update_id) > -1) || (v["repeating_weapon_" + id + "_dmgattr"] && v["repeating_weapon_" + id + "_dmgattr"].indexOf(update_id) > -1) || (v["repeating_weapon_" + id + "_dmg2attr"] && v["repeating_weapon_" + id + "_dmg2attr"].indexOf(update_id) > -1) || (v["repeating_weapon_" + id + "_savedc"] && v["repeating_weapon_" + id + "_savedc"].indexOf(update_id) > -1) || (v["repeating_weapon_" + id + "_savedc"] && v["repeating_weapon_" + id + "_savedc"] === "(@{spell_save_dc})" && v["spellcasting_ability"] && v["spellcasting_ability"].indexOf(update_id) > -1)) {
+                                attr_weapon_ids.push(id);
+                            }
+                        });
+                        if(attr_weapon_ids.length > 0) {
+                            do_update_weapon(attr_weapon_ids);
+                        }
+                    });
+                };
+            });
+        };
+    };
+
     var do_update_attack = function(attack_array, source) {
-        var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","dexterity_mod","constitution_mod","intelligence_mod","wisdom_mod","charisma_mod","spellcasting_ability","spell_save_dc","spell_attack_mod", "spell_dc_mod", "global_damage_mod_roll", "global_damage_mod_crit"];
+        var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","spellcasting_ability","spell_save_dc","spell_attack_mod", "spell_dc_mod", "global_damage_mod_roll", "global_damage_mod_crit"];
         _.each(attack_array, function(attackid) {
             attack_attribs.push("repeating_attack_" + attackid + "_atkflag");
             attack_attribs.push("repeating_attack_" + attackid + "_atkname");
@@ -9222,6 +9267,251 @@
         });
     };
 
+    var do_update_weapon = function(weapon_array, source) {
+        var weapon_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","spellcasting_ability","spell_save_dc","spell_weapon_mod", "spell_dc_mod", "global_damage_mod_roll", "global_damage_mod_crit"];
+        _.each(weapon_array, function(weaponid) {
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkflag");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkname");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkattr_base");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkmod");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkprofflag");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkmagic");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgflag");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgbase");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgattr");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgmod");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgtype");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2flag");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2base");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2attr");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2mod");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2type");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmgcustcrit");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_dmg2custcrit");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_saveflag");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_savedc");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_saveeffect");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_saveflat");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_hldmg");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_spellid");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_spelllevel");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_atkrange");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_itemid");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_ammo");
+            weapon_attribs.push("repeating_weapon_" + weaponid + "_global_damage_mod_field");
+        });
+
+        getAttrs(weapon_attribs, function(v) {
+            _.each(weapon_array, function(weaponid) {
+                var callbacks = [];
+                var update = {};
+                var hbonus = "";
+                var hdmg1 = "";
+                var hdmg2 = "";
+                var dmg = "";
+                var dmg2 = "";
+                var rollbase = "";
+                var spellweapon = false;
+                var magicweaponmod = 0;
+                var magicsavemod = 0;
+                var atkattr_abrev = "";
+                var dmgattr_abrev = "";
+                var dmg2attr_abrev = "";
+                var pbd_safe = v["pbd_safe"] ? v["pbd_safe"] : "";
+                var global_crit = v["repeating_weapon_" + weaponid + "_global_damage_mod_field"] && v["repeating_weapon_" + weaponid + "_global_damage_mod_field"] != "" ? "@{global_damage_mod_crit}" : "";
+                var hldmgcrit = v["repeating_weapon_" + weaponid + "_hldmg"] && v["repeating_weapon_" + weaponid + "_hldmg"] != "" ? v["repeating_weapon_" + weaponid + "_hldmg"].slice(0, 7) + "crit" + v["repeating_weapon_" + weaponid + "_hldmg"].slice(7) : "";
+                if(v["repeating_weapon_" + weaponid + "_spellid"] && v["repeating_weapon_" + weaponid + "_spellid"] != "") {
+                    spellweapon = true;
+                    magicweaponmod = v["spell_weapon_mod"] && !isNaN(parseInt(v["spell_weapon_mod"],10)) ? parseInt(v["spell_weapon_mod"],10) : 0;
+                    magicsavemod = v["spell_dc_mod"] && !isNaN(parseInt(v["spell_dc_mod"],10)) ? parseInt(v["spell_dc_mod"],10) : 0;
+                };
+
+                if(!v["repeating_weapon_" + weaponid + "_atkattr_base"] || v["repeating_weapon_" + weaponid + "_atkattr_base"] === "0") {
+                    atkattr_base = 0
+                } else if(v["repeating_weapon_" + weaponid + "_atkattr_base"] && v["repeating_weapon_" + weaponid + "_atkattr_base"] === "spell") {
+                    atkattr_base = parseInt(v[v["spellcasting_ability"].substring(2, v["spellcasting_ability"].length - 2)], 10);
+                    atkattr_abrev = v["spellcasting_ability"].substring(2, 5).toUpperCase();
+                } else {
+                    atkattr_base = parseInt(v[v["repeating_weapon_" + weaponid + "_atkattr_base"].substring(2, v["repeating_weapon_" + weaponid + "_atkattr_base"].length - 1)], 10);
+                    atkattr_abrev = v["repeating_weapon_" + weaponid + "_atkattr_base"].substring(2, 5).toUpperCase();
+                };
+
+                if(!v["repeating_weapon_" + weaponid + "_dmgattr"] || v["repeating_weapon_" + weaponid + "_dmgattr"] === "0") {
+                    dmgattr = 0;
+                } else if(v["repeating_weapon_" + weaponid + "_dmgattr"] && v["repeating_weapon_" + weaponid + "_dmgattr"] === "spell") {
+                    dmgattr = parseInt(v[v["spellcasting_ability"].substring(2, v["spellcasting_ability"].length - 2)], 10);
+                    dmgattr_abrev = v["spellcasting_ability"].substring(2, 5).toUpperCase();
+                } else {
+                    dmgattr = parseInt(v[v["repeating_weapon_" + weaponid + "_dmgattr"].substring(2, v["repeating_weapon_" + weaponid + "_dmgattr"].length - 1)], 10);
+                    dmgattr_abrev =v["repeating_weapon_" + weaponid + "_dmgattr"].substring(2, 5).toUpperCase();
+                };
+
+                if(!v["repeating_weapon_" + weaponid + "_dmg2attr"] || v["repeating_weapon_" + weaponid + "_dmg2attr"] === "0") {
+                    dmg2attr = 0;
+                } else if(v["repeating_weapon_" + weaponid + "_dmg2attr"] && v["repeating_weapon_" + weaponid + "_dmg2attr"] === "spell") {
+                    dmg2attr = parseInt(v[v["spellcasting_ability"].substring(2, v["spellcasting_ability"].length - 2)], 10);
+                    dmg2attr_abrev = v["spellcasting_ability"].substring(2, 5).toUpperCase();
+                } else {
+                    dmg2attr = parseInt(v[v["repeating_weapon_" + weaponid + "_dmg2attr"].substring(2, v["repeating_weapon_" + weaponid + "_dmg2attr"].length - 1)], 10);
+                    dmg2attr_abrev =v["repeating_weapon_" + weaponid + "_dmg2attr"].substring(2, 5).toUpperCase();
+                };
+
+                var dmgbase = v["repeating_weapon_" + weaponid + "_dmgbase"] && v["repeating_weapon_" + weaponid + "_dmgbase"] != "" ? v["repeating_weapon_" + weaponid + "_dmgbase"] : 0;
+                var dmg2base = v["repeating_weapon_" + weaponid + "_dmg2base"] && v["repeating_weapon_" + weaponid + "_dmg2base"] != "" ? v["repeating_weapon_" + weaponid + "_dmg2base"] : 0;
+                var dmgmod = v["repeating_weapon_" + weaponid + "_dmgmod"] && isNaN(parseInt(v["repeating_weapon_" + weaponid + "_dmgmod"],10)) === false ? parseInt(v["repeating_weapon_" + weaponid + "_dmgmod"],10) : 0;
+                var dmg2mod = v["repeating_weapon_" + weaponid + "_dmg2mod"] && isNaN(parseInt(v["repeating_weapon_" + weaponid + "_dmg2mod"],10)) === false ? parseInt(v["repeating_weapon_" + weaponid + "_dmg2mod"],10) : 0;
+                var dmgtype = v["repeating_weapon_" + weaponid + "_dmgtype"] ? v["repeating_weapon_" + weaponid + "_dmgtype"] + " " : "";
+                var dmg2type = v["repeating_weapon_" + weaponid + "_dmg2type"] ? v["repeating_weapon_" + weaponid + "_dmg2type"] + " " : "";
+                var pb = v["repeating_weapon_" + weaponid + "_atkprofflag"] && v["repeating_weapon_" + weaponid + "_atkprofflag"] != 0 && v.pb ? v.pb : 0;
+                var atkmod = v["repeating_weapon_" + weaponid + "_atkmod"] && v["repeating_weapon_" + weaponid + "_atkmod"] != "" ? parseInt(v["repeating_weapon_" + weaponid + "_atkmod"],10) : 0;
+                var atkmag = v["repeating_weapon_" + weaponid + "_atkmagic"] && v["repeating_weapon_" + weaponid + "_atkmagic"] != "" ? parseInt(v["repeating_weapon_" + weaponid + "_atkmagic"],10) : 0;
+                var dmgmag = isNaN(atkmag) === false && atkmag != 0 && ((v["repeating_weapon_" + weaponid + "_dmgflag"] && v["repeating_weapon_" + weaponid + "_dmgflag"] != 0) || (v["repeating_weapon_" + weaponid + "_dmg2flag"] && v["repeating_weapon_" + weaponid + "_dmg2flag"] != 0)) ? "+ " + atkmag + " Magic Bonus" : "";
+                if(v["repeating_weapon_" + weaponid + "_atkflag"] && v["repeating_weapon_" + weaponid + "_atkflag"] != 0) {
+                    bonus_mod = atkattr_base + atkmod + atkmag + magicweaponmod;
+                    if(v["pb_type"] && v["pb_type"] === "die") {
+                        plus_minus = bonus_mod > -1 ? "+" : "";
+                        bonus = bonus_mod + "+" + pb;
+                    }
+                    else {
+                        bonus_mod = bonus_mod + parseInt(pb, 10);
+                        plus_minus = bonus_mod > -1 ? "+" : "";
+                        bonus = plus_minus + bonus_mod;
+                    };
+                }
+                else if(v["repeating_weapon_" + weaponid + "_saveflag"] && v["repeating_weapon_" + weaponid + "_saveflag"] != 0) {
+                    if(!v["repeating_weapon_" + weaponid + "_savedc"] || (v["repeating_weapon_" + weaponid + "_savedc"] && v["repeating_weapon_" + weaponid + "_savedc"] === "(@{spell_save_dc})")) {
+                        var tempdc = v["spell_save_dc"];
+                    }
+                    else if(v["repeating_weapon_" + weaponid + "_savedc"] && v["repeating_weapon_" + weaponid + "_savedc"] === "(@{saveflat})") {
+                        var tempdc = isNaN(parseInt(v["repeating_weapon_" + weaponid + "_saveflat"])) === false ? parseInt(v["repeating_weapon_" + weaponid + "_saveflat"]) : "0";
+                    }
+                    else {
+                        var savedcattr = v["repeating_weapon_" + weaponid + "_savedc"].replace(/^[^{]*{/,"").replace(/\_.*$/,"");
+                        var safe_pb = v["pb_type"] && v["pb_type"] === "die" ? parseInt(pb.substring(1), 10) / 2 : parseInt(pb,10);
+                        var safe_attr = v[savedcattr + "_mod"] ? parseInt(v[savedcattr + "_mod"],10) : 0;
+                        var tempdc = 8 + safe_attr + safe_pb + magicsavemod;
+                    };
+                    bonus = "DC" + tempdc;
+                }
+                else {
+                    bonus = "-";
+                }
+                if(v["repeating_weapon_" + weaponid + "_dmgflag"] && v["repeating_weapon_" + weaponid + "_dmgflag"] != 0) {
+                    if(spellweapon === true && dmgbase.indexOf("[[round((@{level} + 1) / 6 + 0.5)]]") > -1) {
+                        // SPECIAL CANTRIP DAMAGE
+                        dmgdiestring = Math.round(((parseInt(v["level"], 10) + 1) / 6) + 0.5).toString()
+                        dmg = dmgdiestring + dmgbase.substring(dmgbase.lastIndexOf("d"));
+                        if(dmgattr + dmgmod != 0) {
+                            dmg = dmg + "+" + (dmgattr + dmgmod);
+                        }
+                        dmg = dmg + " " + dmgtype;
+                    }
+                    else {
+                        if(dmgbase === 0 && (dmgattr + dmgmod === 0)){
+                            dmg = 0;
+                        }
+                        if(dmgbase != 0) {
+                            dmg = dmgbase;
+                        }
+                        if(dmgbase != 0 && (dmgattr + dmgmod != 0)){
+                            dmg = dmgattr + dmgmod > 0 ? dmg + "+" : dmg;
+                        }
+                        if(dmgattr + dmgmod != 0) {
+                            dmg = dmg + (dmgattr + dmgmod);
+                        }
+                        dmg = dmg + " " + dmgtype;
+                    }
+                }
+                else {
+                    dmg = "";
+                };
+                if(v["repeating_weapon_" + weaponid + "_dmg2flag"] && v["repeating_weapon_" + weaponid + "_dmg2flag"] != 0) {
+                    if(dmg2base === 0 && (dmg2attr + dmg2mod === 0)){
+                        dmg2 = 0;
+                    }
+                    if(dmg2base != 0) {
+                        dmg2 = dmg2base;
+                    }
+                    if(dmg2base != 0 && (dmg2attr + dmg2mod != 0)){
+                        dmg2 = dmg2attr + dmg2mod > 0 ? dmg2 + "+" : dmg2;
+                    }
+                    if(dmg2attr + dmg2mod != 0) {
+                        dmg2 = dmg2 + (dmg2attr + dmg2mod);
+                    }
+                    dmg2 = dmg2 + " " + dmg2type;
+                }
+                else {
+                    dmg2 = "";
+                };
+                dmgspacer = v["repeating_weapon_" + weaponid + "_dmgflag"] && v["repeating_weapon_" + weaponid + "_dmgflag"] != 0 && v["repeating_weapon_" + weaponid + "_dmg2flag"] && v["repeating_weapon_" + weaponid + "_dmg2flag"] != 0 ? "+ " : "";
+                crit1 = v["repeating_weapon_" + weaponid + "_dmgcustcrit"] && v["repeating_weapon_" + weaponid + "_dmgcustcrit"] != "" ? v["repeating_weapon_" + weaponid + "_dmgcustcrit"] : dmgbase;
+                crit2 = v["repeating_weapon_" + weaponid + "_dmg2custcrit"] && v["repeating_weapon_" + weaponid + "_dmg2custcrit"] != "" ? v["repeating_weapon_" + weaponid + "_dmg2custcrit"] : dmg2base;
+                r1 = v["repeating_weapon_" + weaponid + "_atkflag"] && v["repeating_weapon_" + weaponid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
+                r2 = v["repeating_weapon_" + weaponid + "_atkflag"] && v["repeating_weapon_" + weaponid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
+                if(v["repeating_weapon_" + weaponid + "_atkflag"] && v["repeating_weapon_" + weaponid + "_atkflag"] != 0) {
+                    if(magicweaponmod != 0) {hbonus = " + " + magicweaponmod + "[SPELLATK]" + hbonus};
+                    if(atkmag != 0) {hbonus = " + " + atkmag + "[MAGIC]" + hbonus};
+                    if(pb != 0) {hbonus = " + " + pb + pbd_safe + "[PROF]" + hbonus};
+                    if(atkmod != 0) {hbonus = " + " + atkmod + "[MOD]" + hbonus};
+                    if(atkattr_base != 0) {hbonus = " + " + atkattr_base + "[" + atkattr_abrev + "]" + hbonus};
+                }
+                else {
+                    hbonus = "";
+                }
+                if(v["repeating_weapon_" + weaponid + "_dmgflag"] && v["repeating_weapon_" + weaponid + "_dmgflag"] != 0) {
+                    if(atkmag != 0) {hdmg1 = " + " + atkmag + "[MAGIC]" + hdmg1};
+                    if(dmgmod != 0) {hdmg1 = " + " + dmgmod + "[MOD]" + hdmg1};
+                    if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
+                    hdmg1 = dmgbase + hdmg1;
+                }
+                else {
+                    hdmg1 = "0";
+                }
+                if(v["repeating_weapon_" + weaponid + "_dmg2flag"] && v["repeating_weapon_" + weaponid + "_dmg2flag"] != 0) {
+                    if(dmg2mod != 0) {hdmg2 = " + " + dmg2mod + "[MOD]" + hdmg2};
+                    if(dmg2attr != 0) {hdmg2 = " + " + dmg2attr + "[" + dmg2attr_abrev + "]" + hdmg2};
+                    hdmg2 = dmg2base + hdmg2;
+                }
+                else {
+                    hdmg2 = "0";
+                }
+                var globaldamage = `[[${v.global_damage_mod_roll && v.global_damage_mod_roll !== "" ? v.global_damage_mod_roll : "0"}]]`;
+                var globaldamagecrit = `[[${v.global_damage_mod_crit && v.global_damage_mod_crit !== "" ? v.global_damage_mod_crit : "0"}]]`;
+                if(v.dtype === "full") {
+                    pickbase = "full";
+                    rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globalweapon=@{global_weapon_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
+                }
+                else if(v["repeating_weapon_" + weaponid + "_atkflag"] && v["repeating_weapon_" + weaponid + "_atkflag"] != 0) {
+                    pickbase = "pick";
+                    rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_weapon_weapon_dmg)}} {{rnamec=[@{atkname}](~repeating_weapon_weapon_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globalweapon=@{global_weapon_mod}}} ammo=@{ammo} @{charname_output}";
+                }
+                else if(v["repeating_weapon_" + weaponid + "_dmgflag"] && v["repeating_weapon_" + weaponid + "_dmgflag"] != 0) {
+                    pickbase = "dmg";
+                    rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
+                }
+                else {
+                    pickbase = "empty";
+                    rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} ammo=@{ammo} @{charname_output}"
+                }
+                update["repeating_weapon_" + weaponid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
+                update["repeating_weapon_" + weaponid + "_rollbase_crit"] = "@{wtype}&{template:dmg} {{crit=1}} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "]]}} {{crit2=[[" + crit2 + "]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}"
+                update["repeating_weapon_" + weaponid + "_atkbonus"] = bonus;
+                update["repeating_weapon_" + weaponid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + dmgmag + " ";
+                update["repeating_weapon_" + weaponid + "_rollbase"] = rollbase;
+                if(v["repeating_weapon_" + weaponid + "_spellid"] && v["repeating_weapon_" + weaponid + "_spellid"] != "" && (!source || source && source != "spell") && v["repeating_weapon_" + weaponid + "_spellid"].length == 20) {
+                    var spellid = v["repeating_weapon_" + weaponid + "_spellid"];
+                    var lvl = v["repeating_weapon_" + weaponid + "_spelllevel"];
+                    callbacks.push( function() {update_spell_from_weapon(lvl, spellid, weaponid);} );
+                }
+                if(v["repeating_weapon_" + weaponid + "_itemid"] && v["repeating_weapon_" + weaponid + "_itemid"] != "" && (!source || source && source != "item")) {
+                    var itemid = v["repeating_weapon_" + weaponid + "_itemid"];
+                    callbacks.push( function() {update_item_from_weapon(itemid, weaponid);} );
+                }
+                setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+            });
+        });
+    };
+
     var update_spell_from_attack = function(lvl, spellid, attackid) {
         var update = {};
         getAttrs(["repeating_attack_" + attackid + "_atkname", "repeating_attack_" + attackid + "_atkrange", "repeating_attack_" + attackid + "_atkflag", "repeating_attack_" + attackid + "_atkattr_base", "repeating_attack_" + attackid + "_dmgbase", "repeating_attack_" + attackid + "_dmgtype", "repeating_attack_" + attackid + "_dmg2base", "repeating_attack_" + attackid + "_dmg2type", "repeating_attack_" + attackid + "_saveflag", "repeating_attack_" + attackid + "_saveattr", "repeating_attack_" + attackid + "_saveeffect"], function(v) {
@@ -9451,6 +9741,10 @@
         removeRepeatingRow("repeating_attack_" + attackid);
     };
 
+    var remove_weapon = function(weaponid) {
+        removeRepeatingRow("repeating_weapon_" + attackid);
+    };
+
     const remove_resource = (id) => {
         const attr = (id === "other_resource") ? id : `repeating_resource_${id}_itemid`;
         let update = {};
@@ -9560,7 +9854,7 @@
             }
             else {
                 var update = {};
-                var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","dexterity_mod","constitution_mod","intelligence_mod","wisdom_mod","charisma_mod", "custom_ac_shield"];
+                var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
                 getSectionIDs("repeating_acmod", function(acidarray) {
                     _.each(acidarray, function(currentID, i) {
                         ac_attrs.push("repeating_acmod_" + currentID + "_global_ac_val");
@@ -9686,7 +9980,7 @@
             });
             getAttrs(attrs_to_get, function(v) {
                 var update = {};
-                var final_init = parseInt(v["aglity_mod"], 10);
+                var final_init = parseInt(v["agility_mod"], 10);
                 if(v["initmod"] && !isNaN(parseInt(v["initmod"], 10))) {
                     final_init = final_init + parseInt(v["initmod"], 10);
                 }
@@ -9983,7 +10277,7 @@
 
     var update_spell_info = function(attr) {
         var update = {};
-        getAttrs(["spellcasting_ability","spell_dc_mod","globalmagicmod","strength_mod","dexterity_mod","constitution_mod","intelligence_mod","wisdom_mod","charisma_mod"], function(v) {
+        getAttrs(["spellcasting_ability","spell_dc_mod","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod"], function(v) {
             if(attr && v["spellcasting_ability"] && v["spellcasting_ability"].indexOf(attr) === -1) {
                 return
             };
@@ -10045,8 +10339,9 @@
     };
 
     var update_passive_perception = function() {
-        getAttrs(["pb_type","passiveperceptionmod","perception_bonus"], function(v) {
-            var passive_perception = 10;
+        getAttrs(["pb_type","perception_mod","passiveperceptionmod","perception_bonus"], function(v) {
+            var pass_per = 10;
+            var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
             var mod = !isNaN(parseInt(v["passiveperceptionmod"],10)) ? parseInt(v["passiveperceptionmod"],10) : 0;
             var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
             if(v["pb_type"] && v["pb_type"] === "die" && v["perception_bonus"] && isNaN(v["perception_bonus"]) && v["perception_bonus"].indexOf("+") > -1) {
@@ -10056,8 +10351,19 @@
                 var half_pb_die = !isNaN(parseInt(pieces[2],10)) ? parseInt(pieces[2],10)/2 : 2;
                 bonus = base + (num_dice * half_pb_die);
             }
-            passive_perception = passive_perception + bonus + mod;
-            setAttrs({passive_wisdom: passive_perception})
+            pass_per = pass_per + per_mod + bonus + mod;
+            setAttrs({passive_perception: pass_per})
+        });
+    };
+
+    var update_critical_strike = function() {
+        getAttrs(["luck_mod","criticalstrikemod","luck_bonus"], function(v) {
+            var crit = 10;
+            var luk_mod = !isNaN(parseInt(v["luck_mod"],10)) ? parseInt(v["luck_mod"],10) : 0;
+            var mod = !isNaN(parseInt(v["criticalstrikemod"],10)) ? parseInt(v["criticalstrikemod"],10) : 0;
+            var bonus = !isNaN(parseInt(v["luck_bonus"],10)) ? parseInt(v["luck_bonus"],10) : 0;
+            crit = crit + luk_mod + bonus + mod;
+            setAttrs({critical_strike: crit})
         });
     };
 
@@ -13982,7 +14288,7 @@
         var silentset = {};
         var silentattrs = ["class_resource_name", "class_resource", "class_resource_max", "other_resource_name", "other_resource", "other_resource_max", "other_resource_itemid", "class", "class_display", "subclass", "hitdietype", "hitdie_final", "race", "subrace", "race_display", "custom_class", "cust_classname"];
         var clearset = {};
-        var clearattrs = ["hp", "hp_max", "size", "speed", "gp", "alignment", "global_damage_mod_flag", "spellcasting_ability", "cust_hitdietype", "cust_spellslots", "cust_spellcasting_ability", "ac", "jack_bonus", "jack_attr", "death_save_bonus", "weighttotal", "initiative_bonus", "hit_dice", "hit_dice_max", "pb", "jack", "caster_level", "spell_attack_mod", "spell_attack_bonus", "spell_save_dc", "passive_wisdom", "custom_ac_base", "custom_ac_part1", "custom_ac_part2", "custom_ac_shield", "background", "global_ac_mod_flag", "global_attack_mod_flag", "global_save_mod_flag", "global_skill_mod_flag"];
+        var clearattrs = ["hp", "hp_max", "size", "speed", "gp", "alignment", "global_damage_mod_flag", "spellcasting_ability", "cust_hitdietype", "cust_spellslots", "cust_spellcasting_ability", "ac", "jack_bonus", "jack_attr", "death_save_bonus", "weighttotal", "initiative_bonus", "hit_dice", "hit_dice_max", "pb", "jack", "caster_level", "spell_attack_mod", "spell_attack_bonus", "spell_save_dc", "passive_perception", "custom_ac_base", "custom_ac_part1", "custom_ac_part2", "custom_ac_shield", "background", "global_ac_mod_flag", "global_attack_mod_flag", "global_save_mod_flag", "global_skill_mod_flag"];
         var classname = "";
         var set = {gp: 0};
         var allDrops = [];

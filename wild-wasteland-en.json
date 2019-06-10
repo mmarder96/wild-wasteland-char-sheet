@@ -301,6 +301,7 @@
 	"dmg-type-u": "DAMAGE/TYPE",
 	"dmg-mod-u": "DAMAGE +/-",
 	"attack:-u": "ATTACK:",
+	"weapon:-u": "WEAPON:",
 	"proficient-u": "PROFICIENT",
 	"range-place": "Self (60-foot cone)",
 	"magic-bonus:-u": "MAGIC BONUS:",

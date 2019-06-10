@@ -1157,6 +1157,7 @@ button[type=roll] * {
 }
 
 .attack .options,
+.weapon .options,
 .spell .options,
 .tool .options,
 .npc .npc_options,
@@ -1533,6 +1534,7 @@ span.spellconcentration {
 
 .tool .options,
 .attack .options,
+.weapon .options,
 .spell .options,
 .proficiencies .options,
 .traits .options,
@@ -1542,6 +1544,7 @@ span.spellconcentration {
 
 .tool .options span,
 .attack .options span,
+.weapon .options span,
 .spell .options span,
 .options .body span,
 .proficiencies .options span,
@@ -1554,6 +1557,7 @@ span.spellconcentration {
 
 .tool .options input,
 .attack .options input[type=text],
+.weapon .options input[type=text],
 .spell .options input[type=text],
 .options .body input[type=text],
 .proficiencies .options input[type=text],
@@ -1569,6 +1573,7 @@ span.spellconcentration {
 
 .tool .options select,
 .attack .options select,
+.weapon .options select,
 .spell .options select,
 .options .body select,
 .proficiencies .options select,
@@ -1594,8 +1599,8 @@ span.spellconcentration {
 }
 
 .tool .options input[type=checkbox],
-.attack input[type=checkbox],
 .attack .options input[type=checkbox],
+.weapon .options input[type=checkbox],
 .spell .options input[type=checkbox],
 .options .body input[type=checkbox],
 .npc .npc_options input[type=checkbox],
@@ -1609,6 +1614,7 @@ span.spellconcentration {
 }
 
 .attack .options input[type=text].num,
+.weapon .options input[type=text].num,
 .options input[type=text].num {
   width: 15px;
   text-align: center;
@@ -2537,7 +2543,8 @@ span.spellconcentration {
 
 .npc .display .traits textarea,
 .npc .reaction textarea,
-.attack textarea {
+.attack textarea,
+.weapon textarea {
   resize: vertical;
   height: 36px;
   min-height: 36px;
@@ -3031,11 +3038,13 @@ span.spellconcentration {
   display: block;
 }
 
-.attack input[type=text].flat {
+.attack input[type=text].flat,
+.weapon input[type=text].flat {
   display: none;
 }
 
-.attack .flatflag[value*="saveflat"] ~ input[type=text].flat {
+.attack .flatflag[value*="saveflat"] ~ input[type=text].flat,
+.weapon .flatflag[value*="saveflat"] ~ input[type=text].flat {
   display: inline-block;
 }
 
@@ -3333,6 +3342,16 @@ span.spellconcentration {
 
 .charsheet .options .row span.transition_text_highlight {
   color: #F00;
+}
+
+.weapons input[type="checkbox"] {
+  display: inline;
+  height: 12px;
+  width: 12px;
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  margin-left: 5px;
+  margin-top: 10px;
 }
 
 .globalattack input[type="checkbox"] {
