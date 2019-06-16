@@ -212,7 +212,7 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 }
 
 .sheet-header .sheet-top {
-  height: 42px;
+  height: 45px;
 }
 
 .sheet-header .sheet-part {
@@ -276,7 +276,6 @@ input[type=radio].sheet-tab-button.sheet-spells + span {
 
 .sheet-header input[type=number] {
   text-align: center;
-  margin-bottom: -9px;
 }
 
 .sheet-header input[type=number]::-webkit-inner-spin-button,
@@ -645,6 +644,7 @@ button[type=roll] * {
 .sheet-globalattack.sheet-acmod label input {
   font-weight: normal;
   font-size: 1em;
+  margin-bottom: 1px;
 }
 
 .sheet-globalattack.sheet-acmod label input[type="number"] {
@@ -719,7 +719,7 @@ button[type=roll] * {
 }
 
 .sheet-def-dt-speed-container div {
-  width: calc(31%);
+  width: 31.5%;
   height: 100%;
   border: 1px solid #666;
   border-radius: 5px;
@@ -983,7 +983,6 @@ button[type=roll] * {
 }
 
 .sheet-traits .sheet-display .sheet-title {
-  font-family: "Times New Roman", Times, serif;
   font-size: 16px;
   text-transform: capitalize;
   font-variant: small-caps;

@@ -69,16 +69,18 @@
             <input type="text" name="attr_npc_type" placeholder="Medium fiend, any evil alignment" data-i18n-placeholder="npc-type-place">
         </div>
         <div class="row">
-            <span data-i18n="armor-class-u">ARMOR CLASS</span>
-            <input class="num" type="text" name="attr_npc_ac" placeholder="10">
-            <span data-i18n="type-u">TYPE</span>
-            <input type="text" name="attr_npc_actype" placeholder="scale mail" data-i18n-placeholder="npc-armor-place" value="">
-        </div>
-        <div class="row">
             <span data-i18n="hit-points-u">HIT POINTS</span>
             <input class="num" type="text" name="attr_hp_max" placeholder="82">
-            <span data-i18n="formula-u">FORMULA</span>
-            <input type="text" name="attr_npc_hpformula" placeholder="11d8 + 33">
+        </div>
+        <div class="row">
+            <span data-i18n="damage-threshold-u">DAMAGE THRESHOLD</span>
+            <input class="num" type="text" name="attr_npc_ac" placeholder="10">
+            <span data-i18n="type-u">TYPE</span>
+            <input type="text" name="attr_npc_actype" placeholder="light armor" data-i18n-placeholder="npc-armor-place" value="">
+        </div>
+        <div class="row">
+            <span data-i18n="defense-u">DEFENSE</span>
+            <input type="text" name="attr_npc_defense" placeholder="10" data-i18n-placeholder="npc-defense-place">
         </div>
         <div class="row">
             <span data-i18n="speed-u">SPEED</span>
@@ -239,10 +241,10 @@
           <span data-i18n="token_size-u">TOKEN SIZE</span>
           <input class="text" name="attr_token_size" value="1" placeholder="1">
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <input class="npcspellcastingflag" type="checkbox" name="attr_npcspellcastingflag" value="1">
           <span data-i18n="spellcast-npc-u">SPELLCASTING NPC</span>
-          <!-- <div class="npcspelloptions">
+          <div class="npcspelloptions">
             <span data-i18n="spell-ability-u">SPELLCASTING ABILITY</span>
             <select name="attr_spellcasting_ability" style="margin: 0px; width: auto; padding: 0px; height: 15px;">
               <option value="0*" data-i18n="none-u">NONE</option>
@@ -253,7 +255,7 @@
               <option value="@{wisdom_mod}+" data-i18n="wisdom-u">WISDOM</option>
               <option value="@{charisma_mod}+" data-i18n="charisma-u">CHARISMA</option>
             </select>
-          </div> -->
+          </div>
           <div class="npcspelloptions">
             <div class="row">
               <span data-i18n="glob-atk-mod:-u">GLOBAL MAGIC ATTACK MODIFIER:</span>
@@ -268,7 +270,7 @@
               <input type="text" class="num" name="attr_spell_dc_mod" placeholder="0" value="0">
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <input type="checkbox" name="attr_npcreactionsflag" value="1">
           <span data-i18n="has-reaction-u">HAS REACTIONS</span>
@@ -332,10 +334,8 @@
         </div>
         <div class="triangle"></div>
         <div class="row red" style="position:relative;">
-          <span data-i18n="ac" class="bold">Armor Class</span>
-          <span class="num" name="attr_npc_ac"></span>
-          <input class="actype" type="hidden" name="attr_npc_actype" value="">
-          <span class="parens" name="attr_npc_actype"></span>
+          <span data-i18n="hp" class="bold">Hit Points</span>
+          <span class="num3" name="attr_hp_max"></span>
           <button type="roll" name="roll_npc_init" style="position: absolute; right: 5px; height: 30px; width: 20px;"
             value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{init}}} {{mod=[[[[@{initiative_bonus}]][AGL]]]}} {{r1=[[@{d20}+[[@{initiative_bonus}]][AGL] &{tracker}]]}} {{normal=1}} {{type=Initiative}}">
             <span class="npc-init-die">t</span>
@@ -343,11 +343,14 @@
           </button>
         </div>
         <div class="row red">
-          <span data-i18n="hp" class="bold">Hit Points</span>
-          <span class="num3" name="attr_hp_max"></span>
-          <button type="roll" name="roll_npc_hpformula" value="@{wtype}&{template:npc} {{type=Hit Points}} {{normal=1}} @{npc_name_flag} {{rname=^{hp}}} {{mod=@{npc_hpformula}}} {{r1=[[@{npc_hpformula}]]}} charname=@{character_name}">
-            <span class="parens" name="attr_npc_hpformula" style="font-size: 12px; font-weight: normal;"></span>
-          </button>
+          <span data-i18n="dt" class="bold">Damage Threshold</span>
+          <span class="num" name="attr_npc_ac"></span>
+          <input class="actype" type="hidden" name="attr_npc_actype" value="">
+          <span class="parens" name="attr_npc_actype"></span>
+        </div>
+        <div class="row red">
+          <span data-i18n="defense" class="bold">Defense</span>
+          <span name="attr_npc_defense"></span>
         </div>
         <div class="row red">
           <span data-i18n="speed" class="bold">Speed</span>
@@ -462,68 +465,39 @@
         <input class="flag" type="hidden" name="attr_npc_skills_flag" value="">
         <div class="row skills skills-list red" data-i18n-list="skills-list">
           <span class="bold" data-i18n="skills">Skills</span>
-          <span data-i18n-list-item="acrobatics">
-            <input class="flag" type="hidden" name="attr_npc_acrobatics_flag" value="0">
-            <button type="roll" name="roll_npc_acrobatics" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{acrobatics}}} {{mod=@{npc_acrobatics}}} {{r1=[[@{d20}+@{npc_acrobatics}]]}} @{rtype}+@{npc_acrobatics}]]}} {{type=Skill}}">
-              <span data-i18n="acrobatics">Acrobatics</span>
-              <span class="stat" name="attr_npc_acrobatics"></span>
+          <span data-i18n-list-item="barter">
+            <input class="flag" type="hidden" name="attr_npc_barter_flag" value="0">
+            <button type="roll" name="roll_npc_barter" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{barter}}} {{mod=@{npc_barter}}} {{r1=[[@{d20}+@{npc_barter}]]}} @{rtype}+@{npc_barter}]]}} {{type=Skill}}">
+              <span data-i18n="barter">Barter</span>
+              <span class="stat" name="attr_npc_barter"></span>
             </button>
           </span>
-          <span data-i18n-list-item="animal_handling">
-            <input class="flag" type="hidden" name="attr_npc_animal_handling_flag" value="0">
-            <button type="roll" name="roll_npc_animal_handling" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{animal_handling}}} {{mod=@{npc_animal_handling}}} {{r1=[[@{d20}+@{npc_animal_handling}]]}} @{rtype}+@{npc_animal_handling}]]}} {{type=Skill}}">
-              <span data-i18n="animal_handling">Animal Handling</span>
-              <span class="stat" name="attr_npc_animal_handling"></span>
+          <span data-i18n-list-item="energy_weapons">
+            <input class="flag" type="hidden" name="attr_npc_energy_weapons_flag" value="0">
+            <button type="roll" name="roll_npc_energy_weapons" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{energy_weapons}}} {{mod=@{npc_energy_weapons}}} {{r1=[[@{d20}+@{npc_energy_weapons}]]}} @{rtype}+@{npc_energy_weapons}]]}} {{type=Skill}}">
+              <span data-i18n="energy_weapons">Energy Weapons</span>
+              <span class="stat" name="attr_npc_energy_weapons"></span>
             </button>
           </span>
-          <span data-i18n-list-item="arcana">
-            <input class="flag" type="hidden" name="attr_npc_arcana_flag" value="0">
-            <button type="roll" name="roll_npc_arcana" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{arcana}}} {{mod=@{npc_arcana}}} {{r1=[[@{d20}+@{npc_arcana}]]}} @{rtype}+@{npc_arcana}]]}} {{type=Skill}}">
-              <span data-i18n="arcana">Arcana</span>
-              <span class="stat" name="attr_npc_arcana"></span>
+          <span data-i18n-list-item="explosives">
+            <input class="flag" type="hidden" name="attr_npc_explosives_flag" value="0">
+            <button type="roll" name="roll_npc_explosives" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{explosives}}} {{mod=@{npc_explosives}}} {{r1=[[@{d20}+@{npc_explosives}]]}} @{rtype}+@{npc_explosives}]]}} {{type=Skill}}">
+              <span data-i18n="explosives">Explosives</span>
+              <span class="stat" name="attr_npc_explosives"></span>
             </button>
           </span>
-          <span data-i18n-list-item="athletics">
-            <input class="flag" type="hidden" name="attr_npc_athletics_flag" value="0">
-            <button type="roll" name="roll_npc_athletics" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{athletics}}} {{mod=@{npc_athletics}}} {{r1=[[@{d20}+@{npc_athletics}]]}} @{rtype}+@{npc_athletics}]]}} {{type=Skill}}">
-              <span data-i18n="athletics">Athletics</span>
-              <span class="stat" name="attr_npc_athletics"></span>
+          <span data-i18n-list-item="guns">
+            <input class="flag" type="hidden" name="attr_npc_guns_flag" value="0">
+            <button type="roll" name="roll_npc_guns" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{guns}}} {{mod=@{npc_guns}}} {{r1=[[@{d20}+@{npc_guns}]]}} @{rtype}+@{npc_guns}]]}} {{type=Skill}}">
+              <span data-i18n="guns">Guns</span>
+              <span class="stat" name="attr_npc_guns"></span>
             </button>
           </span>
-          <span data-i18n-list-item="deception">
-            <input class="flag" type="hidden" name="attr_npc_deception_flag" value="0">
-            <button type="roll" name="roll_npc_deception" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{deception}}} {{mod=@{npc_deception}}} {{r1=[[@{d20}+@{npc_deception}]]}} @{rtype}+@{npc_deception}]]}} {{type=Skill}}">
-              <span data-i18n="deception">Deception</span>
-              <span class="stat" name="attr_npc_deception"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="history">
-            <input class="flag" type="hidden" name="attr_npc_history_flag" value="0">
-            <button type="roll" name="roll_npc_history" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{history}}} {{mod=@{npc_history}}} {{r1=[[@{d20}+@{npc_history}]]}} @{rtype}+@{npc_history}]]}} {{type=Skill}}">
-              <span data-i18n="history">History</span>
-              <span class="stat" name="attr_npc_history"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="insight">
-            <input class="flag" type="hidden" name="attr_npc_insight_flag" value="0">
-            <button type="roll" name="roll_npc_insight" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{insight}}} {{mod=@{npc_insight}}} {{r1=[[@{d20}+@{npc_insight}]]}} @{rtype}+@{npc_insight}]]}} {{type=Skill}}">
-              <span data-i18n="insight">Insight</span>
-              <span class="stat" name="attr_npc_insight"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="intimidation">
-            <input class="flag" type="hidden" name="attr_npc_intimidation_flag" value="0">
-            <button type="roll" name="roll_npc_intimidation" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{intimidation}}} {{mod=@{npc_intimidation}}} {{r1=[[@{d20}+@{npc_intimidation}]]}} @{rtype}+@{npc_intimidation}]]}} {{type=Skill}}">
-              <span data-i18n="intimidation">Intimidation</span>
-              <span class="stat" name="attr_npc_intimidation"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="investigation">
-            <input class="flag" type="hidden" name="attr_npc_investigation_flag" value="0">
-            <button type="roll" name="roll_npc_investigation"
-              value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{investigation}}} {{mod=@{npc_investigation}}} {{r1=[[@{d20}+@{npc_investigation}]]}} @{rtype}+@{npc_investigation}]]}} {{type=Skill}}">
-              <span data-i18n="investigation">Investigation</span>
-              <span class="stat" name="attr_npc_investigation"></span>
+          <span data-i18n-list-item="lockpick">
+            <input class="flag" type="hidden" name="attr_npc_lockpick_flag" value="0">
+            <button type="roll" name="roll_npc_lockpick" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{lockpick}}} {{mod=@{npc_lockpick}}} {{r1=[[@{d20}+@{npc_lockpick}]]}} @{rtype}+@{npc_lockpick}]]}} {{type=Skill}}">
+              <span data-i18n="lockpick">Lockpick</span>
+              <span class="stat" name="attr_npc_lockpick"></span>
             </button>
           </span>
           <span data-i18n-list-item="medicine">
@@ -533,54 +507,39 @@
               <span class="stat" name="attr_npc_medicine"></span>
             </button>
           </span>
-          <span data-i18n-list-item="nature">
-            <input class="flag" type="hidden" name="attr_npc_nature_flag" value="0">
-            <button type="roll" name="roll_npc_nature" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{nature}}} {{mod=@{npc_nature}}} {{r1=[[@{d20}+@{npc_nature}]]}} @{rtype}+@{npc_nature}]]}} {{type=Skill}}">
-              <span data-i18n="nature">Nature</span>
-              <span class="stat" name="attr_npc_nature"></span>
+          <span data-i18n-list-item="melee_weapons">
+            <input class="flag" type="hidden" name="attr_npc_melee_weapons_flag" value="0">
+            <button type="roll" name="roll_npc_melee_weapons" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{melee_weapons}}} {{mod=@{npc_melee_weapons}}} {{r1=[[@{d20}+@{npc_melee_weapons}]]}} @{rtype}+@{npc_melee_weapons}]]}} {{type=Skill}}">
+              <span data-i18n="melee_weapons">Melee Weapons</span>
+              <span class="stat" name="attr_npc_melee_weapons"></span>
             </button>
           </span>
-          <span data-i18n-list-item="perception">
-            <input class="flag" type="hidden" name="attr_npc_perception_flag" value="0">
-            <button type="roll" name="roll_npc_perception" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{perception}}} {{mod=@{npc_perception}}} {{r1=[[@{d20}+@{npc_perception}]]}} @{rtype}+@{npc_perception}]]}} {{type=Skill}}">
-              <span data-i18n="perception">Perception</span>
-              <span class="stat" name="attr_npc_perception"></span>
+          <span data-i18n-list-item="repair">
+            <input class="flag" type="hidden" name="attr_npc_repair_flag" value="0">
+            <button type="roll" name="roll_npc_repair" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{repair}}} {{mod=@{npc_repair}}} {{r1=[[@{d20}+@{npc_repair}]]}} @{rtype}+@{npc_repair}]]}} {{type=Skill}}">
+              <span data-i18n="repair">Repair</span>
+              <span class="stat" name="attr_npc_repair"></span>
             </button>
           </span>
-          <span data-i18n-list-item="performance">
-            <input class="flag" type="hidden" name="attr_npc_performance_flag" value="0">
-            <button type="roll" name="roll_npc_performance" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{performance}}} {{mod=@{npc_performance}}} {{r1=[[@{d20}+@{npc_performance}]]}} @{rtype}+@{npc_performance}]]}} {{type=Skill}}">
-              <span data-i18n="performance">Performance</span>
-              <span class="stat" name="attr_npc_performance"></span>
+          <span data-i18n-list-item="science">
+            <input class="flag" type="hidden" name="attr_npc_science_flag" value="0">
+            <button type="roll" name="roll_npc_science" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{science}}} {{mod=@{npc_science}}} {{r1=[[@{d20}+@{npc_science}]]}} @{rtype}+@{npc_science}]]}} {{type=Skill}}">
+              <span data-i18n="science">Science</span>
+              <span class="stat" name="attr_npc_science"></span>
             </button>
           </span>
-          <span data-i18n-list-item="persuasion">
-            <input class="flag" type="hidden" name="attr_npc_persuasion_flag" value="0">
-            <button type="roll" name="roll_npc_persuasion" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{persuasion}}} {{mod=@{npc_persuasion}}} {{r1=[[@{d20}+@{npc_persuasion}]]}} @{rtype}+@{npc_persuasion}]]}} {{type=Skill}}">
-              <span data-i18n="persuasion">Persuasion</span>
-              <span class="stat" name="attr_npc_persuasion"></span>
+          <span data-i18n-list-item="sneak">
+            <input class="flag" type="hidden" name="attr_npc_sneak_flag" value="0">
+            <button type="roll" name="roll_npc_sneak" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{sneak}}} {{mod=@{npc_sneak}}} {{r1=[[@{d20}+@{npc_sneak}]]}} @{rtype}+@{npc_sneak}]]}} {{type=Skill}}">
+              <span data-i18n="sneak">Sneak</span>
+              <span class="stat" name="attr_npc_sneak"></span>
             </button>
           </span>
-          <span data-i18n-list-item="religion">
-            <input class="flag" type="hidden" name="attr_npc_religion_flag" value="0">
-            <button type="roll" name="roll_npc_religion" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{religion}}} {{mod=@{npc_religion}}} {{r1=[[@{d20}+@{npc_religion}]]}} @{rtype}+@{npc_religion}]]}} {{type=Skill}}">
-              <span data-i18n="religion">Religion</span>
-              <span class="stat" name="attr_npc_religion"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="sleight_of_hand">
-            <input class="flag" type="hidden" name="attr_npc_sleight_of_hand_flag" value="0">
-            <button type="roll" name="roll_npc_sleight_of_hand"
-              value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{sleight_of_hand}}} {{mod=@{npc_sleight_of_hand}}} {{r1=[[@{d20}+@{npc_sleight_of_hand}]]}} @{rtype}+@{npc_sleight_of_hand}]]}} {{type=Skill}}">
-              <span data-i18n="sleight_of_hand">Sleight of Hand</span>
-              <span class="stat" name="attr_npc_sleight_of_hand"></span>
-            </button>
-          </span>
-          <span data-i18n-list-item="stealth">
-            <input class="flag" type="hidden" name="attr_npc_stealth_flag" value="0">
-            <button type="roll" name="roll_npc_stealth" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{stealth}}} {{mod=@{npc_stealth}}} {{r1=[[@{d20}+@{npc_stealth}]]}} @{rtype}+@{npc_stealth}]]}} {{type=Skill}}">
-              <span data-i18n="stealth">Stealth</span>
-              <span class="stat" name="attr_npc_stealth"></span>
+          <span data-i18n-list-item="speech">
+            <input class="flag" type="hidden" name="attr_npc_speech_flag" value="0">
+            <button type="roll" name="roll_npc_speech" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{speech}}} {{mod=@{npc_speech}}} {{r1=[[@{d20}+@{npc_speech}]]}} @{rtype}+@{npc_speech}]]}} {{type=Skill}}">
+              <span data-i18n="speech">Speech</span>
+              <span class="stat" name="attr_npc_speech"></span>
             </button>
           </span>
           <span data-i18n-list-item="survival">
@@ -588,6 +547,13 @@
             <button type="roll" name="roll_npc_survival" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{survival}}} {{mod=@{npc_survival}}} {{r1=[[@{d20}+@{npc_survival}]]}} @{rtype}+@{npc_survival}]]}} {{type=Skill}}">
               <span data-i18n="survival">Survival</span>
               <span class="stat" name="attr_npc_survival"></span>
+            </button>
+          </span>
+          <span data-i18n-list-item="unarmed">
+            <input class="flag" type="hidden" name="attr_npc_unarmed_flag" value="0">
+            <button type="roll" name="roll_npc_unarmed" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=^{unarmed}}} {{mod=@{npc_unarmed}}} {{r1=[[@{d20}+@{npc_unarmed}]]}} @{rtype}+@{npc_unarmed}]]}} {{type=Skill}}">
+              <span data-i18n="unarmed">Unarmed</span>
+              <span class="stat" name="attr_npc_unarmed"></span>
             </button>
           </span>
         </div>
@@ -810,8 +776,8 @@
           </div>
         </fieldset>
       </div>
-      <input class="npcspell_flag" type="hidden" name="attr_npcspell_flag">
-      <div class="row actions npcspell spells">
+      <!-- <input class="npcspell_flag" type="hidden" name="attr_npcspell_flag"> -->
+      <!-- <div class="row actions npcspell spells">
         <div class="row actiontitle">
           <span class="title red" style="font-weight: normal; text-align: left;" data-i18n="spells">Spells</span>
         </div>
@@ -982,7 +948,7 @@
             </div>
           </fieldset>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!--
@@ -1170,102 +1136,126 @@
                   <span name="attr_pb" title="@{pb}"></span>
                 </div>
                 <div class="label">
-                  <span data-i18n="prof-bonus-u">TAG SKILL BONUS</span>
+                  <span data-i18n="tag-bonus-u">TAG SKILL BONUS</span>
                 </div>
               </div>
               <div class="skills-container skills-list">
                 <div data-i18n-list="skills-list">
                   <div class="skill" data-i18n-list-item="barter">
-                    <input type="checkbox" name="attr_barter_prof" title="@{barter_prof}" value="(@{pb}*@{_type})">
+                    <input type="checkbox" name="attr_barter_prof" title="@{barter_prof}" value="(@{pb})">
                     <span name="attr_barter_bonus" title="@{barter_bonus}">0</span>
                     <button type="roll" name="roll_barter"
                       value="@{wtype}&{template:simple} {{rname=^{barter-u}}} {{mod=@{barter_bonus}}} {{r1=[[@{d20}+@{barter_bonus}@{pbd_safe}]]}} @{rtype}+@{barter_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}"
                       data-i18n="barter-core">Barter <span>[CHA]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="energy_weapons">
-                    <input type="checkbox" name="attr_energy_weapons_prof" title="@{energy_weapons_prof}" value="(@{pb}*@{energy_weapons_type})">
+                    <input type="checkbox" name="attr_energy_weapons_prof" title="@{energy_weapons_prof}" value="(@{pb})">
                     <span name='attr_energy_weapons_bonus' title='@{energy_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_energy_weapons'
                       value='@{wtype}&{template:simple} {{rname=^{energy_weapons-u}}} {{mod=@{energy_weapons_bonus}}} {{r1=[[@{d20}+@{energy_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{energy_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='energy_weapons-core'>Energy Weapons <span>[PER]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="explosives">
-                    <input type="checkbox" name="attr_explosives_prof" title="@{explosives_prof}" value="(@{pb}*@{explosives_type})">
+                    <input type="checkbox" name="attr_explosives_prof" title="@{explosives_prof}" value="(@{pb})">
                     <span name='attr_explosives_bonus' title='@{explosives_bonus}'>0</span>
                     <button type='roll' name='roll_explosives'
                       value='@{wtype}&{template:simple} {{rname=^{explosives-u}}} {{mod=@{explosives_bonus}}} {{r1=[[@{d20}+@{explosives_bonus}@{pbd_safe}]]}} @{rtype}+@{explosives_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='explosives-core'>Explosives <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="guns">
-                    <input type="checkbox" name="attr_guns_prof" title="@{guns_prof}" value="(@{pb}*@{guns_type})">
+                    <input type="checkbox" name="attr_guns_prof" title="@{guns_prof}" value="(@{pb})">
                     <span name='attr_guns_bonus' title='@{guns_bonus}'>0</span>
                     <button type='roll' name='roll_guns'
                       value='@{wtype}&{template:simple} {{rname=^{guns-u}}} {{mod=@{guns_bonus}}} {{r1=[[@{d20}+@{guns_bonus}@{pbd_safe}]]}} @{rtype}+@{guns_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='guns-core'>Guns <span>[PER]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="lockpick">
-                    <input type="checkbox" name="attr_lockpick_prof" title="@{lockpick_prof}" value="(@{pb}*@{lockpick_type})">
+                    <input type="checkbox" name="attr_lockpick_prof" title="@{lockpick_prof}" value="(@{pb})">
                     <span name='attr_lockpick_bonus' title='@{lockpick_bonus}'>0</span>
                     <button type='roll' name='roll_lockpick'
                       value='@{wtype}&{template:simple} {{rname=^{lockpick-u}}} {{mod=@{lockpick_bonus}}} {{r1=[[@{d20}+@{lockpick_bonus}@{pbd_safe}]]}} @{rtype}+@{lockpick_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='lockpick-core'>Lockpick <span>[AGL]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="medicine">
-                    <input type="checkbox" name="attr_medicine_prof" title="@{medicine_prof}" value="(@{pb}*@{medicine_type})">
+                    <input type="checkbox" name="attr_medicine_prof" title="@{medicine_prof}" value="(@{pb})">
                     <span name='attr_medicine_bonus' title='@{medicine_bonus}'>0</span>
                     <button type='roll' name='roll_medicine'
                       value='@{wtype}&{template:simple} {{rname=^{medicine-u}}} {{mod=@{medicine_bonus}}} {{r1=[[@{d20}+@{medicine_bonus}@{pbd_safe}]]}} @{rtype}+@{medicine_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='medicine-core'>Medicine <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="melee_weapons">
-                    <input type="checkbox" name="attr_melee_weapons_prof" title="@{melee_weapons_prof}" value="(@{pb}*@{melee_weapons_type})">
+                    <input type="checkbox" name="attr_melee_weapons_prof" title="@{melee_weapons_prof}" value="(@{pb})">
                     <span name='attr_melee_weapons_bonus' title='@{melee_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_melee_weapons'
                       value='@{wtype}&{template:simple} {{rname=^{melee_weapons-u}}} {{mod=@{melee_weapons_bonus}}} {{r1=[[@{d20}+@{melee_weapons_bonus}@{pbd_safe}]]}} @{rtype}+@{melee_weapons_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='melee_weapons-core'>Melee Weapons <span>[STR]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="repair">
-                    <input type="checkbox" name="attr_repair_prof" title="@{repair_prof}" value="(@{pb}*@{repair_type})">
+                    <input type="checkbox" name="attr_repair_prof" title="@{repair_prof}" value="(@{pb})">
                     <span name='attr_repair_bonus' title='@{repair_bonus}'>0</span>
                     <button type='roll' name='roll_repair'
                       value='@{wtype}&{template:simple} {{rname=^{repair-u}}} {{mod=@{repair_bonus}}} {{r1=[[@{d20}+@{repair_bonus}@{pbd_safe}]]}} @{rtype}+@{repair_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='repair-core'>Repair <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="science">
-                    <input type="checkbox" name="attr_science_prof" title="@{science_prof}" value="(@{pb}*@{science_type})">
+                    <input type="checkbox" name="attr_science_prof" title="@{science_prof}" value="(@{pb})">
                     <span name='attr_science_bonus' title='@{science_bonus}'>0</span>
                     <button type='roll' name='roll_science'
                       value='@{wtype}&{template:simple} {{rname=^{science-u}}} {{mod=@{science_bonus}}} {{r1=[[@{d20}+@{science_bonus}@{pbd_safe}]]}} @{rtype}+@{science_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='science-core'>Science <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="sneak">
-                    <input type="checkbox" name="attr_sneak_prof" title="@{sneak_prof}" value="(@{pb}*@{sneak_type})">
+                    <input type="checkbox" name="attr_sneak_prof" title="@{sneak_prof}" value="(@{pb})">
                     <span name='attr_sneak_bonus' title='@{sneak_bonus}'>0</span>
                     <button type='roll' name='roll_sneak'
                       value='@{wtype}&{template:simple} {{rname=^{sneak-u}}} {{mod=@{sneak_bonus}}} {{r1=[[@{d20}+@{sneak_bonus}@{pbd_safe}]]}} @{rtype}+@{sneak_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='sneak-core'>Sneak <span>[AGL]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="speech">
-                    <input type="checkbox" name="attr_speech_prof" title="@{speech_prof}" value="(@{pb}*@{speech_type})">
+                    <input type="checkbox" name="attr_speech_prof" title="@{speech_prof}" value="(@{pb})">
                     <span name='attr_speech_bonus' title='@{speech_bonus}'>0</span>
                     <button type='roll' name='roll_speech'
                       value='@{wtype}&{template:simple} {{rname=^{speech-u}}} {{mod=@{speech_bonus}}} {{r1=[[@{d20}+@{speech_bonus}@{pbd_safe}]]}} @{rtype}+@{speech_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='speech-core'>Speech <span>[CHA]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="survival">
-                    <input type="checkbox" name="attr_survival_prof" title="@{survival_prof}" value="(@{pb}*@{survival_type})">
+                    <input type="checkbox" name="attr_survival_prof" title="@{survival_prof}" value="(@{pb})">
                     <span name='attr_survival_bonus' title='@{survival_bonus}'>0</span>
                     <button type='roll' name='roll_survival'
                       value='@{wtype}&{template:simple} {{rname=^{survival-u}}} {{mod=@{survival_bonus}}} {{r1=[[@{d20}+@{survival_bonus}@{pbd_safe}]]}} @{rtype}+@{survival_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='survival-core'>Survival <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="unarmed">
-                    <input type="checkbox" name="attr_unarmed_prof" title="@{unarmed_prof}" value="(@{pb}*@{unarmed_type})">
+                    <input type="checkbox" name="attr_unarmed_prof" title="@{unarmed_prof}" value="(@{pb})">
                     <span name='attr_unarmed_bonus' title='@{unarmed_bonus}'>0</span>
                     <button type='roll' name='roll_unarmed'
                       value='@{wtype}&{template:simple} {{rname=^{unarmed-u}}} {{mod=@{unarmed_bonus}}} {{r1=[[@{d20}+@{unarmed_bonus}@{pbd_safe}]]}} @{rtype}+@{unarmed_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='unarmed-core'>Unarmed <span>[STR]</span></button>
                   </div>
+                </div>
+                <input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
+                <div class="hidden textarea globalattack">
+                  <span class="label" data-i18n="global-skill-u">GLOBAL SKILL MODIFIER</span>
+                  <fieldset class="repeating_skillmod">
+                    <div class="global-mod">
+                      <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
+                      <input type="checkbox" name="attr_global_skill_active_flag" value="1" class="active-flag">
+                      <div class="options">
+                        <div class="row">
+                          <span data-i18n="name:-u">NAME:</span>
+                          <input type="text" name="attr_global_skill_name" value="" placeholder="Guidance">
+                        </div>
+                        <div class="row">
+                          <span data-i18n="roll:-u">ROLL:</span>
+                          <input type="text" name="attr_global_skill_roll" value="" placeholder="1d4">
+                        </div>
+                      </div>
+                      <div class="globaldisplay">
+                        <span name="attr_global_skill_roll"></span>
+                        [<span name="attr_global_skill_name"></span>]
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
                 <div class="label">
                   <span data-i18n="skills-u">SKILLS</span>
@@ -1389,30 +1379,7 @@
                   </div>
                 </div>
               </fieldset>
-              <input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
-              <div class="hidden textarea globalattack">
-                <span class="label" data-i18n="global-skill-u">GLOBAL SKILL MODIFIER</span>
-                <fieldset class="repeating_skillmod">
-                  <div class="global-mod">
-                    <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                    <input type="checkbox" name="attr_global_skill_active_flag" value="1" class="active-flag">
-                    <div class="options">
-                      <div class="row">
-                        <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_skill_name" value="" placeholder="Guidance">
-                      </div>
-                      <div class="row">
-                        <span data-i18n="roll:-u">ROLL:</span>
-                        <input type="text" name="attr_global_skill_roll" value="" placeholder="1d4">
-                      </div>
-                    </div>
-                    <div class="globaldisplay">
-                      <span name="attr_global_skill_roll"></span>
-                      [<span name="attr_global_skill_name"></span>]
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
+
               <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
                 <span data-i18n="custom-skills-u" style="display: inline;">CUSTOM SKILLS</span>
               </div>
@@ -1546,7 +1513,7 @@
                     <div class="row">
                       <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
                       <input type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
-                      <span data-i18n="crit:-u">CRIT:</span>
+                      <span data-i18n="crit-bonus:-u">CRIT:</span>
                       <input type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 80px;">
                     </div>
                     <div class="row">
@@ -1843,24 +1810,24 @@
               </fieldset>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
             </div> -->
-            <input type="hidden" class="toggleflag" name="attr_global_ac_mod_flag">
+            <input type="hidden" class="toggleflag" name="attr_global_dt_mod_flag">
             <div class="equipment hidden">
               <div class="textarea globalattack acmod">
                 <fieldset class="repeating_acmod">
                   <div class="global-mod">
                     <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                    <input type="checkbox" name="attr_global_ac_active_flag" value="1" class="active-flag">
+                    <input type="checkbox" name="attr_global_dt_active_flag" value="1" class="active-flag">
                     <div class="options">
-                      <label>Value: <input type="number" name="attr_global_ac_val" placeholder="1" step="1"></label>
-                      <label>Name: <input type="text" name="attr_global_ac_name" placeholder="Defense"></label>
+                      <label>Value: <input type="number" name="attr_global_dt_val" placeholder="1" step="1"></label>
+                      <label>Name: <input type="text" name="attr_global_dt_name" placeholder="Combat Helmet"></label>
                     </div>
                     <div class="display">
-                      <span class="title"><span name="attr_global_ac_val"></span> [<span name="attr_global_ac_name"></span>]</span>
+                      <span class="title"><span name="attr_global_dt_val"></span> [<span name="attr_global_dt_name"></span>]</span>
                     </div>
                   </div>
                 </fieldset>
               </div>
-              <span class="label" data-i18n="global-ac-u">GLOBAL AC MODIFIER</span>
+              <span class="label" data-i18n="global-dt-u">GLOBAL DT MODIFIER</span>
             </div>
             <div class="equipment">
               <div class="money">
@@ -4366,6 +4333,14 @@
                 <span>+</span><input type="text" class="num" name="attr_luck_bonus" value="0" placeholder="0" title="@{luck_bonus}">
               </div>
               <div class="row">
+                <span data-i18n="pass-perc-mod:-u">PASSIVE PERCEPTION MODIFIER:</span>
+                <input type="text" class="num" name="attr_passive_perception_mod" placeholder="0" value="0">
+              </div>
+              <div class="row">
+                <span data-i18n="critical-strike-mod:-u">CRITICAL STRIKE MODIFIER:</span>
+                <input type="text" class="num" name="attr_critical_strike_mod" placeholder="0" value="0">
+              </div>
+              <div class="row">
                 <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
                 <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
               </div>
@@ -4680,6 +4655,73 @@
             </div>-->
           </div>
           <div class="col col2">
+            <div class="skill_options" style="width: 234px;">
+              <div data-i18n-list="skills-list">
+                <div class="row skill" data-i18n-list-item="barter">
+                  <span data-i18n="barter-core">Barter <span>[CHA]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_barter_flat" value="0" placeholder="0" title="@{barter_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="energy_weapons">
+                  <span data-i18n="energy_weapons-core">Energy Weapons <span>[PER]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_energy_weapons_flat" value="0" placeholder="0" title="@{energy_weapons_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="explosives">
+                  <span data-i18n="explosives-core">Explosives <span>[INT]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_explosives_flat" value="0" placeholder="0" title="@{explosives_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="guns">
+                  <span data-i18n="guns-core">Guns <span>[PER]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_guns_flat" value="0" placeholder="0" title="@{guns_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="lockpick">
+                  <span data-i18n="lockpick-core">Lockpick <span>[AGL]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_lockpick_flat" value="0" placeholder="0" title="@{lockpick_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="medicine">
+                  <span data-i18n="medicine-core">Medicine <span>[INT]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_medicine_flat" value="0" placeholder="0" title="@{medicine_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="melee_weapons">
+                  <span data-i18n="melee_weapons-core">Melee Weapons <span>[STR]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_melee_weapons_flat" value="0" placeholder="0" title="@{melee_weapons_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="repair">
+                  <span data-i18n="repair-core">Repair <span>[INT]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_repair_flat" value="0" placeholder="0" title="@{repair_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="science">
+                  <span data-i18n="science-core">Science <span>[INT]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_science_flat" value="0" placeholder="0" title="@{science_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="sneak">
+                  <span data-i18n="sneak-core">Sneak <span>[AGL]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_sneak_flat" value="0" placeholder="0" title="@{sneak_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="speech">
+                  <span data-i18n="speech-core">Speech <span>[CHA]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_speech_flat" value="0" placeholder="0" title="@{speech_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="survival">
+                  <span data-i18n="survival-core">Survival <span>[INT]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_survival_flat" value="0" placeholder="0" title="@{survival_flat}">
+                </div>
+                <div class="row skill" data-i18n-list-item="unarmed">
+                  <span data-i18n="unarmed-core">Unarmed <span>[STR]</span></span>
+                  <span>+</span><input type="text" class="num" name="attr_unarmed_flat" value="0" placeholder="0" title="@{unarmed_flat}">
+                </div>
+              </div>
+              <div class="row" style="margin-top:10px;">
+                <span data-i18n="tag-skill-mod:-u">TAG SKILL BONUS MODIFIER:</span>
+                <input type="text" class="num" name="attr_tag_skill_mod" placeholder="0" value="0">
+              </div>
+              <!-- <div class="row" style="margin-top:10px;">
+                <input type="checkbox" name="attr_jack_of_all_trades" value="@{jack}">
+                <span data-i18n="jack-of-all-u">JACK OF ALL TRADES</span>
+              </div> -->
+              <div class="row title">
+                <span data-i18n="skill-opts-u">SKILL OPTIONS</span>
+              </div>
+            </div>
             <div class="save_options" style="width: 234px;">
               <div class="row skill">
                 <span data-i18n="strength-save-u">Strength Save</span>
@@ -4711,7 +4753,7 @@
               </div>
               <div class="row">
                 <span data-i18n="death-save-mod:-u">DEATH SAVE MODIFIER:</span>
-                <input type="text" class="num" name="attr_death_save_mod" placeholder="0" value="0">
+                <input type="text" class="num" name="attr_death_save_mod" placeholder="@{luck_save_mod}" value="0">
               </div>
               <div class="row">
                 <span data-i18n="glob-saving-mod:-u">GLOBAL SAVING THROW MODIFIER:</span>
@@ -4719,112 +4761,6 @@
               </div>
               <div class="row title">
                 <span data-i18n="save-opts-u">SAVE OPTIONS</span>
-              </div>
-            </div>
-            <div class="skill_options" style="width: 234px;">
-              <div data-i18n-list="skills-list">
-                <div class="row skill" data-i18n-list-item="barter">
-                  <select name="attr_barter_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="barter-core">Barter <span>[CHA]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_barter_flat" value="0" placeholder="0" title="@{barter_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="energy_weapons">
-                  <select name="attr_energy_weapons_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="energy_weapons-core">Energy Weapons <span>[PER]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_energy_weapons_flat" value="0" placeholder="0" title="@{energy_weapons_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="explosives">
-                  <select name="attr_explosives_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="explosives-core">Explosives <span>[INT]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_explosives_flat" value="0" placeholder="0" title="@{explosives_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="guns">
-                  <select name="attr_guns_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="guns-core">Guns <span>[PER]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_guns_flat" value="0" placeholder="0" title="@{guns_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="lockpick">
-                  <select name="attr_lockpick_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="lockpick-core">Lockpick <span>[AGL]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_lockpick_flat" value="0" placeholder="0" title="@{lockpick_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="medicine">
-                  <select name="attr_medicine_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="medicine-core">Medicine <span>[INT]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_medicine_flat" value="0" placeholder="0" title="@{medicine_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="melee_weapons">
-                  <select name="attr_melee_weapons_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="melee_weapons-core">Melee Weapons <span>[STR]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_melee_weapons_flat" value="0" placeholder="0" title="@{melee_weapons_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="repair">
-                  <select name="attr_repair_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="repair-core">Repair <span>[INT]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_repair_flat" value="0" placeholder="0" title="@{repair_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="science">
-                  <select name="attr_science_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="science-core">Science <span>[INT]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_science_flat" value="0" placeholder="0" title="@{science_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="sneak">
-                  <select name="attr_sneak_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="sneak-core">Sneak <span>[AGL]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_sneak_flat" value="0" placeholder="0" title="@{sneak_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="speech">
-                  <select name="attr_speech_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="speech-core">Speech <span>[CHA]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_speech_flat" value="0" placeholder="0" title="@{speech_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="survival">
-                  <select name="attr_survival_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="survival-core">Survival <span>[INT]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_survival_flat" value="0" placeholder="0" title="@{survival_flat}">
-                </div>
-                <div class="row skill" data-i18n-list-item="unarmed">
-                  <select name="attr_unarmed_type">
-                    <option value="1" selected="selected" data-i18n="normal">Normal</option>
-                  </select>
-                  <span data-i18n="unarmed-core">Unarmed <span>[STR]</span></span>
-                  <span>+</span><input type="text" class="num" name="attr_unarmed_flat" value="0" placeholder="0" title="@{unarmed_flat}">
-                </div>
-              </div>
-              <div class="row" style="margin-top:10px;">
-                <input type="checkbox" name="attr_jack_of_all_trades" value="@{jack}">
-                <span data-i18n="jack-of-all-u">JACK OF ALL TRADES</span>
-              </div>
-              <div class="row">
-                <span data-i18n="pass-perc-mod:-u">PASSIVE PERCEPTION MODIFIER:</span>
-                <input type="text" class="num" name="attr_passiveperceptionmod" placeholder="0" value="0">
-              </div>
-              <div class="row title">
-                <span data-i18n="skill-opts-u">SKILL OPTIONS</span>
               </div>
             </div>
           </div>
@@ -4868,7 +4804,7 @@
                 <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
               </div>
               <div class="row">
-                <span data-i18n="prof-bonus:-u">PROFICIENCY BONUS:</span>
+                <span data-i18n="tag-bonus:-u">TAG SKILL BONUS:</span>
                 <select class="dtype" name="attr_pb_type">
                   <option value="level" data-i18n="by-level">By Level (Default)</option>
                   <option value="die" data-i18n="prof-die">Proficency Die (DMG)</option>
@@ -4878,12 +4814,12 @@
                 <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
               </div>
               <div class="row">
-                <input type="checkbox" name="attr_global_save_mod_flag" value="1">
-                <span data-i18n="show-global-save-field-u">SHOW GLOBAL SAVE MODIFIER FIELD</span>
-              </div>
-              <div class="row">
                 <input type="checkbox" name="attr_global_skill_mod_flag" value="1">
                 <span data-i18n="show-global-skill-field-u">SHOW GLOBAL SKILL MODIFIER FIELD</span>
+              </div>
+              <div class="row">
+                <input type="checkbox" name="attr_global_save_mod_flag" value="1">
+                <span data-i18n="show-global-save-field-u">SHOW GLOBAL SAVE MODIFIER FIELD</span>
               </div>
               <div class="row">
                   <input type="checkbox" name="attr_global_attack_mod_flag" value="1">
@@ -4894,8 +4830,8 @@
                   <span data-i18n="show-global-damage-field-u">SHOW GLOBAL DAMAGE MODIFIER FIELD</span>
               </div>
               <div class="row">
-                  <input type="checkbox" name="attr_global_ac_mod_flag" value="1">
-                  <span data-i18n="show-global-ac-field-u">SHOW GLOBAL AC MODIFIER FIELD</span>
+                  <input type="checkbox" name="attr_global_dt_mod_flag" value="1">
+                  <span data-i18n="show-global-dt-field-u">SHOW GLOBAL DT MODIFIER FIELD</span>
               </div>
               <div class="row">
                 <span data-i18n="add-char-to-templates:-u">ADD CHARACTER NAME TO TEMPLATES:</span>
@@ -6959,7 +6895,7 @@
         });
     });
 
-    on("change:passiveperceptionmod", function(eventinfo) {
+    on("change:passive_perception_mod", function(eventinfo) {
         update_passive_perception();
     });
 
@@ -7385,7 +7321,7 @@
             {name: "savemod", list: ["global_save_name"]},
             {name: "tohitmod", list: ["global_attack_name"]},
             {name: "damagemod", list: ["global_damage_name"]},
-            {name: "acmod", list: ["global_ac_name"]},
+            {name: "acmod", list: ["global_dt_name"]},
             {name: "skillmod", list: ["global_skill_name"]},
             {name: "attack", list: ["atkname", "spellid"]},
             {name: "weapon", list: ["wpnname", "spellid"]},
@@ -8390,11 +8326,11 @@
                 _.each(repeating.acmod, function(name, rowid) {
                     if(name.toLowerCase() === globalac["Name"].toLowerCase()) id = rowid;
                 });
-                update["repeating_acmod_" + id + "_global_ac_val"] = globalac.Bonus;
-                if(globalac["Active"] !== "false") update["repeating_acmod_" + id + "_global_ac_active_flag"] = "1";
+                update["repeating_acmod_" + id + "_global_dt_val"] = globalac.Bonus;
+                if(globalac["Active"] !== "false") update["repeating_acmod_" + id + "_global_dt_active_flag"] = "1";
                 update["repeating_acmod_" + id + "_options-flag"] = "0";
-                update["repeating_acmod_" + id + "_global_ac_name"] = globalac.Name;
-                update["global_ac_mod_flag"] = "1";
+                update["repeating_acmod_" + id + "_global_dt_name"] = globalac.Name;
+                update["global_dt_mod_flag"] = "1";
             };
             if(blob["Global Save"]) {
                 var globalsave = jsonparse(blob["Global Save Mod"]);
@@ -9818,8 +9754,8 @@
                 var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
                 getSectionIDs("repeating_acmod", function(acidarray) {
                     _.each(acidarray, function(currentID, i) {
-                        ac_attrs.push("repeating_acmod_" + currentID + "_global_ac_val");
-                        ac_attrs.push("repeating_acmod_" + currentID + "_global_ac_active_flag");
+                        ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_val");
+                        ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_active_flag");
                     });
                     getSectionIDs("repeating_inventory", function(idarray) {
                         _.each(idarray, function(currentID, i) {
@@ -9838,8 +9774,8 @@
                             }
                             var globalacmod = 0;
                             _.each(acidarray, function(currentID, i) {
-                                if(b["repeating_acmod_" + currentID + "_global_ac_active_flag"] == "1") {
-                                    globalacmod += parseInt(b["repeating_acmod_" + currentID + "_global_ac_val"], 10);
+                                if(b["repeating_acmod_" + currentID + "_global_dt_active_flag"] == "1") {
+                                    globalacmod += parseInt(b["repeating_acmod_" + currentID + "_global_dt_val"], 10);
                                 }
                             });
                             var dexmod = +b["dexterity_mod"];
@@ -10300,10 +10236,10 @@
     };
 
     var update_passive_perception = function() {
-        getAttrs(["pb_type","perception_mod","passiveperceptionmod","perception_bonus"], function(v) {
+        getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(v) {
             var pass_per = 10;
             var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
-            var mod = !isNaN(parseInt(v["passiveperceptionmod"],10)) ? parseInt(v["passiveperceptionmod"],10) : 0;
+            var mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
             var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
             if(v["pb_type"] && v["pb_type"] === "die" && v["perception_bonus"] && isNaN(v["perception_bonus"]) && v["perception_bonus"].indexOf("+") > -1) {
                 var pieces = v["perception_bonus"].split(/\+|d/);
@@ -10318,10 +10254,10 @@
     };
 
     var update_critical_strike = function() {
-        getAttrs(["luck_mod","criticalstrikemod","luck_bonus"], function(v) {
+        getAttrs(["luck_mod","critical_strike_mod","luck_bonus"], function(v) {
             var crit = 10;
             var luk_mod = !isNaN(parseInt(v["luck_mod"],10)) ? parseInt(v["luck_mod"],10) : 0;
-            var mod = !isNaN(parseInt(v["criticalstrikemod"],10)) ? parseInt(v["criticalstrikemod"],10) : 0;
+            var mod = !isNaN(parseInt(v["critical_strike_mod"],10)) ? parseInt(v["critical_strike_mod"],10) : 0;
             var bonus = !isNaN(parseInt(v["luck_bonus"],10)) ? parseInt(v["luck_bonus"],10) : 0;
             crit = crit + luk_mod + bonus + mod;
             setAttrs({critical_strike: crit})
@@ -11207,11 +11143,11 @@
             var update = {};
             if(v.globalacmod && v.globalacmod != "0") {
                 var rowid = generateRowID();
-                update[`repeating_acmod_${rowid}_global_ac_val`] = parseInt(v.globalacmod);
-                update[`repeating_acmod_${rowid}_global_ac_name`] = "GLOBAL ARMOR CLASS MODIFIER";
-                update[`repeating_acmod_${rowid}_global_ac_active_flag`] = "1";
+                update[`repeating_acmod_${rowid}_global_dt_val`] = parseInt(v.globalacmod);
+                update[`repeating_acmod_${rowid}_global_dt_name`] = "GLOBAL ARMOR CLASS MODIFIER";
+                update[`repeating_acmod_${rowid}_global_dt_active_flag`] = "1";
                 update[`repeating_acmod_${rowid}_options-flag`] = "0";
-                update["global_ac_mod_flag"] = "1";
+                update["global_dt_mod_flag"] = "1";
             }
             setAttrs(update, {silent: true}, function() {
                 update_ac();
@@ -14249,7 +14185,7 @@
         var silentset = {};
         var silentattrs = ["class_resource_name", "class_resource", "class_resource_max", "other_resource_name", "other_resource", "other_resource_max", "other_resource_itemid", "class", "class_display", "subclass", "hitdietype", "hitdie_final", "race", "subrace", "race_display", "custom_class", "cust_classname"];
         var clearset = {};
-        var clearattrs = ["hp", "hp_max", "size", "speed", "gp", "alignment", "global_damage_mod_flag", "spellcasting_ability", "cust_hitdietype", "cust_spellslots", "cust_spellcasting_ability", "ac", "jack_bonus", "jack_attr", "death_save_bonus", "weighttotal", "initiative_bonus", "hit_dice", "hit_dice_max", "pb", "jack", "caster_level", "spell_attack_mod", "spell_attack_bonus", "spell_save_dc", "passive_perception", "custom_ac_base", "custom_ac_part1", "custom_ac_part2", "custom_ac_shield", "background", "global_ac_mod_flag", "global_attack_mod_flag", "global_save_mod_flag", "global_skill_mod_flag"];
+        var clearattrs = ["hp", "hp_max", "size", "speed", "gp", "alignment", "global_damage_mod_flag", "spellcasting_ability", "cust_hitdietype", "cust_spellslots", "cust_spellcasting_ability", "ac", "jack_bonus", "jack_attr", "death_save_bonus", "weighttotal", "initiative_bonus", "hit_dice", "hit_dice_max", "pb", "jack", "caster_level", "spell_attack_mod", "spell_attack_bonus", "spell_save_dc", "passive_perception", "custom_ac_base", "custom_ac_part1", "custom_ac_part2", "custom_ac_shield", "background", "global_dt_mod_flag", "global_attack_mod_flag", "global_save_mod_flag", "global_skill_mod_flag"];
         var classname = "";
         var set = {gp: 0};
         var allDrops = [];
