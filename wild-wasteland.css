@@ -3088,7 +3088,7 @@ span.sheet-spellconcentration {
   text-align: center;
   width: 250px !important;
 }
-.sheet-hlabel-container [name="attr_race_display"] {
+.sheet-hlabel-container [name="attr_race"] {
   text-align: center;
   width: 200px;
 }
