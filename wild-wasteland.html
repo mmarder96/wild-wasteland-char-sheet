@@ -998,7 +998,7 @@
           <div class="header-info sheet-display">
             <div class="top">
               <div class="hlabel-container">
-                <input type="number" name="attr_base_level" value="0" step="1" min="0">
+                <input type="number" name="attr_base_level" class="sheet-no_events">
                 <span class="label" data-i18n="lvl-u">LEVEL</span>
               </div>
               <div class="hlabel-container" style="position: relative;">
@@ -1144,91 +1144,91 @@
                     <input type="checkbox" name="attr_barter_prof" title="@{barter_prof}" value="(@{pb})">
                     <span name="attr_barter_bonus" title="@{barter_bonus}">0</span>
                     <button type="roll" name="roll_barter"
-                      value="@{wtype}&{template:simple} {{rname=^{barter-u}}} {{mod=@{barter_bonus}+@{charisma_mod}}} {{r1=[[@{d20}+@{barter_bonus}+@{charisma_mod}]]}} @{rtype}+@{barter_bonus}+@{charisma_mod}}]]}} {{global=@{global_skill_mod}}} @{charname_output}"
+                      value="@{wtype}&{template:simple} {{rname=^{barter-u}}} {{mod=@{barter_check_bonus}}} {{r1=[[@{d20}+@{barter_check_bonus}]]}} @{rtype}+@{barter_check_bonus}}]]}} {{global=@{global_skill_mod}}} @{charname_output}"
                       data-i18n="barter-core">Barter <span>[CHA]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="energy_weapons">
                     <input type="checkbox" name="attr_energy_weapons_prof" title="@{energy_weapons_prof}" value="(@{pb})">
                     <span name='attr_energy_weapons_bonus' title='@{energy_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_energy_weapons'
-                      value='@{wtype}&{template:simple} {{rname=^{energy_weapons-u}}} {{mod=@{energy_weapons_bonus}+@{perception_mod}}} {{r1=[[@{d20}+@{energy_weapons_bonus}+@{perception_mod}]]}} @{rtype}+@{energy_weapons_bonus}+@{perception_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{energy_weapons-u}}} {{mod=@{energy_weapons_check_bonus}}} {{r1=[[@{d20}+@{energy_weapons_check_bonus}]]}} @{rtype}+@{energy_weapons_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='energy_weapons-core'>Energy Weapons <span>[PER]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="explosives">
                     <input type="checkbox" name="attr_explosives_prof" title="@{explosives_prof}" value="(@{pb})">
                     <span name='attr_explosives_bonus' title='@{explosives_bonus}'>0</span>
                     <button type='roll' name='roll_explosives'
-                      value='@{wtype}&{template:simple} {{rname=^{explosives-u}}} {{mod=@{explosives_bonus}+@{intelligence_mod}}} {{r1=[[@{d20}+@{explosives_bonus}+@{intelligence_mod}]]}} @{rtype}+@{explosives_bonus}+@{intelligence_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{explosives-u}}} {{mod=@{explosives_check_bonus}}} {{r1=[[@{d20}+@{explosives_check_bonus}]]}} @{rtype}+@{explosives_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='explosives-core'>Explosives <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="guns">
                     <input type="checkbox" name="attr_guns_prof" title="@{guns_prof}" value="(@{pb})">
                     <span name='attr_guns_bonus' title='@{guns_bonus}'>0</span>
                     <button type='roll' name='roll_guns'
-                      value='@{wtype}&{template:simple} {{rname=^{guns-u}}} {{mod=@{guns_bonus}+@{perception_mod}}} {{r1=[[@{d20}+@{guns_bonus}+@{perception_mod}]]}} @{rtype}+@{guns_bonus}+@{perception_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{guns-u}}} {{mod=@{guns_check_bonus}}} {{r1=[[@{d20}+@{guns_check_bonus}]]}} @{rtype}+@{guns_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='guns-core'>Guns <span>[PER]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="lockpick">
                     <input type="checkbox" name="attr_lockpick_prof" title="@{lockpick_prof}" value="(@{pb})">
                     <span name='attr_lockpick_bonus' title='@{lockpick_bonus}'>0</span>
                     <button type='roll' name='roll_lockpick'
-                      value='@{wtype}&{template:simple} {{rname=^{lockpick-u}}} {{mod=@{lockpick_bonus}+@{agility_mod}}} {{r1=[[@{d20}+@{lockpick_bonus}+@{agility_mod}]]}} @{rtype}+@{lockpick_bonus}+@{agility_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{lockpick-u}}} {{mod=@{lockpick_check_bonus}}} {{r1=[[@{d20}+@{lockpick_check_bonus}]]}} @{rtype}+@{lockpick_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='lockpick-core'>Lockpick <span>[AGL]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="medicine">
                     <input type="checkbox" name="attr_medicine_prof" title="@{medicine_prof}" value="(@{pb})">
                     <span name='attr_medicine_bonus' title='@{medicine_bonus}'>0</span>
                     <button type='roll' name='roll_medicine'
-                      value='@{wtype}&{template:simple} {{rname=^{medicine-u}}} {{mod=@{medicine_bonus}+@{intelligence_mod}}} {{r1=[[@{d20}+@{medicine_bonus}+@{intelligence_mod}]]}} @{rtype}+@{medicine_bonus}+@{intelligence_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{medicine-u}}} {{mod=@{medicine_check_bonus}}} {{r1=[[@{d20}+@{medicine_check_bonus}]]}} @{rtype}+@{medicine_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='medicine-core'>Medicine <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="melee_weapons">
                     <input type="checkbox" name="attr_melee_weapons_prof" title="@{melee_weapons_prof}" value="(@{pb})">
                     <span name='attr_melee_weapons_bonus' title='@{melee_weapons_bonus}'>0</span>
                     <button type='roll' name='roll_melee_weapons'
-                      value='@{wtype}&{template:simple} {{rname=^{melee_weapons-u}}} {{mod=@{melee_weapons_bonus}+@{strength_mod}}} {{r1=[[@{d20}+@{melee_weapons_bonus}+@{strength_mod}]]}} @{rtype}+@{melee_weapons_bonus}+@{strength_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{melee_weapons-u}}} {{mod=@{melee_weapons_check_bonus}}} {{r1=[[@{d20}+@{melee_weapons_check_bonus}]]}} @{rtype}+@{melee_weapons_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='melee_weapons-core'>Melee Weapons <span>[STR]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="repair">
                     <input type="checkbox" name="attr_repair_prof" title="@{repair_prof}" value="(@{pb})">
                     <span name='attr_repair_bonus' title='@{repair_bonus}'>0</span>
                     <button type='roll' name='roll_repair'
-                      value='@{wtype}&{template:simple} {{rname=^{repair-u}}} {{mod=@{repair_bonus}+@{intelligence_mod}}} {{r1=[[@{d20}+@{repair_bonus}+@{intelligence_mod}]]}} @{rtype}+@{repair_bonus}+@{intelligence_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{repair-u}}} {{mod=@{repair_check_bonus}}} {{r1=[[@{d20}+@{repair_check_bonus}]]}} @{rtype}+@{repair_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='repair-core'>Repair <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="science">
                     <input type="checkbox" name="attr_science_prof" title="@{science_prof}" value="(@{pb})">
                     <span name='attr_science_bonus' title='@{science_bonus}'>0</span>
                     <button type='roll' name='roll_science'
-                      value='@{wtype}&{template:simple} {{rname=^{science-u}}} {{mod=@{science_bonus}+@{intelligence_mod}}} {{r1=[[@{d20}+@{science_bonus}+@{intelligence_mod}]]}} @{rtype}+@{science_bonus}+@{intelligence_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{science-u}}} {{mod=@{science_check_bonus}}} {{r1=[[@{d20}+@{science_check_bonus}]]}} @{rtype}+@{science_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='science-core'>Science <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="sneak">
                     <input type="checkbox" name="attr_sneak_prof" title="@{sneak_prof}" value="(@{pb})">
                     <span name='attr_sneak_bonus' title='@{sneak_bonus}'>0</span>
                     <button type='roll' name='roll_sneak'
-                      value='@{wtype}&{template:simple} {{rname=^{sneak-u}}} {{mod=@{sneak_bonus}+@{agility_mod}}} {{r1=[[@{d20}+@{sneak_bonus}+@{agility_mod}]]}} @{rtype}+@{sneak_bonus}@+@{agility_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{sneak-u}}} {{mod=@{sneak_check_bonus}}} {{r1=[[@{d20}+@{sneak_check_bonus}]]}} @{rtype}+@{sneak_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='sneak-core'>Sneak <span>[AGL]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="speech">
                     <input type="checkbox" name="attr_speech_prof" title="@{speech_prof}" value="(@{pb})">
                     <span name='attr_speech_bonus' title='@{speech_bonus}'>0</span>
                     <button type='roll' name='roll_speech'
-                      value='@{wtype}&{template:simple} {{rname=^{speech-u}}} {{mod=@{speech_bonus}+@{charisma_mod}}} {{r1=[[@{d20}+@{speech_bonus}+@{charisma_mod}]]}} @{rtype}+@{speech_bonus}+@{charisma_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{speech-u}}} {{mod=@{speech_check_bonus}}} {{r1=[[@{d20}+@{speech_check_bonus}]]}} @{rtype}+@{speech_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='speech-core'>Speech <span>[CHA]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="survival">
                     <input type="checkbox" name="attr_survival_prof" title="@{survival_prof}" value="(@{pb})">
                     <span name='attr_survival_bonus' title='@{survival_bonus}'>0</span>
                     <button type='roll' name='roll_survival'
-                      value='@{wtype}&{template:simple} {{rname=^{survival-u}}} {{mod=@{survival_bonus}}} {{r1=[[@{d20}+@{survival_bonus}@{pbd_safe}]]}} @{rtype}+@{survival_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{survival-u}}} {{mod=@{survival_check_bonus}}} {{r1=[[@{d20}+@{survival_check_bonus}]]}} @{rtype}+@{survival_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='survival-core'>Survival <span>[INT]</span></button>
                   </div>
                   <div class="skill" data-i18n-list-item="unarmed">
                     <input type="checkbox" name="attr_unarmed_prof" title="@{unarmed_prof}" value="(@{pb})">
                     <span name='attr_unarmed_bonus' title='@{unarmed_bonus}'>0</span>
                     <button type='roll' name='roll_unarmed'
-                      value='@{wtype}&{template:simple} {{rname=^{unarmed-u}}} {{mod=@{unarmed_bonus}+@{strength_mod}}} {{r1=[[@{d20}+@{unarmed_bonus}+@{strength_mod}]]}} @{rtype}+@{unarmed_bonus}+@{strength_mod}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
+                      value='@{wtype}&{template:simple} {{rname=^{unarmed-u}}} {{mod=@{unarmed_check_bonus}}} {{r1=[[@{d20}+@{unarmed_check_bonus}]]}} @{rtype}+@{unarmed_check_bonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}'
                       data-i18n='unarmed-core'>Unarmed <span>[STR]</span></button>
                   </div>
                 </div>
@@ -1265,49 +1265,49 @@
                   <input type="checkbox" name="attr_strength_save_prof" title="@{strength_save_prof}" value="(@{pb})">
                   <span name="attr_strength_save_bonus" title="@{strength_save_bonus}">0</span>
                   <button type="roll" name="roll_strength_save"
-                    value="@{wtype}&{template:simple} {{rname=^{strength-save-u}}} {{mod=@{strength_save_bonus}}} {{r1=[[@{d20}+@{strength_save_bonus}@{pbd_safe}]]}} @{rtype}+@{strength_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{strength-save-u}}} {{mod=@{strength_save_bonus}}} {{r1=[[@{d20}+@{strength_save_bonus}]]}} @{rtype}+@{strength_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="strength">Strength</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_perception_save_prof" title="@{perception_save_prof}" value="(@{pb})">
                   <span name="attr_perception_save_bonus" title="@{perception_save_bonus}">0</span>
                   <button type="roll" name="roll_perception_save"
-                    value="@{wtype}&{template:simple} {{rname=^{perception-save-u}}} {{mod=@{perception_save_bonus}}} {{r1=[[@{d20}+@{perception_save_bonus}@{pbd_safe}]]}} @{rtype}+@{perception_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{perception-save-u}}} {{mod=@{perception_save_bonus}}} {{r1=[[@{d20}+@{perception_save_bonus}]]}} @{rtype}+@{perception_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="perception">Perception</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_endurance_save_prof" title="@{endurance_save_prof}" value="(@{pb})">
                   <span name="attr_endurance_save_bonus" title="@{endurance_save_bonus}">0</span>
                   <button type="roll" name="roll_endurance_save"
-                    value="@{wtype}&{template:simple} {{rname=^{endurance-save-u}}} {{mod=@{endurance_save_bonus}}} {{r1=[[@{d20}+@{endurance_save_bonus}@{pbd_safe}]]}} @{rtype}+@{endurance_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{endurance-save-u}}} {{mod=@{endurance_save_bonus}}} {{r1=[[@{d20}+@{endurance_save_bonus}]]}} @{rtype}+@{endurance_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="endurance">Endurance</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_charisma_save_prof" title="@{charisma_save_prof}" value="(@{pb})">
                   <span name="attr_charisma_save_bonus" title="@{charisma_save_bonus}">0</span>
                   <button type="roll" name="roll_charisma_save"
-                    value="@{wtype}&{template:simple} {{rname=^{charisma-save-u}}} {{mod=@{charisma_save_bonus}}} {{r1=[[@{d20}+@{charisma_save_bonus}@{pbd_safe}]]}} @{rtype}+@{charisma_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{charisma-save-u}}} {{mod=@{charisma_save_bonus}}} {{r1=[[@{d20}+@{charisma_save_bonus}]]}} @{rtype}+@{charisma_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="charisma">Charisma</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_intelligence_save_prof" title="@{intelligence_save_prof}" value="(@{pb})">
                   <span name="attr_intelligence_save_bonus" title="@{intelligence_save_bonus}">0</span>
                   <button type="roll" name="roll_intelligence_save"
-                    value="@{wtype}&{template:simple} {{rname=^{intelligence-save-u}}} {{mod=@{intelligence_save_bonus}}} {{r1=[[@{d20}+@{intelligence_save_bonus}@{pbd_safe}]]}} @{rtype}+@{intelligence_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{intelligence-save-u}}} {{mod=@{intelligence_save_bonus}}} {{r1=[[@{d20}+@{intelligence_save_bonus}]]}} @{rtype}+@{intelligence_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="intelligence">Intelligence</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_agility_save_prof" title="@{agility_save_prof}" value="(@{pb})">
                   <span name="attr_agility_save_bonus" title="@{agility_save_bonus}">0</span>
                   <button type="roll" name="roll_agility_save"
-                    value="@{wtype}&{template:simple} {{rname=^{agility-save-u}}} {{mod=@{agility_save_bonus}}} {{r1=[[@{d20}+@{agility_save_bonus}@{pbd_safe}]]}} @{rtype}+@{agility_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{agility-save-u}}} {{mod=@{agility_save_bonus}}} {{r1=[[@{d20}+@{agility_save_bonus}]]}} @{rtype}+@{agility_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="agility">Agility</button>
                 </div>
                 <div class="saving-throw">
                   <input type="checkbox" name="attr_luck_save_prof" title="@{luck_save_prof}" value="(@{pb})">
                   <span name="attr_luck_save_bonus" title="@{luck_save_bonus}">0</span>
                   <button type="roll" name="roll_luck_save"
-                    value="@{wtype}&{template:simple} {{rname=^{luck-save-u}}} {{mod=@{luck_save_bonus}}} {{r1=[[@{d20}+@{luck_save_bonus}@{pbd_safe}]]}} @{rtype}+@{luck_save_bonus}@{pbd_safe}]]}} {{global=@{global_save_mod}}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{luck-save-u}}} {{mod=@{luck_save_bonus}}} {{r1=[[@{d20}+@{luck_save_bonus}]]}} @{rtype}+@{luck_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                     data-i18n="luck">Luck</button>
                 </div>
                 <input type="hidden" class="toggleflag" name="attr_global_save_mod_flag">
@@ -1370,7 +1370,7 @@
                   </div>
                   <div class="display">
                     <button type="roll" name="roll_tool"
-                      value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}@{pbd_safe}]]}} @{rtype}+@{toolbonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
+                      value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}]]}} @{rtype}+@{toolbonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
                       <span name="attr_toolname" style="width: 100px;"></span>
                       <input type="hidden" name="attr_toolbonus">
                       <input type="text" name="attr_toolattr" style="width: 120px;">
@@ -1390,7 +1390,7 @@
                 <div class="init">
                   <span name="attr_initiative_bonus" title="@{initiative_bonus}"></span>
                   <button type="roll" name="roll_initiative"
-                    value="@{wtype}&{template:simple} {{rname=^{init-u}}} {{mod=@{initiative_bonus}}} {{r1=[[@{initiative_style}+@{initiative_bonus}@{pbd_safe}[INIT] &{tracker}]]}} {{normal=1}} @{charname_output}"
+                    value="@{wtype}&{template:simple} {{rname=^{init-u}}} {{mod=@{initiative_bonus}}} {{r1=[[@{initiative_style}+@{initiative_bonus}[INIT] &{tracker}]]}} {{normal=1}} @{charname_output}"
                     data-i18n="init-u">INITIATIVE</button>
                 </div>
               </div>
@@ -2342,7 +2342,7 @@
           <div class="header-info sheet-display">
             <div class="top">
               <div class="hlabel-container">
-                <input type="number" name="attr_base_level" value="1" step="1" min="0">
+                <input type="number" name="attr_base_level" class="sheet-no_events">
                 <span class="label" data-i18n="lvl-u">LEVEL</span>
               </div>
               <div class="hlabel-container" style="position: relative;">
@@ -2756,7 +2756,7 @@
   -->
 
   <input type="hidden" name="attr_d20" value="1d20">
-  <input type="hidden" name="attr_level" value="1">
+  <input type="hidden" name="attr_level" value="0">
   <input type="hidden" name="attr_pb" value="1">
   <input type="hidden" name="attr_pbd_safe" value="">
   <input type="hidden" name="attr_jack" value="1">
@@ -2824,6 +2824,20 @@
   <input type='hidden' name='attr_speech_bonus' value='0'>
   <input type='hidden' name='attr_survival_bonus' value='0'>
   <input type='hidden' name='attr_unarmed_bonus' value='0'>
+
+  <input type='hidden' name='attr_barter_check_bonus' value='0'>
+  <input type='hidden' name='attr_energy_weapons_check_bonus' value='0'>
+  <input type='hidden' name='attr_explosives_check_bonus' value='0'>
+  <input type='hidden' name='attr_guns_check_bonus' value='0'>
+  <input type='hidden' name='attr_lockpick_check_bonus' value='0'>
+  <input type='hidden' name='attr_medicine_check_bonus' value='0'>
+  <input type='hidden' name='attr_melee_weapons_check_bonus' value='0'>
+  <input type='hidden' name='attr_repair_check_bonus' value='0'>
+  <input type='hidden' name='attr_science_check_bonus' value='0'>
+  <input type='hidden' name='attr_sneak_check_bonus' value='0'>
+  <input type='hidden' name='attr_speech_check_bonus' value='0'>
+  <input type='hidden' name='attr_survival_check_bonus' value='0'>
+  <input type='hidden' name='attr_unarmed_check_bonus' value='0'>
 
   <input type='hidden' name='attr_l1mancer_status' value=''>
   <input type='hidden' name='attr_lpmancer_status' value=''>
@@ -4417,12 +4431,12 @@
     //     update_class();
     // });
 
-    on("change:base_level change:multiclass1_flag change:multiclass1 change:multiclass1_lvl change:multiclass2_flag change:multiclass2 change:multiclass2_lvl change:multiclass3_flag change:multiclass3 change:multiclass3_lvl change:arcane_fighter change:arcane_rogue", function(eventinfo) {
-        if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-            return;
-        }
-        set_level();
-    });
+    // on("change:base_level change:multiclass1_flag change:multiclass1 change:multiclass1_lvl change:multiclass2_flag change:multiclass2 change:multiclass2_lvl change:multiclass3_flag change:multiclass3 change:multiclass3_lvl change:arcane_fighter change:arcane_rogue", function(eventinfo) {
+    //     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
+    //         return;
+    //     }
+    //     set_level();
+    // });
 
     // on("change:level_calculations change:caster_level change:lvl1_slots_mod change:lvl2_slots_mod change:lvl3_slots_mod change:lvl4_slots_mod change:lvl5_slots_mod change:lvl6_slots_mod change:lvl7_slots_mod change:lvl8_slots_mod change:lvl9_slots_mod", function(eventinfo) {
     //     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
@@ -4707,7 +4721,7 @@
     // });
 
     on("change:experience", function(eventinfo) {
-        update_leveler_display();
+        set_level();
     });
 
     var update_attr = function(attr) {
@@ -4824,12 +4838,14 @@
     };
 
     var update_skills = function (skills_array) {
+        var skill_parent = {barter: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
         var attrs_to_get = ["pb"];
         var update = {};
         var callbacks = [];
 
         // get proficency and flat bonus of each skill
         _.each(skills_array, function(skill) {
+            if(skill_parent[skill] && attrs_to_get.indexOf(skill_parent[skill]) === -1) {attrs_to_get.push(skill_parent[skill] + "_mod")};
             attrs_to_get.push(skill + "_prof");
             attrs_to_get.push(skill + "_flat");
         });
@@ -4843,6 +4859,7 @@
             getAttrs(attrs_to_get, function(attr_dict) {
                 console.log("UPDATING SKILLS");
                 _.each(skills_array, function(skill) {
+                    var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
                     var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
                     var flat = attr_dict[skill + "_flat"] && !isNaN(parseInt(attr_dict[skill + "_flat"], 10)) ? parseInt(attr_dict[skill + "_flat"], 10) : 0;
                     var item_bonus = 0
@@ -4865,9 +4882,11 @@
                         };
                     });
 
-                    var total_bonus = prof + flat + item_bonus;
+                    var total_skill_bonus = prof + flat + item_bonus;
+                    var total_skill_check_bonus = total_skill_bonus + attr_mod;
 
-                    update[skill + "_bonus"] = total_bonus;
+                    update[skill + "_bonus"] = total_skill_bonus;
+                    update[skill + "_check_bonus"] = total_skill_check_bonus
                 });
 
                 setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
@@ -7641,44 +7660,47 @@
     // };
 
     const set_level = function() {
-        getAttrs(["base_level","multiclass1_flag","multiclass2_flag","multiclass3_flag","multiclass1_lvl","multiclass2_lvl","multiclass3_lvl","class","multiclass1","multiclass2","multiclass3", "arcane_fighter", "arcane_rogue", "custom_class", "cust_spellslots", "cust_classname", "level_calculations", "class", "subclass", "multiclass1_subclass","multiclass2_subclass","multiclass3_subclass"], (v) => {
+        getAttrs(["base_level", "experience"], (attrs) => {
             let update        = {};
             let callbacks     = [];
-            const multiclass  = (v[`multiclass1_flag`] && v[`multiclass1_flag`] === "1") || (v.multiclass2_flag && v.multiclass2_flag === "1") || (v.multiclass3_flag && v.multiclass3_flag === "1") ? true : false;
-            const finalclass  = (v[`custom_class`] && v[`custom_class`] != "0") ? v[`cust_spellslots`] : v[`class`];
-            let finallevel    = (v[`base_level`] && v[`base_level`] > 0) ? parseInt(v.base_level,10) : 1;
-            const charclass   = (v[`custom_class`] && v[`custom_class`] != "0") ? v[`cust_classname`] : v[`class`];
-            let hitdie_final  = (multiclass) ? `?{Hit Die Class|${charclass},@{hitdietype}` : "@{hitdietype}";
-            const subclass    = (v[`subclass`]) ? v[`subclass`] + " " : "";
-            let class_display = `${subclass}${charclass} ${finallevel}`;
+            // const multiclass  = (attrs[`multiclass1_flag`] && attrs[`multiclass1_flag`] === "1") || (attrs.multiclass2_flag && attrs.multiclass2_flag === "1") || (attrs.multiclass3_flag && attrs.multiclass3_flag === "1") ? true : false;
+            // const finalclass  = (attrs[`custom_class`] && attrs[`custom_class`] != "0") ? attrs[`cust_spellslots`] : attrs[`class`];
+            // let finallevel    = (attrs[`base_level`] && attrs[`base_level`] >= 0) ? parseInt(attrs.base_level,10) : 0;
+            let exp           = (attrs[`experience`] && attrs[`experience`] >= 0) ? parseInt(attrs.experience,10) : 0;
+            let final_level   = Math.floor(Math.sqrt(2*exp/1000));
+            // const charclass   = (attrs[`custom_class`] && attrs[`custom_class`] != "0") ? attrs[`cust_classname`] : attrs[`class`];
+            // let hitdie_final  = (multiclass) ? `?{Hit Die Class|${charclass},@{hitdietype}` : "@{hitdietype}";
+            // const subclass    = (attrs[`subclass`]) ? attrs[`subclass`] + " " : "";
+            // let class_display = `${subclass}${charclass} ${finallevel}`;
 
             // This nested array is used to determine the overall spellcasting level for the character.
-            var classes = [ [finalclass.toLowerCase(), v[`base_level`]] ];
+            // var classes = [ [finalclass.toLowerCase(), attrs[`base_level`]] ];
 
-            ["multiclass1", "multiclass2", "multiclass3"].forEach((multiclass) => {
-                 if (v[`${multiclass}_flag`] && v[`${multiclass}_flag`] === "1") {
-                    const multiclasslevel = (v[`${multiclass}_lvl`] && v[`${multiclass}_lvl`] > 0) ? parseInt(v[`${multiclass}_lvl`], 10) : 1;
-                    const subclass = (v[`${multiclass}_subclass`]) ? v[`${multiclass}_subclass`] + " " : "";
-                    finallevel = finallevel + multiclasslevel;
-                    hitdie_final = `${hitdie_final}|` + v[`${multiclass}`].charAt(0).toUpperCase() + v[`${multiclass}`].slice(1) + "," + checkHitDie(v[`${multiclass}`]);
-                    classes.push([ v[`${multiclass}`], multiclasslevel ]);
-                    class_display = `${class_display}, ${subclass}` + v[`${multiclass}`] + ` ${multiclasslevel}`;
-                };
-            });
+            // ["multiclass1", "multiclass2", "multiclass3"].forEach((multiclass) => {
+            //      if (attrs[`${multiclass}_flag`] && attrs[`${multiclass}_flag`] === "1") {
+            //         const multiclasslevel = (attrs[`${multiclass}_lvl`] && attrs[`${multiclass}_lvl`] > 0) ? parseInt(attrs[`${multiclass}_lvl`], 10) : 1;
+            //         const subclass = (attrs[`${multiclass}_subclass`]) ? attrs[`${multiclass}_subclass`] + " " : "";
+            //         finallevel = finallevel + multiclasslevel;
+            //         hitdie_final = `${hitdie_final}|` + attrs[`${multiclass}`].charAt(0).toUpperCase() + attrs[`${multiclass}`].slice(1) + "," + checkHitDie(attrs[`${multiclass}`]);
+            //         classes.push([ attrs[`${multiclass}`], multiclasslevel ]);
+            //         class_display = `${class_display}, ${subclass}` + attrs[`${multiclass}`] + ` ${multiclasslevel}`;
+            //     };
+            // });
 
-            const casterlevel = checkCasterLevel(classes, v[`arcane_fighter`], v[`arcane_rogue`]);
+            // const casterlevel = checkCasterLevel(classes, attrs[`arcane_fighter`], attrs[`arcane_rogue`]);
 
-            update["hitdie_final"]  = (multiclass) ? `${hitdie_final}}` : hitdie_final;
-            update["level"]         = finallevel;
-            update["caster_level"]  = casterlevel;
-            update["class_display"] = class_display;
+            // update["hitdie_final"]  = (multiclass) ? `${hitdie_final}}` : hitdie_final;
+            update["base_level"] = final_level;
+            update["level"] = final_level;
+            // update["caster_level"]  = casterlevel;
+            // update["class_display"] = class_display;
 
-            if(!v["level_calculations"] || v["level_calculations"] === "on") {
-                update["hit_dice_max"] = finallevel;
-                callbacks.push(() => {update_spell_slots();} );
-            }
+            // if(!attrs["level_calculations"] || attrs["level_calculations"] === "on") {
+            //     update["hit_dice_max"] = finallevel;
+            //     callbacks.push(() => {update_spell_slots();} );
+            // }
             callbacks.push(() => {update_pb();} );
-            callbacks.push(() => {update_leveler_display();} );
+            // callbacks.push(() => {update_leveler_display();} );
             setAttrs(update, {silent: true},() => {callbacks.forEach((callback) => {callback(); })} );
         });
     };
@@ -7737,26 +7759,26 @@
         else {return "0"};
     };
 
-    var update_leveler_display = function () {
-        getAttrs(["experience","level"], function(v) {
-            let lvl = 0;
-            let exp = 0;
-            let update = {};
-            update["showleveler"] = 0;
-            if(v["level"] && !isNaN(parseInt(v["level"], 10)) && parseInt(v["level"], 10) > 0) {
-                lvl = parseInt(v["level"], 10);
-            }
-            if(v["experience"] && !isNaN(parseInt(v["experience"], 10)) && parseInt(v["experience"], 10) > 0) {
-                exp = parseInt(v["experience"], 10);
-            }
-            if(lvl > 0 && exp > 0) {
-                if((lvl === 1 && exp >= 300) || (lvl === 2 && exp >= 900) || (lvl === 3 && exp >= 2700) || (lvl === 4 && exp >= 6500) || (lvl === 5 && exp >= 14000) || (lvl === 6 && exp >= 23000) || (lvl === 7 && exp >= 34000) || (lvl === 8 && exp >= 48000) || (lvl === 9 && exp >= 64000) || (lvl === 10 && exp >= 85000) || (lvl === 11 && exp >= 100000) || (lvl === 12 && exp >= 120000) || (lvl === 13 && exp >= 140000) || (lvl === 14 && exp >= 165000) || (lvl === 15 && exp >= 195000) || (lvl === 16 && exp >= 225000) || (lvl === 17 && exp >= 265000) || (lvl === 18 && exp >= 305000) || (lvl === 19 && exp >= 355000)) {
-                    update["showleveler"] = 1;
-                };
-            };
-            setAttrs(update, {silent: true});
-        });
-    };
+    // var update_leveler_display = function () {
+    //     getAttrs(["experience","level"], function(attrs) {
+    //         let lvl = 0;
+    //         let exp = 0;
+    //         let update = {};
+    //         update["showleveler"] = 0;
+    //         if(attrs["level"] && !isNaN(parseInt(attrs["level"], 10)) && parseInt(attrs["level"], 10) > 0) {
+    //             lvl = parseInt(attrs["level"], 10);
+    //         }
+    //         if(attrs["experience"] && !isNaN(parseInt(attrs["experience"], 10)) && parseInt(attrs["experience"], 10) > 0) {
+    //             exp = parseInt(attrs["experience"], 10);
+    //         }
+    //         if(lvl > 0 && exp > 0) {
+    //             if((lvl === 1 && exp >= 300) || (lvl === 2 && exp >= 900) || (lvl === 3 && exp >= 2700) || (lvl === 4 && exp >= 6500) || (lvl === 5 && exp >= 14000) || (lvl === 6 && exp >= 23000) || (lvl === 7 && exp >= 34000) || (lvl === 8 && exp >= 48000) || (lvl === 9 && exp >= 64000) || (lvl === 10 && exp >= 85000) || (lvl === 11 && exp >= 100000) || (lvl === 12 && exp >= 120000) || (lvl === 13 && exp >= 140000) || (lvl === 14 && exp >= 165000) || (lvl === 15 && exp >= 195000) || (lvl === 16 && exp >= 225000) || (lvl === 17 && exp >= 265000) || (lvl === 18 && exp >= 305000) || (lvl === 19 && exp >= 355000)) {
+    //                 update["showleveler"] = 1;
+    //             };
+    //         };
+    //         setAttrs(update, {silent: true});
+    //     });
+    // };
 
     // var update_spell_slots = function() {
     //     getAttrs(["lvl1_slots_mod","lvl2_slots_mod","lvl3_slots_mod","lvl4_slots_mod","lvl5_slots_mod","lvl6_slots_mod","lvl7_slots_mod","lvl8_slots_mod","lvl9_slots_mod","caster_level"], function(v) {
@@ -7798,30 +7820,31 @@
 
     var update_pb = function() {
         callbacks = [];
-        getAttrs(["level","pb_type","pb_custom"], function(v) {
+        getAttrs(["level","pb_type","pb_custom"], function(attrs) {
             var update = {};
             var pb = 1;
-            var lvl = parseInt(v["level"],10);
+            var lvl = parseInt(attrs["level"],10);
             if(lvl < 5) {pb = "1"} else if(lvl < 10) {pb = "2"} else if(lvl < 15) {pb = "3"} else if(lvl < 20) {pb = "4"} else {pb = "5"}
-            var jack = Math.floor(pb/2);
-            if(v["pb_type"] === "die") {
-                update["jack"] = "d" + pb;
-                update["pb"] = "d" + pb*2;
-                update["pbd_safe"] = "cs0cf0";
-            }
-            else if(v["pb_type"] === "custom" && v["pb_custom"] && v["pb_custom"] != "") {
-                update["pb"] = v["pb_custom"]
-                update["jack"] = !isNaN(parseInt(v["pb_custom"],10)) ? Math.floor(parseInt(v["pb_custom"],10)/2) : jack;
-                update["pbd_safe"] = "";
-            }
-            else {
-                update["pb"] = pb;
-                update["jack"] = jack;
-                update["pbd_safe"] = "";
-            };
+            // var jack = Math.floor(pb/2);
+            update["pb"] = pb;
+            // if(attrs["pb_type"] === "die") {
+            //     update["jack"] = "d" + pb;
+            //     update["pb"] = "d" + pb*2;
+            //     update["pbd_safe"] = "cs0cf0";
+            // }
+            // else if(attrs["pb_type"] === "custom" && attrs["pb_custom"] && attrs["pb_custom"] != "") {
+            //     update["pb"] = attrs["pb_custom"]
+            //     update["jack"] = !isNaN(parseInt(attrs["pb_custom"],10)) ? Math.floor(parseInt(attrs["pb_custom"],10)/2) : jack;
+            //     update["pbd_safe"] = "";
+            // }
+            // else {
+            //     update["pb"] = pb;
+            //     update["jack"] = jack;
+            //     update["pbd_safe"] = "";
+            // };
             callbacks.push( function() {update_attacks("all");} );
-            callbacks.push( function() {update_spell_info();} );
-            callbacks.push( function() {update_jack_attr();} );
+            // callbacks.push( function() {update_spell_info();} );
+            // callbacks.push( function() {update_jack_attr();} );
             callbacks.push( function() {update_initiative();} );
             callbacks.push( function() {update_tool("all");} );
             callbacks.push( function() {update_all_saves();} );
@@ -7836,7 +7859,7 @@
         getAttrs(["jack_of_all_trades","jack"], function(v) {
             if(v["jack_of_all_trades"] && v["jack_of_all_trades"] != 0) {
                 update["jack_bonus"] = "+" + v["jack"];
-                update["jack_attr"] = "+" + v["jack"] + "@{pbd_safe}";
+                update["jack_attr"] = "+" + v["jack"] + "";
             }
             else {
                 update["jack_bonus"] = "";
@@ -8332,8 +8355,6 @@
 
         return out;
     };
-
-
 
     var update_globaldamage = function(callback) {
         getSectionIDs("damagemod", function(ids) {
