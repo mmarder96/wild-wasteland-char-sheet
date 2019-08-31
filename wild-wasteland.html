@@ -8,7 +8,6 @@
 </head>
 
 <body>
-
   <!--
 
   $$\   $$\ $$$$$$\ $$$$$$$\  $$$$$$$\  $$$$$$$$\ $$\   $$\       $$$$$$$$\ $$\        $$$$$$\   $$$$$$\   $$$$$$\
@@ -2756,7 +2755,6 @@
   -->
 
   <input type="hidden" name="attr_d20" value="1d20">
-  <input type="hidden" name="attr_rtype" value="@{advantagetoggle}">
   <input type="hidden" name="attr_level" value="0">
   <input type="hidden" name="attr_pb" value="1">
   <input type="hidden" name="attr_pbd_safe" value="">
@@ -4096,6 +4094,7 @@
             check_customac(cap);
 
             (attr === "strength") ? update_weight() : false;
+            (attr === "endurance") ? update_hp_max() : false;
             (attr === "agility") ? update_initiative() : false;
         });
     });
@@ -7437,6 +7436,32 @@
             });
         });
     };
+
+    var update_hp_max = function() {
+      attrs_to_get = ["hp_base", "level", "endurance"];
+      getSectionIDs("repeating_hpmod", function(idArray){
+        _.each(idArray, function(currentId, i) {
+          attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
+        });
+        getAttrs(attrs_to_get, function(attr) {
+          var update = {};
+          var hp_base = parseInt(attr["hp_base"], 10);
+          var endurance = parseInt(attr["endurance"], 10);
+          var level = parseInt(attr["level"], 10);
+          var hp_mod = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attr["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10))) {
+              hp_mod += parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10);
+              // console.log("hp_mod: " + hp_mod)
+              // console.log("repeating_hpmod_" + currentId + "_mod: " + attr["repeating_hpmod_" + currentId + "_mod"]);
+            }
+          });
+          final_hp_max = hp_base + endurance + level + hp_mod;
+          update["hp_max"] = final_hp_max;
+          setAttrs(update, {silent: false});
+        });
+      });
+    }
 
     var update_ac = function() {
         getAttrs(["custom_ac_flag"], function(v) {
