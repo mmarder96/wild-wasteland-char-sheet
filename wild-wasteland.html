@@ -4141,6 +4141,12 @@
         });
     });
 
+    on("change:level", function(eventinfo) {
+        if(eventinfo.sourceType === "sheetworker") {return;};
+        update_hp_max();
+      }
+    );
+
     // update all saves on global_save_mod change
     on("change:global_save_mod", function(eventinfo) {
         if(eventinfo.sourceType === "sheetworker") {return;};
@@ -4161,20 +4167,21 @@
         });
     });
 
+    // update hp on hp mod change
+    on("change:repeating_hpmod:mod", function() {
+      update_hp_max();
+    });
+
     // update tool on tool property change
     on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
-        if(eventinfo.sourceType === "sheetworker") {
-            return;
-        }
+        if(eventinfo.sourceType === "sheetworker") {return;};
         var tool_id = eventinfo.sourceAttribute.substring(15, 35);
         update_tool(tool_id);
     });
 
     // update attack on attack property change
     on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkattr_base change:repeating_attack:atkmod change:repeating_attack:atkmagic change:repeating_attack:atkprofflag change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgmod change:repeating_attack:dmgtype change:repeating_attack:dmg2flag change:repeating_attack:dmg2base change:repeating_attack:dmg2attr change:repeating_attack:dmg2mod change:repeating_attack:dmg2type change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:dmg2custcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
-        if(eventinfo.sourceType === "sheetworker") {
-            return;
-        }
+        if(eventinfo.sourceType === "sheetworker") {return;};
 
         var source = eventinfo.sourceAttribute.substr(38);
         var attackid = eventinfo.sourceAttribute.substring(17, 37);
@@ -7452,13 +7459,11 @@
           _.each(idArray, function(currentId, i) {
             if(attr["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10))) {
               hp_mod += parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10);
-              // console.log("hp_mod: " + hp_mod)
-              // console.log("repeating_hpmod_" + currentId + "_mod: " + attr["repeating_hpmod_" + currentId + "_mod"]);
             }
           });
           final_hp_max = hp_base + endurance + level + hp_mod;
           update["hp_max"] = final_hp_max;
-          setAttrs(update, {silent: false});
+          setAttrs(update, {silent: true});
         });
       });
     }
@@ -7720,12 +7725,12 @@
             update["level"] = final_level;
             // update["caster_level"]  = casterlevel;
             // update["class_display"] = class_display;
-
             // if(!attrs["level_calculations"] || attrs["level_calculations"] === "on") {
             //     update["hit_dice_max"] = finallevel;
             //     callbacks.push(() => {update_spell_slots();} );
             // }
             callbacks.push(() => {update_pb();} );
+            callbacks.push(() => {update_hp_max();} );
             // callbacks.push(() => {update_leveler_display();} );
             setAttrs(update, {silent: true},() => {callbacks.forEach((callback) => {callback(); })} );
         });
