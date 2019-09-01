@@ -4157,6 +4157,7 @@
                     update_skills(["lockpick", "sneak"]);
                     update_initiative();
                     update_ac();
+                    update_defense();
                     break;
                 case "luck":
                     update_critical_strike();
@@ -7501,6 +7502,54 @@
       });
     }
 
+    var update_defense = function() {
+      attrs_to_get = ["agility_mod"];
+      getSectionIDs("repeating_defmod", function(idArray){
+        _.each(idArray, function(currentId, i) {
+          attrs_to_get.push("repeating_defmod_" + currentId + "_mod");
+        });
+        getAttrs(attrs_to_get, function(attr) {
+          var update = {};
+          var def_base = 10;
+          var agility_mod = parseInt(attr["agility_mod"], 10);
+          var def_mod = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attr["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_defmod_" + currentId + "_mod"], 10))) {
+              hp_mod += parseInt(attr["repeating_defmod_" + currentId + "_mod"], 10);
+            }
+          });
+          final_def = def_base + agility_mod + def_mod;
+          update["def"] = final_def;
+          setAttrs(update, {silent: true});
+        });
+      });
+    }
+
+    // TODO implement this
+    // var update_dt = function() {
+    //   attrs_to_get = ["hp_base", "level", "endurance"];
+    //   getSectionIDs("repeating_hpmod", function(idArray){
+    //     _.each(idArray, function(currentId, i) {
+    //       attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
+    //     });
+    //     getAttrs(attrs_to_get, function(attr) {
+    //       var update = {};
+    //       var hp_base = parseInt(attr["hp_base"], 10);
+    //       var endurance = parseInt(attr["endurance"], 10);
+    //       var level = parseInt(attr["level"], 10);
+    //       var hp_mod = 0;
+    //       _.each(idArray, function(currentId, i) {
+    //         if(attr["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10))) {
+    //           hp_mod += parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10);
+    //         }
+    //       });
+    //       final_hp_max = hp_base + endurance + level + hp_mod;
+    //       update["hp_max"] = final_hp_max;
+    //       setAttrs(update, {silent: true});
+    //     });
+    //   });
+    // }
+
     var update_ac = function() {
         getAttrs(["custom_ac_flag"], function(v) {
             if(v.custom_ac_flag === "2") {
@@ -8002,13 +8051,13 @@
             var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
             var mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
             var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
-            if(v["pb_type"] && v["pb_type"] === "die" && v["perception_bonus"] && isNaN(v["perception_bonus"]) && v["perception_bonus"].indexOf("+") > -1) {
-                var pieces = v["perception_bonus"].split(/\+|d/);
-                var base = !isNaN(parseInt(pieces[0],10)) ? parseInt(pieces[0],10) : 0;
-                var num_dice = !isNaN(parseInt(pieces[1],10)) ? parseInt(pieces[1],10) : 1;
-                var half_pb_die = !isNaN(parseInt(pieces[2],10)) ? parseInt(pieces[2],10)/2 : 2;
-                bonus = base + (num_dice * half_pb_die);
-            }
+            // if(v["pb_type"] && v["pb_type"] === "die" && v["perception_bonus"] && isNaN(v["perception_bonus"]) && v["perception_bonus"].indexOf("+") > -1) {
+            //     var pieces = v["perception_bonus"].split(/\+|d/);
+            //     var base = !isNaN(parseInt(pieces[0],10)) ? parseInt(pieces[0],10) : 0;
+            //     var num_dice = !isNaN(parseInt(pieces[1],10)) ? parseInt(pieces[1],10) : 1;
+            //     var half_pb_die = !isNaN(parseInt(pieces[2],10)) ? parseInt(pieces[2],10)/2 : 2;
+            //     bonus = base + (num_dice * half_pb_die);
+            // }
             pass_per = pass_per + per_mod + bonus + mod;
             setAttrs({passive_perception: pass_per})
         });
