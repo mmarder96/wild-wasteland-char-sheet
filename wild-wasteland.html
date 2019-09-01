@@ -4206,6 +4206,18 @@
       update_hp_max();
     });
 
+    on("change:repeating_defmod:mod", function() {
+      update_defense();
+    });
+
+    // on("change:repeating_dtmod:mod", function() {
+    //   update_dt();
+    // });
+
+    // on("change:repeating_spdmod:mod", function() {
+    //   update_speed();
+    // });
+
     // update tool on tool property change
     on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
         if(eventinfo.sourceType === "sheetworker") {return;};
