@@ -4158,6 +4158,7 @@
                     update_initiative();
                     update_ac();
                     update_defense();
+                    update_speed();
                     break;
                 case "luck":
                     update_critical_strike();
@@ -4214,9 +4215,9 @@
     //   update_dt();
     // });
 
-    // on("change:repeating_spdmod:mod", function() {
-    //   update_speed();
-    // });
+    on("change:repeating_spdmod:mod", function() {
+      update_speed();
+    });
 
     // update tool on tool property change
     on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
@@ -7561,6 +7562,29 @@
     //     });
     //   });
     // }
+
+    var update_speed = function() {
+      attrs_to_get = ["agility_mod"];
+      getSectionIDs("repeating_spdmod", function(idArray){
+        _.each(idArray, function(currentId, i) {
+          attrs_to_get.push("repeating_spdmod_" + currentId + "_mod");
+        });
+        getAttrs(attrs_to_get, function(attr) {
+          var update = {};
+          var spd_base = 6;
+          var agility_mod = parseInt(attr["agility_mod"], 10);
+          var spd_mod = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attr["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_spdmod_" + currentId + "_mod"], 10))) {
+              spd_mod += parseInt(attr["repeating_spdmod_" + currentId + "_mod"], 10);
+            }
+          });
+          final_spd = spd_base + Math.floor(agility_mod/2) + spd_mod;
+          update["speed"] = final_spd;
+          setAttrs(update, {silent: true});
+        });
+      });
+    }
 
     var update_ac = function() {
         getAttrs(["custom_ac_flag"], function(v) {
