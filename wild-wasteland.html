@@ -7527,7 +7527,7 @@
           var def_mod = 0;
           _.each(idArray, function(currentId, i) {
             if(attr["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_defmod_" + currentId + "_mod"], 10))) {
-              hp_mod += parseInt(attr["repeating_defmod_" + currentId + "_mod"], 10);
+              def_mod += parseInt(attr["repeating_defmod_" + currentId + "_mod"], 10);
             }
           });
           final_def = def_base + agility_mod + def_mod;
