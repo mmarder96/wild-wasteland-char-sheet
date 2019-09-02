@@ -1338,7 +1338,7 @@
                 </div>
               </div>
             </div>
-            <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 150px; position: relative;">
+            <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 50px; position: relative;">
               <div class="top">
                 <span class="label" style="width: 106px;" data-i18n="tool-u">SKILL</span>
                 <span class="label" style="width: 85px;" data-i18n="attr-u">ATTRIBUTE</span>
@@ -4072,9 +4072,9 @@
       update_defense();
     });
 
-    // on("change:repeating_dtmod:mod", function() {
-    //   update_dt();
-    // });
+    on("change:repeating_dtmod:mod", function() {
+      update_dt();
+    });
 
     on("change:repeating_spdmod:mod", function() {
       update_speed();
@@ -4251,16 +4251,31 @@
         update_weight();
     });
 
+    on("change:repeating_armor:armormodifiers change:repeating_armor:equipped", function(eventinfo) {
+      console.log("CHANGE REPEATING ARMOR");
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
+      console.log(eventinfo.sourceAttribute)
+      var itemid = eventinfo.sourceAttribute.substring(16, 36);
+      console.log(itemid)
+      getAttrs(["repeating_armor_" + itemid + "_armormodifiers"], function(attrs) {
+        console.log(attrs["repeating_armor_" + itemid + "_armormodifiers"])
+        if(attrs["repeating_armor_" + itemid + "_armormodifiers"]) {
+          check_itemmodifiers(attrs["repeating_armor_" + itemid + "_armormodifiers"], eventinfo.previousValue);
+        };
+      });
+    });
+
     on("change:repeating_inventory:itemmodifiers change:repeating_inventory:equipped", function(eventinfo) {
-        if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-            return;
-        }
-        var itemid = eventinfo.sourceAttribute.substring(20, 40);
-        getAttrs(["repeating_inventory_" + itemid + "_itemmodifiers"], function(v) {
-            if(v["repeating_inventory_" + itemid + "_itemmodifiers"]) {
-                check_itemmodifiers(v["repeating_inventory_" + itemid + "_itemmodifiers"], eventinfo.previousValue);
-            };
-        });
+      console.log("CHANGE REPEATING INVENTORY");
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
+      console.log(eventinfo.sourceAttribute)
+      var itemid = eventinfo.sourceAttribute.substring(20, 40);
+      console.log(itemid)
+      getAttrs(["repeating_inventory_" + itemid + "_itemmodifiers"], function(attrs) {
+        if(attrs["repeating_inventory_" + itemid + "_itemmodifiers"]) {
+          check_itemmodifiers(attrs["repeating_inventory_" + itemid + "_itemmodifiers"], eventinfo.previousValue);
+        };
+      });
     });
 
     on("change:custom_ac_flag change:custom_ac_base change:custom_ac_part1 change:custom_ac_part2 change:custom_ac_shield", function(eventinfo) {
@@ -4752,7 +4767,10 @@
         update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
     };
 
+    // TODO fix this function to include armor
     var update_skills = function (skills_array) {
+        console.log("UPDATING SKILLS");
+        console.log("skills array: " + skills_array);
         var skill_parent = {barter: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
         var attrs_to_get = ["pb"];
         var update = {};
@@ -4765,48 +4783,163 @@
             attrs_to_get.push(skill + "_flat");
         });
 
-        getSectionIDs("repeating_inventory", function(inv_id_arr) {
-            _.each(inv_id_arr, function(curr_id) {
-                attrs_to_get.push("repeating_inventory_" + curr_id + "_equipped");
-                attrs_to_get.push("repeating_inventory_" + curr_id + "_itemmodifiers");
+        getSectionIDs("repeating_armor", function(armor_id_arr) {
+            _.each(armor_id_arr, function(curr_id) {
+                attrs_to_get.push("repeating_armor_" + curr_id + "_equipped");
+                attrs_to_get.push("repeating_armor_" + curr_id + "_armormodifiers");
             });
-
-            getAttrs(attrs_to_get, function(attr_dict) {
-                console.log("UPDATING SKILLS");
+            getSectionIDs("repeating_inventory", function(inv_id_arr) {
+              _.each(inv_id_arr, function(curr_id) {
+                  attrs_to_get.push("repeating_inventory_" + curr_id + "_equipped");
+                  attrs_to_get.push("repeating_inventory_" + curr_id + "_itemmodifiers");
+              });
+              console.log(attrs_to_get)
+              getAttrs(attrs_to_get, function(attr_dict) {
+                console.log(attr_dict)
                 _.each(skills_array, function(skill) {
-                    var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
-                    var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
-                    var flat = attr_dict[skill + "_flat"] && !isNaN(parseInt(attr_dict[skill + "_flat"], 10)) ? parseInt(attr_dict[skill + "_flat"], 10) : 0;
-                    var item_bonus = 0
+                  var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
+                  var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
+                  var flat = attr_dict[skill + "_flat"] && !isNaN(parseInt(attr_dict[skill + "_flat"], 10)) ? parseInt(attr_dict[skill + "_flat"], 10) : 0;
+                  var armor_bonus = 0;
+                  var item_bonus = 0;
 
-                    _.each(inv_id_arr, function(curr_id) {
-                        if(attr_dict["repeating_inventory_" + curr_id + "_equipped"] && attr_dict["repeating_inventory_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"] && (attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
-                            var mods = attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().split(",");
-                            _.each(mods, function(mod) {
-                                if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
-                                    if(mod.indexOf("-") > -1) {
-                                        var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                                        item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
-                                    }
-                                    else {
-                                        var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                                        item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
-                                    }
-                                };
-                            });
+                  _.each(armor_id_arr, function(curr_id) {
+                    if(attr_dict["repeating_armor_" + curr_id + "_equipped"] && attr_dict["repeating_armor_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_armor_" + curr_id + "_armormodifiers"] && (attr_dict["repeating_armor_" + curr_id + "_armormodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_armor_" + curr_id + "_armormodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
+                      var mods = attr_dict["repeating_armor_" + curr_id + "_armormodifiers"].toLowerCase().split(",");
+                      console.log( "inside update_skills - armor mods: " + mods)
+                      _.each(mods, function(mod) {
+                        if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
+                          if(mod.indexOf("-") > -1) {
+                            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                            armor_bonus = new_mod ? armor_bonus - new_mod : armor_bonus;
+                          }
+                          else {
+                            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                            armor_bonus = new_mod ? armor_bonus + new_mod : armor_bonus;
+                          }
                         };
-                    });
+                      });
+                    };
+                  });
 
-                    var total_skill_bonus = prof + flat + item_bonus;
-                    var total_skill_check_bonus = total_skill_bonus + attr_mod;
+                  _.each(inv_id_arr, function(curr_id) {
+                    if(attr_dict["repeating_inventory_" + curr_id + "_equipped"] && attr_dict["repeating_inventory_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"] && (attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
+                      var mods = attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().split(",");
+                      _.each(mods, function(mod) {
+                        if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
+                          if(mod.indexOf("-") > -1) {
+                            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                            item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
+                          }
+                          else {
+                            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                            item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
+                          }
+                        };
+                      });
+                    };
+                  });
 
-                    update[skill + "_bonus"] = total_skill_bonus;
-                    update[skill + "_check_bonus"] = total_skill_check_bonus
+                  var total_skill_bonus = prof + flat + armor_bonus + item_bonus;
+                  var total_skill_check_bonus = total_skill_bonus + attr_mod;
+
+                  update[skill + "_bonus"] = total_skill_bonus;
+                  update[skill + "_check_bonus"] = total_skill_check_bonus
                 });
 
                 setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+              });
             });
         });
+
+        // get modifiers from armor
+        // getSectionIDs("repeating_armor", function(armor_id_arr) {
+        //     _.each(armor_id_arr, function(curr_id) {
+        //         attrs_to_get.push("repeating_armor_" + curr_id + "_equipped");
+        //         attrs_to_get.push("repeating_armor_" + curr_id + "_itemmodifiers");
+        //     });
+        //
+        //     getAttrs(attrs_to_get, function(attr_dict) {
+        //         console.log("UPDATING SKILLS - ARMOR");
+        //         _.each(skills_array, function(skill) {
+        //             var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
+        //             var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
+        //             var flat = attr_dict[skill + "_flat"] && !isNaN(parseInt(attr_dict[skill + "_flat"], 10)) ? parseInt(attr_dict[skill + "_flat"], 10) : 0;
+        //             var armor_bonus = 0;
+        //             var item_bonus = 0;
+        //
+        //             _.each(armor_id_arr, function(curr_id) {
+        //                 if(attr_dict["repeating_armor_" + curr_id + "_equipped"] && attr_dict["repeating_armor_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"] && (attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
+        //                     var mods = attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().split(",");
+        //                     _.each(mods, function(mod) {
+        //                         if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
+        //                             if(mod.indexOf("-") > -1) {
+        //                                 var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+        //                                 item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
+        //                             }
+        //                             else {
+        //                                 var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+        //                                 item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
+        //                             }
+        //                         };
+        //                     });
+        //                 };
+        //             });
+        //
+        //             var total_skill_bonus = prof + flat + item_bonus;
+        //             var total_skill_check_bonus = total_skill_bonus + attr_mod;
+        //
+        //             update[skill + "_bonus"] = total_skill_bonus;
+        //             update[skill + "_check_bonus"] = total_skill_check_bonus
+        //         });
+        //
+        //         setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+        //     });
+        // });
+
+        // get modifiers from equipment
+        // getSectionIDs("repeating_inventory", function(inv_id_arr) {
+        //     _.each(inv_id_arr, function(curr_id) {
+        //         attrs_to_get.push("repeating_inventory_" + curr_id + "_equipped");
+        //         attrs_to_get.push("repeating_inventory_" + curr_id + "_itemmodifiers");
+        //     });
+        //
+        //     getAttrs(attrs_to_get, function(attr_dict) {
+        //         console.log("UPDATING SKILLS - EQUIPMENT");
+        //         _.each(skills_array, function(skill) {
+        //             var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
+        //             var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
+        //             var flat = attr_dict[skill + "_flat"] && !isNaN(parseInt(attr_dict[skill + "_flat"], 10)) ? parseInt(attr_dict[skill + "_flat"], 10) : 0;
+        //             var item_bonus = 0
+        //
+        //             _.each(inv_id_arr, function(curr_id) {
+        //                 if(attr_dict["repeating_inventory_" + curr_id + "_equipped"] && attr_dict["repeating_inventory_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"] && (attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
+        //                     var mods = attr_dict["repeating_inventory_" + curr_id + "_itemmodifiers"].toLowerCase().split(",");
+        //                     _.each(mods, function(mod) {
+        //                         if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
+        //                             if(mod.indexOf("-") > -1) {
+        //                                 var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+        //                                 item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
+        //                             }
+        //                             else {
+        //                                 var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+        //                                 item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
+        //                             }
+        //                         };
+        //                     });
+        //                 };
+        //             });
+        //
+        //             var total_skill_bonus = prof + flat + item_bonus;
+        //             var total_skill_check_bonus = total_skill_bonus + attr_mod;
+        //
+        //             update[skill + "_bonus"] = total_skill_bonus;
+        //             update[skill + "_check_bonus"] = total_skill_check_bonus
+        //         });
+        //
+        //         setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+        //     });
+        // });
     };
 
     var update_tool = function(tool_id) {
@@ -6082,41 +6215,66 @@
     // };
 
     var check_itemmodifiers = function(modifiers, previousValue) {
-        var mods = modifiers.toLowerCase().split(",");
-        if(previousValue) {
-            prevmods = previousValue.toLowerCase().split(",");
-            mods = _.union(mods, prevmods);
-        };
-        _.each(mods, function(mod) {
-            if(mod.indexOf("ac:") > -1 || mod.indexOf("ac +") > -1 || mod.indexOf("ac -") > -1) {update_ac();};
-            if(mod.indexOf("spell") > -1) {update_spell_info();};
-            if(mod.indexOf("saving throws") > -1) {update_all_saves();};
-            if(mod.indexOf("strength save") > -1) {update_save("strength");} else if(mod.indexOf("strength") > -1) {update_attr("strength");};
-            if(mod.indexOf("dexterity save") > -1) {update_save("dexterity");} else if(mod.indexOf("dexterity") > -1) {update_attr("dexterity");};
-            if(mod.indexOf("constitution save") > -1) {update_save("constitution");} else if(mod.indexOf("constitution") > -1) {update_attr("constitution");};
-            if(mod.indexOf("intelligence save") > -1) {update_save("intelligence");} else if(mod.indexOf("intelligence") > -1) {update_attr("intelligence");};
-            if(mod.indexOf("wisdom save") > -1) {update_save("wisdom");} else if(mod.indexOf("wisdom") > -1) {update_attr("wisdom");};
-            if(mod.indexOf("charisma save") > -1) {update_save("charisma");} else if(mod.indexOf("charisma") > -1) {update_attr("charisma");};
-            if(mod.indexOf("ability checks") > -1) {update_all_ability_checks();};
-            if(mod.indexOf("acrobatics") > -1) {update_skills(["acrobatics"]);};
-            if(mod.indexOf("animal handling") > -1) {update_skills(["animal_handling"]);};
-            if(mod.indexOf("arcana") > -1) {update_skills(["arcana"]);};
-            if(mod.indexOf("athletics") > -1) {update_skills(["athletics"]);};
-            if(mod.indexOf("deception") > -1) {update_skills(["deception"]);};
-            if(mod.indexOf("history") > -1) {update_skills(["history"]);};
-            if(mod.indexOf("insight") > -1) {update_skills(["insight"]);};
-            if(mod.indexOf("intimidation") > -1) {update_skills(["intimidation"]);};
-            if(mod.indexOf("investigation") > -1) {update_skills(["investigation"]);};
-            if(mod.indexOf("medicine") > -1) {update_skills(["medicine"]);};
-            if(mod.indexOf("nature") > -1) {update_skills(["nature"]);};
-            if(mod.indexOf("perception") > -1) {update_skills(["perception"]);};
-            if(mod.indexOf("performance") > -1) {update_skills(["performance"]);};
-            if(mod.indexOf("persuasion") > -1) {update_skills(["persuasion"]);};
-            if(mod.indexOf("religion") > -1) {update_skills(["religion"]);};
-            if(mod.indexOf("sleight of hand") > -1) {update_skills(["sleight_of_hand"]);};
-            if(mod.indexOf("stealth") > -1) {update_skills(["stealth"]);};
-            if(mod.indexOf("survival") > -1) {update_skills(["survival"]);};
-        });
+      console.log("CHECKING ITEM MODIFIERS")
+      var mods = modifiers.toLowerCase().split(",");
+      if(previousValue) {
+        prevmods = previousValue.toLowerCase().split(",");
+        mods = _.union(mods, prevmods);
+      };
+      _.each(mods, function(mod) {
+        if(mod.indexOf("dt:") > -1 || mod.indexOf("dt +") > -1 || mod.indexOf("dt -") > -1) {update_dt();};
+        if(mod.indexOf("saving throws") > -1) {update_all_saves();};
+        if(mod.indexOf("strength save") > -1) {update_save("strength");} else if(mod.indexOf("strength") > -1) {update_attr("strength");};
+        if(mod.indexOf("perception save") > -1) {update_save("perception");} else if(mod.indexOf("perception") > -1) {update_attr("perception");};
+        if(mod.indexOf("endurance save") > -1) {update_save("endurance");} else if(mod.indexOf("endurance") > -1) {update_attr("endurance");};
+        if(mod.indexOf("charisma save") > -1) {update_save("charisma");} else if(mod.indexOf("charisma") > -1) {update_attr("charisma");};
+        if(mod.indexOf("intellligence save") > -1) {update_save("intellligence");} else if(mod.indexOf("intellligence") > -1) {update_attr("intellligence");};
+        if(mod.indexOf("agility save") > -1) {update_save("agility");} else if(mod.indexOf("agility") > -1) {update_attr("agility");};
+        if(mod.indexOf("luck save") > -1) {update_save("luck");} else if(mod.indexOf("luck") > -1) {update_attr("luck");};
+        if(mod.indexOf("ability checks") > -1) {update_all_ability_checks();};
+        if(mod.indexOf("barter") > -1) {update_skills(["barter"]);};
+        if(mod.indexOf("energy weapons") > -1) {update_skills(["energy_weapons"]);};
+        if(mod.indexOf("explosives") > -1) {update_skills(["explosives"]);};
+        if(mod.indexOf("guns") > -1) {update_skills(["guns"]);};
+        if(mod.indexOf("lockpick") > -1) {update_skills(["lockpick"]);};
+        if(mod.indexOf("medicine") > -1) {update_skills(["medicine"]);};
+        if(mod.indexOf("melee weapons") > -1) {update_skills(["melee_weapons"]);};
+        if(mod.indexOf("repair") > -1) {update_skills(["repair"]);};
+        if(mod.indexOf("science") > -1) {update_skills(["science"]);};
+        if(mod.indexOf("sneak") > -1) {update_skills(["sneak"]);};
+        if(mod.indexOf("speech") > -1) {update_skills(["speech"]);};
+        if(mod.indexOf("perception") > -1) {update_skills(["perception"]);};
+        if(mod.indexOf("survival") > -1) {update_skills(["survival"]);};
+        if(mod.indexOf("unarmed") > -1) {update_skills(["unarmed"]);};
+        // if(mod.indexOf("ac:") > -1 || mod.indexOf("ac +") > -1 || mod.indexOf("ac -") > -1) {update_ac();};
+        // if(mod.indexOf("spell") > -1) {update_spell_info();};
+        // if(mod.indexOf("saving throws") > -1) {update_all_saves();};
+        // if(mod.indexOf("strength save") > -1) {update_save("strength");} else if(mod.indexOf("strength") > -1) {update_attr("strength");};
+        // if(mod.indexOf("dexterity save") > -1) {update_save("dexterity");} else if(mod.indexOf("dexterity") > -1) {update_attr("dexterity");};
+        // if(mod.indexOf("constitution save") > -1) {update_save("constitution");} else if(mod.indexOf("constitution") > -1) {update_attr("constitution");};
+        // if(mod.indexOf("intelligence save") > -1) {update_save("intelligence");} else if(mod.indexOf("intelligence") > -1) {update_attr("intelligence");};
+        // if(mod.indexOf("wisdom save") > -1) {update_save("wisdom");} else if(mod.indexOf("wisdom") > -1) {update_attr("wisdom");};
+        // if(mod.indexOf("charisma save") > -1) {update_save("charisma");} else if(mod.indexOf("charisma") > -1) {update_attr("charisma");};
+        // if(mod.indexOf("ability checks") > -1) {update_all_ability_checks();};
+        // if(mod.indexOf("acrobatics") > -1) {update_skills(["acrobatics"]);};
+        // if(mod.indexOf("animal handling") > -1) {update_skills(["animal_handling"]);};
+        // if(mod.indexOf("arcana") > -1) {update_skills(["arcana"]);};
+        // if(mod.indexOf("athletics") > -1) {update_skills(["athletics"]);};
+        // if(mod.indexOf("deception") > -1) {update_skills(["deception"]);};
+        // if(mod.indexOf("history") > -1) {update_skills(["history"]);};
+        // if(mod.indexOf("insight") > -1) {update_skills(["insight"]);};
+        // if(mod.indexOf("intimidation") > -1) {update_skills(["intimidation"]);};
+        // if(mod.indexOf("investigation") > -1) {update_skills(["investigation"]);};
+        // if(mod.indexOf("medicine") > -1) {update_skills(["medicine"]);};
+        // if(mod.indexOf("nature") > -1) {update_skills(["nature"]);};
+        // if(mod.indexOf("perception") > -1) {update_skills(["perception"]);};
+        // if(mod.indexOf("performance") > -1) {update_skills(["performance"]);};
+        // if(mod.indexOf("persuasion") > -1) {update_skills(["persuasion"]);};
+        // if(mod.indexOf("religion") > -1) {update_skills(["religion"]);};
+        // if(mod.indexOf("sleight of hand") > -1) {update_skills(["sleight_of_hand"]);};
+        // if(mod.indexOf("stealth") > -1) {update_skills(["stealth"]);};
+        // if(mod.indexOf("survival") > -1) {update_skills(["survival"]);};
+      });
     };
 
     var create_attack_from_item = function(itemid, options) {
@@ -7423,6 +7581,30 @@
     //     });
     //   });
     // }
+
+    var update_dt = function() {
+      console.log("UPDATING DT");
+      attrs_to_get = ["agility_mod"];
+      getSectionIDs("repeating_dtmod", function(idArray){
+        _.each(idArray, function(currentId, i) {
+          attrs_to_get.push("repeating_dtmod_" + currentId + "_mod");
+        });
+        getAttrs(attrs_to_get, function(attr) {
+          var update = {};
+          var dt_base = 6;
+          var agility_mod = parseInt(attr["agility_mod"], 10);
+          var final_dt = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attr["repeating_dtmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_dtmod_" + currentId + "_mod"], 10))) {
+              dt_mod += parseInt(attr["repeating_dtmod_" + currentId + "_mod"], 10);
+            }
+          });
+          final_dt = spd_base + Math.floor(agility_mod/2) + spd_mod;
+          update["dt"] = final_dt;
+          setAttrs(update, {silent: true});
+        });
+      });
+    }
 
     var update_speed = function() {
       attrs_to_get = ["agility_mod"];
