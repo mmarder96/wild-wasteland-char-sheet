@@ -533,6 +533,7 @@ button[type=roll] * {
 .sheet-hdice-dsaves-container input[type=number],
 .sheet-attacks input,
 .sheet-weapons input,
+.sheet-armor input,
 .sheet-equipment input,
 .sheet-tool input,
 .sheet-proficiencies input,
@@ -616,6 +617,7 @@ button[type=roll] * {
 .sheet-attacks span,
 .sheet-globalattack span,
 .sheet-weapons span,
+.sheet-armor span,
 .sheet-equipment span,
 .sheet-textbox span,
 .sheet-tool_proficiencies span,
@@ -713,13 +715,14 @@ button[type=roll] * {
 .sheet-hdice-dsaves-container,
 .sheet-attacks,
 .sheet-weapons,
+.sheet-armor,
 .sheet-equipment {
   width: 240px;
   margin-bottom: 10px;
 }
 
 .sheet-def-dt-speed-container div {
-  width: 31.5%;
+  width: 31.45%;
   height: 100%;
   border: 1px solid #666;
   border-radius: 5px;
@@ -740,6 +743,7 @@ button[type=roll] * {
 .sheet-subcontainer,
 .sheet-attacks,
 .sheet-weapons,
+.sheet-armor,
 .sheet-equipment {
   border: 1px solid #666;
   border-radius: 5px;
@@ -859,11 +863,13 @@ button[type=roll] * {
   width: 40px;
 }
 
+.sheet-armor,
 .sheet-equipment {
   position: relative;
-  min-height: 276px;
+  min-height: 70px;
 }
 
+.sheet-armor textarea,
 .sheet-equipment textarea {
   width: calc(100% - 69px);
   margin: 0px 0px 0px -5px;
@@ -871,9 +877,10 @@ button[type=roll] * {
   border: none;
   display: inline-block;
   padding: 0px;
-  min-height: 264px;
+  min-height: 65px;
 }
 
+.sheet-armor span,
 .sheet-equipment span,
 .sheet-textbox span {
   margin-top: 0px;
@@ -916,10 +923,11 @@ button[type=roll] * {
 
 .sheet-attacks,
 .sheet-weapons {
-  min-height: 150px;
+  min-height: 50px;
   margin-bottom: 10px;
 }
 
+.sheet-armor.sheet-hidden,
 .sheet-equipment.sheet-hidden {
   min-height: 50px;
 }
@@ -950,10 +958,12 @@ button[type=roll] * {
 .sheet-attacks .sheet-display input,
 .sheet-weapons .sheet-display input,
 .sheet-tool .sheet-display input,
+.sheet-armor .sheet-item input,
 .sheet-equipment .sheet-item input,
 .sheet-attacks .sheet-display span,
 .sheet-weapons .sheet-display span,
 .sheet-tool .sheet-display span,
+.sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
 .sheet-proficiencies .sheet-display span {
   /* font-size: 12px; */
@@ -970,6 +980,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-display span,
 .sheet-weapons .sheet-display span,
 .sheet-tool .sheet-display span,
+.sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
 .sheet-proficiencies .sheet-display span {
   min-height: 12px;
@@ -1013,6 +1024,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag,
 .sheet-proficiencies .sheet-options-flag,
 .sheet-traits .sheet-options-flag,
+.sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag,
 .sheet-header .sheet-options-flag {
   opacity: 0;
@@ -1035,6 +1047,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag + span,
 .sheet-proficiencies .sheet-options-flag + span,
 .sheet-traits .sheet-options-flag + span,
+.sheet-armor .sheet-inventorysubflag + span,
 .sheet-equipment .sheet-inventorysubflag + span,
 .sheet-header .sheet-options-flag + span {
   position: absolute;
@@ -1068,6 +1081,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag:checked + span,
 .sheet-proficiencies .sheet-options-flag:checked + span,
 .sheet-traits .sheet-options-flag:checked + span,
+.sheet-armor .sheet-inventorysubflag:checked + span,
 .sheet-equipment .sheet-inventorysubflag:checked + span,
 .sheet-header .sheet-options-flag:checked + span {
   color: black;
@@ -1572,6 +1586,8 @@ span.sheet-spellconcentration {
 
 .sheet-tool .sheet-options select,
 .sheet-attack .sheet-options select,
+.sheet-armor .sheet-options select,
+.sheet-item .subitem select,
 .sheet-weapon .sheet-options select,
 .sheet-spell .sheet-options select,
 .sheet-options .sheet-body select,
@@ -2834,6 +2850,8 @@ span.sheet-spellconcentration {
   color: #EC2127;
 }
 
+.sheet-armor .sheet-complex,
+.sheet-armor .sheet-simple,
 .sheet-equipment .sheet-complex,
 .sheet-equipment .sheet-simple,
 .sheet-proficiencies .sheet-complex,
@@ -2843,6 +2861,8 @@ span.sheet-spellconcentration {
   display: none;
 }
 
+.sheet-armor .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
+.sheet-armor .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
 .sheet-equipment .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
 .sheet-equipment .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
 .sheet-proficiencies .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
@@ -2852,6 +2872,7 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
+.sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag {
   height: 10px;
   width: 10px;
@@ -2860,6 +2881,7 @@ span.sheet-spellconcentration {
 }
 
 
+.sheet-armor .sheet-inventorysubflag + span,
 .sheet-equipment .sheet-inventorysubflag + span {
   height: 10px;
   width: 10px;
@@ -2869,6 +2891,7 @@ span.sheet-spellconcentration {
   padding: 0px;
 }
 
+.sheet-armor .sheet-complex,
 .sheet-equipment .sheet-complex {
   width: 100%;
   vertical-align: top;
@@ -2888,12 +2911,27 @@ span.sheet-spellconcentration {
   font-family: pictos;
 }
 
+.sheet-armor .sheet-header span,
 .sheet-equipment .sheet-header span {
   display: inline-block;
 }
 
 .sheet-item {
   margin-bottom: 2px;
+}
+
+.sheet-item .sheet-equipped {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  width: initial;
+  margin-left: 7px;
+}
+
+.sheet-item input[type="checkbox"].sheet-equipped {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  width: initial;
+  margin-left: 7px;
 }
 
 .sheet-item .sheet-name {
@@ -2937,6 +2975,28 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
+.sheet-item .sheet-subitem select {
+  width: 185px;
+  padding: 0px 0px 0px 10px;
+  display: inline-block;
+  border-bottom: 1px solid #D3D3D3;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  background: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  color: black;
+  font-size: 9px;
+  margin: 0px;
+  line-height: 18px;
+  height: 15px;
+}
+
+.sheet-armor .sheet-warning,
 .sheet-equipment .sheet-warning,
 .sheet-charactermancer_options .sheet-warning {
   display: none;
@@ -2945,6 +3005,7 @@ span.sheet-spellconcentration {
   position: relative;
 }
 
+.sheet-armor .sheet-warning label,
 .sheet-equipment .sheet-warning label,
 .sheet-charactermancer_options .sheet-warning label {
   font-family: pictos;
@@ -2959,16 +3020,19 @@ span.sheet-spellconcentration {
   right: 0;
 }
 
+.sheet-armor .sheet-warning label input,
 .sheet-equipment .sheet-warning label input,
 .sheet-charactermancer_options .sheet-warning label input {
   display: none;
 }
 
+.sheet-armor .sheet-warningflag[value="show"] + .sheet-warning,
 .sheet-equipment .sheet-warningflag[value="show"] + .sheet-warning,
 .sheet-charactermancer_options .sheet-warningflag[value="show"] + .sheet-warning {
   display: block;
 }
 
+.sheet-armor .sheet-warning span,
 .sheet-equipment .sheet-warning span,
 .sheet-charactermancer_options .sheet-warning span,
 .sheet-equipment .sheet-encumb {
@@ -2992,6 +3056,7 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-armor .sheet-warning input[type="checkbox"],
 .sheet-equipment .sheet-warning input[type="checkbox"],
 .sheet-charactermancer_options .sheet-warning input[type="checkbox"] {
   -webkit-appearance: checkbox;
@@ -2999,6 +3064,7 @@ span.sheet-spellconcentration {
   width: auto;
 }
 
+.sheet-armor .sheet-item .sheet-equipped,
 .sheet-equipment .sheet-item .sheet-subitem .sheet-equipped {
   -webkit-appearance: checkbox;
   -moz-appearance: checkbox;
@@ -3006,12 +3072,14 @@ span.sheet-spellconcentration {
   margin-left: 15px;
 }
 
+.sheet-armor .sheet-item .sheet-subitem .sheet-equippedlabel,
 .sheet-equipment .sheet-item .sheet-subitem .sheet-equippedlabel {
   width: calc(100% - 50px);
   text-align: left;
   padding-left: 5px;
 }
 
+.sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-equipment .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name {
   color: #999;
 }
@@ -3933,6 +4001,7 @@ span.sheet-spellconcentration {
   margin-bottom: 1em;
 }
 
+.sheet-armor_choice_title,
 .sheet-equipment_choice_title {
   font-weight: bold;
   margin-bottom: 0px;

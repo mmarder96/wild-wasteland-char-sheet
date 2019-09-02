@@ -535,6 +535,7 @@ button[type=roll] * {
 .attacks input,
 .weapons input,
 .equipment input,
+.armor input,
 .tool input,
 .proficiencies input,
 .pc .traits input,
@@ -618,6 +619,7 @@ button[type=roll] * {
 .globalattack span,
 .weapons span,
 .equipment span,
+.armor span,
 .textbox span,
 .tool_proficiencies span,
 .proficiencies span,
@@ -713,13 +715,14 @@ button[type=roll] * {
 .hdice-dsaves-container,
 .attacks,
 .weapons,
-.equipment {
+.equipment,
+.armor {
   width: 240px;
   margin-bottom: 10px;
 }
 
 .def-dt-speed-container div {
-  width: 31.5%;
+  width: 31.4%;
   height: 100%;
   border: 1px solid #666;
   border-radius: 5px;
@@ -740,6 +743,7 @@ button[type=roll] * {
 .subcontainer,
 .attacks,
 .weapons,
+.armor,
 .equipment {
   border: 1px solid #666;
   border-radius: 5px;
@@ -859,11 +863,13 @@ button[type=roll] * {
   width: 40px;
 }
 
+.armor,
 .equipment {
   position: relative;
   min-height: 276px;
 }
 
+.armor textarea,
 .equipment textarea {
   width: calc(100% - 69px);
   margin: 0px 0px 0px -5px;
@@ -874,6 +880,7 @@ button[type=roll] * {
   min-height: 264px;
 }
 
+.armor span,
 .equipment span,
 .textbox span {
   margin-top: 0px;
@@ -920,6 +927,7 @@ button[type=roll] * {
   margin-bottom: 10px;
 }
 
+.armor.hidden,
 .equipment.hidden {
   min-height: 50px;
 }
@@ -950,10 +958,12 @@ button[type=roll] * {
 .attacks .display input,
 .weapons .display input,
 .tool .display input,
+.armor .item input,
 .equipment .item input,
 .attacks .display span,
 .weapons .display span,
 .tool .display span,
+.armor .item span,
 .equipment .item span,
 .proficiencies .display span {
   /* font-size: 12px; */
@@ -970,6 +980,7 @@ button[type=roll] * {
 .attacks .display span,
 .weapons .display span,
 .tool .display span,
+.armor .item span,
 .equipment .item span,
 .proficiencies .display span {
   min-height: 12px;
@@ -1013,6 +1024,7 @@ button[type=roll] * {
 .textbox .options-flag,
 .proficiencies .options-flag,
 .traits .options-flag,
+.armor .inventorysubflag,
 .equipment .inventorysubflag,
 .header .options-flag {
   opacity: 0;
@@ -1035,6 +1047,7 @@ button[type=roll] * {
 .textbox .options-flag + span,
 .proficiencies .options-flag + span,
 .traits .options-flag + span,
+.armor .inventorysubflag + span,
 .equipment .inventorysubflag + span,
 .header .options-flag + span {
   position: absolute;
@@ -1068,6 +1081,7 @@ button[type=roll] * {
 .textbox .options-flag:checked + span,
 .proficiencies .options-flag:checked + span,
 .traits .options-flag:checked + span,
+.armor .inventorysubflag:checked + span,
 .equipment .inventorysubflag:checked + span,
 .header .options-flag:checked + span {
   color: black;
@@ -2834,6 +2848,8 @@ span.spellconcentration {
   color: #EC2127;
 }
 
+.armor .complex,
+.armor .simple,
 .equipment .complex,
 .equipment .simple,
 .proficiencies .complex,
@@ -2843,6 +2859,8 @@ span.spellconcentration {
   display: none;
 }
 
+.armor .inventoryflag[value="complex"] ~ .complex,
+.armor .inventoryflag[value="simple"] ~ .simple,
 .equipment .inventoryflag[value="complex"] ~ .complex,
 .equipment .inventoryflag[value="simple"] ~ .simple,
 .proficiencies .inventoryflag[value="complex"] ~ .complex,
@@ -2852,6 +2870,7 @@ span.spellconcentration {
   display: inline-block;
 }
 
+.armor .inventorysubflag,
 .equipment .inventorysubflag {
   height: 10px;
   width: 10px;
@@ -2860,6 +2879,7 @@ span.spellconcentration {
 }
 
 
+.armor .inventorysubflag + span,
 .equipment .inventorysubflag + span {
   height: 10px;
   width: 10px;
@@ -2869,6 +2889,7 @@ span.spellconcentration {
   padding: 0px;
 }
 
+.armor .complex,
 .equipment .complex {
   width: 100%;
   vertical-align: top;
@@ -2888,6 +2909,7 @@ span.spellconcentration {
   font-family: pictos;
 }
 
+.armor .header span,
 .equipment .header span {
   display: inline-block;
 }
@@ -2937,6 +2959,7 @@ span.spellconcentration {
   display: inline-block;
 }
 
+.armor .warning,
 .equipment .warning,
 .charactermancer_options .warning {
   display: none;
@@ -2945,6 +2968,7 @@ span.spellconcentration {
   position: relative;
 }
 
+.armor .warning label,
 .equipment .warning label,
 .charactermancer_options .warning label {
   font-family: pictos;
@@ -2959,16 +2983,19 @@ span.spellconcentration {
   right: 0;
 }
 
+.armor .warning label input,
 .equipment .warning label input,
 .charactermancer_options .warning label input {
   display: none;
 }
 
+.armor .warningflag[value="show"] + .warning,
 .equipment .warningflag[value="show"] + .warning,
 .charactermancer_options .warningflag[value="show"] + .warning {
   display: block;
 }
 
+.armor .warning span,
 .equipment .warning span,
 .charactermancer_options .warning span,
 .equipment .encumb {
@@ -2999,6 +3026,7 @@ span.spellconcentration {
   width: auto;
 }
 
+.armor .item .subitem .equipped,
 .equipment .item .subitem .equipped {
   -webkit-appearance: checkbox;
   -moz-appearance: checkbox;
@@ -3006,12 +3034,14 @@ span.spellconcentration {
   margin-left: 15px;
 }
 
+.armor .item .subitem .equippedlabel,
 .equipment .item .subitem .equippedlabel {
   width: calc(100% - 50px);
   text-align: left;
   padding-left: 5px;
 }
 
+.armor .equippedflag[value="0"] ~ .item > .name,
 .equipment .equippedflag[value="0"] ~ .item > .name {
   color: #999;
 }
@@ -3933,6 +3963,7 @@ span.spellconcentration {
   margin-bottom: 1em;
 }
 
+.armor_choice_title,
 .equipment_choice_title {
   font-weight: bold;
   margin-bottom: 0px;
