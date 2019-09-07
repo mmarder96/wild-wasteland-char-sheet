@@ -333,7 +333,7 @@
 	"gold-piece-u": "GP",
 	"platinum-piece-u": "PP",
 	"warning-armor-sets-u": "<input type=\"checkbox\" name=\"attr_armorwarning\" value=\"hide\">WARNING - AC IS NOT INCORRECT. UNEQUIP EXTRA ARMOR OR SHIELD FROM ITEM DETAILS.",
-	"item-name-u": "ARMOR NAME",
+	"armor-name-u": "ARMOR NAME",
 	"dt:-u": "DT:",
 	"light-armor": "Light armor",
 	"medium-armor": "Medium armor",
