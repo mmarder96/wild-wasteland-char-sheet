@@ -4241,6 +4241,11 @@
         update_weight();
     });
 
+    on("change:repeating_armor:armordt change:repeating_armor:equipped", function(eventinfo) {
+      console.log("ARMOR DT CHANGED!")
+      update_dt();
+    });
+
     on("change:repeating_armor:itemmodifiers change:repeating_armor:equipped", function(eventinfo) {
       console.log("CHANGE REPEATING ARMOR");
       if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
@@ -4253,7 +4258,6 @@
           check_itemmodifiers(attrs["repeating_armor_" + itemid + "_itemmodifiers"], eventinfo.previousValue);
         };
       });
-      update_dt();
     });
 
     on("change:repeating_inventory:itemmodifiers change:repeating_inventory:equipped", function(eventinfo) {
@@ -7559,13 +7563,13 @@
         var update = {};
         var dt_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
         console.log("REPEATING DT");
-        getSectionIDs("repeating_dtmod", function(dt_id_array) {
-          _.each(dt_id_array, function(currentID, i) {
+        getSectionIDs("repeating_dtmod", function(dt_idarray) {
+          _.each(dt_idarray, function(currentID, i) {
             dt_attrs.push("repeating_dtmod_" + currentID + "_mod");
           });
           console.log("REPEATING GLOBAL DT");
-          getSectionIDs("repeating_global_dtmod", function(global_dt_id_array) {
-            _.each(global_dt_id_array, function(currentID, i) {
+          getSectionIDs("repeating_global_dtmod", function(global_dt_idarray) {
+            _.each(global_dt_idarray, function(currentID, i) {
               dt_attrs.push("repeating_global_dtmod_" + currentID + "_dt_val");
               dt_attrs.push("repeating_global_dtmod_" + currentID + "_active_flag");
             });
@@ -7596,20 +7600,22 @@
                   // }
                   var globaldtmod = 0;
                   console.log(attrs);
-                  _.each(dt_id_array, function(currentID, i) {
-                    console.log("DT ID ARRAY: " + dt_id_array);
+                  _.each(dt_idarray, function(currentID, i) {
+                    console.log("DT ID ARRAY: " + dt_idarray);
                     console.log("CURRENT ID: " + currentID);
-                    console.log("DT MOD: " + parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10));
-                    // if(!NaN(parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10))) {
-                    //   globaldtmod += parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10);
-                    // }
+                    console.log("DT MOD STRING: " + attrs["repeating_dtmod_" + currentID + "_mod"], 10);
+                    console.log("DT MOD: " + parseInt(attrs["repeating_dtmod_" + currentID + "_mod"], 10));
+                    if(!isNaN(parseInt(attrs["repeating_dtmod_" + currentID + "_mod"], 10))) {
+                      globaldtmod += parseInt(attrs["repeating_dtmod_" + currentID + "_mod"], 10);
+                    }
                   });
-                  _.each(global_dt_id_array, function(currentID, i) {
-                    console.log("GLOBAL DT ID ARRAY: " + global_dt_id_array);
+                  _.each(global_dt_idarray, function(currentID, i) {
+                    console.log("GLOBAL DT ID ARRAY: " + global_dt_idarray);
                     console.log("CURRENT ID: " + currentID);
-                    console.log("GLOBAL DT MOD: " + parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10));
-                    // if(attrs["repeating_global_dtmod" + currentID + "_active_flag"] == "1" && !NaN(parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10))) {
-                    //   globaldtmod += parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10);
+                    console.log("GLOBAL DT MOD STRING: " + attrs["repeating_global_dtmod_" + currentID + "_dt_val"]);
+                    console.log("GLOBAL DT MOD: " + parseInt(attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10));
+                    // if(attrs["repeating_global_dtmod_" + currentID + "_active_flag"] == "1" && !NaN(parseInt(attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10))) {
+                    //   globaldtmod += parseInt(attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10);
                     // }
                   });
                   console.log("GLOBAL DT MOD: " + globaldtmod);
