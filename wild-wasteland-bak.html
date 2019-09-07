@@ -4008,7 +4008,6 @@
                 case "agility":
                     update_skills(["lockpick", "sneak"]);
                     update_initiative();
-                    update_ac();
                     update_defense();
                     update_speed();
                     break;
@@ -4254,6 +4253,7 @@
           check_itemmodifiers(attrs["repeating_armor_" + itemid + "_itemmodifiers"], eventinfo.previousValue);
         };
       });
+      update_dt();
     });
 
     on("change:repeating_inventory:itemmodifiers change:repeating_inventory:equipped", function(eventinfo) {
@@ -4273,7 +4273,7 @@
         if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
             return;
         }
-        update_ac();
+        update_dt();
     });
 
    // ['spell-cantrip','spell-1','spell-2','spell-3','spell-4','spell-5','spell-6','spell-7','spell-8','spell-9'].forEach(attr => {
@@ -4492,7 +4492,7 @@
     });
 
     on("change:repeating_acmod remove:repeating_acmod", function(eventinfo) {
-        update_ac();
+        update_dt();
     });
 
     on("change:confirm", function(eventinfo) {
@@ -6268,34 +6268,6 @@
         if(mod.indexOf("perception") > -1) {update_skills(["perception"]);};
         if(mod.indexOf("survival") > -1) {update_skills(["survival"]);};
         if(mod.indexOf("unarmed") > -1) {update_skills(["unarmed"]);};
-        // if(mod.indexOf("ac:") > -1 || mod.indexOf("ac +") > -1 || mod.indexOf("ac -") > -1) {update_ac();};
-        // if(mod.indexOf("spell") > -1) {update_spell_info();};
-        // if(mod.indexOf("saving throws") > -1) {update_all_saves();};
-        // if(mod.indexOf("strength save") > -1) {update_save("strength");} else if(mod.indexOf("strength") > -1) {update_attr("strength");};
-        // if(mod.indexOf("dexterity save") > -1) {update_save("dexterity");} else if(mod.indexOf("dexterity") > -1) {update_attr("dexterity");};
-        // if(mod.indexOf("constitution save") > -1) {update_save("constitution");} else if(mod.indexOf("constitution") > -1) {update_attr("constitution");};
-        // if(mod.indexOf("intelligence save") > -1) {update_save("intelligence");} else if(mod.indexOf("intelligence") > -1) {update_attr("intelligence");};
-        // if(mod.indexOf("wisdom save") > -1) {update_save("wisdom");} else if(mod.indexOf("wisdom") > -1) {update_attr("wisdom");};
-        // if(mod.indexOf("charisma save") > -1) {update_save("charisma");} else if(mod.indexOf("charisma") > -1) {update_attr("charisma");};
-        // if(mod.indexOf("ability checks") > -1) {update_all_ability_checks();};
-        // if(mod.indexOf("acrobatics") > -1) {update_skills(["acrobatics"]);};
-        // if(mod.indexOf("animal handling") > -1) {update_skills(["animal_handling"]);};
-        // if(mod.indexOf("arcana") > -1) {update_skills(["arcana"]);};
-        // if(mod.indexOf("athletics") > -1) {update_skills(["athletics"]);};
-        // if(mod.indexOf("deception") > -1) {update_skills(["deception"]);};
-        // if(mod.indexOf("history") > -1) {update_skills(["history"]);};
-        // if(mod.indexOf("insight") > -1) {update_skills(["insight"]);};
-        // if(mod.indexOf("intimidation") > -1) {update_skills(["intimidation"]);};
-        // if(mod.indexOf("investigation") > -1) {update_skills(["investigation"]);};
-        // if(mod.indexOf("medicine") > -1) {update_skills(["medicine"]);};
-        // if(mod.indexOf("nature") > -1) {update_skills(["nature"]);};
-        // if(mod.indexOf("perception") > -1) {update_skills(["perception"]);};
-        // if(mod.indexOf("performance") > -1) {update_skills(["performance"]);};
-        // if(mod.indexOf("persuasion") > -1) {update_skills(["persuasion"]);};
-        // if(mod.indexOf("religion") > -1) {update_skills(["religion"]);};
-        // if(mod.indexOf("sleight of hand") > -1) {update_skills(["sleight_of_hand"]);};
-        // if(mod.indexOf("stealth") > -1) {update_skills(["stealth"]);};
-        // if(mod.indexOf("survival") > -1) {update_skills(["survival"]);};
       });
     };
 
@@ -7580,139 +7552,158 @@
     }
 
     // TODO implement this
-    // var update_dt = function() {
-    //   attrs_to_get = ["hp_base", "level", "endurance"];
-    //   getSectionIDs("repeating_hpmod", function(idArray){
-    //     _.each(idArray, function(currentId, i) {
-    //       attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
-    //     });
-    //     getAttrs(attrs_to_get, function(attr) {
-    //       var update = {};
-    //       var hp_base = parseInt(attr["hp_base"], 10);
-    //       var endurance = parseInt(attr["endurance"], 10);
-    //       var level = parseInt(attr["level"], 10);
-    //       var hp_mod = 0;
-    //       _.each(idArray, function(currentId, i) {
-    //         if(attr["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10))) {
-    //           hp_mod += parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10);
-    //         }
-    //       });
-    //       final_hp_max = hp_base + endurance + level + hp_mod;
-    //       update["hp_max"] = final_hp_max;
-    //       setAttrs(update, {silent: true});
-    //     });
-    //   });
-    // }
-
     var update_dt = function() {
-      getAttrs(["custom_ac_flag"], function(v) {
-        if(v.custom_ac_flag === "2") {return;}
-        else {
-          var update = {};
-          var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
-          getSectionIDs("repeating_acmod", function(acidarray) {
-            _.each(acidarray, function(currentID, i) {
-              ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_val");
-              ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_active_flag");
+      console.log("UPDATE DT");
+      getAttrs(["custom_ac_flag"], function(a) {
+        if(a.custom_ac_flag === "2") {return;}
+        var update = {};
+        var dt_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
+        console.log("REPEATING DT");
+        getSectionIDs("repeating_dtmod", function(dt_id_array) {
+          _.each(dt_id_array, function(currentID, i) {
+            dt_attrs.push("repeating_dtmod_" + currentID + "_mod");
+          });
+          console.log("REPEATING GLOBAL DT");
+          getSectionIDs("repeating_global_dtmod", function(global_dt_id_array) {
+            _.each(global_dt_id_array, function(currentID, i) {
+              dt_attrs.push("repeating_global_dtmod_" + currentID + "_dt_val");
+              dt_attrs.push("repeating_global_dtmod_" + currentID + "_active_flag");
             });
-            getSectionIDs("repeating_inventory", function(idarray) {
-              _.each(idarray, function(currentID, i) {
-                ac_attrs.push("repeating_inventory_" + currentID + "_equipped");
-                ac_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
+            console.log("REPEATING ARMOR");
+            getSectionIDs("repeating_armor", function(armor_idarray) {
+              _.each(armor_idarray, function(currentID, i) {
+                dt_attrs.push("repeating_armor_" + currentID + "_equipped");
+                dt_attrs.push("repeating_armor_" + currentID + "_armordt");
+                dt_attrs.push("repeating_armor_" + currentID + "_itemmodifiers");
+                dt_attrs.push("repeating_armor_" + currentID + "_type");
               });
-              getAttrs(ac_attrs, function(b) {
-                var custom_total = 0;
-                if(v.custom_ac_flag === "1") {
-                  var base = isNaN(parseInt(b.custom_ac_base, 10)) === false ? parseInt(b.custom_ac_base, 10) : 10;
-                  var part1attr = b.custom_ac_part1.toLowerCase();
-                  var part2attr = b.custom_ac_part2.toLowerCase();
-                  var part1 = part1attr === "none" ? 0 : parseInt(b[part1attr + "_mod"], 10);
-                  var part2 = part2attr === "none" ? 0 : parseInt(b[part2attr + "_mod"], 10);
-                  custom_total = base + part1 + part2;
-                }
-                var globalacmod = 0;
-                _.each(acidarray, function(currentID, i) {
-                  if(b["repeating_acmod_" + currentID + "_global_dt_active_flag"] == "1") {
-                    globalacmod += parseInt(b["repeating_acmod_" + currentID + "_global_dt_val"], 10);
-                  }
+              console.log("REPEATING INVENTORY");
+              getSectionIDs("repeating_inventory", function(item_idarray) {
+                _.each(item_idarray, function(currentID, i) {
+                  dt_attrs.push("repeating_inventory_" + currentID + "_equipped");
+                  dt_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
                 });
-                var dexmod = +b["dexterity_mod"];
-                var total = 10 + dexmod;
-                var armorcount = 0;
-                var shieldcount = 0;
-                var armoritems = [];
-                if(b.simpleinventory === "complex") {
-                  _.each(idarray, function(currentID, i) {
-                      if(b["repeating_inventory_" + currentID + "_equipped"] && b["repeating_inventory_" + currentID + "_equipped"] === "1" && b["repeating_inventory_" + currentID + "_itemmodifiers"] && b["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("ac") > -1) {
-                          var mods = b["repeating_inventory_" + currentID + "_itemmodifiers"].split(",");
-                          var ac = 0;
-                          var type = "mod";
-                          _.each(mods, function(mod) {
-                              if(mod.substring(0,10) === "Item Type:") {
-                                  type = mod.substring(11, mod.length).trim().toLowerCase();
-                              }
-                              if(mod.toLowerCase().indexOf("ac:") > -1 || mod.toLowerCase().indexOf("ac +") > -1 || mod.toLowerCase().indexOf("ac+") > -1) {
-                                  var regex = mod.replace(/[^0-9]/g, "");
-                                  var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                                  ac = ac + bonus;
-                              }
-                              if(mod.toLowerCase().indexOf("ac -") > -1 || mod.toLowerCase().indexOf("ac-") > -1) {
-                                  var regex = mod.replace(/[^0-9]/g, "");
-                                  var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                                  ac = ac - bonus;
-                              }
-                          });
-                          armoritems.push({type: type, ac: ac});
-                      }
+                console.log("DT_ATTRS: " + dt_attrs);
+                getAttrs(dt_attrs, function(attrs) {
+                  // var custom_total = 0;
+                  // if(attrs.custom_ac_flag === "1") {
+                  //   var base = isNaN(parseInt(attrs.custom_ac_base, 10)) === false ? parseInt(attrs.custom_ac_base, 10) : 10;
+                  //   var part1attr = attrs.custom_ac_part1.toLowerCase();
+                  //   var part2attr = attrs.custom_ac_part2.toLowerCase();
+                  //   var part1 = part1attr === "none" ? 0 : parseInt(attrs[part1attr + "_mod"], 10);
+                  //   var part2 = part2attr === "none" ? 0 : parseInt(attrs[part2attr + "_mod"], 10);
+                  //   custom_total = base + part1 + part2;
+                  // }
+                  var globaldtmod = 0;
+                  console.log(attrs);
+                  _.each(dt_id_array, function(currentID, i) {
+                    console.log("DT ID ARRAY: " + dt_id_array);
+                    console.log("CURRENT ID: " + currentID);
+                    console.log("DT MOD: " + parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10));
+                    // if(!NaN(parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10))) {
+                    //   globaldtmod += parseInt(attrs["repeating_dtmod" + currentID + "_mod"], 10);
+                    // }
                   });
-                  armorcount = armoritems.filter(function(item){ return item["type"].indexOf("armor") > -1 }).length;
-                  shieldcount = armoritems.filter(function(item){ return item["type"].indexOf("shield") > -1 }).length;
-                  var base = dexmod;
-                  var armorac = 10;
-                  var shieldac = 0;
-                  var modac = 0;
+                  _.each(global_dt_id_array, function(currentID, i) {
+                    console.log("GLOBAL DT ID ARRAY: " + global_dt_id_array);
+                    console.log("CURRENT ID: " + currentID);
+                    console.log("GLOBAL DT MOD: " + parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10));
+                    // if(attrs["repeating_global_dtmod" + currentID + "_active_flag"] == "1" && !NaN(parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10))) {
+                    //   globaldtmod += parseInt(attrs["repeating_global_dtmod" + currentID + "_dt_val"], 10);
+                    // }
+                  });
+                  console.log("GLOBAL DT MOD: " + globaldtmod);
+                  var armor_dt = 0;
+                  var total_dt = 0;
+                  // var armorcount = 0;
+                  // var shieldcount = 0;
+                  // var `armoritems` = [];
 
-                  _.each(armoritems, function(item) {
-                    if(item["type"].indexOf("light armor") > -1) {
-                      armorac = item["ac"];
-                      base = dexmod;
-                    }
-                    else if(item["type"].indexOf("medium armor") > -1) {
-                      armorac = item["ac"];
-                      base = Math.min(dexmod, 2);
-                    }
-                    else if(item["type"].indexOf("heavy armor") > -1) {
-                      armorac = item["ac"];
-                      base = 0;
-                    }
-                    else if(item["type"].indexOf("shield") > -1) {
-                      shieldac = item["ac"];
-                    }
-                    else {
-                      modac = modac + item["ac"]
-                    }
-                  });
-                  total = base + armorac + shieldac + modac;
-                };
-                update["armorwarningflag"] = "hide";
-                update["customacwarningflag"] = "hide";
-                if(armorcount > 1 || shieldcount > 1) {
-                    update["armorwarningflag"] = "show";
-                }
-                update["ac"] = total + globalacmod;
-                if(custom_total > 0) {
-                    if(armorcount > 0 || (shieldcount > 0 && b.custom_ac_shield != "yes")) {
-                        update["customacwarningflag"] = "show";
-                    }
-                    else {
-                        update["ac"] = b.custom_ac_shield == "yes" ? custom_total + shieldac + globalacmod + modac : custom_total + globalacmod + modac;
-                    }
-                }
-                setAttrs(update, {silent: true});
+                  if(attrs.simpleinventory === "complex") {
+                    _.each(armor_idarray, function(currentID, i) {
+                      console.log(attrs["repeating_armor_" + currentID + "_armordt"]);
+                      console.log(parseInt(attrs["repeating_armor_" + currentID + "_armordt"], 10));
+                      if(attrs["repeating_armor_" + currentID + "_equipped"] && attrs["repeating_armor_" + currentID + "_equipped"] === "1" && attrs["repeating_armor_" + currentID + "_armordt"] && !isNaN(parseInt(attrs["repeating_armor_" + currentID + "_armordt"], 10))) {
+                        armor_dt += parseInt(attrs["repeating_armor_" + currentID + "_armordt"], 10);
+
+                        // var mods = attrs["repeating_armor_" + currentID + "_itemmodifiers"].split(",");
+                        // var ac = 0;
+                        // var type = "mod";
+                        // _.each(mods, function(mod) {
+                        //   if(mod.substring(0,10) === "Item Type:") {
+                        //     type = mod.substring(11, mod.length).trim().toLowerCase();
+                        //   }
+                        //   if(mod.toLowerCase().indexOf("ac:") > -1 || mod.toLowerCase().indexOf("ac +") > -1 || mod.toLowerCase().indexOf("ac+") > -1) {
+                        //     var regex = mod.replace(/[^0-9]/g, "");
+                        //     var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
+                        //     ac = ac + bonus;
+                        //   }
+                        //   if(mod.toLowerCase().indexOf("ac -") > -1 || mod.toLowerCase().indexOf("ac-") > -1) {
+                        //     var regex = mod.replace(/[^0-9]/g, "");
+                        //     var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
+                        //     ac = ac - bonus;
+                        //   }
+                        // });
+                        // armoritems.push({type: type, ac: ac});
+
+                      }
+                    });
+                    console.log("ARMOR DT: " + armor_dt);
+                    // armorcount = armoritems.filter(function(item){ return item["type"].indexOf("armor") > -1 }).length;
+                    // shieldcount = armoritems.filter(function(item){ return item["type"].indexOf("shield") > -1 }).length;
+                    // var base = dexmod;
+                    // var base = 0;
+                    // var armorac = 10;
+                    // var shieldac = 0;
+                    // var modac = 0;
+                    // _.each(armoritems, function(item) {
+                    //   if(item["type"].indexOf("light armor") > -1) {
+                    //     armorac = item["ac"];
+                    //     base = dexmod;
+                    //   }
+                    //   else if(item["type"].indexOf("medium armor") > -1) {
+                    //     armorac = item["ac"];
+                    //     base = Math.min(dexmod, 2);
+                    //   }
+                    //   else if(item["type"].indexOf("heavy armor") > -1) {
+                    //     armorac = item["ac"];
+                    //     base = 0;
+                    //   }
+                    //   else if(item["type"].indexOf("shield") > -1) {
+                    //     shieldac = item["ac"];
+                    //   }
+                    //   else {
+                    //     modac = modac + item["ac"]
+                    //   }
+                    //
+                    // total = base + armorac + shieldac + modac;
+                  };
+
+                  // update["armorwarningflag"] = "hide";
+                  // update["customacwarningflag"] = "hide";
+                  // if(armorcount > 1 || shieldcount > 1) {
+                  //     update["armorwarningflag"] = "show";
+                  // }
+
+                  total_dt = armor_dt + globaldtmod;
+                  console.log("TOTAL DT = " + total_dt);
+                  update["dt"] = total_dt;
+
+                  // if(custom_total > 0) {
+                  //   if(armorcount > 0 || (shieldcount > 0 && attrs.custom_ac_shield != "yes")) {
+                  //     update["customacwarningflag"] = "show";
+                  //   }
+                  //   else {
+                  //     update["dt"] = attrs.custom_ac_shield == "yes" ? custom_total + shieldac + globaldtmod + modac : custom_total + globaldtmod + modac;
+                  //   }
+                  // }
+
+                  setAttrs(update, {silent: true});
+                });
               });
             });
           });
-        };
+        });
       });
     };
 
@@ -7739,126 +7730,126 @@
       });
     }
 
-    var update_ac = function() {
-        getAttrs(["custom_ac_flag"], function(v) {
-            if(v.custom_ac_flag === "2") {
-                return;
-            }
-            else {
-                var update = {};
-                var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
-                getSectionIDs("repeating_acmod", function(acidarray) {
-                    _.each(acidarray, function(currentID, i) {
-                        ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_val");
-                        ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_active_flag");
-                    });
-                    getSectionIDs("repeating_inventory", function(idarray) {
-                        _.each(idarray, function(currentID, i) {
-                            ac_attrs.push("repeating_inventory_" + currentID + "_equipped");
-                            ac_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
-                        });
-                        getAttrs(ac_attrs, function(b) {
-                            var custom_total = 0;
-                            if(v.custom_ac_flag === "1") {
-                                var base = isNaN(parseInt(b.custom_ac_base, 10)) === false ? parseInt(b.custom_ac_base, 10) : 10;
-                                var part1attr = b.custom_ac_part1.toLowerCase();
-                                var part2attr = b.custom_ac_part2.toLowerCase();
-                                var part1 = part1attr === "none" ? 0 : parseInt(b[part1attr + "_mod"], 10);
-                                var part2 = part2attr === "none" ? 0 : parseInt(b[part2attr + "_mod"], 10);
-                                custom_total = base + part1 + part2;
-                            }
-                            var globalacmod = 0;
-                            _.each(acidarray, function(currentID, i) {
-                                if(b["repeating_acmod_" + currentID + "_global_dt_active_flag"] == "1") {
-                                    globalacmod += parseInt(b["repeating_acmod_" + currentID + "_global_dt_val"], 10);
-                                }
-                            });
-                            var dexmod = +b["dexterity_mod"];
-                            var total = 10 + dexmod;
-                            var armorcount = 0;
-                            var shieldcount = 0;
-                            var armoritems = [];
-                            if(b.simpleinventory === "complex") {
-                                _.each(idarray, function(currentID, i) {
-                                    if(b["repeating_inventory_" + currentID + "_equipped"] && b["repeating_inventory_" + currentID + "_equipped"] === "1" && b["repeating_inventory_" + currentID + "_itemmodifiers"] && b["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("ac") > -1) {
-                                        var mods = b["repeating_inventory_" + currentID + "_itemmodifiers"].split(",");
-                                        var ac = 0;
-                                        var type = "mod";
-                                        _.each(mods, function(mod) {
-                                            if(mod.substring(0,10) === "Item Type:") {
-                                                type = mod.substring(11, mod.length).trim().toLowerCase();
-                                            }
-                                            if(mod.toLowerCase().indexOf("ac:") > -1 || mod.toLowerCase().indexOf("ac +") > -1 || mod.toLowerCase().indexOf("ac+") > -1) {
-                                                var regex = mod.replace(/[^0-9]/g, "");
-                                                var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                                                ac = ac + bonus;
-                                            }
-                                            if(mod.toLowerCase().indexOf("ac -") > -1 || mod.toLowerCase().indexOf("ac-") > -1) {
-                                                var regex = mod.replace(/[^0-9]/g, "");
-                                                var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                                                ac = ac - bonus;
-                                            }
-                                        });
-                                        armoritems.push({type: type, ac: ac});
-                                    }
-                                });
-                                armorcount = armoritems.filter(function(item){ return item["type"].indexOf("armor") > -1 }).length;
-                                shieldcount = armoritems.filter(function(item){ return item["type"].indexOf("shield") > -1 }).length;
-                                var base = dexmod;
-                                var armorac = 10;
-                                var shieldac = 0;
-                                var modac = 0;
-
-                                _.each(armoritems, function(item) {
-                                    if(item["type"].indexOf("light armor") > -1) {
-                                        armorac = item["ac"];
-                                        base = dexmod;
-                                    }
-                                    else if(item["type"].indexOf("medium armor") > -1) {
-                                        armorac = item["ac"];
-                                        base = Math.min(dexmod, 2);
-                                    }
-                                    else if(item["type"].indexOf("heavy armor") > -1) {
-                                        armorac = item["ac"];
-                                        base = 0;
-                                    }
-                                    else if(item["type"].indexOf("shield") > -1) {
-                                        shieldac = item["ac"];
-                                    }
-                                    else {
-                                        modac = modac + item["ac"]
-                                    }
-                                });
-
-                                total = base + armorac + shieldac + modac;
-
-                            };
-                            update["armorwarningflag"] = "hide";
-                            update["customacwarningflag"] = "hide";
-                            if(armorcount > 1 || shieldcount > 1) {
-                                update["armorwarningflag"] = "show";
-                            }
-                            update["ac"] = total + globalacmod;
-                            if(custom_total > 0) {
-                                if(armorcount > 0 || (shieldcount > 0 && b.custom_ac_shield != "yes")) {
-                                    update["customacwarningflag"] = "show";
-                                }
-                                else {
-                                    update["ac"] = b.custom_ac_shield == "yes" ? custom_total + shieldac + globalacmod + modac : custom_total + globalacmod + modac;
-                                }
-                            }
-                            setAttrs(update, {silent: true});
-                        });
-                    });
-                });
-            };
-        });
-    };
+    // var update_ac = function() {
+    //     getAttrs(["custom_ac_flag"], function(v) {
+    //         if(v.custom_ac_flag === "2") {
+    //             return;
+    //         }
+    //         else {
+    //             var update = {};
+    //             var ac_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
+    //             getSectionIDs("repeating_acmod", function(acidarray) {
+    //                 _.each(acidarray, function(currentID, i) {
+    //                     ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_val");
+    //                     ac_attrs.push("repeating_acmod_" + currentID + "_global_dt_active_flag");
+    //                 });
+    //                 getSectionIDs("repeating_inventory", function(idarray) {
+    //                     _.each(idarray, function(currentID, i) {
+    //                         ac_attrs.push("repeating_inventory_" + currentID + "_equipped");
+    //                         ac_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
+    //                     });
+    //                     getAttrs(ac_attrs, function(b) {
+    //                         var custom_total = 0;
+    //                         if(v.custom_ac_flag === "1") {
+    //                             var base = isNaN(parseInt(b.custom_ac_base, 10)) === false ? parseInt(b.custom_ac_base, 10) : 10;
+    //                             var part1attr = b.custom_ac_part1.toLowerCase();
+    //                             var part2attr = b.custom_ac_part2.toLowerCase();
+    //                             var part1 = part1attr === "none" ? 0 : parseInt(b[part1attr + "_mod"], 10);
+    //                             var part2 = part2attr === "none" ? 0 : parseInt(b[part2attr + "_mod"], 10);
+    //                             custom_total = base + part1 + part2;
+    //                         }
+    //                         var globalacmod = 0;
+    //                         _.each(acidarray, function(currentID, i) {
+    //                             if(b["repeating_acmod_" + currentID + "_global_dt_active_flag"] == "1") {
+    //                                 globalacmod += parseInt(b["repeating_acmod_" + currentID + "_global_dt_val"], 10);
+    //                             }
+    //                         });
+    //                         var dexmod = +b["dexterity_mod"];
+    //                         var total = 10 + dexmod;
+    //                         var armorcount = 0;
+    //                         var shieldcount = 0;
+    //                         var armoritems = [];
+    //                         if(b.simpleinventory === "complex") {
+    //                             _.each(idarray, function(currentID, i) {
+    //                                 if(b["repeating_inventory_" + currentID + "_equipped"] && b["repeating_inventory_" + currentID + "_equipped"] === "1" && b["repeating_inventory_" + currentID + "_itemmodifiers"] && b["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("ac") > -1) {
+    //                                     var mods = b["repeating_inventory_" + currentID + "_itemmodifiers"].split(",");
+    //                                     var ac = 0;
+    //                                     var type = "mod";
+    //                                     _.each(mods, function(mod) {
+    //                                         if(mod.substring(0,10) === "Item Type:") {
+    //                                             type = mod.substring(11, mod.length).trim().toLowerCase();
+    //                                         }
+    //                                         if(mod.toLowerCase().indexOf("ac:") > -1 || mod.toLowerCase().indexOf("ac +") > -1 || mod.toLowerCase().indexOf("ac+") > -1) {
+    //                                             var regex = mod.replace(/[^0-9]/g, "");
+    //                                             var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
+    //                                             ac = ac + bonus;
+    //                                         }
+    //                                         if(mod.toLowerCase().indexOf("ac -") > -1 || mod.toLowerCase().indexOf("ac-") > -1) {
+    //                                             var regex = mod.replace(/[^0-9]/g, "");
+    //                                             var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
+    //                                             ac = ac - bonus;
+    //                                         }
+    //                                     });
+    //                                     armoritems.push({type: type, ac: ac});
+    //                                 }
+    //                             });
+    //                             armorcount = armoritems.filter(function(item){ return item["type"].indexOf("armor") > -1 }).length;
+    //                             shieldcount = armoritems.filter(function(item){ return item["type"].indexOf("shield") > -1 }).length;
+    //                             var base = dexmod;
+    //                             var armorac = 10;
+    //                             var shieldac = 0;
+    //                             var modac = 0;
+    //
+    //                             _.each(armoritems, function(item) {
+    //                                 if(item["type"].indexOf("light armor") > -1) {
+    //                                     armorac = item["ac"];
+    //                                     base = dexmod;
+    //                                 }
+    //                                 else if(item["type"].indexOf("medium armor") > -1) {
+    //                                     armorac = item["ac"];
+    //                                     base = Math.min(dexmod, 2);
+    //                                 }
+    //                                 else if(item["type"].indexOf("heavy armor") > -1) {
+    //                                     armorac = item["ac"];
+    //                                     base = 0;
+    //                                 }
+    //                                 else if(item["type"].indexOf("shield") > -1) {
+    //                                     shieldac = item["ac"];
+    //                                 }
+    //                                 else {
+    //                                     modac = modac + item["ac"]
+    //                                 }
+    //                             });
+    //
+    //                             total = base + armorac + shieldac + modac;
+    //
+    //                         };
+    //                         update["armorwarningflag"] = "hide";
+    //                         update["customacwarningflag"] = "hide";
+    //                         if(armorcount > 1 || shieldcount > 1) {
+    //                             update["armorwarningflag"] = "show";
+    //                         }
+    //                         update["ac"] = total + globalacmod;
+    //                         if(custom_total > 0) {
+    //                             if(armorcount > 0 || (shieldcount > 0 && b.custom_ac_shield != "yes")) {
+    //                                 update["customacwarningflag"] = "show";
+    //                             }
+    //                             else {
+    //                                 update["ac"] = b.custom_ac_shield == "yes" ? custom_total + shieldac + globalacmod + modac : custom_total + globalacmod + modac;
+    //                             }
+    //                         }
+    //                         setAttrs(update, {silent: true});
+    //                     });
+    //                 });
+    //             });
+    //         };
+    //     });
+    // };
 
     var check_customac = function(attr) {
         getAttrs(["custom_ac_flag","custom_ac_part1","custom_ac_part2"], function(v) {
             if(v["custom_ac_flag"] && v["custom_ac_flag"] === "1" && ((v["custom_ac_part1"] && v["custom_ac_part1"] === attr) || (v["custom_ac_part2"] && v["custom_ac_part2"] === attr))) {
-                update_ac();
+                update_dt();
             }
         });
     };
