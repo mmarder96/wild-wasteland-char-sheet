@@ -1646,6 +1646,75 @@
               </div>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
             </div>
+            <div class="armor">
+              <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+              <textarea class="simple" name="attr_armor"></textarea>
+              <div class="complex">
+                <input type="hidden" class="warningflag" name="attr_armorwarningflag">
+                <div class="warning">
+                  <span>
+                    <label><input type="checkbox" name="attr_armorwarningflag" value="hide">*</label>
+                    <span data-i18n="warning-armor-sets-u">
+                      WARNING - MULTIPLE SETS OF ARMOR OR SHIELDS HAVE BEEN ADDED AND AC IS NOT CORRECTLY CALCULATED. UNEQUIP THE ARMOR PIECE FROM THE ITEM DETAILS.
+                    </span>
+                  </span>
+                </div>
+                <input type="hidden" class="warningflag" name="attr_customacwarningflag">
+                <div class="warning">
+                  <span>
+                    <label><input type="checkbox" name="attr_customacwarningflag" value="hide">*</label>
+                    <span data-i18n="warning-customac-u">
+                      ATTENTION - YOUR CUSTOM AC CALCULATION IS NOT BEING USED AS YOU HAVE ARMOR EQUIPPED. IF YOU WANT TO USE YOUR CUSTOM AC, UNEQUIP THE ARMOR PIECE FROM THE ITEM DETAILS.
+                    </span>
+                  </span>
+                </div>
+                <div class="header" style="height: auto;">
+                  <span class="pictos" style="width: 25px; font-size: 15px;">*</span>
+                  <span style="width: 175px; text-align: left;" data-i18n="weapon-name-u">WEAPON NAME</SPAN>
+                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px; margin-bottom: -3px;  vertical-align: inherit;"
+                      alt="DT symbol"></span>
+                </div>
+                <fieldset class="repeating_weapons">
+                  <input type="hidden" class="equippedflag" name="attr_equipped">
+                  <div class="item">
+                    <!-- <input class="weight" type="text" name="attr_itemcount" value="1"> -->
+                    <input class="equipped" type="checkbox" name="attr_equipped" value="1">
+                    <input class="name" type="text" name="attr_armorname">
+                    <input class="weight" type="text" name="attr_armordt">
+                    <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                    <div class="subitem">
+                      <!-- <input class="equipped" type="checkbox" name="attr_equipped" value="1" checked="checked">
+                      <span class="equippedlabel" data-i18n="equipped-u">EQUIPPED</span> -->
+                      <!-- <input class="equipped" type="checkbox" name="attr_useasresource" value="1">
+                      <span class="equippedlabel" data-i18n="use-as-resource-u">USE AS A RESOURCE</span>
+                      <input class="equipped" type="checkbox" name="attr_hasattack" value="1">
+                      <span class="equippedlabel" data-i18n="has-attack-u">HAS AN ATTACK</span> -->
+                      <!-- <input class="equipped" type="checkbox" name="attr_hasattack" value="1">
+                      <span class="equippedlabel" data-i18n="has-attack-u">HAS AN ATTACK</span> -->
+                      <!-- <span class="label" data-i18n="dt:-u">DT:</span>
+                      <input class="subfield" type="text" name="attr_armordt"> -->
+                      <span class="label" data-i18n="type:-u">TYPE:</span>
+                      <select name="attr_armor_type">
+                        <option value="0" data-i18n="light-armor">Light armor</option>
+                        <option value="1" data-i18n="medium-armor">Medium armor</option>
+                        <option value="2" data-i18n="heavy-armor">Heavy armor</option>
+                        <option value="3" data-i18n="power-armor">Power armor</option>
+                        <option value="4" data-i18n="accessory">Accessory</option>
+                        <option value="5" selected="selected">—</option>
+                      </select>
+                      <span class="label" data-i18n="prop:-u">PROP:</span>
+                      <input class="subfield" type="text" name="attr_armorproperties">
+                      <span class="label" data-i18n="mods:-u">MODS:</span>
+                      <input class="subfield" type="text" name="attr_itemmodifiers">
+                      <textarea class="subtextarea" name="attr_armorcontent"></textarea>
+                    </div>
+                    <input type="hidden" name="attr_itemattackid">
+                    <input type="hidden" name="attr_itemresourceid">
+                  </div>
+                </fieldset>
+              </div>
+              <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
+            </div>
             <input type="hidden" class="toggleflag" name="attr_global_dt_mod_flag">
             <div class="equipment hidden">
               <div class="textarea globalattack acmod">
