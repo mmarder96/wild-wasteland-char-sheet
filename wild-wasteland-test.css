@@ -866,7 +866,7 @@ button[type=roll] * {
 .armor,
 .equipment {
   position: relative;
-  min-height: 276px;
+  min-height: 70px;
 }
 
 .armor textarea,
@@ -877,7 +877,7 @@ button[type=roll] * {
   border: none;
   display: inline-block;
   padding: 0px;
-  min-height: 264px;
+  min-height: 65px;
 }
 
 .armor span,
@@ -923,7 +923,7 @@ button[type=roll] * {
 
 .attacks,
 .weapons {
-  min-height: 150px;
+  min-height: 50px;
   margin-bottom: 10px;
 }
 
@@ -1587,6 +1587,7 @@ span.spellconcentration {
 .tool .options select,
 .attack .options select,
 .armor .options select,
+.item .subitem select,
 .weapon .options select,
 .spell .options select,
 .options .body select,
@@ -2942,13 +2943,6 @@ span.spellconcentration {
   text-align: center;
 }
 
-/* .item input[type="select"].subitem {
-  font-weight: normal;
-  background-color: transparent;
-  padding: 0px;
-  width: 185px;
-} */
-
 .item .subitem .subfield {
   font-weight: normal;
   background-color: transparent;
@@ -2979,6 +2973,27 @@ span.spellconcentration {
   width: 32px;
   padding: 0px 0px 0px 10px;
   display: inline-block;
+}
+
+.item .subitem select {
+  width: 185px;
+  padding: 0px 0px 0px 10px;
+  display: inline-block;
+  border-bottom: 1px solid #D3D3D3;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  background: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  color: black;
+  font-size: 9px;
+  margin: 0px;
+  line-height: 18px;
+  height: 15px;
 }
 
 .armor .warning,
