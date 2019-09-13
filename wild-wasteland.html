@@ -2836,6 +2836,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 -->
 
 <input type="hidden" name="attr_d20" value="1d20">
+<input type="hidden" name="attr_rtype" value="@{advantagetoggle}">
 <input type="hidden" name="attr_level" value="0">
 <input type="hidden" name="attr_pb" value="1">
 <input type="hidden" name="attr_pbd_safe" value="">
@@ -4148,8 +4149,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                           setAttrs({l1mancer_status: "completed"})
                       }
                       else {
-                          check_l1_mancer();
-                          check_lp_mancer();
+                          // check_l1_mancer();
+                          // check_lp_mancer();
                       };
                   });
               });
@@ -4643,7 +4644,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       set_level();
   });
 
-  // TODO implement armor
   var update_attr = function(attr) {
     var update = {};
     var attr_fields = [attr + "_base", attr + "_bonus"];
@@ -4966,7 +4966,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       });
   };
 
-  var get_rpeating_data = function(callback) {
+  var get_repeating_data = function(callback) {
       var getallrepeating = function(getobj, thiscallback, attrlist) {
           attrlist = attrlist || [];
           var thisget = getobj.pop();
@@ -6814,38 +6814,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           }
       });
   };
-
-  // var v2_old_values_check = function() {
-  //     // update_attacks("all");
-  //     var update = {};
-  //     var attrs = ["simpletraits","features_and_traits","initiative_bonus","npc","character_id"];
-  //     getSectionIDs("repeating_spell-npc", function(idarray) {
-  //         _.each(idarray, function(id) {
-  //             attrs.push("repeating_spell-npc_" + id + "_rollcontent");
-  //         });
-  //         getAttrs(attrs, function(v) {
-  //             if(v["npc"] && v["npc"] == 1 && (!v["initiative_bonus"] || v["initiative_bonus"] == 0)) {
-  //                 update_initiative();
-  //             }
-  //             var spellflag = idarray && idarray.length > 0 ? 1 : 0;
-  //             var missing = v["features_and_traits"] && v["simpletraits"] === "complex" ? 1 : 0;
-  //             update["npcspell_flag"] = spellflag;
-  //             update["missing_info"] = missing;
-  //             _.each(idarray, function(id) {
-  //                 var content = v["repeating_spell-npc_" + id + "_rollcontent"];
-  //                 if(content.substring(0,3) === "%{-" && content.substring(22,41) === "|repeating_attack_-" && content.substring(60,68) === "_attack}") {
-  //                     var thisid = content.substring(2,21);
-  //                     if(thisid != v["character_id"]) {
-  //                         update["repeating_spell-npc_" + id + "_rollcontent"] = content.substring(0,2) + v["character_id"] + content.substring(22,68);
-  //                     }
-  //                 }
-  //             });
-  //             setAttrs(update);
-  //         });
-  //
-  //     });
-  //
-  // };
 
   var clear_npc_spell_attacks = function(complete) {
       getSectionIDs("repeating_attack", function(attack_ids) {
