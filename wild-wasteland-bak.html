@@ -981,7 +981,7 @@
       <div class="page core">
         <div class="header">
           <div class="name-container">
-            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
+            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
             <input type="text" name="attr_character_name" style="width: 100%;">
             <span class="label" data-i18n="char-name-u">CHARACTER NAME</span>
           </div>
@@ -1646,159 +1646,145 @@
               </div>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
             </div>
-            <!-- <div class="weapons" style="position: relative;">
-              <div class="top">
-                <span class="label" style="margin-left: 10px; width: 90px;" data-i18n="name-u">NAME</span>
-                <span class="label" style="width: 35px;" data-i18n="atk-u">ATK</span>
-                <span class="label" style="width: 65px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
-              </div>
-              <fieldset class="repeating_weapon">
-                <div class="weapon">
-                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                  <div class="options">
-                    <div class="row">
-                      <span data-i18n="name:-u">NAME:</span>
-                      <input type="text" name="attr_atkname">
-                    </div>
-                    <div class="row">
-                      <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
-                      <span data-i18n="weapon:-u">WEAPON:</span>
-                      <select name="attr_atkattr_base">
-                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
-                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
-                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
-                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
-                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
-                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
-                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
-                        <option value="0">-</option>
-                      </select>
-                      <span>+</span>
-                      <input type="text" class="num" name="attr_atkmod" placeholder="0">
-                      <span>+</span>
-                      <input type="checkbox" name="attr_atkprofflag" value="(@{pb})" checked="checked" style="margin-left: 3px;">
-                      <span data-i18n="proficient-u">PROFICIENT</span>
-                    </div>
-                    <div class="row">
-                      <span style="margin-left: 17px;" data-i18n="range:-u">RANGE:</span>
-                      <input type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 170px;" data-i18n-placeholder="range-place">
-                    </div>
-                    <div class="row">
-                      <span style="margin-left: 17px;" data-i18n="magic-bonus:-u">MAGIC BONUS:</span>
-                      <input type="text" class="num" name="attr_atkmagic" placeholder="0">
-                      <span data-i18n="crit-range-u">CRIT RANGE:</span>
-                      <input type="text" class="num" name="attr_atkcritrange" value="20" placeholder="20">
-                    </div>
-                    <div class="row">
-                      <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
-                      <span data-i18n="damage:-u">DAMAGE:</span>
-                      <input type="text" name="attr_dmgbase" placeholder="1d6" style="width: 50px;">
-                      <span>+</span>
-                      <select name="attr_dmgattr">
-                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
-                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
-                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
-                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
-                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
-                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
-                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
-                        <option value="0">-</option>
-                      </select>
-                      <span>+</span>
-                      <input type="text" class="num" name="attr_dmgmod" placeholder="0">
-                    </div>
-                    <div class="row">
-                      <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
-                      <input type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
-                      <span data-i18n="crit:-u">CRIT:</span>
-                      <input type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 80px;">
-                    </div>
-                    <div class="row">
-                      <input type="checkbox" name="attr_dmg2flag" value="{{damage=1}} {{dmg2flag=1}}">
-                      <span data-i18n="damage2:-u">DAMAGE2:</span>
-                      <input type="text" name="attr_dmg2base" placeholder="1d6" style="width: 50px;">
-                      <span>+</span>
-                      <select name="attr_dmg2attr">
-                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
-                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
-                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
-                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
-                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
-                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
-                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
-                        <option value="0">-</option>
-                      </select>
-                      <span>+</span>
-                      <input type="text" class="num" name="attr_dmg2mod" placeholder="0">
-                    </div>
-                    <div class="row">
-                      <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
-                      <input type="text" name="attr_dmg2type" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
-                      <span data-i18n="crit:-u">CRIT:</span>
-                      <input type="text" name="attr_dmg2custcrit" placeholder="1d6" style="width: 80px;">
-                    </div>
-                    <div class="row">
-                      <input type="checkbox" name="attr_saveflag" value="{{save=1}} {{saveattr=@{saveattr}}} {{savedesc=@{saveeffect}}} {{savedc=[[[[@{savedc}]][SAVE]]]}}">
-                      <span data-i18n="saving-throw:-u">SAVING THROW:</span>
-                      <select name="attr_saveattr">
-                        <option value="Strength" selected="selected" data-i18n="str-u">STR</option>
-                        <option value="Perception" data-i18n="per-u">PER</option>
-                        <option value="Endurance" data-i18n="end-u">END</option>
-                        <option value="Charisma" data-i18n="cha-u">CHA</option>
-                        <option value="Intelligence" data-i18n="int-u">INT</option>
-                        <option value="Agility" data-i18n="cha-u">AGL</option>
-                        <option value="Luck" data-i18n="cha-u">LUK</option>
-                      </select>
-                      <span data-i18n="vs-dc:-u">VS DC:</span>
-                      <select name="attr_savedc">
-                        <option value="(@{strength_mod}+8+@{pb})" data-i18n="str-u">STR</option>
-                        <option value="(@{perception_mod}+8+@{pb})" data-i18n="per-u">PER</option>
-                        <option value="(@{endurance_mod}+8+@{pb})" data-i18n="end-u">END</option>
-                        <option value="(@{charisma_mod}+8+@{pb})" data-i18n="cha-u">CHA</option>
-                        <option value="(@{intelligence_mod}+8+@{pb})" data-i18n="int-u">INT</option>
-                        <option value="(@{agility_mod}+8+@{pb})" data-i18n="agl-u">AGL</option>
-                        <option value="(@{luck_mod}+8+@{pb})" data-i18n="agl-u">LUK</option>
-                        <option value="(@{saveflat})" data-i18n="flat-u">FLAT</option>
-                      </select>
-                      <input class="flatflag" type="hidden" name="attr_savedc">
-                      <input class="num flat" type="text" name="attr_saveflat" placeholder="10" value="10">
-                    </div>
-                    <div class="row">
-                      <span data-i18n="save-effect:-u">SAVE EFFECT:</span>
-                      <input type="text" name="attr_saveeffect" placeholder="half damage" style="width: 160px;" data-i18n-placeholder="save-effect-place">
-                    </div>
-                    <div class="row ammo">
-                      <span data-i18n="ammunition:-u">AMMUNITION:</span>
-                      <input type="text" name="attr_ammo" placeholder="Arrows" style="width: 160px;" data-i18n-placeholder="ammunition-place">
-                    </div>
-                    <div class="row">
-                      <span data-i18n="description:-u">DESCRIPTION:</span>
-                      <textarea name="attr_atk_desc" placeholder="Up to 2 creatures within 5 feet" data-i18n-placeholder="description-place"></textarea>
-                    </div>
-                  </div>
-                  <div class="display">
-                    <input type="checkbox" name="attr_global_damage_active_flag" value="1" class="active-flag">
-                    <button type="roll" name="roll_attack" value="@{rollbase}">
-                      <span name="attr_atkname" style="width: 85px;"></span>
-                      <input type="text" name="attr_atkbonus" style="width: 40px; text-align: center;" value="">
-                      <input type="text" name="attr_atkdmgtype" style="width: 90px;" value="">
-                    </button>
-                  </div>
+            <div class="weapons">
+              <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+              <textarea class="simple" name="attr_armor"></textarea>
+              <div class="complex">
+                <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
+                <div class="header" style="height: auto;">
+                  <span class="pictos" style="width: 25px; font-size: 15px;">*</span>
+                  <span style="width: 175px; text-align: left;" data-i18n="weapon-name-u">WEAPON NAME</SPAN>
+                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px; margin-bottom: -3px;  vertical-align: inherit;"
+                      alt="ammo symbol"></span>
                 </div>
-                <input type="hidden" name="attr_rollbase">
-                <input type="hidden" name="attr_rollbase_dmg">
-                <input type="hidden" name="attr_rollbase_crit">
-                <input type="hidden" name="attr_hldmg">
-                <input type="hidden" name="attr_spelllevel">
-                <input type="hidden" name="attr_itemid">
-                <input type="hidden" name="attr_spellid">
-                <input type="hidden" name="attr_spell_innate">
-                <input type="hidden" name="attr_versatile_alt">
-                <button type="roll" name="roll_attack_dmg" style="display: none;" value="@{rollbase_dmg}"></button>
-                <button type="roll" name="roll_attack_crit" style="display: none;" value="@{rollbase_crit}"></button>
-              </fieldset>
+                <fieldset class="repeating_weapons">
+                  <input type="hidden" class="equippedflag" name="attr_equipped">
+                  <div class="item">
+                    <input class="equipped" type="checkbox" name="attr_equipped" value="1">
+                    <input class="name" type="text" name="attr_armorname">
+                    <input class="weight" type="text" name="attr_armordt">
+                    <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                    <div class="subitem">
+                      <input class="typeflag" type="hidden" name="attr_typeflag" value="melee">
+                      <span class="label" data-i18n="type:-u">TYPE:</span>
+                      <select name="attr_type" style="width: 55px;">
+                        <option value="0" data-i18n="melee">Melee</option>
+                        <option value="1" data-i18n="ranged">Ranged</option>
+                        <option value="2" selected="selected">—</option>
+                      </select>
+                      <input class="classflag" type="hidden" name="attr_classflag">
+                      <span class="label" data-i18n="class:-u">CLASS:</span>
+                      <select class="melee" name="attr_melee_class" style="width: 90px;">
+                        <option value="0" data-i18n="unarmed">Unarmed</option>
+                        <option value="1" data-i18n="slash">Slash</option>
+                        <option value="2" data-i18n="blunt">Blunt</option>
+                        <option value="3" data-i18n="pierce">Pierce</option>
+                        <option value="4" selected="selected">—</option>
+                      </select>
+                      <select class="ranged" name="attr_ranged_class" style="width: 90px;">
+                        <option value="0" data-i18n="pistol">Pistol</option>
+                        <option value="1" data-i18n="smg">Submachine gun</option>
+                        <option value="2" data-i18n="shotgun">Shotgun</option>
+                        <option value="3" data-i18n="ar">Assault rifle</option>
+                        <option value="4" data-i18n="br">Battle rifle</option>
+                        <option value="5" data-i18n="sniper">Sniper rifle</option>
+                        <option value="6" data-i18n="lmg">Light machine gun</option>
+                        <option value="7" data-i18n="heavy">Heavy weapon</option>
+                        <option value="8" selected="selected">—</option>
+                      </select>
+
+                      <span class="label ranged" data-i18n="mag:-u">MAG:</span>
+                      <input class="subfield ranged" type="text" name="attr_mag" placeholder="—" style="width: 55px; font-size: 11px;">
+                      <span class="label ranged" data-i18n="ammo:-u">AMMO:</span>
+                      <input class="subfield ranged" type="text" name="attr_ammo" placeholder="10mm rounds" style="width: 90px;" data-i18n-placeholder="ammo-place">
+
+                      <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
+                      <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
+                      <input class="subfield" type="text" name="attr_atkbase" placeholder="0" style="width: 20px; font-size: 11px">
+                      <span style="width: 5px">+</span>
+                      <select name="attr_atkmod" style="width: 25px">
+                        <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
+                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
+                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
+                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
+                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
+                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
+                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
+                        <option value="0" selected="selected">—</option>
+                      </select>
+                      <span style="width: 5px">+</span>
+                      <select name="attr_atkskillmod" style="width: 70px">
+                        <option value="@{barter}" data-i18n="barter">Barter</option>
+                        <option value="@{energy_weapons}" data-i18n="energy_weapons">Energy Weapons</option>
+                        <option value="@{explosives}" data-i18n="explosives">Explosives</option>
+                        <option value="@{guns}" data-i18n="guns">Guns</option>
+                        <option value="@{medicine}" data-i18n="medicine">Lockpick</option>
+                        <option value="@{melee_weapons}" data-i18n="melee_weapons">Melee Weapons</option>
+                        <option value="@{repair}" data-i18n="repair">Repair</option>
+                        <option value="@{science}" data-i18n="science">Science</option>
+                        <option value="@{sneak}" data-i18n="sneak">Sneak</option>
+                        <option value="@{speech}" data-i18n="speech">Speech</option>
+                        <option value="@{survival}" data-i18n="survival">Survival</option>
+                        <option value="@{unarmed}" data-i18n="unarmed">Unarmed</option>
+                        <option value="0" selected="selected">—</option>
+                      </select>
+
+                      <span style="margin-left: 20px;" data-i18n="range:-u">RANGE:</span>
+                      <input class="subfield" type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 50px;" data-i18n-placeholder="range-place">
+                      <span style="width: 70px" data-i18n="crit-range-u">CRIT RANGE:</span>
+                      <input class="subfield" type="text" name="attr_atkcritrange" value="20" placeholder="20" style="width: 40px; font-size: 11px;">
+
+                      <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
+                      <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
+                      <input class="subfield" type="num" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
+                      <span style="width: 5px">+</span>
+                      <select name="attr_dmgattr" style="width: 25px">
+                        <option value="@{strength_mod}" data-i18n="str-u">STR</option>
+                        <option value="@{perception_mod}" data-i18n="per-u">PER</option>
+                        <option value="@{endurance_mod}" data-i18n="end-u">END</option>
+                        <option value="@{charisma_mod}" data-i18n="cha-u">CHA</option>
+                        <option value="@{intelligence_mod}" data-i18n="int-u">INT</option>
+                        <option value="@{agility_mod}" data-i18n="agl-u">AGL</option>
+                        <option value="@{luck_mod}" data-i18n="luk-u">LUK</option>
+                        <option value="0" selected="selected">—</option>
+                      </select>
+                      <span style="width: 5px">+</span>
+                      <select name="attr_dmgskillmod" style="width: 70px">
+                        <option value="@{barter}" data-i18n="barter">Barter</option>
+                        <option value="@{energy_weapons}" data-i18n="energy_weapons">Energy Weapons</option>
+                        <option value="@{explosives}" data-i18n="explosives">Explosives</option>
+                        <option value="@{guns}" data-i18n="guns">Guns</option>
+                        <option value="@{medicine}" data-i18n="medicine">Lockpick</option>
+                        <option value="@{melee_weapons}" data-i18n="melee_weapons">Melee Weapons</option>
+                        <option value="@{repair}" data-i18n="repair">Repair</option>
+                        <option value="@{science}" data-i18n="science">Science</option>
+                        <option value="@{sneak}" data-i18n="sneak">Sneak</option>
+                        <option value="@{speech}" data-i18n="speech">Speech</option>
+                        <option value="@{survival}" data-i18n="survival">Survival</option>
+                        <option value="@{unarmed}" data-i18n="unarmed">Unarmed</option>
+                        <option value="0" selected="selected">—</option>
+                      </select>
+                      <span style="width: 5px">+</span>
+                      <input class="subfield" type="text" name="attr_dmgmod" placeholder="1d6" style="width: 25px; font-size: 10px;">
+
+                      <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
+                      <input class ="subfield" type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
+                      <span style="width: 70px;" data-i18n="crit-bonus:-u">CRIT BONUS:</span>
+                      <input class="subfield" type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 40px; font-size: 11px;">
+
+                      <span class="label" data-i18n="prop:-u">PROP:</span>
+                      <input class="subfield" type="text" name="attr_armorproperties">
+                      <span class="label" data-i18n="mods:-u">MODS:</span>
+                      <input class="subfield" type="text" name="attr_itemmodifiers">
+                      <textarea class="subtextarea" name="attr_armorcontent"></textarea>
+                    </div>
+                    <input type="hidden" name="attr_itemattackid">
+                    <input type="hidden" name="attr_itemresourceid">
+                  </div>
+                </fieldset>
+              </div>
               <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
-            </div> -->
+            </div>
             <input type="hidden" class="toggleflag" name="attr_global_dt_mod_flag">
             <div class="equipment hidden">
               <div class="textarea globalattack acmod">
@@ -1842,9 +1828,9 @@
                 </div>
                 <div class="header" style="height: auto;">
                   <span class="pictos" style="width: 25px; font-size: 15px;">*</span>
-                  <span style="width: 175px; text-align: left;" data-i18n="item-name-u">ITEM NAME</SPAN>
-                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/Roll20/roll20-character-sheets/master/5th%20Edition%20OGL%20by%20Roll20/images/weight_lbs.png" style="width: 15px; margin-bottom: -3px;"
-                      alt="Weight symbol"></span>
+                  <span style="width: 175px; text-align: left;" data-i18n="armor-name-u">ARMOR NAME</SPAN>
+                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/beta/images/dt.png" style="width: 15px; margin-bottom: -3px;  vertical-align: inherit;"
+                      alt="DT symbol"></span>
                 </div>
                 <fieldset class="repeating_armor">
                   <input type="hidden" class="equippedflag" name="attr_equipped">
@@ -1918,7 +1904,7 @@
                 <div class="header" style="height: auto;">
                   <span class="pictos" style="width: 25px; font-size: 15px;">*</span>
                   <span style="width: 175px; text-align: left;" data-i18n="item-name-u">ITEM NAME</SPAN>
-                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/Roll20/roll20-character-sheets/master/5th%20Edition%20OGL%20by%20Roll20/images/weight_lbs.png" style="width: 15px; margin-bottom: -3px;"
+                  <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/weight.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                       alt="Weight symbol"></span>
                 </div>
                 <fieldset class="repeating_inventory">
@@ -2107,7 +2093,7 @@
       <div class="page bio">
         <div class="header">
           <div class="name-container">
-            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
+            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
             <input type="text" name="attr_character_name" style="width: 100%;">
             <span class="label" data-i18n="char-name-u">CHARACTER NAME</span>
           </div>
@@ -2186,7 +2172,7 @@
       <div class="page options">
         <div class="header">
           <div class="name-container">
-            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
+            <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/wild_wasteland_logo.png" style="padding-bottom: 5px; width: 250px" alt="Wild Wasteland Logo">
             <input type="text" name="attr_character_name" style="width: 100%;">
             <span class="label" data-i18n="char-name-u">CHARACTER NAME</span>
           </div>
@@ -7509,14 +7495,14 @@
     };
 
     var update_hp_max = function() {
-      attrs_to_get = ["hp_base", "level", "endurance"];
+      attrs_to_get = ["level", "endurance"];
       getSectionIDs("repeating_hpmod", function(idArray){
         _.each(idArray, function(currentId, i) {
           attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
         });
         getAttrs(attrs_to_get, function(attr) {
           var update = {};
-          var hp_base = parseInt(attr["hp_base"], 10);
+          var hp_base = 30;
           var endurance = parseInt(attr["endurance"], 10);
           var level = parseInt(attr["level"], 10);
           var hp_mod = 0;

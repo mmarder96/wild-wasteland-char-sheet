@@ -3135,6 +3135,16 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-weapons select.sheet-melee,
+.sheet-weapons select.sheet-ranged {
+  display: none;
+}
+
+.sheet-weapons .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
+.sheet-weapons .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged {
+  display: inline-block;
+}
+
 .sheet-attack input[type=text].sheet-flat,
 .sheet-weapon input[type=text].sheet-flat {
   display: none;
