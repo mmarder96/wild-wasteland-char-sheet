@@ -1188,7 +1188,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options,
 .sheet-trait .sheet-options {
   display: none;
-  border-top: 2px dashed gold;
+  /* border-top: 2px dashed gold; */
 }
 
 .sheet-item .sheet-subitem,
@@ -1225,6 +1225,7 @@ button[type=roll] * {
 .sheet-traits .sheet-options-flag:checked ~ .sheet-options,
 .sheet-item .sheet-inventorysubflag:checked ~ .sheet-subitem {
   display: inherit;
+  padding: 0px 0px 0px 3px;
 }
 
 .sheet-header .sheet-options-flag:checked ~ .sheet-options {
@@ -2969,9 +2970,9 @@ span.sheet-spellconcentration {
 }
 
 .sheet-item .sheet-subitem .sheet-subtextarea {
-  width: calc(100% - 20px);
-  font-size: 9px;
-  padding: 0px 5px 0px 15px;
+  width: calc(100% - 15px);
+  font-size: 11px;
+  padding: 0px 5px 0px 5px;
   min-height: 32px;
   height: 32px;
   margin: 0px;
