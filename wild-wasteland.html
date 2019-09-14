@@ -1653,13 +1653,14 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <div class="header" style="height: auto;">
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="cooldown symbol"></span>
-                <span class="label" style="width: 90px;" data-i18n="name-u">NAME</span>
-                <span class="label" style="width: 30px;" data-i18n="atk-u">ATK</span>
-                <span class="label" style="width: 90px;" data-i18n="dmg-type-u">DAMAGE/TYPE</span>
+                <span class="label" style="width: 85px; text-align: left;" data-i18n="name-u">NAME</span>
+                <span class="label" style="width: 30px; text-align: left;" data-i18n="atk-u">ATK</span>
+                <span class="label" style="width: 85px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
               </div>
               <fieldset class="repeating_attack">
                 <input type="hidden" class="equippedflag" name="attr_equipped">
                 <div class="item">
+                  <input class="name" type="text" name="attr_cooldown" style="width: 15px; margin-left: 7px;">
                   <input class="name" type="text" name="attr_atkname" style="width: 85px;">
                   <button type="roll" name="roll_attack" value="@{rollbase}">
                     <input type="text" name="attr_atkbonus" style="width: 30px; text-align: center;" value="">
