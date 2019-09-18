@@ -1181,6 +1181,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 data-i18n="death-saves-u">DEATH SAVES</button>
             </div>
           </div>
+
           <div class="hp">
             <div class="top">
               <span data-i18n="hp-max-u">Hit Point Maximum</span>
@@ -1189,6 +1190,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <input type="number" name="attr_hp" title="@{hp}" step="1" min="0">
             <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
           </div>
+
           <div class="def-dt-speed-container">
             <div class="def">
               <input type="text" name="attr_def" title="@{def}">
@@ -1203,6 +1205,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span class="label" data-i18n="speed-u">SPEED</span>
             </div>
           </div>
+
           <input type="hidden" class="radiation-toggle" name="attr_radiation_toggle" value="0">
           <div class="radiation" style="position: relative;">
             <input type="number" name="attr_radiation_level" step="1" min="0" max="10">
@@ -1216,8 +1219,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" data-i18n="radiation-u">RADIATION LEVEL</span>
           </div>
-          <input type="hidden" class="ammoflag" name="attr_ammotracking">
 
+          <input type="hidden" class="ammoflag" name="attr_ammotracking">
           <div class="weapons">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
             <textarea class="simple" name="attr_weapons"></textarea>
@@ -1231,7 +1234,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span class="label" style="width: 75px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
               </div>
               <fieldset class="repeating_attack">
-                <input type="hidden" class="equippedflag" name="attr_equipped">
+                <input type="hidden" class="equippedflag" name="attr_active">
                 <div class="item">
                   <input class="weight" type="text" name="attr_cooldown" style="margin-left: 3px;">
                   <input class="name" type="text" name="attr_atkname" style="width: 90px;">
@@ -1263,14 +1266,14 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
                     <input class="classflag" type="hidden" name="attr_classflag">
                     <span class="label" data-i18n="class:-u">CLASS:</span>
-                    <select class="melee" name="attr_melee_class" style="width: 90px;">
+                    <select class="melee" name="attr_class" style="width: 90px;">
                       <option value="0" data-i18n="unarmed">Unarmed</option>
                       <option value="1" data-i18n="slash">Slash</option>
                       <option value="2" data-i18n="blunt">Blunt</option>
                       <option value="3" data-i18n="pierce">Pierce</option>
                       <option value="4" selected="selected">—</option>
                     </select>
-                    <select class="ranged" name="attr_ranged_class" style="width: 90px;">
+                    <select class="ranged" name="attr_class" style="width: 90px;">
                       <option value="0" data-i18n="pistol">Pistol</option>
                       <option value="1" data-i18n="smg">Submachine gun</option>
                       <option value="2" data-i18n="shotgun">Shotgun</option>
@@ -1286,7 +1289,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
                     <input class="subfield" type="text" name="attr_atkbase" placeholder="0" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
-                    <select name="attr_atkmod" style="width: 25px">
+                    <select name="attr_atkattr" style="width: 25px">
                       <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
                       <option value="@{perception_mod}" data-i18n="per-u">PER</option>
                       <option value="@{endurance_mod}" data-i18n="end-u">END</option>
@@ -1297,7 +1300,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <select name="attr_atkskillmod" style="width: 70px">
+                    <select name="attr_atkskill" style="width: 70px">
                       <option value="@{barter_bonus}" data-i18n="barter">Barter</option>
                       <option value="@{energy_weapons_bonus}" data-i18n="energy_weapons">Energy Weapons</option>
                       <option value="@{explosives_bonus}" data-i18n="explosives">Explosives</option>
@@ -1321,7 +1324,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
-                    <input class="subfield" type="num" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
+                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
                     <select name="attr_dmgattr" style="width: 25px">
                       <option value="@{strength_mod}" data-i18n="str-u">STR</option>
@@ -1334,7 +1337,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <select name="attr_dmgskillmod" style="width: 70px">
+                    <select name="attr_dmgskill" style="width: 70px">
                       <option value="@{barter_bonus}" data-i18n="barter">Barter</option>
                       <option value="@{energy_weapons_bonus}" data-i18n="energy_weapons">Energy Weapons</option>
                       <option value="@{explosives_bonus}" data-i18n="explosives">Explosives</option>
@@ -1351,7 +1354,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <input class="subfield" type="text" name="attr_dmgmod" placeholder="1d6" style="width: 25px; font-size: 10px;">
+                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="1d6" style="width: 25px; font-size: 10px;">
 
                     <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
                     <input class ="subfield" type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
@@ -1510,7 +1513,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
                     <input class="subfield" type="text" name="attr_atkbase" placeholder="0" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
-                    <select name="attr_atkmod" style="width: 25px">
+                    <select name="attr_atkattr" style="width: 25px">
                       <option value="@{strength_mod}" selected="selected" data-i18n="str-u">STR</option>
                       <option value="@{perception_mod}" data-i18n="per-u">PER</option>
                       <option value="@{endurance_mod}" data-i18n="end-u">END</option>
@@ -1521,19 +1524,19 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <select name="attr_atkskillmod" style="width: 70px">
-                      <option value="@{barter}" data-i18n="barter">Barter</option>
-                      <option value="@{energy_weapons}" data-i18n="energy_weapons">Energy Weapons</option>
-                      <option value="@{explosives}" data-i18n="explosives">Explosives</option>
-                      <option value="@{guns}" data-i18n="guns">Guns</option>
-                      <option value="@{medicine}" data-i18n="medicine">Lockpick</option>
-                      <option value="@{melee_weapons}" data-i18n="melee_weapons">Melee Weapons</option>
-                      <option value="@{repair}" data-i18n="repair">Repair</option>
-                      <option value="@{science}" data-i18n="science">Science</option>
-                      <option value="@{sneak}" data-i18n="sneak">Sneak</option>
-                      <option value="@{speech}" data-i18n="speech">Speech</option>
-                      <option value="@{survival}" data-i18n="survival">Survival</option>
-                      <option value="@{unarmed}" data-i18n="unarmed">Unarmed</option>
+                    <select name="attr_atkskill" style="width: 70px">
+                      <option value="@{barter_bonus}" data-i18n="barter">Barter</option>
+                      <option value="@{energy_weapons_bonus}" data-i18n="energy_weapons">Energy Weapons</option>
+                      <option value="@{explosives_bonus}" data-i18n="explosives">Explosives</option>
+                      <option value="@{guns_bonus}" data-i18n="guns">Guns</option>
+                      <option value="@{medicine_bonus}" data-i18n="medicine">Lockpick</option>
+                      <option value="@{melee_weapons_bonus}" data-i18n="melee_weapons">Melee Weapons</option>
+                      <option value="@{repair_bonus}" data-i18n="repair">Repair</option>
+                      <option value="@{science_bonus}" data-i18n="science">Science</option>
+                      <option value="@{sneak_bonus}" data-i18n="sneak">Sneak</option>
+                      <option value="@{speech_bonus}" data-i18n="speech">Speech</option>
+                      <option value="@{survival_bonus}" data-i18n="survival">Survival</option>
+                      <option value="@{unarmed_bonus}" data-i18n="unarmed">Unarmed</option>
                       <option value="@{pb}" data-i18n="tag-bonus">Tag Skill Bonus</option>
                       <option value="0" selected="selected">—</option>
                     </select>
@@ -1545,7 +1548,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
-                    <input class="subfield" type="num" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
+                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
                     <select name="attr_dmgattr" style="width: 25px">
                       <option value="@{strength_mod}" data-i18n="str-u">STR</option>
@@ -1558,7 +1561,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <select name="attr_dmgskillmod" style="width: 70px">
+                    <select name="attr_dmgskill" style="width: 70px">
                       <option value="@{barter}" data-i18n="barter">Barter</option>
                       <option value="@{energy_weapons}" data-i18n="energy_weapons">Energy Weapons</option>
                       <option value="@{explosives}" data-i18n="explosives">Explosives</option>
@@ -1575,7 +1578,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <input class="subfield" type="text" name="attr_dmgmod" placeholder="1d6" style="width: 25px; font-size: 10px;">
+                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="1d6" style="width: 25px; font-size: 10px;">
 
                     <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
                     <input class ="subfield" type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
@@ -1595,6 +1598,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
           </div>
+
           <input type="hidden" class="toggleflag" name="attr_global_dt_mod_flag">
           <div class="equipment hidden">
             <div class="textarea globalattack acmod">
@@ -1614,6 +1618,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" data-i18n="global-dt-u">GLOBAL DT MODIFIER</span>
           </div>
+
           <div class="armor">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
             <textarea class="simple" name="attr_armor"></textarea>
@@ -1684,6 +1689,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="armor-u">ARMOR</span>
           </div>
+
           <div class="equipment">
             <div class="money">
               <div class="coin">
@@ -3874,17 +3880,17 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   // update attack on attack property change
-  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkattr_base change:repeating_attack:atkmod change:repeating_attack:atkmagic change:repeating_attack:atkprofflag change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgmod change:repeating_attack:dmgtype change:repeating_attack:dmg2flag change:repeating_attack:dmg2base change:repeating_attack:dmg2attr change:repeating_attack:dmg2mod change:repeating_attack:dmg2type change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:dmg2custcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
+  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:dmg2flag change:repeating_attack:dmg2base change:repeating_attack:dmg2attr change:repeating_attack:dmg2skill change:repeating_attack:dmg2roll change:repeating_attack:dmg2type change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:dmg2custcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
       if(eventinfo.sourceType === "sheetworker") {return;};
 
       var source = eventinfo.sourceAttribute.substr(38);
       var attackid = eventinfo.sourceAttribute.substring(17, 37);
-      if(source == "atkattr_base" || source == "savedc") {
+      if(source == "atkbase" || source == "savedc") {
           getAttrs(["repeating_attack_spellid", "repeating_attack_spelllevel"], function(v) {
               set = {};
               if(v.repeating_attack_spellid && v.repeating_attack_spellid != "" && v.repeating_attack_spelllevel && v.repeating_attack_spelllevel != "") {
                   var newVal = eventinfo.newValue == "spell" ? "spell" : _.last(eventinfo.newValue.split("_")[0].split("{"));
-                  set["repeating_attack_atkattr_base"] = newVal == "spell" ? "spell" : "@{" + newVal + "_mod}";
+                  set["repeating_attack_atkbase"] = newVal == "spell" ? "spell" : "@{" + newVal + "_mod}";
                   set["repeating_attack_savedc"] = newVal == "spell" ? "spell" : "(@{" + newVal + "_mod}+8+@{pb})";
                   set["repeating_spell-" + v.repeating_attack_spelllevel + "_" + v.repeating_attack_spellid + "_spell_ability"] = newVal == "spell" ? "spell" : "@{" + newVal + "_mod}+";
               }
@@ -4773,24 +4779,24 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           }
           var finesse = v["repeating_inventory_" + itemid + "_itemproperties"] && /finesse/i.test(v["repeating_inventory_" + itemid + "_itemproperties"]);
           if( (itemtype && itemtype.indexOf("Ranged") > -1) || (finesse && +v.dexterity > +v.strength)) {
-              update["repeating_attack_" + attackid + "_atkattr_base"] = "@{dexterity_mod}";
+              update["repeating_attack_" + attackid + "_atkbase"] = "@{dexterity_mod}";
               update["repeating_attack_" + attackid + "_dmgattr"] = "@{dexterity_mod}";
           }
           else {
-              update["repeating_attack_" + attackid + "_atkattr_base"] = "@{strength_mod}";
+              update["repeating_attack_" + attackid + "_atkbase"] = "@{strength_mod}";
               update["repeating_attack_" + attackid + "_dmgattr"] = "@{strength_mod}";
           }
           if(attackmod && damagemod && attackmod == damagemod) {
               update["repeating_attack_" + attackid + "_atkmagic"] = parseInt(attackmod, 10);
-              update["repeating_attack_" + attackid + "_atkmod"] = "";
-              update["repeating_attack_" + attackid + "_dmgmod"] = "";
+              update["repeating_attack_" + attackid + "_atkattr"] = "";
+              update["repeating_attack_" + attackid + "_dmgroll"] = "";
           }
           else {
               if(attackmod) {
-                  update["repeating_attack_" + attackid + "_atkmod"] = parseInt(attackmod, 10);
+                  update["repeating_attack_" + attackid + "_atkattr"] = parseInt(attackmod, 10);
               }
               if(damagemod) {
-                  update["repeating_attack_" + attackid + "_dmgmod"] = parseInt(damagemod, 10);
+                  update["repeating_attack_" + attackid + "_dmgroll"] = parseInt(damagemod, 10);
               }
               update["repeating_attack_" + attackid + "_atkmagic"] = "";
           }
@@ -4893,7 +4899,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         } else {
             var attack_attribs = ["spellcasting_ability"];
             _.each(idarray, function(id) {
-              attack_attribs.push("repeating_attack_" + id + "_atkattr_base");
+              attack_attribs.push("repeating_attack_" + id + "_atkbase");
               attack_attribs.push("repeating_attack_" + id + "_dmgattr");
               attack_attribs.push("repeating_attack_" + id + "_dmg2attr");
               attack_attribs.push("repeating_attack_" + id + "_savedc");
@@ -4901,8 +4907,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             getAttrs(attack_attribs, function(attrs) {
               var attr_attack_ids = [];
               _.each(idarray, function(id) {
-                if((attrs["repeating_attack_" + id + "_atkattr_base"]
-                  && attrs["repeating_attack_" + id + "_atkattr_base"].indexOf(update_id) > -1)
+                if((attrs["repeating_attack_" + id + "_atkbase"]
+                  && attrs["repeating_attack_" + id + "_atkbase"].indexOf(update_id) > -1)
                   || (attrs["repeating_attack_" + id + "_dmgattr"] && attrs["repeating_attack_" + id + "_dmgattr"].indexOf(update_id) > -1)
                   || (attrs["repeating_attack_" + id + "_dmg2attr"] && attrs["repeating_attack_" + id + "_dmg2attr"].indexOf(update_id) > -1)
                   || (attrs["repeating_attack_" + id + "_savedc"] && attrs["repeating_attack_" + id + "_savedc"].indexOf(update_id) > -1)
@@ -4921,34 +4927,47 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var do_update_attack = function(attack_array, source) {
-    var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","spellcasting_ability","spell_save_dc","spell_attack_mod", "spell_dc_mod", "global_damage_mod_roll", "global_damage_mod_crit"];
+    console.log('UPDATING ATTACK');
+    var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
     _.each(attack_array, function(attackid) {
-      attack_attribs.push("repeating_attack_" + attackid + "_atkflag");
+      attack_attribs.push("repeating_attack_" + attackid + "_active");
+      attack_attribs.push("repeating_attack_" + attackid + "_cooldown");
       attack_attribs.push("repeating_attack_" + attackid + "_atkname");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkattr_base");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkmod");
+      attack_attribs.push("repeating_attack_" + attackid + "_type");
+      attack_attribs.push("repeating_attack_" + attackid + "_class");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkflag");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkbase");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkattr");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkskill");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkrange");
+      attack_attribs.push("repeating_attack_" + attackid + "_atkcritrange");
+
       attack_attribs.push("repeating_attack_" + attackid + "_atkprofflag");
       attack_attribs.push("repeating_attack_" + attackid + "_atkmagic");
+
       attack_attribs.push("repeating_attack_" + attackid + "_dmgflag");
       attack_attribs.push("repeating_attack_" + attackid + "_dmgbase");
       attack_attribs.push("repeating_attack_" + attackid + "_dmgattr");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgmod");
+      attack_attribs.push("repeating_attack_" + attackid + "_dmgskill");
+      attack_attribs.push("repeating_attack_" + attackid + "_dmgroll");
       attack_attribs.push("repeating_attack_" + attackid + "_dmgtype");
+      attack_attribs.push("repeating_attack_" + attackid + "_dmgcustcrit");
       attack_attribs.push("repeating_attack_" + attackid + "_dmg2flag");
       attack_attribs.push("repeating_attack_" + attackid + "_dmg2base");
       attack_attribs.push("repeating_attack_" + attackid + "_dmg2attr");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2mod");
+      attack_attribs.push("repeating_attack_" + attackid + "_dmg2skill");
+      attack_attribs.push("repeating_attack_" + attackid + "_dmg2roll");
       attack_attribs.push("repeating_attack_" + attackid + "_dmg2type");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgcustcrit");
       attack_attribs.push("repeating_attack_" + attackid + "_dmg2custcrit");
       attack_attribs.push("repeating_attack_" + attackid + "_saveflag");
       attack_attribs.push("repeating_attack_" + attackid + "_savedc");
-      attack_attribs.push("repeating_attack_" + attackid + "_saveeffect");
       attack_attribs.push("repeating_attack_" + attackid + "_saveflat");
+      attack_attribs.push("repeating_attack_" + attackid + "_saveeffect");
+
       attack_attribs.push("repeating_attack_" + attackid + "_hldmg");
       attack_attribs.push("repeating_attack_" + attackid + "_spellid");
       attack_attribs.push("repeating_attack_" + attackid + "_spelllevel");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkrange");
+
       attack_attribs.push("repeating_attack_" + attackid + "_itemid");
       attack_attribs.push("repeating_attack_" + attackid + "_ammo");
       attack_attribs.push("repeating_attack_" + attackid + "_global_damage_mod_field");
@@ -4956,203 +4975,189 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
     getAttrs(attack_attribs, function(attrs) {
       _.each(attack_array, function(attackid) {
-      var callbacks = [];
-      var update = {};
-      var hbonus = "";
-      var hdmg1 = "";
-      var hdmg2 = "";
-      var dmg = "";
-      var dmg2 = "";
-      var rollbase = "";
-      var spellattack = false;
-      var magicattackmod = 0;
-      var magicsavemod = 0;
-      var atkattr_abrev = "";
-      var dmgattr_abrev = "";
-      var dmg2attr_abrev = "";
-      var pbd_safe = attrs["pbd_safe"] ? attrs["pbd_safe"] : "";
-      var global_crit = attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] && attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] != "" ? "@{global_damage_mod_crit}" : "";
-      var hldmgcrit = attrs["repeating_attack_" + attackid + "_hldmg"] && attrs["repeating_attack_" + attackid + "_hldmg"] != "" ? attrs["repeating_attack_" + attackid + "_hldmg"].slice(0, 7) + "crit" + attrs["repeating_attack_" + attackid + "_hldmg"].slice(7) : "";
-      if(attrs["repeating_attack_" + attackid + "_spellid"] && attrs["repeating_attack_" + attackid + "_spellid"] != "") {
-        spellattack = true;
-        magicattackmod = attrs["spell_attack_mod"] && !isNaN(parseInt(attrs["spell_attack_mod"],10)) ? parseInt(attrs["spell_attack_mod"],10) : 0;
-        magicsavemod = attrs["spell_dc_mod"] && !isNaN(parseInt(attrs["spell_dc_mod"],10)) ? parseInt(attrs["spell_dc_mod"],10) : 0;
-      }
+        var callbacks = [];
+        var update = {};
+        var hbonus = "";
+        var hdmg1 = "";
+        var hdmg2 = "";
+        var dmg = "";
+        var dmg2 = "";
+        var rollbase = "";
+        var atkattr_abrev = "";
+        var dmgattr_abrev = "";
+        var dmg2attr_abrev = "";
+        var global_crit = attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] && attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] != "" ? "@{global_damage_mod_crit}" : "";
+        var hldmgcrit = attrs["repeating_attack_" + attackid + "_hldmg"] && attrs["repeating_attack_" + attackid + "_hldmg"] != "" ? attrs["repeating_attack_" + attackid + "_hldmg"].slice(0, 7) + "crit" + attrs["repeating_attack_" + attackid + "_hldmg"].slice(7) : "";
 
-      if(!attrs["repeating_attack_" + attackid + "_atkattr_base"] || attrs["repeating_attack_" + attackid + "_atkattr_base"] === "0") {
-        atkattr_base = 0;
-      } else if(attrs["repeating_attack_" + attackid + "_atkattr_base"] && attrs["repeating_attack_" + attackid + "_atkattr_base"] === "spell") {
-        atkattr_base = parseInt(attrs[attrs["spellcasting_ability"].substring(2, attrs["spellcasting_ability"].length - 2)], 10);
-        atkattr_abrev = attrs["spellcasting_ability"].substring(2, 5).toUpperCase();
-      } else {
-        atkattr_base = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkattr_base"].substring(2, attrs["repeating_attack_" + attackid + "_atkattr_base"].length - 1)], 10);
-        atkattr_abrev = attrs["repeating_attack_" + attackid + "_atkattr_base"].substring(2, 5).toUpperCase();
-      }
-
-      if(!attrs["repeating_attack_" + attackid + "_dmgattr"] || attrs["repeating_attack_" + attackid + "_dmgattr"] === "0") {
-        dmgattr = 0;
-      } else if(attrs["repeating_attack_" + attackid + "_dmgattr"] && attrs["repeating_attack_" + attackid + "_dmgattr"] === "spell") {
-        dmgattr = parseInt(attrs[attrs["spellcasting_ability"].substring(2, attrs["spellcasting_ability"].length - 2)], 10);
-        dmgattr_abrev = attrs["spellcasting_ability"].substring(2, 5).toUpperCase();
-      } else {
-        dmgattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, attrs["repeating_attack_" + attackid + "_dmgattr"].length - 1)], 10);
-        dmgattr_abrev =attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, 5).toUpperCase();
-      }
-
-      if(!attrs["repeating_attack_" + attackid + "_dmg2attr"] || attrs["repeating_attack_" + attackid + "_dmg2attr"] === "0") {
-        dmg2attr = 0;
-      } else if(attrs["repeating_attack_" + attackid + "_dmg2attr"] && attrs["repeating_attack_" + attackid + "_dmg2attr"] === "spell") {
-        dmg2attr = parseInt(attrs[attrs["spellcasting_ability"].substring(2, attrs["spellcasting_ability"].length - 2)], 10);
-        dmg2attr_abrev = attrs["spellcasting_ability"].substring(2, 5).toUpperCase();
-      } else {
-        dmg2attr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2attr"].length - 1)], 10);
-        dmg2attr_abrev =attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, 5).toUpperCase();
-      }
-
-      var dmgbase = attrs["repeating_attack_" + attackid + "_dmgbase"] && attrs["repeating_attack_" + attackid + "_dmgbase"] != "" ? attrs["repeating_attack_" + attackid + "_dmgbase"] : 0;
-      var dmg2base = attrs["repeating_attack_" + attackid + "_dmg2base"] && attrs["repeating_attack_" + attackid + "_dmg2base"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2base"] : 0;
-      var dmgmod = attrs["repeating_attack_" + attackid + "_dmgmod"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmgmod"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmgmod"],10) : 0;
-      var dmg2mod = attrs["repeating_attack_" + attackid + "_dmg2mod"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmg2mod"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmg2mod"],10) : 0;
-      var dmgtype = attrs["repeating_attack_" + attackid + "_dmgtype"] ? attrs["repeating_attack_" + attackid + "_dmgtype"] + " " : "";
-      var dmg2type = attrs["repeating_attack_" + attackid + "_dmg2type"] ? attrs["repeating_attack_" + attackid + "_dmg2type"] + " " : "";
-      var pb = attrs["repeating_attack_" + attackid + "_atkprofflag"] && attrs["repeating_attack_" + attackid + "_atkprofflag"] != 0 && attrs.pb ? attrs.pb : 0;
-      var atkmod = attrs["repeating_attack_" + attackid + "_atkmod"] && attrs["repeating_attack_" + attackid + "_atkmod"] != "" ? parseInt(attrs["repeating_attack_" + attackid + "_atkmod"],10) : 0;
-      var atkmag = attrs["repeating_attack_" + attackid + "_atkmagic"] && attrs["repeating_attack_" + attackid + "_atkmagic"] != "" ? parseInt(attrs["repeating_attack_" + attackid + "_atkmagic"],10) : 0;
-      var dmgmag = isNaN(atkmag) === false && atkmag != 0 && ((attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) || (attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0)) ? "+ " + atkmag + " Magic Bonus" : "";
-      if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-        bonus_mod = atkattr_base + atkmod + atkmag + magicattackmod;
-        if(attrs["pb_type"] && attrs["pb_type"] === "die") {
-          plus_minus = bonus_mod > -1 ? "+" : "";
-          bonus = bonus_mod + "+" + pb;
+        if(!attrs["repeating_attack_" + attackid + "_atkattr"] || attrs["repeating_attack_" + attackid + "_atkattr"] === "0") {
+          atkattr = 0;
         } else {
-          bonus_mod = bonus_mod + parseInt(pb, 10);
+          atkattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, attrs["repeating_attack_" + attackid + "_atkattr"].length - 1)], 10);
+          atkattr_abrev = attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, 5).toUpperCase();
+        }
+
+        if(!attrs["repeating_attack_" + attackid + "_atkskill"] || attrs["repeating_attack_" + attackid + "_atkskill"] === "0") {
+          atkskill = 0;
+        } else {
+          atkskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkskill"].substring(2, attrs["repeating_attack_" + attackid + "_atkskill"].length - 1)], 10);
+        }
+
+        if(!attrs["repeating_attack_" + attackid + "_dmgattr"] || attrs["repeating_attack_" + attackid + "_dmgattr"] === "0") {
+          dmgattr = 0;
+        } else {
+          dmgattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, attrs["repeating_attack_" + attackid + "_dmgattr"].length - 1)], 10);
+          dmgattr_abrev = attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, 5).toUpperCase();
+        }
+
+        if(!attrs["repeating_attack_" + attackid + "_dmgskill"] || attrs["repeating_attack_" + attackid + "_dmgskill"] === "0") {
+          dmgskill = 0;
+        } else {
+          dmgskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgskill"].substring(2, attrs["repeating_attack_" + attackid + "_dmgskill"].length - 1)], 10);
+        }
+
+        if(!attrs["repeating_attack_" + attackid + "_dmg2attr"] || attrs["repeating_attack_" + attackid + "_dmg2attr"] === "0") {
+          dmg2attr = 0;
+        } else {
+          dmg2attr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2attr"].length - 1)], 10);
+          dmg2attr_abrev =attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, 5).toUpperCase();
+        }
+
+        if(!attrs["repeating_attack_" + attackid + "_dmg2skill"] || attrs["repeating_attack_" + attackid + "_dmg2skill"] === "0") {
+          dmg2skill = 0;
+        } else {
+          dmg2skill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2skill"].length - 1)], 10);
+          dmg2skill_abrev =attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, 5).toUpperCase();
+        }
+
+        var atkbase = attrs["repeating_attack_" + attackid + "_atkbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10) : 0;
+        var dmgbase = attrs["repeating_attack_" + attackid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10) : 0;
+        var dmgroll = attrs["repeating_attack_" + attackid + "_dmgroll"] && attrs["repeating_attack_" + attackid + "_dmgroll"] != "" ? attrs["repeating_attack_" + attackid + "_dmgroll"] : 0;
+        var dmgtype = attrs["repeating_attack_" + attackid + "_dmgtype"] ? attrs["repeating_attack_" + attackid + "_dmgtype"] + " " : "";
+        var dmg2base = attrs["repeating_attack_" + attackid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10) : 0;
+        var dmg2roll = attrs["repeating_attack_" + attackid + "_dmg2roll"] && attrs["repeating_attack_" + attackid + "_dmg2roll"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2roll"] : 0;
+        var dmg2type = attrs["repeating_attack_" + attackid + "_dmg2type"] ? attrs["repeating_attack_" + attackid + "_dmg2type"] + " " : "";
+
+        if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+          bonus_mod = atkbase + atkattr + atkskill;
           plus_minus = bonus_mod > -1 ? "+" : "";
           bonus = plus_minus + bonus_mod;
-        };
-      } else if(attrs["repeating_attack_" + attackid + "_saveflag"] && attrs["repeating_attack_" + attackid + "_saveflag"] != 0) {
-        if(!attrs["repeating_attack_" + attackid + "_savedc"] || (attrs["repeating_attack_" + attackid + "_savedc"] && attrs["repeating_attack_" + attackid + "_savedc"] === "(@{spell_save_dc})")) {
-          var tempdc = attrs["spell_save_dc"];
-        } else if(attrs["repeating_attack_" + attackid + "_savedc"] && attrs["repeating_attack_" + attackid + "_savedc"] === "(@{saveflat})") {
-          var tempdc = isNaN(parseInt(attrs["repeating_attack_" + attackid + "_saveflat"])) === false ? parseInt(attrs["repeating_attack_" + attackid + "_saveflat"]) : "0";
+        } else if(attrs["repeating_attack_" + attackid + "_saveflag"] && attrs["repeating_attack_" + attackid + "_saveflag"] != 0) {
+          if(attrs["repeating_attack_" + attackid + "_savedc"] && attrs["repeating_attack_" + attackid + "_savedc"] === "(@{saveflat})") {
+            var tempdc = isNaN(parseInt(attrs["repeating_attack_" + attackid + "_saveflat"])) === false ? parseInt(attrs["repeating_attack_" + attackid + "_saveflat"]) : "0";
+          } else {
+            var savedcattr = attrs["repeating_attack_" + attackid + "_savedc"].replace(/^[^{]*{/,"").replace(/\_.*$/,"");
+            var safe_pb = attrs["pb_type"] && attrs["pb_type"] === "die" ? parseInt(pb.substring(1), 10) / 2 : parseInt(pb,10);
+            var safe_attr = attrs[savedcattr + "_mod"] ? parseInt(attrs[savedcattr + "_mod"],10) : 0;
+            var tempdc = 8 + safe_attr + safe_pb;
+          };
+          bonus = "DC" + tempdc;
         } else {
-          var savedcattr = attrs["repeating_attack_" + attackid + "_savedc"].replace(/^[^{]*{/,"").replace(/\_.*$/,"");
-          var safe_pb = attrs["pb_type"] && attrs["pb_type"] === "die" ? parseInt(pb.substring(1), 10) / 2 : parseInt(pb,10);
-          var safe_attr = attrs[savedcattr + "_mod"] ? parseInt(attrs[savedcattr + "_mod"],10) : 0;
-          var tempdc = 8 + safe_attr + safe_pb + magicsavemod;
-        };
-        bonus = "DC" + tempdc;
-      } else {
-        bonus = "-";
-      }
-      if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-        if(spellattack === true && dmgbase.indexOf("[[round((@{level} + 1) / 6 + 0.5)]]") > -1) {
-          // SPECIAL CANTRIP DAMAGE
-          dmgdiestring = Math.round(((parseInt(attrs["level"], 10) + 1) / 6) + 0.5).toString()
-          dmg = dmgdiestring + dmgbase.substring(dmgbase.lastIndexOf("d"));
-          if(dmgattr + dmgmod != 0) {
-            dmg = dmg + "+" + (dmgattr + dmgmod);
-          }
-          dmg = dmg + " " + dmgtype;
-        } else {
-          if(dmgbase === 0 && (dmgattr + dmgmod === 0)){
+          bonus = "-";
+        }
+
+        if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+          if(dmgroll === 0 && (dmgbase + dmgattr + dmgskill === 0)) {
             dmg = 0;
           }
-          if(dmgbase != 0) {
-            dmg = dmgbase;
+          if(dmgroll != 0) {
+            dmg = dmgroll;
           }
-          if(dmgbase != 0 && (dmgattr + dmgmod != 0)){
-            dmg = dmgattr + dmgmod > 0 ? dmg + "+" : dmg;
+          if(dmgroll != 0 && (dmgbase + dmgattr + dmgskill != 0)) {
+            dmg = dmgattr + dmgbase + dmgskill > 0 ? dmg + "+" : dmg;
           }
-          if(dmgattr + dmgmod != 0) {
-            dmg = dmg + (dmgattr + dmgmod);
+          if(dmgbase + dmgattr + dmgskill != 0) {
+            dmg = dmg + (dmgbase + dmgattr + dmgskill);
           }
           dmg = dmg + " " + dmgtype;
-        }
-      } else {
+        } else {
           dmg = "";
-      }
-      if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
-        if(dmg2base === 0 && (dmg2attr + dmg2mod === 0)){
-          dmg2 = 0;
         }
-        if(dmg2base != 0) {
-          dmg2 = dmg2base;
+
+        if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
+          if(dmg2base === 0 && (dmg2attr + dmg2roll === 0)){
+            dmg2 = 0;
+          }
+          if(dmg2base != 0) {
+            dmg2 = dmg2base;
+          }
+          if(dmg2base != 0 && (dmg2attr + dmg2base != 0)) {
+            dmg2 = dmg2attr + dmg2base > 0 ? dmg2 + "+" : dmg2;
+          }
+          if(dmg2attr + dmg2roll != 0) {
+            dmg2 = dmg2 + (dmg2attr + dmg2roll);
+          }
+          dmg2 = dmg2 + " " + dmg2type;
+        } else {
+          dmg2 = "";
         }
-        if(dmg2base != 0 && (dmg2attr + dmg2mod != 0)){
-          dmg2 = dmg2attr + dmg2mod > 0 ? dmg2 + "+" : dmg2;
+
+        dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
+        crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgroll;
+        crit2 = attrs["repeating_attack_" + attackid + "_dmg2custcrit"] && attrs["repeating_attack_" + attackid + "_dmg2custcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2custcrit"] : dmg2roll;
+        r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
+        r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
+
+        if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+          if(atkbase != 0) {hbonus = " + " + atkbase + "[MOD]" + hbonus};
+          if(atkattr != 0) {hbonus = " + " + atkattr + "[" + atkattr_abrev + "]" + hbonus};
+          if(atkskill != 0) {hbonus = " + " + atkskill + "[SKILL]" + hbonus};
+        } else {
+          hbonus = "";
         }
-        if(dmg2attr + dmg2mod != 0) {
-          dmg2 = dmg2 + (dmg2attr + dmg2mod);
+
+        if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+          if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
+          if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
+          if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
+          hdmg1 = dmgbase + hdmg1;
+        } else {
+          hdmg1 = "0";
         }
-        dmg2 = dmg2 + " " + dmg2type;
-      } else {
-        dmg2 = "";
-      }
-      dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
-      crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgbase;
-      crit2 = attrs["repeating_attack_" + attackid + "_dmg2custcrit"] && attrs["repeating_attack_" + attackid + "_dmg2custcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2custcrit"] : dmg2base;
-      r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
-      r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
-      if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-        if(magicattackmod != 0) {hbonus = " + " + magicattackmod + "[SPELLATK]" + hbonus};
-        if(atkmag != 0) {hbonus = " + " + atkmag + "[MAGIC]" + hbonus};
-        if(pb != 0) {hbonus = " + " + pb + pbd_safe + "[PROF]" + hbonus};
-        if(atkmod != 0) {hbonus = " + " + atkmod + "[MOD]" + hbonus};
-        if(atkattr_base != 0) {hbonus = " + " + atkattr_base + "[" + atkattr_abrev + "]" + hbonus};
-      } else {
-        hbonus = "";
-      }
-      if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-        if(atkmag != 0) {hdmg1 = " + " + atkmag + "[MAGIC]" + hdmg1};
-        if(dmgmod != 0) {hdmg1 = " + " + dmgmod + "[MOD]" + hdmg1};
-        if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
-        hdmg1 = dmgbase + hdmg1;
-      } else {
-        hdmg1 = "0";
-      }
-      if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
-        if(dmg2mod != 0) {hdmg2 = " + " + dmg2mod + "[MOD]" + hdmg2};
-        if(dmg2attr != 0) {hdmg2 = " + " + dmg2attr + "[" + dmg2attr_abrev + "]" + hdmg2};
-        hdmg2 = dmg2base + hdmg2;
-      } else {
-        hdmg2 = "0";
-      }
-      var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
-      var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
-      if(attrs.dtype === "full") {
-        pickbase = "full";
-        rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
-      } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-        pickbase = "pick";
-        rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
-      } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-        pickbase = "dmg";
-        rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
-      } else {
-        pickbase = "empty";
-        rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} ammo=@{ammo} @{charname_output}"
-      }
-      update["repeating_attack_" + attackid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
-      update["repeating_attack_" + attackid + "_rollbase_crit"] = "@{wtype}&{template:dmg} {{crit=1}} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "]]}} {{crit2=[[" + crit2 + "]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{spelllevel=@{spelllevel}}} {{innate=@{spell_innate}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}"
-      update["repeating_attack_" + attackid + "_atkbonus"] = bonus;
-      update["repeating_attack_" + attackid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + dmgmag + " ";
-      update["repeating_attack_" + attackid + "_rollbase"] = rollbase;
-      if(attrs["repeating_attack_" + attackid + "_spellid"] && attrs["repeating_attack_" + attackid + "_spellid"] != "" && (!source || source && source != "spell") && attrs["repeating_attack_" + attackid + "_spellid"].length == 20) {
-        var spellid = attrs["repeating_attack_" + attackid + "_spellid"];
-        var lvl = attrs["repeating_attack_" + attackid + "_spelllevel"];
-        callbacks.push( function() {update_spell_from_attack(lvl, spellid, attackid);} );
-      }
-      if(attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "" && (!source || source && source != "item")) {
-        var itemid = attrs["repeating_attack_" + attackid + "_itemid"];
-        callbacks.push( function() {update_item_from_attack(itemid, attackid);} );
-      }
-      setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+
+        if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
+          if(dmg2roll != 0) {hdmg2 = " + " + dmg2roll + "[ROLL]" + hdmg2};
+          if(dmg2attr != 0) {hdmg2 = " + " + dmg2attr + "[" + dmg2attr_abrev + "]" + hdmg2};
+          if(dmg2skill != 0) {hdmg2 = " + " + dmg2skill + "[SKILL]" + hdmg2};
+          hdmg2 = dmg2base + hdmg2;
+        } else {
+          hdmg2 = "0";
+        }
+
+        var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
+        var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
+
+        if(attrs.dtype === "full") {
+          pickbase = "full";
+          rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
+        } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+          pickbase = "pick";
+          rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
+        } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+          pickbase = "dmg";
+          rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
+        } else {
+          pickbase = "empty";
+          rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=@{ammo} @{charname_output}"
+        }
+
+        update["repeating_attack_" + attackid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
+        update["repeating_attack_" + attackid + "_rollbase_crit"] = "@{wtype}&{template:dmg} {{crit=1}} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "]]}} {{crit2=[[" + crit2 + "]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
+        update["repeating_attack_" + attackid + "_atkbonus"] = bonus;
+        update["repeating_attack_" + attackid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + " ";
+        update["repeating_attack_" + attackid + "_rollbase"] = rollbase;
+
+        if(attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "" && (!source || source && source != "item")) {
+          var itemid = attrs["repeating_attack_" + attackid + "_itemid"];
+          callbacks.push( function() {update_item_from_attack(itemid, attackid);} );
+        }
+
+        setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
       });
     });
   };
 
   var update_item_from_attack = function(itemid, attackid) {
-      getAttrs(["repeating_attack_" + attackid + "_atkname", "repeating_attack_" + attackid + "_dmgbase", "repeating_attack_" + attackid + "_dmg2base", "repeating_attack_" + attackid + "_dmgtype", "repeating_attack_" + attackid + "_dmg2type", "repeating_attack_" + attackid + "_atkrange", "repeating_attack_" + attackid + "_atkmod", "repeating_attack_" + attackid + "_dmgmod", "repeating_inventory_" + itemid + "_itemmodifiers", "repeating_attack_" + attackid + "_versatile_alt", "repeating_inventory_" + itemid + "_itemproperties", "repeating_attack_" + attackid + "_atkmagic"], function(v) {
+      getAttrs(["repeating_attack_" + attackid + "_atkname", "repeating_attack_" + attackid + "_dmgbase", "repeating_attack_" + attackid + "_dmg2base", "repeating_attack_" + attackid + "_dmgtype", "repeating_attack_" + attackid + "_dmg2type", "repeating_attack_" + attackid + "_atkrange", "repeating_attack_" + attackid + "_atkattr", "repeating_attack_" + attackid + "_dmgroll", "repeating_inventory_" + itemid + "_itemmodifiers", "repeating_attack_" + attackid + "_versatile_alt", "repeating_inventory_" + itemid + "_itemproperties", "repeating_attack_" + attackid + "_atkmagic"], function(v) {
           var update = {};
           var mods = v["repeating_inventory_" + itemid + "_itemmodifiers"];
           var damage = v["repeating_attack_" + attackid + "_dmgbase"] ? v["repeating_attack_" + attackid + "_dmgbase"] : 0;
@@ -5160,8 +5165,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var damagetype = v["repeating_attack_" + attackid + "_dmgtype"] ? v["repeating_attack_" + attackid + "_dmgtype"] : 0;
           var damagetype2 = v["repeating_attack_" + attackid + "_dmg2type"] ? v["repeating_attack_" + attackid + "_dmg2type"] : 0;
           var range = v["repeating_attack_" + attackid + "_atkrange"] ? v["repeating_attack_" + attackid + "_atkrange"] : 0;
-          var attackmod = v["repeating_attack_" + attackid + "_atkmod"] ? v["repeating_attack_" + attackid + "_atkmod"] : 0;
-          var damagemod = v["repeating_attack_" + attackid + "_dmgmod"] ? v["repeating_attack_" + attackid + "_dmgmod"] : 0;
+          var attackmod = v["repeating_attack_" + attackid + "_atkattr"] ? v["repeating_attack_" + attackid + "_atkattr"] : 0;
+          var damagemod = v["repeating_attack_" + attackid + "_dmgroll"] ? v["repeating_attack_" + attackid + "_dmgroll"] : 0;
           var magicmod = v["repeating_attack_" + attackid + "_atkmagic"] ? v["repeating_attack_" + attackid + "_atkmagic"] : 0;
           var atktype = "";
           var altprefix = v["repeating_attack_" + attackid + "_versatile_alt"] === "1" ? "Alternate " : "";
