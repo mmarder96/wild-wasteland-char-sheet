@@ -3903,6 +3903,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       }
   });
 
+  on("change:repeating_weapons:equipped", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    console.log("WEAPONS CHANGE DETECTED!");
+    var weaponid = eventinfo.sourceAttribute.substring(18,38);
+    update_equipped_weapon(weaponid);
+  });
+
   // update global damage on global damage mod change
   on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
       update_globaldamage();
@@ -5321,6 +5328,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var remove_weapon = function(weaponid) {
       removeRepeatingRow("repeating_weapon_" + attackid);
+  };
+
+  var update_equipped_weapon = function(weaponid) {
+    getSectionIDs("repeating_weapons", function(idarray) {
+      var weapon_attrs = [];
+      _.each(idarray, function(id) {
+        weapon_attrs.push("repeating_weapons_" + id + "_equipped");
+      });
+      getAttrs(weapon_attrs, function(attrs) {
+        var update = {};
+        _.each(idarray, function(id) {
+          if (id != weaponid) {
+            if(attrs["repeating_weapons_" + id + "_equipped"] && attrs["repeating_weapons_" + id + "_equipped"] === "1") {
+              update["repeating_weapons_" + id + "_equipped"] = 0;
+            }
+          }
+        });
+        setAttrs(update, {silent:true});
+      });
+    });
   };
 
   const remove_resource = (id) => {
