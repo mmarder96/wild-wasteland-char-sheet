@@ -863,6 +863,7 @@ button[type=roll] * {
   width: 40px;
 }
 
+.sheet-attacks,
 .sheet-weapons,
 .sheet-armor,
 .sheet-equipment {
@@ -870,6 +871,7 @@ button[type=roll] * {
   min-height: 70px;
 }
 
+.sheet-attacks textarea,
 .sheet-weapons textarea,
 .sheet-armor textarea,
 .sheet-equipment textarea {
@@ -882,6 +884,7 @@ button[type=roll] * {
   min-height: 65px;
 }
 
+.sheet-attacks span,
 .sheet-weapons span,
 .sheet-armor span,
 .sheet-equipment span,
@@ -930,13 +933,14 @@ button[type=roll] * {
   margin-bottom: 10px;
 }
 
+.sheet-attacks.sheet-hidden,
 .sheet-weapons.sheet-hidden,
 .sheet-armor.sheet-hidden,
 .sheet-equipment.sheet-hidden {
   min-height: 50px;
 }
 
-.sheet-attacks .sheet-display button[type=roll],
+.sheet-attacks .sheet-item button[type=roll],
 .sheet-weapons .sheet-item button[type=roll],
 .sheet-tool .sheet-display button[type=roll],
 .sheet-proficiency .sheet-display button[type=roll] {
@@ -958,9 +962,11 @@ button[type=roll] * {
   content: "" !important;
 }
 
+
 .sheet-attacks .sheet-display input,
 .sheet-weapons .sheet-display input,
 .sheet-tool .sheet-display input,
+.sheet-attacks .sheet-item input,
 .sheet-weapons .sheet-item input,
 .sheet-armor .sheet-item input,
 .sheet-equipment .sheet-item input,
@@ -1027,6 +1033,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag,
 .sheet-proficiencies .sheet-options-flag,
 .sheet-traits .sheet-options-flag,
+.sheet-attacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
 .sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag,
@@ -1051,6 +1058,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag + span,
 .sheet-proficiencies .sheet-options-flag + span,
 .sheet-traits .sheet-options-flag + span,
+.sheet-attacks .sheet-inventorysubflag + span,
 .sheet-weapons .sheet-inventorysubflag + span,
 .sheet-armor .sheet-inventorysubflag + span,
 .sheet-equipment .sheet-inventorysubflag + span,
@@ -1086,6 +1094,7 @@ button[type=roll] * {
 .sheet-textbox .sheet-options-flag:checked + span,
 .sheet-proficiencies .sheet-options-flag:checked + span,
 .sheet-traits .sheet-options-flag:checked + span,
+.sheet-attacks .sheet-inventorysubflag:checked + span,
 .sheet-weapons .sheet-inventorysubflag:checked + span,
 .sheet-armor .sheet-inventorysubflag:checked + span,
 .sheet-equipment .sheet-inventorysubflag:checked + span,
@@ -1592,7 +1601,7 @@ span.sheet-spellconcentration {
 }
 
 .sheet-tool .sheet-options select,
-.sheet-attack .sheet-options select,
+.sheet-attacks .sheet-options select,
 .sheet-weapons .sheet-options select,
 .sheet-armor .sheet-options select,
 .sheet-item .subitem select,
@@ -2858,6 +2867,8 @@ span.sheet-spellconcentration {
   color: #EC2127;
 }
 
+.sheet-attacks .sheet-complex,
+.sheet-attacks .sheet-simple,
 .sheet-weapons .sheet-complex,
 .sheet-weapons .sheet-simple,
 .sheet-armor .sheet-complex,
@@ -2871,6 +2882,8 @@ span.sheet-spellconcentration {
   display: none;
 }
 
+.sheet-attacks .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
+.sheet-attacks .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
 .sheet-weapons .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
 .sheet-weapons .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
 .sheet-armor .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
@@ -2884,6 +2897,7 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
+.sheet-attacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
 .sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag {
@@ -2894,6 +2908,7 @@ span.sheet-spellconcentration {
 }
 
 
+.sheet-attacks .sheet-inventorysubflag + span,
 .sheet-weapons .sheet-inventorysubflag + span,
 .sheet-armor .sheet-inventorysubflag + span,
 .sheet-equipment .sheet-inventorysubflag + span {
@@ -2905,6 +2920,7 @@ span.sheet-spellconcentration {
   padding: 0px;
 }
 
+.sheet-attacks .sheet-complex,
 .sheet-weapons .sheet-complex,
 .sheet-armor .sheet-complex,
 .sheet-equipment .sheet-complex {
@@ -2926,6 +2942,7 @@ span.sheet-spellconcentration {
   font-family: pictos;
 }
 
+.sheet-attacks .sheet-header span,
 .sheet-weapons .sheet-header span,
 .sheet-armor .sheet-header span,
 .sheet-equipment .sheet-header span {
@@ -2993,6 +3010,7 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
+.sheet-attacks .sheet-item .sheet-subitem span,
 .sheet-weapons .sheet-item .sheet-subitem span {
   padding: 0px;
 }
@@ -3018,6 +3036,7 @@ span.sheet-spellconcentration {
   height: 15px;
 }
 
+.sheet-attacks .sheet-warning,
 .sheet-weapons .sheet-warning,
 .sheet-armor .sheet-warning,
 .sheet-equipment .sheet-warning,
@@ -3028,6 +3047,7 @@ span.sheet-spellconcentration {
   position: relative;
 }
 
+.sheet-attacks .sheet-warning label,
 .sheet-weapons .sheet-warning label,
 .sheet-equipment .sheet-warning label,
 .sheet-charactermancer_options .sheet-warning label {
@@ -3043,6 +3063,7 @@ span.sheet-spellconcentration {
   right: 0;
 }
 
+.sheet-attacks .sheet-warning label input,
 .sheet-weapons .sheet-warning label input,
 .sheet-armor .sheet-warning label input,
 .sheet-equipment .sheet-warning label input,
@@ -3050,6 +3071,7 @@ span.sheet-spellconcentration {
   display: none;
 }
 
+.sheet-attacks .sheet-warningflag[value="show"] + .sheet-warning,
 .sheet-weapons .sheet-warningflag[value="show"] + .sheet-warning,
 .sheet-armor .sheet-warningflag[value="show"] + .sheet-warning,
 .sheet-equipment .sheet-warningflag[value="show"] + .sheet-warning,
@@ -3057,6 +3079,7 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-attacks .sheet-warning span,
 .sheet-weapons .sheet-warning span,
 .sheet-armor .sheet-warning span,
 .sheet-equipment .sheet-warning span,
@@ -3082,6 +3105,7 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-attacks .sheet-warning input[type="checkbox"],
 .sheet-weapons .sheet-warning input[type="checkbox"],
 .sheet-armor .sheet-warning input[type="checkbox"],
 .sheet-equipment .sheet-warning input[type="checkbox"],
@@ -3091,6 +3115,7 @@ span.sheet-spellconcentration {
   width: auto;
 }
 
+.sheet-attacks .sheet-item .sheet-equipped,
 .sheet-weapons .sheet-item .sheet-equipped,
 .sheet-armor .sheet-item .sheet-equipped,
 .sheet-equipment .sheet-item .sheet-subitem .sheet-equipped {
@@ -3100,6 +3125,7 @@ span.sheet-spellconcentration {
   margin-left: 15px;
 }
 
+.sheet-attacks .sheet-item .sheet-subitem .sheet-equippedlabel,
 .sheet-weapons .sheet-item .sheet-subitem .sheet-equippedlabel,
 .sheet-armor .sheet-item .sheet-subitem .sheet-equippedlabel,
 .sheet-equipment .sheet-item .sheet-subitem .sheet-equippedlabel {
@@ -3108,6 +3134,7 @@ span.sheet-spellconcentration {
   padding-left: 5px;
 }
 
+.sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-weapons .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-equipment .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name {
@@ -3135,11 +3162,15 @@ span.sheet-spellconcentration {
   display: block;
 }
 
+.sheet-attacks select.sheet-melee,
+.sheet-attacks select.sheet-ranged,
 .sheet-weapons select.sheet-melee,
 .sheet-weapons select.sheet-ranged {
   display: none;
 }
 
+.sheet-attacks .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
+.sheet-attacks .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged,
 .sheet-weapons .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
 .sheet-weapons .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged {
   display: inline-block;
@@ -3450,16 +3481,6 @@ span.sheet-spellconcentration {
 .charsheet .sheet-options .sheet-row span.sheet-transition_text_highlight {
   color: #F00;
 }
-
-/* .sheet-weapons input[type="checkbox"] {
-  display: inline;
-  height: 12px;
-  width: 12px;
-  -webkit-appearance: checkbox;
-  -moz-appearance: checkbox;
-  margin-left: 5px;
-  margin-top: 10px;
-} */
 
 .sheet-globalattack input[type="checkbox"] {
   display: inline;
@@ -4041,6 +4062,7 @@ span.sheet-spellconcentration {
   margin-bottom: 1em;
 }
 
+.sheet-attacks_choice_title,
 .sheet-weapons_choice_title,
 .sheet-armor_choice_title,
 .sheet-equipment_choice_title {

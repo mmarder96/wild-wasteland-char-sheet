@@ -1221,11 +1221,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
           </div>
 
           <input type="hidden" class="ammoflag" name="attr_ammotracking">
-          <div class="weapons">
+          <div class="attacks">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
-            <textarea class="simple" name="attr_weapons"></textarea>
+            <textarea class="simple" name="attr_attacks"></textarea>
             <div class="complex">
-              <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
+              <input type="hidden" class="warningflag" name="attr_attackswarningflag">
               <div class="header" style="height: auto;">
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="cooldown symbol"></span>
@@ -1234,7 +1234,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span class="label" style="width: 75px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
               </div>
               <fieldset class="repeating_attack">
-                <input type="hidden" class="equippedflag" name="attr_active">
+                <input type="hidden" class="activeflag" name="attr_activeflag" value="0">
                 <div class="item">
                   <input class="weight" type="text" name="attr_cooldown" style="margin-left: 3px;">
                   <input class="name" type="text" name="attr_atkname" style="width: 90px;">
@@ -4937,7 +4937,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log('UPDATING ATTACK');
     var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
     _.each(attack_array, function(attackid) {
-      attack_attribs.push("repeating_attack_" + attackid + "_active");
+      attack_attribs.push("repeating_attack_" + attackid + "_activeflag");
       attack_attribs.push("repeating_attack_" + attackid + "_cooldown");
       attack_attribs.push("repeating_attack_" + attackid + "_atkname");
       attack_attribs.push("repeating_attack_" + attackid + "_type");
