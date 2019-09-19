@@ -955,7 +955,7 @@ button[type=roll] * {
   font-weight: bold;
 }
 
-.sheet-attacks .sheet-display button[type=roll]::before,
+.sheet-attacks .sheet-item button[type=roll]::before,
 .sheet-weapons .sheet-item button[type=roll]::before,
 .sheet-tool .sheet-display button[type=roll]::before,
 .sheet-proficiency .sheet-display button[type=roll]::before {
@@ -3139,6 +3139,14 @@ span.sheet-spellconcentration {
 .sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-equipment .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name {
   color: #999;
+}
+
+.sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-atkroll {
+  display: none;
+}
+
+.sheet-attacks .sheet-activeflag[value="1"] ~ .sheet-item > .sheet-atkroll_disabled {
+  display: none;
 }
 
 .sheet-version {
