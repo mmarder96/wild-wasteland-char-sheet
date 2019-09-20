@@ -1266,7 +1266,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <select name="attr_type" style="width: 55px;">
                       <option value="melee" data-i18n="melee">Melee</option>
                       <option value="ranged" data-i18n="ranged">Ranged</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <span class="label" data-i18n="class:-u">CLASS:</span>
                     <select class="melee" name="attr_class" style="width: 90px;">
@@ -1274,7 +1274,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="slash" data-i18n="slash">Slash</option>
                       <option value="blunt" data-i18n="blunt">Blunt</option>
                       <option value="pierce" data-i18n="pierce">Pierce</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <select class="ranged" name="attr_class" style="width: 90px;">
                       <option value="pistol" data-i18n="pistol">Pistol</option>
@@ -1285,10 +1285,10 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
                       <option value="lmg" data-i18n="lmg">Light machine gun</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <select class="none" name="attr_class" style="width: 90px;">
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
 
                     <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
@@ -1489,7 +1489,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <select name="attr_type" style="width: 55px;">
                       <option value="melee" data-i18n="melee">Melee</option>
                       <option value="ranged" data-i18n="ranged">Ranged</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <input class="classflag" type="hidden" name="attr_classflag">
                     <span class="label" data-i18n="class:-u">CLASS:</span>
@@ -1498,7 +1498,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="slash" data-i18n="slash">Slash</option>
                       <option value="blunt" data-i18n="blunt">Blunt</option>
                       <option value="pierce" data-i18n="pierce">Pierce</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <select class="ranged" name="attr_class" style="width: 90px;">
                       <option value="pistol" data-i18n="pistol">Pistol</option>
@@ -1509,10 +1509,10 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
                       <option value="lmg" data-i18n="lmg">Light machine gun</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
                     <select class="none" name="attr_class" style="width: 90px;">
-                      <option value="" selected="selected">—</option>
+                      <option value="none" selected="selected">—</option>
                     </select>
 
                     <span class="label" data-i18n="mag:-u">MAG:</span>
@@ -5400,8 +5400,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           console.log(attrs);
           var update = {};
           _.each(attack_idarray, function(id) {
-            if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"])
-            && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"])) {
+            if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"] || attrs["repeating_attack_" + id + "_type"] === "none")
+            && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"] || attrs["repeating_attack_" + id + "_class"] === "none")) {
               update["repeating_attack_" + id + "_activeflag"] = "1";
             } else {
               update["repeating_attack_" + id + "_activeflag"] = "0";
@@ -5615,7 +5615,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   }
 
-  // TODO implement this
   var update_dt = function() {
     console.log("UPDATE DT");
     getAttrs(["custom_ac_flag"], function(a) {
