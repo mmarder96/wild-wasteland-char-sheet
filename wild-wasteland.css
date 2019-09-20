@@ -3172,15 +3172,19 @@ span.sheet-spellconcentration {
 
 .sheet-attacks select.sheet-melee,
 .sheet-attacks select.sheet-ranged,
+.sheet-attacks select.sheet-none,
 .sheet-weapons select.sheet-melee,
-.sheet-weapons select.sheet-ranged {
+.sheet-weapons select.sheet-ranged,
+.sheet-weapons select.sheet-none {
   display: none;
 }
 
 .sheet-attacks .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
 .sheet-attacks .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged,
+.sheet-attacks .sheet-typeflag[value*="none"] ~ select.sheet-none,
 .sheet-weapons .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
-.sheet-weapons .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged {
+.sheet-weapons .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged,
+.sheet-weapons .sheet-typeflag[value*="none"] ~ select.sheet-none {
   display: inline-block;
 }
 

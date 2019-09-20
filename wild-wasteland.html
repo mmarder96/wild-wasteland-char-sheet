@@ -1261,14 +1261,13 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 
                   <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
                   <div class="subitem">
-                    <input class="typeflag" type="hidden" name="attr_typeflag" value="melee">
+                    <input class="typeflag" type="hidden" name="attr_typeflag" value="none">
                     <span class="label" data-i18n="type:-u">TYPE:</span>
                     <select name="attr_type" style="width: 55px;">
                       <option value="melee" data-i18n="melee">Melee</option>
                       <option value="ranged" data-i18n="ranged">Ranged</option>
                       <option value="" selected="selected">—</option>
                     </select>
-                    <input class="classflag" type="hidden" name="attr_classflag">
                     <span class="label" data-i18n="class:-u">CLASS:</span>
                     <select class="melee" name="attr_class" style="width: 90px;">
                       <option value="unarmed" data-i18n="unarmed">Unarmed</option>
@@ -1286,6 +1285,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
                       <option value="lmg" data-i18n="lmg">Light machine gun</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
+                      <option value="" selected="selected">—</option>
+                    </select>
+                    <select class="none" name="attr_class" style="width: 90px;">
                       <option value="" selected="selected">—</option>
                     </select>
 
@@ -1465,6 +1467,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <textarea class="simple" name="attr_weapons"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
+              <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
               <div class="header" style="height: auto;">
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="equipped symbol"></span>
@@ -1472,6 +1475,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px; margin-bottom: -3px;  vertical-align: inherit;"
                     alt="ammo symbol"></span>
               </div>
+              <input type="hidden" name="attr_equippedweaponid">
               <fieldset class="repeating_weapons">
                 <input type="hidden" class="equippedflag" name="attr_equipped">
                 <div class="item">
@@ -1480,7 +1484,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="weight" type="text" name="attr_armordt">
                   <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
                   <div class="subitem">
-                    <input class="typeflag" type="hidden" name="attr_typeflag" value="melee">
+                    <input class="typeflag" type="hidden" name="attr_typeflag" value="none">
                     <span class="label" data-i18n="type:-u">TYPE:</span>
                     <select name="attr_type" style="width: 55px;">
                       <option value="melee" data-i18n="melee">Melee</option>
@@ -1505,6 +1509,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
                       <option value="lmg" data-i18n="lmg">Light machine gun</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
+                      <option value="" selected="selected">—</option>
+                    </select>
+                    <select class="none" name="attr_class" style="width: 90px;">
                       <option value="" selected="selected">—</option>
                     </select>
 
@@ -3914,9 +3921,22 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_equipped_weapon(weaponid);
   });
 
+  on("change:repeating_weapons:type change:repeating_weapons:class", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_weapon_type_flag();
+    update_active_attacks();
+  });
+
+  on("change:repeating_attack:type change:repeating_attack:class", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_attack_type_flag();
+    update_active_attacks();
+  });
+
   // update global damage on global damage mod change
   on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
-      update_globaldamage();
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_globaldamage();
   });
 
   on("change:global_damage_mod_flag", function(eventinfo) {
@@ -5335,68 +5355,109 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_equipped_weapon = function(weaponid) {
+    let update = {};
+    let callbacks = [];
     getSectionIDs("repeating_weapons", function(idarray) {
       var weapon_attrs = [];
       _.each(idarray, function(id) {
         weapon_attrs.push("repeating_weapons_" + id + "_equipped");
       });
       getAttrs(weapon_attrs, function(attrs) {
-        var update = {};
         _.each(idarray, function(id) {
           if (id != weaponid) {
             if(attrs["repeating_weapons_" + id + "_equipped"] && attrs["repeating_weapons_" + id + "_equipped"] === "1") {
               update["repeating_weapons_" + id + "_equipped"] = 0;
             }
+          } else {
+            if(attrs["repeating_weapons_" + id + "_equipped"] && attrs["repeating_weapons_" + id + "_equipped"] === "1") {
+              update["equippedweaponid"] = id;
+            } else {
+              update["equippedweaponid"] = "";
+            }
           }
         });
-        setAttrs(update, {silent:true});
-        update_active_attacks(weaponid);
+        callbacks.push(() => {update_active_attacks();});
+        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
       });
     });
   };
 
-  var get_equipped_weapon = function() {
-    getSectionIDs("repeating_weapons", function(idarray) {
-      var weapon_attrs = [];
-      _.each(idarray, function(id) {
-        weapon_attrs.push("repeating_weapons_" + id + "_equipped");
-      });
-      getAttrs(weapon_attrs, function(attrs) {
-        var equipped_id = "";
-        _.each(idarray, function(id) {
-          console.log("repeating_weapons_" + id + "_equipped");
-          console.log(attrs["repeating_weapons_" + id + "_equipped"]);
-          if(attrs["repeating_weapons_" + id + "_equipped"] && attrs["repeating_weapons_" + id + "_equipped"] === "1") {
-            equipped_id = id;
-          }
-        });
-        console.log("returning " + equipped_id)
-        return equipped_id;
-      });
-    });
-  };
-
-  var update_active_attacks = function(weaponid) {
+  var update_active_attacks = function() {
     console.log("UPDATING ACTIVE ATTACKS");
-    console.log("weaponid " + weaponid);
     var attrs_to_get = [];
-    attrs_to_get.push("repeating_weapons_" + weaponid + "_type");
-    attrs_to_get.push("repeating_weapons_" + weaponid + "_class");
-    getSectionIDs("repeating_attack", function(attack_idarray) {
-      _.each(attack_idarray, function(id) {
-        attrs_to_get.push("repeating_attack_" + id + "_activeflag");
+    attrs_to_get.push("equippedweaponid");
+    getAttrs(attrs_to_get, function(attrs) {
+      var weaponid = attrs["equippedweaponid"];
+      attrs_to_get.push("repeating_weapons_" + weaponid + "_type");
+      attrs_to_get.push("repeating_weapons_" + weaponid + "_class");
+      getSectionIDs("repeating_attack", function(attack_idarray) {
+        _.each(attack_idarray, function(id) {
+          attrs_to_get.push("repeating_attack_" + id + "_activeflag");
+          attrs_to_get.push("repeating_attack_" + id + "_type");
+          attrs_to_get.push("repeating_attack_" + id + "_class");
+        });
+        getAttrs(attrs_to_get, function(attrs) {
+          console.log(attrs);
+          var update = {};
+          _.each(attack_idarray, function(id) {
+            if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"])
+            && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"])) {
+              update["repeating_attack_" + id + "_activeflag"] = "1";
+            } else {
+              update["repeating_attack_" + id + "_activeflag"] = "0";
+            }
+          });
+          setAttrs(update, {silent:true});
+        });
+      });
+    });
+  };
+
+  var update_attack_type_flag = function() {
+    console.log("UPDATING ATTACK TYPE FLAG");
+    var attrs_to_get = [];
+    getSectionIDs("repeating_attack", function(idarray) {
+      _.each(idarray, function(id) {
         attrs_to_get.push("repeating_attack_" + id + "_type");
-        attrs_to_get.push("repeating_attack_" + id + "_class");
       });
       getAttrs(attrs_to_get, function(attrs) {
         console.log(attrs);
         var update = {};
-        _.each(attack_idarray, function(id) {
-          if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"])
-          && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"])) {
-            update["repeating_attack_" + id + "_activeflag"] = "1";
-          } else {
-            update["repeating_attack_" + id + "_activeflag"] = "0";
+        _.each(idarray, function(id) {
+          if(attrs["repeating_attack_" + id + "_type"]) {
+            if(attrs["repeating_attack_" + id + "_type"] === "melee") {
+              update["repeating_attack_" + id + "_typeflag"] = "melee";
+            } else if(attrs["repeating_attack_" + id + "_type"] === "ranged") {
+              update["repeating_attack_" + id + "_typeflag"] = "ranged";
+            } else {
+              update["repeating_attack_" + id + "_typeflag"] = "none";
+            }
+          }
+        });
+        setAttrs(update, {silent:true});
+      });
+    });
+  }
+
+  var update_weapon_type_flag = function() {
+    console.log("UPDATING WEAPON TYPE FLAG");
+    var attrs_to_get = [];
+    getSectionIDs("repeating_weapons", function(idarray) {
+      _.each(idarray, function(id) {
+        attrs_to_get.push("repeating_weapons_" + id + "_type");
+      });
+      getAttrs(attrs_to_get, function(attrs) {
+        console.log(attrs);
+        var update = {};
+        _.each(idarray, function(id) {
+          if(attrs["repeating_weapons_" + id + "_type"]) {
+            if(attrs["repeating_weapons_" + id + "_type"] === "melee") {
+              update["repeating_weapons_" + id + "_typeflag"] = "melee";
+            } else if(attrs["repeating_weapons_" + id + "_type"] === "ranged") {
+              update["repeating_weapons_" + id + "_typeflag"] = "ranged";
+            } else {
+              update["repeating_weapons_" + id + "_typeflag"] = "none";
+            }
           }
         });
         setAttrs(update, {silent:true});
