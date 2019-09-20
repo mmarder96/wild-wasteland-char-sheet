@@ -4928,14 +4928,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         if(update_id === "all") {
           do_update_attack(idarray);
         } else {
-            var attack_attribs = ["spellcasting_ability"];
+            var attrs_to_get = ["spellcasting_ability"];
             _.each(idarray, function(id) {
-              attack_attribs.push("repeating_attack_" + id + "_atkbase");
-              attack_attribs.push("repeating_attack_" + id + "_dmgattr");
-              attack_attribs.push("repeating_attack_" + id + "_dmg2attr");
-              attack_attribs.push("repeating_attack_" + id + "_savedc");
+              attrs_to_get.push("repeating_attack_" + id + "_atkbase");
+              attrs_to_get.push("repeating_attack_" + id + "_dmgattr");
+              attrs_to_get.push("repeating_attack_" + id + "_dmg2attr");
+              attrs_to_get.push("repeating_attack_" + id + "_savedc");
             });
-            getAttrs(attack_attribs, function(attrs) {
+            getAttrs(attrs_to_get, function(attrs) {
               var attr_attack_ids = [];
               _.each(idarray, function(id) {
                 if((attrs["repeating_attack_" + id + "_atkbase"]
@@ -4959,230 +4959,304 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var do_update_attack = function(attack_array, source) {
     console.log('UPDATING ATTACK');
-    var attack_attribs = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
-    _.each(attack_array, function(attackid) {
-      attack_attribs.push("repeating_attack_" + attackid + "_activeflag");
-      attack_attribs.push("repeating_attack_" + attackid + "_cooldown");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkname");
-      attack_attribs.push("repeating_attack_" + attackid + "_type");
-      attack_attribs.push("repeating_attack_" + attackid + "_class");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkflag");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkbase");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkattr");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkskill");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkrange");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkcritrange");
-
-      attack_attribs.push("repeating_attack_" + attackid + "_atkprofflag");
-      attack_attribs.push("repeating_attack_" + attackid + "_atkmagic");
-
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgflag");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgbase");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgattr");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgskill");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgroll");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgtype");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmgcustcrit");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2flag");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2base");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2attr");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2skill");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2roll");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2type");
-      attack_attribs.push("repeating_attack_" + attackid + "_dmg2custcrit");
-      attack_attribs.push("repeating_attack_" + attackid + "_saveflag");
-      attack_attribs.push("repeating_attack_" + attackid + "_savedc");
-      attack_attribs.push("repeating_attack_" + attackid + "_saveflat");
-      attack_attribs.push("repeating_attack_" + attackid + "_saveeffect");
-
-      attack_attribs.push("repeating_attack_" + attackid + "_hldmg");
-      attack_attribs.push("repeating_attack_" + attackid + "_spellid");
-      attack_attribs.push("repeating_attack_" + attackid + "_spelllevel");
-
-      attack_attribs.push("repeating_attack_" + attackid + "_itemid");
-      attack_attribs.push("repeating_attack_" + attackid + "_ammo");
-      attack_attribs.push("repeating_attack_" + attackid + "_global_damage_mod_field");
-    });
-
-    getAttrs(attack_attribs, function(attrs) {
+    getAttrs(["equippedweaponid"], function(attrs) {
+      var weaponid = attrs["equippedweaponid"] ? attrs["equippedweaponid"] : "";
+      var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
       _.each(attack_array, function(attackid) {
-        var callbacks = [];
-        var update = {};
-        var hbonus = "";
-        var hdmg1 = "";
-        var hdmg2 = "";
-        var dmg = "";
-        var dmg2 = "";
-        var rollbase = "";
-        var atkattr_abrev = "";
-        var dmgattr_abrev = "";
-        var dmg2attr_abrev = "";
-        var global_crit = attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] && attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] != "" ? "@{global_damage_mod_crit}" : "";
-        var hldmgcrit = attrs["repeating_attack_" + attackid + "_hldmg"] && attrs["repeating_attack_" + attackid + "_hldmg"] != "" ? attrs["repeating_attack_" + attackid + "_hldmg"].slice(0, 7) + "crit" + attrs["repeating_attack_" + attackid + "_hldmg"].slice(7) : "";
+        attrs_to_get.push("repeating_attack_" + attackid + "_activeflag");
+        attrs_to_get.push("repeating_attack_" + attackid + "_cooldown");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkname");
+        attrs_to_get.push("repeating_attack_" + attackid + "_type");
+        attrs_to_get.push("repeating_attack_" + attackid + "_class");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkflag");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkbase");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkattr");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkskill");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkrange");
+        attrs_to_get.push("repeating_attack_" + attackid + "_atkcritrange");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgflag");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgbase");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgattr");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgskill");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgroll");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgtype");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmgcustcrit");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2flag");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2base");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2attr");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2skill");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2roll");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2type");
+        attrs_to_get.push("repeating_attack_" + attackid + "_dmg2custcrit");
+        attrs_to_get.push("repeating_attack_" + attackid + "_saveflag");
+        attrs_to_get.push("repeating_attack_" + attackid + "_savedc");
+        attrs_to_get.push("repeating_attack_" + attackid + "_saveflat");
+        attrs_to_get.push("repeating_attack_" + attackid + "_saveeffect");
 
-        if(!attrs["repeating_attack_" + attackid + "_atkattr"] || attrs["repeating_attack_" + attackid + "_atkattr"] === "0") {
-          atkattr = 0;
-        } else {
-          atkattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, attrs["repeating_attack_" + attackid + "_atkattr"].length - 1)], 10);
-          atkattr_abrev = attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, 5).toUpperCase();
-        }
+        attrs_to_get.push("repeating_attack_" + attackid + "_hldmg");
+        attrs_to_get.push("repeating_attack_" + attackid + "_spellid");
+        attrs_to_get.push("repeating_attack_" + attackid + "_spelllevel");
 
-        if(!attrs["repeating_attack_" + attackid + "_atkskill"] || attrs["repeating_attack_" + attackid + "_atkskill"] === "0") {
-          atkskill = 0;
-        } else {
-          atkskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkskill"].substring(2, attrs["repeating_attack_" + attackid + "_atkskill"].length - 1)], 10);
-        }
+        attrs_to_get.push("repeating_attack_" + attackid + "_itemid");
+        attrs_to_get.push("repeating_attack_" + attackid + "_ammo");
+        attrs_to_get.push("repeating_attack_" + attackid + "_global_damage_mod_field");
 
-        if(!attrs["repeating_attack_" + attackid + "_dmgattr"] || attrs["repeating_attack_" + attackid + "_dmgattr"] === "0") {
-          dmgattr = 0;
-        } else {
-          dmgattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, attrs["repeating_attack_" + attackid + "_dmgattr"].length - 1)], 10);
-          dmgattr_abrev = attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, 5).toUpperCase();
-        }
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkname");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_type");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_class");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkflag");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkbase");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkattr");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkskill");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkrange");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_atkcritrange");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgflag");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgbase");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgattr");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgskill");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgroll");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgtype");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmgcustcrit");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2flag");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2base");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2attr");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2skill");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2roll");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2type");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_dmg2custcrit");
+      });
 
-        if(!attrs["repeating_attack_" + attackid + "_dmgskill"] || attrs["repeating_attack_" + attackid + "_dmgskill"] === "0") {
-          dmgskill = 0;
-        } else {
-          dmgskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgskill"].substring(2, attrs["repeating_attack_" + attackid + "_dmgskill"].length - 1)], 10);
-        }
+      getAttrs(attrs_to_get, function(attrs) {
+        _.each(attack_array, function(attackid) {
+          var callbacks = [];
+          var update = {};
+          var hbonus = "";
+          var hdmg1 = "";
+          var hdmg2 = "";
+          var dmg = "";
+          var dmg2 = "";
+          var rollbase = "";
+          var atkattr_abrev = "";
+          var dmgattr_abrev = "";
+          var dmg2attr_abrev = "";
+          var global_crit = attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] && attrs["repeating_attack_" + attackid + "_global_damage_mod_field"] != "" ? "@{global_damage_mod_crit}" : "";
+          var hldmgcrit = attrs["repeating_attack_" + attackid + "_hldmg"] && attrs["repeating_attack_" + attackid + "_hldmg"] != "" ? attrs["repeating_attack_" + attackid + "_hldmg"].slice(0, 7) + "crit" + attrs["repeating_attack_" + attackid + "_hldmg"].slice(7) : "";
 
-        if(!attrs["repeating_attack_" + attackid + "_dmg2attr"] || attrs["repeating_attack_" + attackid + "_dmg2attr"] === "0") {
-          dmg2attr = 0;
-        } else {
-          dmg2attr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2attr"].length - 1)], 10);
-          dmg2attr_abrev =attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, 5).toUpperCase();
-        }
-
-        if(!attrs["repeating_attack_" + attackid + "_dmg2skill"] || attrs["repeating_attack_" + attackid + "_dmg2skill"] === "0") {
-          dmg2skill = 0;
-        } else {
-          dmg2skill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2skill"].length - 1)], 10);
-          dmg2skill_abrev =attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, 5).toUpperCase();
-        }
-
-        var atkbase = attrs["repeating_attack_" + attackid + "_atkbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10) : 0;
-        var dmgbase = attrs["repeating_attack_" + attackid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10) : 0;
-        var dmgroll = attrs["repeating_attack_" + attackid + "_dmgroll"] && attrs["repeating_attack_" + attackid + "_dmgroll"] != "" ? attrs["repeating_attack_" + attackid + "_dmgroll"] : 0;
-        var dmgtype = attrs["repeating_attack_" + attackid + "_dmgtype"] ? attrs["repeating_attack_" + attackid + "_dmgtype"] + " " : "";
-        var dmg2base = attrs["repeating_attack_" + attackid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10) : 0;
-        var dmg2roll = attrs["repeating_attack_" + attackid + "_dmg2roll"] && attrs["repeating_attack_" + attackid + "_dmg2roll"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2roll"] : 0;
-        var dmg2type = attrs["repeating_attack_" + attackid + "_dmg2type"] ? attrs["repeating_attack_" + attackid + "_dmg2type"] + " " : "";
-
-        if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-          bonus_mod = atkbase + atkattr + atkskill;
-          plus_minus = bonus_mod > -1 ? "+" : "";
-          bonus = plus_minus + bonus_mod;
-        } else if(attrs["repeating_attack_" + attackid + "_saveflag"] && attrs["repeating_attack_" + attackid + "_saveflag"] != 0) {
-          if(attrs["repeating_attack_" + attackid + "_savedc"] && attrs["repeating_attack_" + attackid + "_savedc"] === "(@{saveflat})") {
-            var tempdc = isNaN(parseInt(attrs["repeating_attack_" + attackid + "_saveflat"])) === false ? parseInt(attrs["repeating_attack_" + attackid + "_saveflat"]) : "0";
+          // ATTACK ATTRIBUTES
+          if(!attrs["repeating_attack_" + attackid + "_atkattr"] || attrs["repeating_attack_" + attackid + "_atkattr"] === "0") {
+            atkattr = 0;
           } else {
-            var savedcattr = attrs["repeating_attack_" + attackid + "_savedc"].replace(/^[^{]*{/,"").replace(/\_.*$/,"");
-            var safe_pb = attrs["pb_type"] && attrs["pb_type"] === "die" ? parseInt(pb.substring(1), 10) / 2 : parseInt(pb,10);
-            var safe_attr = attrs[savedcattr + "_mod"] ? parseInt(attrs[savedcattr + "_mod"],10) : 0;
-            var tempdc = 8 + safe_attr + safe_pb;
-          };
-          bonus = "DC" + tempdc;
-        } else {
-          bonus = "-";
-        }
-
-        if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-          if(dmgroll === 0 && (dmgbase + dmgattr + dmgskill === 0)) {
-            dmg = 0;
+            atkattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, attrs["repeating_attack_" + attackid + "_atkattr"].length - 1)], 10);
+            atkattr_abrev = attrs["repeating_attack_" + attackid + "_atkattr"].substring(2, 5).toUpperCase();
           }
-          if(dmgroll != 0) {
-            dmg = dmgroll;
+
+          if(!attrs["repeating_attack_" + attackid + "_atkskill"] || attrs["repeating_attack_" + attackid + "_atkskill"] === "0") {
+            atkskill = 0;
+          } else {
+            atkskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_atkskill"].substring(2, attrs["repeating_attack_" + attackid + "_atkskill"].length - 1)], 10);
           }
-          if(dmgroll != 0 && (dmgbase + dmgattr + dmgskill != 0)) {
-            dmg = dmgattr + dmgbase + dmgskill > 0 ? dmg + "+" : dmg;
+
+          if(!attrs["repeating_attack_" + attackid + "_dmgattr"] || attrs["repeating_attack_" + attackid + "_dmgattr"] === "0") {
+            dmgattr = 0;
+          } else {
+            dmgattr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, attrs["repeating_attack_" + attackid + "_dmgattr"].length - 1)], 10);
+            dmgattr_abrev = attrs["repeating_attack_" + attackid + "_dmgattr"].substring(2, 5).toUpperCase();
           }
-          if(dmgbase + dmgattr + dmgskill != 0) {
-            dmg = dmg + (dmgbase + dmgattr + dmgskill);
+
+          if(!attrs["repeating_attack_" + attackid + "_dmgskill"] || attrs["repeating_attack_" + attackid + "_dmgskill"] === "0") {
+            dmgskill = 0;
+          } else {
+            dmgskill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmgskill"].substring(2, attrs["repeating_attack_" + attackid + "_dmgskill"].length - 1)], 10);
           }
-          dmg = dmg + " " + dmgtype;
-        } else {
-          dmg = "";
-        }
 
-        if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
-          if(dmg2base === 0 && (dmg2attr + dmg2roll === 0)){
-            dmg2 = 0;
+          if(!attrs["repeating_attack_" + attackid + "_dmg2attr"] || attrs["repeating_attack_" + attackid + "_dmg2attr"] === "0") {
+            dmg2attr = 0;
+          } else {
+            dmg2attr = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2attr"].length - 1)], 10);
+            dmg2attr_abrev =attrs["repeating_attack_" + attackid + "_dmg2attr"].substring(2, 5).toUpperCase();
           }
-          if(dmg2base != 0) {
-            dmg2 = dmg2base;
+
+          if(!attrs["repeating_attack_" + attackid + "_dmg2skill"] || attrs["repeating_attack_" + attackid + "_dmg2skill"] === "0") {
+            dmg2skill = 0;
+          } else {
+            dmg2skill = parseInt(attrs[attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, attrs["repeating_attack_" + attackid + "_dmg2skill"].length - 1)], 10);
+            dmg2skill_abrev =attrs["repeating_attack_" + attackid + "_dmg2skill"].substring(2, 5).toUpperCase();
           }
-          if(dmg2base != 0 && (dmg2attr + dmg2base != 0)) {
-            dmg2 = dmg2attr + dmg2base > 0 ? dmg2 + "+" : dmg2;
+
+          var atkbase = attrs["repeating_attack_" + attackid + "_atkbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_atkbase"],10) : 0;
+          var dmgbase = attrs["repeating_attack_" + attackid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmgbase"],10) : 0;
+          var dmgroll = attrs["repeating_attack_" + attackid + "_dmgroll"] && attrs["repeating_attack_" + attackid + "_dmgroll"] != "" ? attrs["repeating_attack_" + attackid + "_dmgroll"] : 0;
+          var dmgtype = attrs["repeating_attack_" + attackid + "_dmgtype"] ? attrs["repeating_attack_" + attackid + "_dmgtype"] + " " : "";
+          var dmg2base = attrs["repeating_attack_" + attackid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_attack_" + attackid + "_dmg2base"],10) : 0;
+          var dmg2roll = attrs["repeating_attack_" + attackid + "_dmg2roll"] && attrs["repeating_attack_" + attackid + "_dmg2roll"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2roll"] : 0;
+          var dmg2type = attrs["repeating_attack_" + attackid + "_dmg2type"] ? attrs["repeating_attack_" + attackid + "_dmg2type"] + " " : "";
+
+          // WEAPON ATTRIBUTES
+          if(!attrs["repeating_weapons_" + weaponid + "_atkattr"] || attrs["repeating_weapons_" + weaponid + "_atkattr"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpnatkattr = 0;
+          } else {
+            wpnatkattr = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_atkattr"].substring(2, attrs["repeating_weapons_" + weaponid + "_atkattr"].length - 1)], 10);
           }
-          if(dmg2attr + dmg2roll != 0) {
-            dmg2 = dmg2 + (dmg2attr + dmg2roll);
+
+          if(!attrs["repeating_weapons_" + weaponid + "_atkskill"] || attrs["repeating_weapons_" + weaponid + "_atkskill"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpnatkskill = 0;
+          } else {
+            wpnatkskill = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_atkskill"].substring(2, attrs["repeating_weapons_" + weaponid + "_atkskill"].length - 1)], 10);
           }
-          dmg2 = dmg2 + " " + dmg2type;
-        } else {
-          dmg2 = "";
-        }
 
-        dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
-        crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgroll;
-        crit2 = attrs["repeating_attack_" + attackid + "_dmg2custcrit"] && attrs["repeating_attack_" + attackid + "_dmg2custcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2custcrit"] : dmg2roll;
-        r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
-        r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
+          if(!attrs["repeating_weapons_" + weaponid + "_dmgattr"] || attrs["repeating_weapons_" + weaponid + "_dmgattr"] === "0"|| attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpndmgattr = 0;
+          } else {
+            wpndmgattr = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmgattr"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmgattr"].length - 1)], 10);
+          }
 
-        if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-          if(atkbase != 0) {hbonus = " + " + atkbase + "[MOD]" + hbonus};
-          if(atkattr != 0) {hbonus = " + " + atkattr + "[" + atkattr_abrev + "]" + hbonus};
-          if(atkskill != 0) {hbonus = " + " + atkskill + "[SKILL]" + hbonus};
-        } else {
-          hbonus = "";
-        }
+          if(!attrs["repeating_weapons_" + weaponid + "_dmgskill"] || attrs["repeating_weapons_" + weaponid + "_dmgskill"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpndmgskill = 0;
+          } else {
+            wpndmgskill = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmgskill"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmgskill"].length - 1)], 10);
+          }
 
-        if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-          if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
-          if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
-          if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
-          hdmg1 = dmgbase + hdmg1;
-        } else {
-          hdmg1 = "0";
-        }
+          if(!attrs["repeating_weapons_" + weaponid + "_dmg2attr"] || attrs["repeating_weapons_" + weaponid + "_dmg2attr"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpndmg2attr = 0;
+          } else {
+            wpndmg2attr = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmg2attr"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmg2attr"].length - 1)], 10);
+          }
 
-        if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
-          if(dmg2roll != 0) {hdmg2 = " + " + dmg2roll + "[ROLL]" + hdmg2};
-          if(dmg2attr != 0) {hdmg2 = " + " + dmg2attr + "[" + dmg2attr_abrev + "]" + hdmg2};
-          if(dmg2skill != 0) {hdmg2 = " + " + dmg2skill + "[SKILL]" + hdmg2};
-          hdmg2 = dmg2base + hdmg2;
-        } else {
-          hdmg2 = "0";
-        }
+          if(!attrs["repeating_weapons_" + weaponid + "_dmg2skill"] || attrs["repeating_weapons_" + weaponid + "_dmg2skill"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
+            wpndmg2skill = 0;
+          } else {
+            wpndmg2skill = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmg2skill"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmg2skill"].length - 1)], 10);
+          }
 
-        var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
-        var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
+          var wpnatkbase = attrs["repeating_weapons_" + weaponid + "_atkbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10) : 0;
+          var wpndmgbase = attrs["repeating_weapons_" + weaponid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10) : 0;
+          var wpndmgroll = attrs["repeating_weapons_" + weaponid + "_dmgroll"] && attrs["repeating_weapons_" + weaponid + "_dmgroll"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgroll"] : 0;
+          var wpndmgtype = attrs["repeating_weapons_" + weaponid + "_dmgtype"] ? attrs["repeating_weapons_" + weaponid + "_dmgtype"] + " " : "";
+          var wpndmg2base = attrs["repeating_weapons_" + weaponid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10) : 0;
+          var wpndmg2roll = attrs["repeating_weapons_" + weaponid + "_dmg2roll"] && attrs["repeating_weapons_" + weaponid + "_dmg2roll"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmg2roll"] : 0;
+          var dmg2type = attrs["repeating_weapons_" + weaponid + "_dmg2type"] ? attrs["repeating_weapons_" + weaponid + "_dmg2type"] + " " : "";
 
-        if(attrs.dtype === "full") {
-          pickbase = "full";
-          rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
-        } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-          pickbase = "pick";
-          rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
-        } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-          pickbase = "dmg";
-          rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
-        } else {
-          pickbase = "empty";
-          rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=@{ammo} @{charname_output}"
-        }
+          // DISPLAY CALCULATION
+          if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+            atk_bonus_mod = atkbase + atkattr + atkskill;
+            wpn_bonus_mod = wpnatkbase + wpnatkattr + wpnatkskill;
+            bonus_mod = atk_bonus_mod + wpn_bonus_mod;
+            plus_minus = bonus_mod > -1 ? "+" : "";
+            bonus = plus_minus + bonus_mod;
+          } else if(attrs["repeating_attack_" + attackid + "_saveflag"] && attrs["repeating_attack_" + attackid + "_saveflag"] != 0) {
+            if(attrs["repeating_attack_" + attackid + "_savedc"] && attrs["repeating_attack_" + attackid + "_savedc"] === "(@{saveflat})") {
+              var tempdc = isNaN(parseInt(attrs["repeating_attack_" + attackid + "_saveflat"])) === false ? parseInt(attrs["repeating_attack_" + attackid + "_saveflat"]) : "0";
+            } else {
+              var savedcattr = attrs["repeating_attack_" + attackid + "_savedc"].replace(/^[^{]*{/,"").replace(/\_.*$/,"");
+              var safe_pb = attrs["pb_type"] && attrs["pb_type"] === "die" ? parseInt(pb.substring(1), 10) / 2 : parseInt(pb,10);
+              var safe_attr = attrs[savedcattr + "_mod"] ? parseInt(attrs[savedcattr + "_mod"],10) : 0;
+              var tempdc = 8 + safe_attr + safe_pb;
+            };
+            bonus = "DC" + tempdc;
+          } else {
+            bonus = "-";
+          }
 
-        update["repeating_attack_" + attackid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
-        update["repeating_attack_" + attackid + "_rollbase_crit"] = "@{wtype}&{template:dmg} {{crit=1}} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "]]}} {{crit2=[[" + crit2 + "]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
-        update["repeating_attack_" + attackid + "_atkbonus"] = bonus;
-        update["repeating_attack_" + attackid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + " ";
-        update["repeating_attack_" + attackid + "_rollbase"] = rollbase;
+          if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+            if(dmgroll === 0 && (dmgbase + dmgattr + dmgskill === 0)) {
+              dmg = 0;
+            }
+            if(dmgroll != 0) {
+              dmg = dmgroll;
+            }
+            if(dmgroll != 0 && (dmgbase + dmgattr + dmgskill != 0)) {
+              dmg = dmgattr + dmgbase + dmgskill > 0 ? dmg + "+" : dmg;
+            }
+            if(dmgbase + dmgattr + dmgskill != 0) {
+              dmg = dmg + (dmgbase + dmgattr + dmgskill);
+            }
+            dmg = dmg + " " + dmgtype;
+          } else {
+            dmg = "";
+          }
 
-        if(attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "" && (!source || source && source != "item")) {
-          var itemid = attrs["repeating_attack_" + attackid + "_itemid"];
-          callbacks.push( function() {update_item_from_attack(itemid, attackid);} );
-        }
+          if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
+            if(dmg2base === 0 && (dmg2attr + dmg2roll === 0)){
+              dmg2 = 0;
+            }
+            if(dmg2base != 0) {
+              dmg2 = dmg2base;
+            }
+            if(dmg2base != 0 && (dmg2attr + dmg2base != 0)) {
+              dmg2 = dmg2attr + dmg2base > 0 ? dmg2 + "+" : dmg2;
+            }
+            if(dmg2attr + dmg2roll != 0) {
+              dmg2 = dmg2 + (dmg2attr + dmg2roll);
+            }
+            dmg2 = dmg2 + " " + dmg2type;
+          } else {
+            dmg2 = "";
+          }
 
-        setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+          dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
+          crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgroll;
+          crit2 = attrs["repeating_attack_" + attackid + "_dmg2custcrit"] && attrs["repeating_attack_" + attackid + "_dmg2custcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmg2custcrit"] : dmg2roll;
+          r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
+          r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
+
+          // ROLL FORMATTING
+          if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+            if(atkbase != 0) {hbonus = " + " + atkbase + "[MOD]" + hbonus};
+            if(atkattr != 0) {hbonus = " + " + atkattr + "[" + atkattr_abrev + "]" + hbonus};
+            if(atkskill != 0) {hbonus = " + " + atkskill + "[SKILL]" + hbonus};
+            if(wpn_bonus_mod != 0) {hbonus = " + " + wpn_bonus_mod + "[WPN]" + hbonus};
+          } else {
+            hbonus = "";
+          }
+
+          if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+            if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
+            if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
+            if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
+            hdmg1 = dmgbase + hdmg1;
+          } else {
+            hdmg1 = "0";
+          }
+
+          if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
+            if(dmg2roll != 0) {hdmg2 = " + " + dmg2roll + "[ROLL]" + hdmg2};
+            if(dmg2attr != 0) {hdmg2 = " + " + dmg2attr + "[" + dmg2attr_abrev + "]" + hdmg2};
+            if(dmg2skill != 0) {hdmg2 = " + " + dmg2skill + "[SKILL]" + hdmg2};
+            hdmg2 = dmg2base + hdmg2;
+          } else {
+            hdmg2 = "0";
+          }
+
+          var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
+          var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
+
+          if(attrs.dtype === "full") {
+            pickbase = "full";
+            rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
+          } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
+            pickbase = "pick";
+            rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
+          } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
+            pickbase = "dmg";
+            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
+          } else {
+            pickbase = "empty";
+            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=@{ammo} @{charname_output}"
+          }
+
+          update["repeating_attack_" + attackid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
+          update["repeating_attack_" + attackid + "_rollbase_crit"] = "@{wtype}&{template:dmg} {{crit=1}} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmg2type + "}} {{crit1=[[" + crit1 + "]]}} {{crit2=[[" + crit2 + "]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + " {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
+          update["repeating_attack_" + attackid + "_atkbonus"] = bonus;
+          update["repeating_attack_" + attackid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + " ";
+          update["repeating_attack_" + attackid + "_rollbase"] = rollbase;
+
+          if(attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "" && (!source || source && source != "item")) {
+            var itemid = attrs["repeating_attack_" + attackid + "_itemid"];
+            callbacks.push( function() {update_item_from_attack(itemid, attackid);} );
+          }
+
+          setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
+        });
       });
     });
   };
@@ -5355,8 +5429,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_equipped_weapon = function(weaponid) {
-    let update = {};
-    let callbacks = [];
+    var update = {};
+    var callbacks = [];
     getSectionIDs("repeating_weapons", function(idarray) {
       var weapon_attrs = [];
       _.each(idarray, function(id) {
@@ -5384,6 +5458,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_active_attacks = function() {
     console.log("UPDATING ACTIVE ATTACKS");
+    var update = {};
+    var callbacks = [];
     var attrs_to_get = [];
     attrs_to_get.push("equippedweaponid");
     getAttrs(attrs_to_get, function(attrs) {
@@ -5397,8 +5473,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           attrs_to_get.push("repeating_attack_" + id + "_class");
         });
         getAttrs(attrs_to_get, function(attrs) {
-          console.log(attrs);
-          var update = {};
           _.each(attack_idarray, function(id) {
             if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"] || attrs["repeating_attack_" + id + "_type"] === "none")
             && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"] || attrs["repeating_attack_" + id + "_class"] === "none")) {
@@ -5407,7 +5481,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               update["repeating_attack_" + id + "_activeflag"] = "0";
             }
           });
-          setAttrs(update, {silent:true});
+          callbacks.push(() => {update_attacks("all");});
+          setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         });
       });
     });
