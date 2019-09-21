@@ -5128,13 +5128,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             wpndmg2skill = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmg2skill"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmg2skill"].length - 1)], 10);
           }
 
-          var wpnatkbase = attrs["repeating_weapons_" + weaponid + "_atkbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10) : 0;
-          var wpndmgbase = attrs["repeating_weapons_" + weaponid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10) : 0;
-          var wpndmgroll = attrs["repeating_weapons_" + weaponid + "_dmgroll"] && attrs["repeating_weapons_" + weaponid + "_dmgroll"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgroll"] : 0;
-          var wpndmgtype = attrs["repeating_weapons_" + weaponid + "_dmgtype"] ? attrs["repeating_weapons_" + weaponid + "_dmgtype"] + " " : "";
-          var wpndmg2base = attrs["repeating_weapons_" + weaponid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10) : 0;
-          var wpndmg2roll = attrs["repeating_weapons_" + weaponid + "_dmg2roll"] && attrs["repeating_weapons_" + weaponid + "_dmg2roll"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmg2roll"] : 0;
-          var wpndmg2type = attrs["repeating_weapons_" + weaponid + "_dmg2type"] ? attrs["repeating_weapons_" + weaponid + "_dmg2type"] + " " : "";
+          var wpnatkbase = attrs["repeating_weapons_" + weaponid + "_atkbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10)) === false && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? parseInt(attrs["repeating_weapons_" + weaponid + "_atkbase"],10) : 0;
+          var wpndmgbase = attrs["repeating_weapons_" + weaponid + "_dmgbase"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10)) === false && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmgbase"],10) : 0;
+          var wpndmgroll = attrs["repeating_weapons_" + weaponid + "_dmgroll"] && attrs["repeating_weapons_" + weaponid + "_dmgroll"] != "" && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmgroll"] : 0;
+          var wpndmgtype = attrs["repeating_weapons_" + weaponid + "_dmgtype"] && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmgtype"] + " " : "";
+          var wpndmg2base = attrs["repeating_weapons_" + weaponid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10)) === false && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10) : 0;
+          var wpndmg2roll = attrs["repeating_weapons_" + weaponid + "_dmg2roll"] && attrs["repeating_weapons_" + weaponid + "_dmg2roll"] != "" && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmg2roll"] : 0;
+          var wpndmg2type = attrs["repeating_weapons_" + weaponid + "_dmg2type"] && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmg2type"] + " " : "";
 
           console.log("wpnatkbase " + wpnatkbase);
           console.log("wpnatkattr " + wpnatkattr);
