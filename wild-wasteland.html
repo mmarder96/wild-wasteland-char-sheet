@@ -5223,6 +5223,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
           if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
             if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
+            if(wpndmgroll != 0) {hdmg1 = " + " + wpndmgroll + "[ROLL2]" + hdmg1};
             if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
             if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
             if(wpnflat != 0) {hdmg1 = " + " + wpnflat + "[WPN]" + hdmg1};
