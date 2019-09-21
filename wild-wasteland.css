@@ -901,6 +901,7 @@ button[type=roll] * {
 
 .sheet-textbox textarea {
   width: calc(100% - 10px);
+  font-size: 10px;
   resize: vertical;
   border: none;
   margin: 0px;
@@ -1003,7 +1004,7 @@ button[type=roll] * {
 }
 
 .sheet-traits .sheet-display .sheet-title {
-  font-size: 16px;
+  font-size: 12px;
   text-transform: capitalize;
   font-variant: small-caps;
   font-weight: bold;
@@ -1017,7 +1018,7 @@ button[type=roll] * {
 }
 
 .sheet-traits .sheet-display .sheet-subheader span {
-  font-size: 10px;
+  font-size: 9px;
   display: inline;
 
 }
@@ -1205,12 +1206,12 @@ button[type=roll] * {
 }
 
 .sheet-col3 .sheet-textbox .sheet-display {
-  padding: 5px 5px 5px 10px;
+  padding: 3px 3px 3px 10px;
 }
 
 .sheet-textbox .sheet-display span {
   font-weight: normal;
-  font-size: 12px;
+  font-size: 10px;
   text-align: left;
   line-height: 16px;
 }
@@ -2987,7 +2988,7 @@ span.sheet-spellconcentration {
 
 .sheet-item .sheet-subitem .sheet-subtextarea {
   width: calc(100% - 15px);
-  font-size: 11px;
+  font-size: 10px;
   padding: 0px 5px 0px 5px;
   min-height: 32px;
   height: 32px;

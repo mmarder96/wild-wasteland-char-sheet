@@ -1185,7 +1185,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
           <div class="hp">
             <div class="top">
               <span data-i18n="hp-max-u">Hit Point Maximum</span>
-              <input type="text" name="attr_hp_max" title="@{hp_max}">
+              <input class="sheet-no_events" type="text" name="attr_hp_max" title="@{hp_max}">
             </div>
             <input type="number" name="attr_hp" title="@{hp}" step="1" min="0">
             <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
@@ -1193,15 +1193,15 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 
           <div class="def-dt-speed-container">
             <div class="def">
-              <input type="text" name="attr_def" title="@{def}">
+              <input class="sheet-no_events" type="text" name="attr_def" title="@{def}">
               <span class="label pc-def" data-i18n="defense-u">DEFENSE</span>
             </div>
             <div class="dt">
-              <input type="text" name="attr_dt" title="@{dt}">
+              <input class="sheet-no_events" type="text" name="attr_dt" title="@{dt}">
               <span class="label pc-dt" data-i18n="dt-u">DT</span>
             </div>
             <div class="speed">
-              <input type="text" name="attr_speed" title="@{speed}">
+              <input class="sheet-no_events" type="text" name="attr_speed" title="@{speed}">
               <span class="label" data-i18n="speed-u">SPEED</span>
             </div>
           </div>
@@ -1573,18 +1573,18 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
                     <span style="width: 5px">+</span>
                     <select name="attr_dmgskill" style="width: 70px">
-                      <option value="@{barter}" data-i18n="barter">Barter</option>
-                      <option value="@{energy_weapons}" data-i18n="energy_weapons">Energy Weapons</option>
-                      <option value="@{explosives}" data-i18n="explosives">Explosives</option>
-                      <option value="@{guns}" data-i18n="guns">Guns</option>
-                      <option value="@{medicine}" data-i18n="medicine">Lockpick</option>
-                      <option value="@{melee_weapons}" data-i18n="melee_weapons">Melee Weapons</option>
-                      <option value="@{repair}" data-i18n="repair">Repair</option>
-                      <option value="@{science}" data-i18n="science">Science</option>
-                      <option value="@{sneak}" data-i18n="sneak">Sneak</option>
-                      <option value="@{speech}" data-i18n="speech">Speech</option>
-                      <option value="@{survival}" data-i18n="survival">Survival</option>
-                      <option value="@{unarmed}" data-i18n="unarmed">Unarmed</option>
+                      <option value="@{barter_bonus}" data-i18n="barter">Barter</option>
+                      <option value="@{energy_weapons_bonus}" data-i18n="energy_weapons">Energy Weapons</option>
+                      <option value="@{explosives_bonus}" data-i18n="explosives">Explosives</option>
+                      <option value="@{guns_bonus}" data-i18n="guns">Guns</option>
+                      <option value="@{medicine_bonus}" data-i18n="medicine">Lockpick</option>
+                      <option value="@{melee_weapons_bonus}" data-i18n="melee_weapons">Melee Weapons</option>
+                      <option value="@{repair_bonus}" data-i18n="repair">Repair</option>
+                      <option value="@{science_bonus}" data-i18n="science">Science</option>
+                      <option value="@{sneak_bonus}" data-i18n="sneak">Sneak</option>
+                      <option value="@{speech_bonus}" data-i18n="speech">Speech</option>
+                      <option value="@{survival_bonus}" data-i18n="survival">Survival</option>
+                      <option value="@{unarmed_bonus}" data-i18n="unarmed">Unarmed</option>
                       <option value="@{pb}" data-i18n="tag-bonus">Tag Skill Bonus</option>
                       <option value="0" selected="selected">—</option>
                     </select>
@@ -1773,7 +1773,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
           </div>
         </div>
         <div class="col col3">
-          <div class="textbox pibf">
+          <!-- <div class="textbox pibf">
             <input class="options-flag" type="checkbox" name="attr_options-flag-personality" checked="checked"><span>y</span>
             <div class="options">
               <textarea name="attr_personality_traits" style="min-height: 50px; height: 50px;"></textarea>
@@ -1812,9 +1812,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span name="attr_flaws"></span>
             </div>
             <span class="label" data-i18n="flaws-u">FLAWS</span>
-          </div>
+          </div>-->
           <div class="resources">
-            <div class="hdice-dsaves-container" style="width: 246px; margin-top: 10px;">
+            <div class="hdice-dsaves-container" style="width: 246px;">
               <div class="subcontainer" style="height: 64px; width: 119px;">
                 <div class="top">
                   <span data-i18n="total">Total</span>
@@ -5134,7 +5134,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var wpndmgtype = attrs["repeating_weapons_" + weaponid + "_dmgtype"] ? attrs["repeating_weapons_" + weaponid + "_dmgtype"] + " " : "";
           var wpndmg2base = attrs["repeating_weapons_" + weaponid + "_dmg2base"] && isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10)) === false ? parseInt(attrs["repeating_weapons_" + weaponid + "_dmg2base"],10) : 0;
           var wpndmg2roll = attrs["repeating_weapons_" + weaponid + "_dmg2roll"] && attrs["repeating_weapons_" + weaponid + "_dmg2roll"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmg2roll"] : 0;
-          var dmg2type = attrs["repeating_weapons_" + weaponid + "_dmg2type"] ? attrs["repeating_weapons_" + weaponid + "_dmg2type"] + " " : "";
+          var wpndmg2type = attrs["repeating_weapons_" + weaponid + "_dmg2type"] ? attrs["repeating_weapons_" + weaponid + "_dmg2type"] + " " : "";
+
+          console.log("wpnatkbase " + wpnatkbase);
+          console.log("wpnatkattr " + wpnatkattr);
+          console.log("wpnatkskill " + wpnatkskill);
+          console.log("wpndmgattr " + wpndmgattr);
+          console.log("wpndmgskill " + wpndmgskill);
+          console.log("wpndmgroll " + wpndmgroll);
 
           // DISPLAY CALCULATION
           if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
@@ -5158,22 +5165,27 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           }
 
           if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-            if(dmgroll === 0 && (dmgbase + dmgattr + dmgskill === 0)) {
+            var atkflat = dmgbase + dmgattr + dmgskill;
+            var wpnflat = wpndmgbase + wpndmgattr + wpndmgskill;
+            var dmgflat = atkflat + wpnflat;
+            console.log(dmgflat);
+            if(dmgroll === 0 && (dmgflat === 0)) {
               dmg = 0;
             }
             if(dmgroll != 0) {
               dmg = dmgroll;
             }
-            if(dmgroll != 0 && (dmgbase + dmgattr + dmgskill != 0)) {
-              dmg = dmgattr + dmgbase + dmgskill > 0 ? dmg + "+" : dmg;
+            if(dmgroll != 0 && dmgflat != 0) {
+              dmg = dmgflat > 0 ? dmg + "+" : dmg;
             }
-            if(dmgbase + dmgattr + dmgskill != 0) {
-              dmg = dmg + (dmgbase + dmgattr + dmgskill);
+            if(dmgflat != 0) {
+              dmg = dmg + dmgflat;
             }
             dmg = dmg + " " + dmgtype;
           } else {
             dmg = "";
           }
+          console.log(dmg);
 
           if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
             if(dmg2base === 0 && (dmg2attr + dmg2roll === 0)){
@@ -5213,10 +5225,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
             if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
             if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
+            if(wpnflat != 0) {hdmg1 = " + " + wpnflat + "[WPN]" + hdmg1};
             hdmg1 = dmgbase + hdmg1;
           } else {
             hdmg1 = "0";
           }
+          console.log("hdmg1: " + hdmg1);
 
           if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
             if(dmg2roll != 0) {hdmg2 = " + " + dmg2roll + "[ROLL]" + hdmg2};
