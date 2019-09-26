@@ -5072,6 +5072,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             wpnatkattr = 0;
           } else {
             wpnatkattr = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_atkattr"].substring(2, attrs["repeating_weapons_" + weaponid + "_atkattr"].length - 1)], 10);
+            wpnatkattr_abrev = attrs["repeating_weapons_" + weaponid + "_atkattr"].substring(2, 5).toUpperCase();
           }
 
           if(!attrs["repeating_weapons_" + weaponid + "_atkskill"] || attrs["repeating_weapons_" + weaponid + "_atkskill"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
@@ -5084,6 +5085,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             wpndmgattr = 0;
           } else {
             wpndmgattr = parseInt(attrs[attrs["repeating_weapons_" + weaponid + "_dmgattr"].substring(2, attrs["repeating_weapons_" + weaponid + "_dmgattr"].length - 1)], 10);
+            wpndmgattr_abrev = attrs["repeating_weapons_" + weaponid + "_dmgattr"].substring(2, 5).toUpperCase();
           }
 
           if(!attrs["repeating_weapons_" + weaponid + "_dmgskill"] || attrs["repeating_weapons_" + weaponid + "_dmgskill"] === "0" || attrs["repeating_attack_" + attackid + "_activeflag"] === "0") {
@@ -5130,45 +5132,51 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             var wpnflat = wpndmgbase + wpndmgattr + wpndmgskill;
             var dmgflat = atkflat + wpnflat;
             if (attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
-              if(dmgroll === 0 && (atkflat === 0)){
+              if(wpndmgroll === 0 && wpnflat === 0) {
                 dmg = 0;
-              }
-              if(dmgroll != 0) {
-                dmg = dmgroll;
-              }
-              if(dmgroll != 0 && (atkflat != 0)) {
-                dmg = atkflat > 0 ? dmg + "+" : dmg;
-              }
-              if(atkflat != 0) {
-                dmg = dmg + atkflat;
-              }
-              dmg = dmg + " " + dmgtype;
-
-              if(wpndmgroll === 0 && (wpnflat === 0)){
-                dmg2 = 0;
-              }
-              if(wpndmgroll != 0) {
-                dmg2 = wpndmgroll;
-              }
-              if(wpndmgroll != 0 && (wpnflat != 0)) {
-                dmg2 = wpnflat > 0 ? dmg2 + "+" : dmg2;
               }
               if(wpnflat != 0) {
-                dmg2 = dmg2 + wpnflat;
+                dmg = wpnflat;
               }
-              dmg2 = dmg2 + " " + wpndmgtype;
-            } else {
-              if(dmgroll === 0 && (dmgflat === 0)) {
-                dmg = 0;
+              if(wpnflat != 0 && wpndmgroll != 0) {
+                dmg = wpndmgroll.startsWith("-") ? dmg : dmg + "+";
+              }
+              if(wpnflat != 0) {
+                dmg = dmg + wpnflat;
+              }
+              dmg = dmg + " " + wpndmgtype;
+
+              if(dmgroll === 0 && atkflat === 0) {
+                dmg2 = 0;
+              }
+              if(atkflat != 0) {
+                dmg2 = atkflat;
+              }
+              if(atkflat != 0 && dmgroll != 0) {
+                dmg2 = dmgroll.startsWith("-") ? dmg2 : dmg2 + "+";
               }
               if(dmgroll != 0) {
-                dmg = dmgroll;
+                dmg2 = dmg2 + dmgroll;
               }
-              if(dmgroll != 0 && dmgflat != 0) {
-                dmg = dmgflat > 0 ? dmg + "+" : dmg;
+              dmg2 = dmg2 + " " + dmgtype;
+            } else {
+              if(dmgroll === 0 && dmgflat === 0) {
+                dmg = 0;
               }
               if(dmgflat != 0) {
-                dmg = dmg + dmgflat;
+                dmg = dmgflat;
+              }
+              if(dmgflat != 0 && wpndmgroll != 0) {
+                dmg = wpndmgroll.startsWith("-") ? dmg : dmg + "+";
+              }
+              if(wpndmgroll != 0) {
+                dmg = dmg + wpndmgroll;
+              }
+              if(dmgflat != 0 && (wpndmgroll == 0 || wpndmgroll.startsWith("-")) && dmgroll != 0) {
+                dmg = dmgroll.startsWith("-") ? dmg : dmg + "+";
+              }
+              if(dmgroll != 0) {
+                dmg = dmg + dmgroll;
               }
               dmg = dmg + " " + wpndmgtype;
               dmg2 = "";
@@ -5198,25 +5206,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           console.log(attrs["repeating_attack_" + attackid + "_dmg2flag"]);
           if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
             if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-              if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
-              if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
-              if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
+              if(wpndmgattr != 0) {hdmg1 = " + " + wpndmgattr + "[" + wpndmgattr_abrev + "]" + hdmg1};
+              if(wpndmgskill != 0) {hdmg1 = " + " + wpndmgskill + "[SKILL]" + hdmg1};
+              if(wpndmgroll != 0) {hdmg1 = " + " + wpndmgroll + "[ROLL]" + hdmg1};
               hdmg1 = dmgbase + hdmg1;
 
-              if(wpndmgroll != 0) {hdmg2 = " + " + wpndmgroll + "[ROLL2]" + hdmg2};
-              if(wpnflat != 0) {hdmg2 = " + " + wpnflat + "[WPN]" + hdmg2};
-              hdmg2 = wpndmgbase + hdmg2;
+              if(dmgattr != 0) {hdmg2 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg2};
+              if(dmgskill != 0) {hdmg2 = " + " + dmgskill + "[SKILL]" + hdmg2};
+              if(dmgroll != 0) {hdmg2 = " + " + dmgroll + "[ROLL]" + hdmg2};
+              hdmg2 = dmgbase + hdmg2;
             } else {
               hdmg1 = "0";
               hdmg2 = "0";
             }
           } else {
             if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-              if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL]" + hdmg1};
-              if(wpndmgroll != 0) {hdmg1 = " + " + wpndmgroll + "[ROLL2]" + hdmg1};
+              if(wpnflat != 0) {hdmg1 = " + " + wpnflat + "[WPN]" + hdmg1};
               if(dmgattr != 0) {hdmg1 = " + " + dmgattr + "[" + dmgattr_abrev + "]" + hdmg1};
               if(dmgskill != 0) {hdmg1 = " + " + dmgskill + "[SKILL]" + hdmg1};
-              if(wpnflat != 0) {hdmg1 = " + " + wpnflat + "[WPN]" + hdmg1};
+              if(wpndmgroll != 0) {hdmg1 = " + " + wpndmgroll + "[ROLL]" + hdmg1};
+              if(dmgroll != 0) {hdmg1 = " + " + dmgroll + "[ROLL2]" + hdmg1};
               hdmg1 = dmgbase + hdmg1;
             } else {
               hdmg1 = "0";
