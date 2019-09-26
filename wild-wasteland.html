@@ -5099,13 +5099,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var wpndmgroll = attrs["repeating_weapons_" + weaponid + "_dmgroll"] && attrs["repeating_weapons_" + weaponid + "_dmgroll"] != "" && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmgroll"] : 0;
           var wpndmgtype = attrs["repeating_weapons_" + weaponid + "_dmgtype"] && attrs["repeating_attack_" + attackid + "_activeflag"] === "1" ? attrs["repeating_weapons_" + weaponid + "_dmgtype"] + " " : "";
 
-          console.log("wpnatkbase " + wpnatkbase);
-          console.log("wpnatkattr " + wpnatkattr);
-          console.log("wpnatkskill " + wpnatkskill);
-          console.log("wpndmgattr " + wpndmgattr);
-          console.log("wpndmgskill " + wpndmgskill);
-          console.log("wpndmgroll " + wpndmgroll);
-
           // DISPLAY CALCULATION
           if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
             atk_bonus_mod = atkbase + atkattr + atkskill;
@@ -5185,8 +5178,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             dmg = "";
             dmg2 = "";
           }
-          console.log(dmg);
-          console.log(dmg2);
 
           dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
           crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgroll;
@@ -5203,7 +5194,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           } else {
             hbonus = "";
           }
-          console.log(attrs["repeating_attack_" + attackid + "_dmg2flag"]);
           if(attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0) {
             if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
               if(wpndmgattr != 0) {hdmg1 = " + " + wpndmgattr + "[" + wpndmgattr_abrev + "]" + hdmg1};
@@ -5232,8 +5222,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
             hdmg2 = "0";
           }
-          console.log("hdmg1: " + hdmg1);
-          console.log("hdmg2: " + hdmg2);
 
           var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
           var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
