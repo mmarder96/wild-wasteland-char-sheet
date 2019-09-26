@@ -630,8 +630,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
       </div>
       <fieldset class="repeating_npcreaction">
         <div class="trait">
-          <input type="text" name="attr_name" placeholder="Parry." data-i18n-placeholder="npc-repeating-name-place">
-          <textarea name="attr_desc" placeholder="The creature adds 2 to its AC against..." data-i18n-placeholder="npc-repeating-desc-place"></textarea>
+          <input type="text" name="attr_name" placeholder="—">
+          <textarea name="attr_desc" placeholder="—"></textarea>
         </div>
       </fieldset>
     </div>
@@ -663,25 +663,25 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <option value="Ranged" data-i18n="ranged">Ranged</option>
               </select>
               <span style="margin-left: 15px;" data-i18n="range-reach:-u">RANGE/REACH:</span>
-              <input type="text" name="attr_attack_range" placeholder="5 ft." style="width: 100px;" data-i18n-placeholder="range-reach-place">
+              <input type="text" name="attr_attack_range" placeholder="—" style="width: 100px;">
             </div>
             <div class="row attack_option">
               <span data-i18n="to-hit:-u">TO HIT:</span>
-              <input type="text" name="attr_attack_tohit" value="0" placeholder="5" style="width: 30px;">
+              <input type="text" name="attr_attack_tohit" value="0" placeholder="0" style="width: 30px;">
               <span style="margin-left: 15px;" data-i18n="target:-u">TARGET:</span>
               <input type="text" name="attr_attack_target" placeholder="One target" style="width: 100px;" data-i18n-placeholder="to-hit-place">
             </div>
             <input type="hidden" name="attr_damage_flag">
             <div class="row attack_option">
               <span data-i18n="on-hit:-u">ON HIT:</span>
-              <input type="text" name="attr_attack_damage" placeholder="1d10" style="width: 65px;">
-              <input type="text" name="attr_attack_damagetype" placeholder="slashing" style="width: 100px;" data-i18n-placeholder="on-hit-place">
+              <input type="text" name="attr_attack_damage" placeholder="0" style="width: 65px;">
+              <input type="text" name="attr_attack_damagetype" placeholder="—" style="width: 100px;">
               <input type="hidden" name="attr_attack_crit">
             </div>
             <div class="row attack_option">
               <span data-i18n="on-hit2:-u">ON HIT 2:</span>
-              <input type="text" name="attr_attack_damage2" placeholder="2d6+5" style="width: 65px;">
-              <input type="text" name="attr_attack_damagetype2" placeholder="fire" style="width: 100px;" data-i18n-placeholder="on-hit-2-place">
+              <input type="text" name="attr_attack_damage2" placeholder="0" style="width: 65px;">
+              <input type="text" name="attr_attack_damagetype2" placeholder="—" style="width: 100px;">
               <input type="hidden" name="attr_attack_crit2">
             </div>
             <div class="row attack_option">
@@ -1011,11 +1011,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <div class="options">
                       <div class="row">
                         <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_skill_name" value="" placeholder="Guidance">
+                        <input type="text" name="attr_global_skill_name" value="" placeholder="—">
                       </div>
                       <div class="row">
                         <span data-i18n="roll:-u">ROLL:</span>
-                        <input type="text" name="attr_global_skill_roll" value="" placeholder="1d4">
+                        <input type="text" name="attr_global_skill_roll" value="" placeholder="—">
                       </div>
                     </div>
                     <div class="globaldisplay">
@@ -1089,11 +1089,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <div class="options">
                       <div class="row">
                         <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_save_name" value="" placeholder="Bless" style="width:75px">
+                        <input type="text" name="attr_global_save_name" value="" placeholder="—" style="width:75px">
                       </div>
                       <div class="row">
                         <span data-i18n="roll:-u">ROLL:</span>
-                        <input type="text" name="attr_global_save_roll" value="" placeholder="1d4" style="width:75px">
+                        <input type="text" name="attr_global_save_roll" value="" placeholder="—" style="width:75px">
                       </div>
                     </div>
                     <div class="globaldisplay" style="width: 75%">
@@ -1108,6 +1108,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
           </div>
+          <!--
           <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 50px; position: relative;">
             <div class="top">
               <span class="label" style="width: 106px;" data-i18n="tool-u">SKILL</span>
@@ -1147,11 +1148,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </div>
             </fieldset>
-
             <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
               <span data-i18n="custom-skills-u" style="display: inline;">CUSTOM SKILLS</span>
             </div>
           </div>
+          -->
         </div>
         <div class="col col2">
           <div class="hdice-dsaves-container" style="width: 242px;">
@@ -1324,14 +1325,14 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
 
                     <span style="margin-left: 20px;" data-i18n="range:-u">RANGE:</span>
-                    <input class="subfield" type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 50px;" data-i18n-placeholder="range-place">
+                    <input class="subfield" type="text" name="attr_atkrange" placeholder="—" style="width: 50px;">
                     <span style="width: 70px" data-i18n="crit-range-u">CRIT RANGE:</span>
                     <input class="subfield" type="text" name="attr_atkcritrange" value="20" placeholder="20" style="width: 40px; font-size: 11px;">
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <input type="hidden" name="attr_dmg2flag" value="">
                     <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
-                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
+                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="0" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
                     <select name="attr_dmgattr" style="width: 25px">
                       <option value="@{strength_mod}" data-i18n="str-u">STR</option>
@@ -1361,12 +1362,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="1d6" style="width: 25px; font-size: 10px;">
+                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="—" style="width: 25px; font-size: 10px;">
 
                     <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
-                    <input class ="subfield" type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
+                    <input class ="subfield" type="text" name="attr_dmgtype" placeholder="—" style="width: 50px;">
                     <span style="width: 70px;" data-i18n="crit-bonus:-u">CRIT BONUS:</span>
-                    <input class="subfield" type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 40px; font-size: 11px;">
+                    <input class="subfield" type="text" name="attr_dmgcustcrit" placeholder="—" style="width: 40px; font-size: 11px;">
 
                     <input type="checkbox" name="attr_saveflag" value="{{save=1}} {{saveattr=@{saveattr}}} {{savedesc=@{saveeffect}}} {{savedc=[[[[@{savedc}]][SAVE]]]}}">
                     <span style="width: 75px;" data-i18n="saving-throw:-u">SAVING THROW:</span>
@@ -1395,7 +1396,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <input class="subfield" type="num" name="attr_saveflat" placeholder="10" value="10" style="width: 20px; font-size: 11px">
 
                     <span style="width: 65px;" data-i18n="save-effect:-u">SAVE EFFECT:</span>
-                    <input class="subfield" type="text" name="attr_saveeffect" placeholder="half damage" style="width: 160px;" data-i18n-placeholder="save-effect-place">
+                    <input class="subfield" type="text" name="attr_saveeffect" placeholder="—" style="width: 160px;">
 
                     <span data-i18n="description:-u">DESCRIPTION:</span>
                     <textarea class="subtextarea" name="attr_atk_desc"></textarea>
@@ -1414,11 +1415,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <div class="options">
                       <div class="row">
                         <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_attack_name" value="" placeholder="Bless">
+                        <input type="text" name="attr_global_attack_name" value="" placeholder="—">
                       </div>
                       <div class="row">
                         <span data-i18n="roll:-u">ROLL:</span>
-                        <input type="text" name="attr_global_attack_roll" value="" placeholder="1d4">
+                        <input type="text" name="attr_global_attack_roll" value="" placeholder="—">
                       </div>
                     </div>
                     <div class="globaldisplay">
@@ -1438,15 +1439,15 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <div class="options">
                       <div class="row">
                         <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_damage_name" value="" placeholder="Sneak Attack">
+                        <input type="text" name="attr_global_damage_name" value="" placeholder="—">
                       </div>
                       <div class="row">
                         <span data-i18n="dmg:-u">DAMAGE:</span>
-                        <input type="text" name="attr_global_damage_damage" value="" placeholder="1d6">
+                        <input type="text" name="attr_global_damage_damage" value="" placeholder="—">
                       </div>
                       <div class="row">
                         <span data-i18n="type:-u">TYPE:</span>
-                        <input type="text" name="attr_global_damage_type" value="" placeholder="Sneak">
+                        <input type="text" name="attr_global_damage_type" value="" placeholder="—">
                       </div>
                     </div>
                     <div class="display">
@@ -1517,9 +1518,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
 
                     <span class="label" data-i18n="mag:-u">MAG:</span>
-                    <input class="subfield ranged" type="text" name="attr_mag" placeholder="—" style="width: 55px; font-size: 11px;">
+                    <input class="subfield ranged" type="text" name="attr_mag" placeholder="0" style="width: 55px; font-size: 11px;">
                     <span class="label" data-i18n="ammo:-u">AMMO:</span>
-                    <input class="subfield" type="text" name="attr_ammo" placeholder="10mm rounds" style="width: 90px;" data-i18n-placeholder="ammo-place">
+                    <input class="subfield" type="text" name="attr_ammo" placeholder="—" style="width: 90px;">
 
                     <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
@@ -1554,13 +1555,13 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
 
                     <span style="margin-left: 20px;" data-i18n="range:-u">RANGE:</span>
-                    <input class="subfield" type="text" name="attr_atkrange" placeholder="Self (60-foot cone)" style="width: 50px;" data-i18n-placeholder="range-place">
+                    <input class="subfield" type="text" name="attr_atkrange" placeholder="—" style="width: 50px;">
                     <span style="width: 70px" data-i18n="crit-range-u">CRIT RANGE:</span>
                     <input class="subfield" type="text" name="attr_atkcritrange" value="20" placeholder="20" style="width: 40px; font-size: 11px;">
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
-                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="10" style="width: 20px; font-size: 11px">
+                    <input class="subfield" type="text" name="attr_dmgbase" placeholder="0" style="width: 20px; font-size: 11px">
                     <span style="width: 5px">+</span>
                     <select name="attr_dmgattr" style="width: 25px">
                       <option value="@{strength_mod}" data-i18n="str-u">STR</option>
@@ -1590,18 +1591,16 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="0" selected="selected">—</option>
                     </select>
                     <span style="width: 5px">+</span>
-                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="1d6" style="width: 25px; font-size: 10px;">
+                    <input class="subfield" type="text" name="attr_dmgroll" placeholder="—" style="width: 25px; font-size: 10px;">
 
                     <span style="margin-left: 17px;" data-i18n="type:-u">TYPE:</span>
-                    <input class ="subfield" type="text" name="attr_dmgtype" placeholder="Slashing" style="width: 50px;" data-i18n-placeholder="dmg-type-place">
+                    <input class ="subfield" type="text" name="attr_dmgtype" placeholder="—" style="width: 50px;">
                     <span style="width: 70px;" data-i18n="crit-bonus:-u">CRIT BONUS:</span>
-                    <input class="subfield" type="text" name="attr_dmgcustcrit" placeholder="1d6" style="width: 40px; font-size: 11px;">
+                    <input class="subfield" type="text" name="attr_dmgcustcrit" placeholder="—" style="width: 40px; font-size: 11px;">
 
                     <span class="label" data-i18n="prop:-u">PROP:</span>
-                    <input class="subfield" type="text" name="attr_armorproperties">
-                    <span class="label" data-i18n="mods:-u">MODS:</span>
-                    <input class="subfield" type="text" name="attr_itemmodifiers">
-                    <textarea class="subtextarea" name="attr_armorcontent"></textarea>
+                    <input class="subfield" type="text" name="attr_properties">
+                    <textarea class="subtextarea" name="attr_description"></textarea>
                   </div>
                   <input type="hidden" name="attr_itemattackid">
                   <input type="hidden" name="attr_itemresourceid">
@@ -1620,7 +1619,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="checkbox" name="attr_global_dt_active_flag" value="1" class="active-flag">
                   <div class="options">
                     <label>Value: <input type="number" name="attr_global_dt_val" placeholder="1" step="1"></label>
-                    <label>Name: <input type="text" name="attr_global_dt_name" placeholder="Combat Helmet"></label>
+                    <label>Name: <input type="text" name="attr_global_dt_name" placeholder="—"></label>
                   </div>
                   <div class="display">
                     <span class="title"><span name="attr_global_dt_val"></span> [<span name="attr_global_dt_name"></span>]</span>
@@ -1857,7 +1856,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </fieldset>
           </div>
-          <div class="textbox traits" style="min-height: 350px;">
+          <div class="textbox traits" style="min-height: 525px;">
             <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="complex">
             <textarea class="sheet-simple" name="attr_features_and_traits" style="min-height: 450px; height: 450px;"></textarea>
             <div class="complex">
