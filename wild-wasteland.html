@@ -3891,14 +3891,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   // update attack on attack property change
-  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:dmg2flag change:repeating_attack:dmg2base change:repeating_attack:dmg2attr change:repeating_attack:dmg2skill change:repeating_attack:dmg2roll change:repeating_attack:dmg2type change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:dmg2custcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
+  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;};
     console.log("ATTACK CHANGE DETECTED!");
     var attackid = eventinfo.sourceAttribute.substring(17, 37);
     update_attacks(attackid);
   });
 
-  on("change:repeating_weapons:atkname change:repeating_weapons:atkflag change:repeating_weapons:atkbase change:repeating_weapons:atkattr change:repeating_weapons:atkskill change:repeating_weapons:dmgflag change:repeating_weapons:dmgbase change:repeating_weapons:dmgattr change:repeating_weapons:dmgskill change:repeating_weapons:dmgroll change:repeating_weapons:dmgtype change:repeating_weapons:dmg2flag change:repeating_weapons:dmg2base change:repeating_weapons:dmg2attr change:repeating_weapons:dmg2skill change:repeating_weapons:dmg2roll change:repeating_weapons:dmg2type change:repeating_weapons:saveflag change:repeating_weapons:savedc change:repeating_weapons:saveflat change:repeating_weapons:dmgcustcrit change:repeating_weapons:dmg2custcrit change:repeating_weapons:ammo change:repeating_weapons:saveattr change:repeating_weapons:atkrange", function(eventinfo) {
+  on("change:repeating_weapons:atkname change:repeating_weapons:atkflag change:repeating_weapons:atkbase change:repeating_weapons:atkattr change:repeating_weapons:atkskill change:repeating_weapons:dmgflag change:repeating_weapons:dmgbase change:repeating_weapons:dmgattr change:repeating_weapons:dmgskill change:repeating_weapons:dmgroll change:repeating_weapons:dmgtype change:repeating_weapons:dmgcustcrit change:repeating_weapons:ammo change:repeating_weapons:saveattr change:repeating_weapons:atkrange", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;};
     console.log("WEAPON CHANGE DETECTED!");
     update_attacks("all");
@@ -5185,8 +5185,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               if(wpndmgroll != 0) {hwpndmg = wpndmgroll.startsWith("-") ? hwpndmg + wpndmgroll : hwpndmg + "+" + wpndmgroll};
               if(atkflat != 0) {hatkdmg = hatkdmg + atkflat};
               if(dmgroll != 0) {hatkdmg = dmgroll.startsWith("-") ? hatkdmg + dmgroll : hatkdmg + "+" + dmgroll};
-              hdmg1 = hwpndmg + "[WPN]";
-              hdmg2 = hatkdmg + "[ATK]";
+              hdmg1 = hwpndmg === "" ? "0" : hwpndmg + "[WPN]";
+              hdmg2 = hatkdmg === "" ? "0" : hatkdmg + "[ATK]";
             } else {
               hdmg1 = "0";
               hdmg2 = "0";
