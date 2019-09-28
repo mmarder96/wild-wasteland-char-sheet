@@ -3730,140 +3730,140 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 <script type="text/worker">
 
   on("sheet:opened", function(eventinfo) {
-      versioning(function() {
-          var getInfo = function(sections, callback, results) {
-              results =  results || {};
-              if(sections.length > 0) {
-                  var section = sections.pop();
-                  getSectionIDs(section, function(ids) {
-                      results[section] = ids;
-                      getInfo(sections, callback, results);
-                  });
-              } else {
-                  callback(results);
-              }
-          }
-          var spellSections = ["spell-cantrip"];
-          for(var x=1; x<=9; x++) {
-              spellSections.push("spell-" + x);
-          }
-
-          getInfo(spellSections, function(results) {
-              var getList = ["character_id"];
-              _.each(results, function(sectionids, sectionname) {
-                  _.each(sectionids, function(spellid) {
-                      getList.push("repeating_" + sectionname + "_" + spellid + "_rollcontent");
-                  });
-              });
-              getAttrs(getList, function(attrs) {
-                  var set = {};
-                  _.each(attrs, function(data, name) {
-                      if(data.length === 68 && data.split("|")[0].substr(2) !== attrs["character_id"]) {
-                          set[name] = "%{" + attrs["character_id"] + data.substr(22);
-                      }
-                  });
-                  setAttrs(set, function() {
-                      if(eventinfo.sourceType === "sheetworker") {
-                          setAttrs({l1mancer_status: "completed"})
-                      }
-                      else {
-                          // check_l1_mancer();
-                          // check_lp_mancer();
-                      };
-                  });
-              });
+    versioning(function() {
+      var getInfo = function(sections, callback, results) {
+        results =  results || {};
+        if(sections.length > 0) {
+          var section = sections.pop();
+          getSectionIDs(section, function(ids) {
+            results[section] = ids;
+            getInfo(sections, callback, results);
           });
+        } else {
+          callback(results);
+        }
+      }
+      var spellSections = ["spell-cantrip"];
+      for(var x=1; x<=9; x++) {
+        spellSections.push("spell-" + x);
+      }
+
+      getInfo(spellSections, function(results) {
+        var getList = ["character_id"];
+        _.each(results, function(sectionids, sectionname) {
+          _.each(sectionids, function(spellid) {
+            getList.push("repeating_" + sectionname + "_" + spellid + "_rollcontent");
+          });
+        });
+        getAttrs(getList, function(attrs) {
+          var set = {};
+          _.each(attrs, function(data, name) {
+            if(data.length === 68 && data.split("|")[0].substr(2) !== attrs["character_id"]) {
+              set[name] = "%{" + attrs["character_id"] + data.substr(22);
+            }
+          });
+          setAttrs(set, function() {
+            if(eventinfo.sourceType === "sheetworker") {
+              setAttrs({l1mancer_status: "completed"})
+            }
+            setAttrs({l1mancer_status: "completed"})
+            // else {
+            //     // check_l1_mancer();
+            //     // check_lp_mancer();
+            // };
+          });
+        });
       });
+    });
   });
 
   // update attribute on attr_base/attr_bonus change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
-      on(`change:${attr}_base change:${attr}_bonus`, function() {
-          update_attr(`${attr}`);
-      });
+    on(`change:${attr}_base change:${attr}_bonus`, function() {
+      update_attr(`${attr}`);
+    });
   });
 
   // update attribute_mod weight/initiative on attribute change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
-      on(`change:${attr}`, function() {
-          update_mod(`${attr}`);
+    on(`change:${attr}`, function() {
+      update_mod(`${attr}`);
 
-          const cap = attr.charAt(0).toUpperCase() + attr.slice(1);
-          check_customac(cap);
+      const cap = attr.charAt(0).toUpperCase() + attr.slice(1);
+      check_customac(cap);
 
-          (attr === "strength") ? update_weight() : false;
-          (attr === "endurance") ? update_hp_max() : false;
-          (attr === "agility") ? update_initiative() : false;
-      });
+      (attr === "strength") ? update_weight() : false;
+      (attr === "endurance") ? update_hp_max() : false;
+      (attr === "agility") ? update_initiative() : false;
+    });
   });
 
   // update saves, attacks, tools, and skills on attribute_mod change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
-      on(`change:${attr}_mod`, function() {
-          update_save(`${attr}`);
-          update_attacks(`${attr}`);
-          update_tool(`${attr}`);
+    on(`change:${attr}_mod`, function() {
+      update_save(`${attr}`);
+      update_attacks(`${attr}`);
+      update_tool(`${attr}`);
 
-          switch(`${attr}`) {
-              case "strength":
-                  update_skills(["melee_weapons", "unarmed"]);
-                  break;
-              case "perception":
-                  update_skills(["energy_weapons", "guns"]);
-                  update_passive_perception();
-                  break;
-              case "intelligence":
-                  update_skills(["explosives", "medicine", "repair", "science", "survival"]);
-                  break;
-              case "charisma":
-                  update_skills(["speech", "speech"]);
-                  break;
-              case "agility":
-                  update_skills(["lockpick", "sneak"]);
-                  update_initiative();
-                  update_defense();
-                  update_speed();
-                  break;
-              case "luck":
-                  update_critical_strike();
-              default:
-                  false;
-          }
-      });
+      switch(`${attr}`) {
+        case "strength":
+          update_skills(["melee_weapons", "unarmed"]);
+          break;
+        case "perception":
+          update_skills(["energy_weapons", "guns"]);
+          update_passive_perception();
+          break;
+        case "intelligence":
+          update_skills(["explosives", "medicine", "repair", "science", "survival"]);
+          break;
+        case "charisma":
+          update_skills(["speech", "speech"]);
+          break;
+        case "agility":
+          update_skills(["lockpick", "sneak"]);
+          update_initiative();
+          update_defense();
+          update_speed();
+          break;
+        case "luck":
+          update_critical_strike();
+        default:
+          false;
+      }
+    });
   });
 
   // update saves on attr_save_prof/attr_save_mod change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
-      on(`change:${attr}_save_prof change:${attr}_save_mod`, function(eventinfo) {
-          if(eventinfo.sourceType === "sheetworker") {return;};
-          update_save(`${attr}`);
-      });
+    on(`change:${attr}_save_prof change:${attr}_save_mod`, function(eventinfo) {
+      if(eventinfo.sourceType === "sheetworker") {return;};
+      update_save(`${attr}`);
+    });
   });
 
   on("change:level", function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
-      update_hp_max();
-    }
-  );
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_hp_max();
+  });
 
   // update all saves on global_save_mod change
   on("change:global_save_mod", function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
-      update_all_saves();
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_all_saves();
   });
 
   // update death save on death_save_mod change
   on("change:death_save_mod", function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
-      update_save("death");
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    update_save("death");
   });
 
   // update skill on skill_proficiency, skill_type, or skill_flat change
   ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'].forEach(skill => {
-      on(`change:${skill}_prof change:${skill}_type change:${skill}_flat`, function(eventinfo) {
-          if(eventinfo.sourceType === "sheetworker") {return;};
-          update_skills([`${skill}`]);
-      });
+    on(`change:${skill}_prof change:${skill}_type change:${skill}_flat`, function(eventinfo) {
+      if(eventinfo.sourceType === "sheetworker") {return;};
+      update_skills([`${skill}`]);
+    });
   });
 
   // update hp on hp mod change
@@ -3885,9 +3885,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   // update tool on tool property change
   on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
-      var tool_id = eventinfo.sourceAttribute.substring(15, 35);
-      update_tool(tool_id);
+    if(eventinfo.sourceType === "sheetworker") {return;};
+    var tool_id = eventinfo.sourceAttribute.substring(15, 35);
+    update_tool(tool_id);
   });
 
   // update attack on attack property change
@@ -3935,92 +3935,92 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:global_damage_mod_flag", function(eventinfo) {
-      getSectionIDs("damagemod", function(ids) {
-          var update = {};
-          if(eventinfo.newValue === "1") {
-              if(!ids || ids.length === 0) {
-                  var rowid = generateRowID();
-                  update[`repeating_damagemod_${rowid}_global_damage_active_flag`] = "1";
-              }
-          } else {
-              _.each(ids, function(rowid) {
-                  update[`repeating_damagemod_${rowid}_global_damage_active_flag`] = "0";
-              });
-          }
-          setAttrs(update);
-      });
+    getSectionIDs("damagemod", function(ids) {
+      var update = {};
+      if(eventinfo.newValue === "1") {
+        if(!ids || ids.length === 0) {
+            var rowid = generateRowID();
+            update[`repeating_damagemod_${rowid}_global_damage_active_flag`] = "1";
+        }
+      } else {
+        _.each(ids, function(rowid) {
+            update[`repeating_damagemod_${rowid}_global_damage_active_flag`] = "0";
+        });
+      }
+      setAttrs(update);
+    });
   });
 
   on("change:radiation_toggle", function(eventinfo) {
-      if(eventinfo.newValue !== "0") {
-          getAttrs(["radiation_level"], function(attrs) {
-              if(!attrs.radiation_level || attrs.radiation_level === "") {
-                  var update = {};
-                  update.radiation_level = "0";
-                  setAttrs(update);
-              }
-          });
-      }
+    if(eventinfo.newValue !== "0") {
+      getAttrs(["radiation_level"], function(attrs) {
+        if(!attrs.radiation_level || attrs.radiation_level === "") {
+          var update = {};
+          update.radiation_level = "0";
+          setAttrs(update);
+        }
+      });
+    }
   });
 
   on("change:radiation_level", function(eventinfo) {
-      const newValue = Math.floor(parseInt(eventinfo.newValue)/2) || 0, previousValue = Math.floor(parseInt(eventinfo.previousValue)/2) || 0;
-      let update = {};
+    const newValue = Math.floor(parseInt(eventinfo.newValue)/2) || 0, previousValue = Math.floor(parseInt(eventinfo.previousValue)/2) || 0;
+    let update = {};
 
-      if (newValue === 0) {
-          // If radiation is 0 the reset radiation_1 to "No Effect" and blank the other spans
-          for(let i = 2; i <= 6; i++) { update[`radiation_${i}`] = ""}
-          update[`radiation_1`] = getTranslationByKey(`radiation-status-0`)
-      } else if (newValue > previousValue) {
-          // If radiation increase then add text to the spans
-          for(let i = previousValue; i <= newValue; i++)
-          {update[`radiation_${i+1}`] = "▪ " + getTranslationByKey(`radiation-${i}`)}
-          update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
-      } else {
-          // If radiation decrease remove text from spans
-          for(let i = newValue+1; i <= previousValue+1; i++) {update[`radiation_${i+1}`] = ""}
-          update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
-      };
+    if (newValue === 0) {
+        // If radiation is 0 the reset radiation_1 to "No Effect" and blank the other spans
+      for(let i = 2; i <= 6; i++) { update[`radiation_${i}`] = ""}
+      update[`radiation_1`] = getTranslationByKey(`radiation-status-0`)
+    } else if (newValue > previousValue) {
+        // If radiation increase then add text to the spans
+      for(let i = previousValue; i <= newValue; i++)
+      {update[`radiation_${i+1}`] = "▪ " + getTranslationByKey(`radiation-${i}`)}
+      update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
+    } else {
+        // If radiation decrease remove text from spans
+      for(let i = newValue+1; i <= previousValue+1; i++) {update[`radiation_${i+1}`] = ""}
+      update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
+    };
 
-      setAttrs(update, {silent: true});
+    setAttrs(update, {silent: true});
   });
 
   on(`change:repeating_inventory:hasattack`, function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
 
-      const itemid = eventinfo.sourceAttribute.substring(20, 40);
-      getAttrs([`repeating_inventory_${itemid}_itemattackid`], function(v) {
-          const hasattack = eventinfo.newValue, itemattackid = v[`repeating_inventory_${itemid}_itemattackid`];
-          (hasattack == 1) ? create_attack_from_item(itemid) : remove_attack(itemattackid);
-      });
+    const itemid = eventinfo.sourceAttribute.substring(20, 40);
+    getAttrs([`repeating_inventory_${itemid}_itemattackid`], function(v) {
+      const hasattack = eventinfo.newValue, itemattackid = v[`repeating_inventory_${itemid}_itemattackid`];
+      (hasattack == 1) ? create_attack_from_item(itemid) : remove_attack(itemattackid);
+    });
   });
 
   on(`change:repeating_inventory:useasresource`, function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
 
-      const itemid = eventinfo.sourceAttribute.substring(20, 40);
-      getAttrs([`repeating_inventory_${itemid}_itemresourceid`], function(v) {
-          const useasresource = eventinfo.newValue, itemresourceid = v[`repeating_inventory_${itemid}_itemresourceid`];
-          (useasresource == 1) ? create_resource_from_item(itemid) : remove_resource(itemresourceid);
-      });
+    const itemid = eventinfo.sourceAttribute.substring(20, 40);
+    getAttrs([`repeating_inventory_${itemid}_itemresourceid`], function(v) {
+      const useasresource = eventinfo.newValue, itemresourceid = v[`repeating_inventory_${itemid}_itemresourceid`];
+      (useasresource == 1) ? create_resource_from_item(itemid) : remove_resource(itemresourceid);
+    });
   });
 
   on("change:repeating_inventory:itemname change:repeating_inventory:itemproperties change:repeating_inventory:itemmodifiers change:repeating_inventory:itemcount", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-          return;
-      }
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
+      return;
+    }
 
-      var itemid = eventinfo.sourceAttribute.substring(20, 40);
-      getAttrs(["repeating_inventory_" + itemid + "_itemattackid", "repeating_inventory_" + itemid + "_itemresourceid"], function(v) {
-          var attackid = v["repeating_inventory_" + itemid + "_itemattackid"];
-          var resourceid = v["repeating_inventory_" + itemid + "_itemresourceid"];
-          if(attackid) {
-              update_attack_from_item(itemid, attackid);
-          }
-          if(resourceid) {
-              update_resource_from_item(itemid, resourceid);
-          }
-      });
+    var itemid = eventinfo.sourceAttribute.substring(20, 40);
+    getAttrs(["repeating_inventory_" + itemid + "_itemattackid", "repeating_inventory_" + itemid + "_itemresourceid"], function(v) {
+      var attackid = v["repeating_inventory_" + itemid + "_itemattackid"];
+      var resourceid = v["repeating_inventory_" + itemid + "_itemresourceid"];
+      if(attackid) {
+        update_attack_from_item(itemid, attackid);
+      }
+      if(resourceid) {
+        update_resource_from_item(itemid, resourceid);
+      }
+    });
   });
 
   ['other_resource','repeating_resource:resource_left','repeating_resource:resource_right'].forEach(attr => {
@@ -4045,7 +4045,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:repeating_inventory:itemweight change:repeating_inventory:itemcount change:cp change:sp change:ep change:gp change:pp change:encumberance_setting change:size change:carrying_capacity_mod", function() {
-      update_weight();
+    update_weight();
   });
 
   on("change:repeating_armor:armordt change:repeating_armor:equipped", function(eventinfo) {
@@ -4081,64 +4081,56 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:custom_ac_flag change:custom_ac_base change:custom_ac_part1 change:custom_ac_part2 change:custom_ac_shield", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-          return;
-      }
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
       update_dt();
   });
 
   on("change:pb_type change:pb_custom", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-          return;
-      }
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
       update_pb();
   });
 
   on("change:dtype", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-          return;
-      }
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
       update_attacks("all");
       update_npc_action("all");
   });
 
   on("change:initmod change:init_tiebreaker", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-          return;
-      }
-      update_initiative();
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+    update_initiative();
   });
 
   on("change:npc_challenge", function() {
-      update_challenge();
+    update_challenge();
   });
 
   on("change:npc_str_save_base change:npc_dex_save_base change:npc_con_save_base change:npc_int_save_base change:npc_wis_save_base change:npc_cha_save_base", function(eventinfo) {
-      update_npc_saves();
+    update_npc_saves();
   });
 
   on("change:npc_acrobatics_base change:npc_animal_handling_base change:npc_arcana_base change:npc_athletics_base change:npc_deception_base change:npc_history_base change:npc_insight_base change:npc_intimidation_base change:npc_investigation_base change:npc_medicine_base change:npc_nature_base change:npc_perception_base change:npc_performance_base change:npc_persuasion_base change:npc_religion_base change:npc_sleight_of_hand_base change:npc_stealth_base change:npc_survival_base", function(eventinfo) {
-      update_npc_skills();
+    update_npc_skills();
   });
 
   on("change:repeating_npcaction:attack_flag change:repeating_npcaction:attack_type change:repeating_npcaction:attack_range change:repeating_npcaction:attack_target change:repeating_npcaction:attack_tohit change:repeating_npcaction:attack_damage change:repeating_npcaction:attack_damagetype change:repeating_npcaction:attack_damage2 change:repeating_npcaction:attack_damagetype2 change:repeating_npcaction-l:attack_flag change:repeating_npcaction-l:attack_type change:repeating_npcaction-l:attack_range change:repeating_npcaction-l:attack_target change:repeating_npcaction-l:attack_tohit change:repeating_npcaction-l:attack_damage change:repeating_npcaction-l:attack_damagetype change:repeating_npcaction-l:attack_damage2 change:repeating_npcaction-l:attack_damagetype2 change:repeating_npcaction:show_desc change:repeating_npcaction-l:show_desc change:repeating_npcaction:description change:repeating_npcaction-l:description", function(eventinfo) {
-      const actionid  = eventinfo.sourceAttribute.split("_")[2];
-      const legendary = eventinfo.sourceAttribute.includes("npcaction-l") ? true : false;
+    const actionid  = eventinfo.sourceAttribute.split("_")[2];
+    const legendary = eventinfo.sourceAttribute.includes("npcaction-l") ? true : false;
 
-      update_npc_action(actionid, legendary);
+    update_npc_action(actionid, legendary);
   });
 
   on("change:core_die change:halflingluck_flag", function() {
-      getAttrs(["core_die","halflingluck_flag"], function(v) {
-          core = v.core_die && v.core_die != "" ? v.core_die : "1d20";
-          luck = v.halflingluck_flag && v.halflingluck_flag === "1" ? "ro<1" : "";
-          update = {};
-          update["d20"] = core + luck;
-          if(!v.core_die || v.core_die === "") {
-              update["core_die"] = "1d20";
-          }
-          setAttrs(update);
-      });
+    getAttrs(["core_die","halflingluck_flag"], function(v) {
+      core = v.core_die && v.core_die != "" ? v.core_die : "1d20";
+      luck = v.halflingluck_flag && v.halflingluck_flag === "1" ? "ro<1" : "";
+      update = {};
+      update["d20"] = core + luck;
+      if(!v.core_die || v.core_die === "") {
+          update["core_die"] = "1d20";
+      }
+      setAttrs(update);
+    });
   });
 
   [`ac`,`attack`,'save','skill',].forEach(attr => {
@@ -4173,103 +4165,103 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:repeating_skillmod remove:repeating_skillmod", function(eventinfo) {
-      update_globalskills();
+    update_globalskills();
   });
 
   on("change:repeating_savemod remove:repeating_savemod", function(eventinfo) {
-      update_globalsaves();
+    update_globalsaves();
   });
 
   on("change:repeating_tohitmod remove:repeating_tohitmod", function(eventinfo) {
-      update_globalattack();
+    update_globalattack();
   });
 
   on("change:repeating_acmod remove:repeating_acmod", function(eventinfo) {
-      update_dt();
+    update_dt();
   });
 
   on("change:confirm", function(eventinfo) {
-      setAttrs({monster_confirm_flag: ""});
-      getAttrs(["drop_category"], function(v) {
-          if(v["drop_category"]) {
-              handle_drop(v["drop_category"]);
-          }
-      });
+    setAttrs({monster_confirm_flag: ""});
+    getAttrs(["drop_category"], function(v) {
+      if(v["drop_category"]) {
+          handle_drop(v["drop_category"]);
+      }
+    });
   });
 
   on("change:cancel", function(eventinfo) {
-      setAttrs({monster_confirm_flag: ""});
-      var update = {};
-      update["drop_category"] = "";
-      update["drop_name"] = "";
-      update["drop_data"] = "";
-      update["drop_content"] = "";
-      setAttrs(update, {silent: true});
+    setAttrs({monster_confirm_flag: ""});
+    var update = {};
+    update["drop_category"] = "";
+    update["drop_name"] = "";
+    update["drop_data"] = "";
+    update["drop_content"] = "";
+    setAttrs(update, {silent: true});
   });
 
   on("change:passive_perception_mod", function(eventinfo) {
-      update_passive_perception();
+    update_passive_perception();
   });
 
   on("remove:repeating_inventory", function(eventinfo) {
-      var itemid = eventinfo.sourceAttribute.substring(20, 40);
-      var attackids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] : undefined;
-      var resourceid = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] : undefined;
+    var itemid = eventinfo.sourceAttribute.substring(20, 40);
+    var attackids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] : undefined;
+    var resourceid = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] : undefined;
 
-      if(attackids) {
-          _.each(attackids.split(","), function(value) { remove_attack(value); });
-      }
-      if(resourceid) {
-          remove_resource(resourceid);
-      }
+    if(attackids) {
+      _.each(attackids.split(","), function(value) { remove_attack(value); });
+    }
+    if(resourceid) {
+      remove_resource(resourceid);
+    }
 
-      if(eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemmodifiers"]) {
-          check_itemmodifiers(eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemmodifiers"]);
-      }
+    if(eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemmodifiers"]) {
+      check_itemmodifiers(eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemmodifiers"]);
+    }
 
-      update_weight();
+    update_weight();
   });
 
   on("remove:repeating_attack", function(eventinfo) {
-      var attackid = eventinfo.sourceAttribute.substring(17, 37);
-      var itemid = eventinfo.removedInfo["repeating_attack_" + attackid + "_itemid"];
-      var spellid = eventinfo.removedInfo["repeating_attack_" + attackid + "_spellid"];
-      var spelllvl = eventinfo.removedInfo["repeating_attack_" + attackid + "_spelllevel"];
-      if(itemid) {
-          getAttrs(["repeating_inventory_" + itemid + "_hasattack"], function(v) {
-              if(v["repeating_inventory_" + itemid + "_hasattack"] && v["repeating_inventory_" + itemid + "_hasattack"] == 1) {
-                  var update = {};
-                  update["repeating_inventory_" + itemid + "_itemattackid"] = "";
-                  update["repeating_inventory_" + itemid + "_hasattack"] = 0;
-                  setAttrs(update, {silent: true});
-              }
-          });
-      };
-      if(spellid && spelllvl) {
-          getAttrs(["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"], function(v) {
-              if(v["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] && v["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] == "ATTACK") {
-                  var update = {};
-                  update["repeating_spell-" + spelllvl + "_" + spellid + "_spellattackid"] = "";
-                  update["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] = "SPELLCARD";
-                  setAttrs(update, {silent: true});
-              }
-          });
-      };
+    var attackid = eventinfo.sourceAttribute.substring(17, 37);
+    var itemid = eventinfo.removedInfo["repeating_attack_" + attackid + "_itemid"];
+    var spellid = eventinfo.removedInfo["repeating_attack_" + attackid + "_spellid"];
+    var spelllvl = eventinfo.removedInfo["repeating_attack_" + attackid + "_spelllevel"];
+    if(itemid) {
+      getAttrs(["repeating_inventory_" + itemid + "_hasattack"], function(v) {
+        if(v["repeating_inventory_" + itemid + "_hasattack"] && v["repeating_inventory_" + itemid + "_hasattack"] == 1) {
+          var update = {};
+          update["repeating_inventory_" + itemid + "_itemattackid"] = "";
+          update["repeating_inventory_" + itemid + "_hasattack"] = 0;
+          setAttrs(update, {silent: true});
+        }
+      });
+    };
+    if(spellid && spelllvl) {
+      getAttrs(["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"], function(v) {
+        if(v["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] && v["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] == "ATTACK") {
+          var update = {};
+          update["repeating_spell-" + spelllvl + "_" + spellid + "_spellattackid"] = "";
+          update["repeating_spell-" + spelllvl + "_" + spellid + "_spelloutput"] = "SPELLCARD";
+          setAttrs(update, {silent: true});
+        }
+      });
+    };
   });
 
   on("remove:repeating_resource", function(eventinfo) {
-      const resourceid = eventinfo.sourceAttribute.substring(19, 39);
-      let update       = {};
+    const resourceid = eventinfo.sourceAttribute.substring(19, 39);
+    let update = {};
 
-      _.each(['left','right'], (side) => {
-          const itemid = eventinfo.removedInfo[`repeating_resource_${resourceid}_resource_${side}_itemid`];
-          if (itemid) {
-              update[`repeating_inventory_${itemid}_useasresource`] = 0;
-              update[`repeating_inventory_${itemid}_itemresourceid`] = "";
-          };
-      });
+    _.each(['left','right'], (side) => {
+      const itemid = eventinfo.removedInfo[`repeating_resource_${resourceid}_resource_${side}_itemid`];
+      if (itemid) {
+        update[`repeating_inventory_${itemid}_useasresource`] = 0;
+        update[`repeating_inventory_${itemid}_itemresourceid`] = "";
+      };
+    });
 
-      setAttrs(update, {silent: true});
+    setAttrs(update, {silent: true});
   });
 
   on("change:experience", function(eventinfo) {
@@ -4350,14 +4342,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_mod = function (attr) {
-      getAttrs([attr], function(v) {
-          var attr_abr = attr.substring(0,3);
-          var finalattr = v[attr] && isNaN(v[attr]) === false ? Math.floor((parseInt(v[attr], 10) - 10) / 2) : 0;
-          var update = {};
-          update[attr + "_mod"] = finalattr;
-          update["npc_" + attr_abr + "_negative"] = v[attr] && !isNaN(v[attr]) && parseInt(v[attr], 10) < 10 ? 1 : 0;
-          setAttrs(update);
-      });
+    getAttrs([attr], function(v) {
+      var attr_abr = attr.substring(0,3);
+      var finalattr = v[attr] && isNaN(v[attr]) === false ? Math.floor((parseInt(v[attr], 10) - 10) / 2) : 0;
+      var update = {};
+      update[attr + "_mod"] = finalattr;
+      update["npc_" + attr_abr + "_negative"] = v[attr] && !isNaN(v[attr]) && parseInt(v[attr], 10) < 10 ? 1 : 0;
+      setAttrs(update);
+    });
   };
 
   // TODO implement armor
@@ -4405,14 +4397,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_all_saves = function() {
-      update_save("strength");
-      update_save("perception");
-      update_save("endurance");
-      update_save("charisma");
-      update_save("intelligence");
-      update_save("agility");
-      update_save("luck");
-      update_save("death");
+    update_save("strength");
+    update_save("perception");
+    update_save("endurance");
+    update_save("charisma");
+    update_save("intelligence");
+    update_save("agility");
+    update_save("luck");
+    update_save("death");
   };
 
   var update_all_ability_checks = function(){
