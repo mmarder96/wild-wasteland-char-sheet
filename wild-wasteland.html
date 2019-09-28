@@ -3836,32 +3836,32 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   // update saves on attr_save_prof/attr_save_mod change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
     on(`change:${attr}_save_prof change:${attr}_save_mod`, function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
+      if(eventinfo.sourceType === "sheetworker") {return;}
       update_save(`${attr}`);
     });
   });
 
   on("change:level", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_hp_max();
   });
 
   // update all saves on global_save_mod change
   on("change:global_save_mod", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_all_saves();
   });
 
   // update death save on death_save_mod change
   on("change:death_save_mod", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_save("death");
   });
 
   // update skill on skill_proficiency, skill_type, or skill_flat change
   ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'].forEach(skill => {
     on(`change:${skill}_prof change:${skill}_type change:${skill}_flat`, function(eventinfo) {
-      if(eventinfo.sourceType === "sheetworker") {return;};
+      if(eventinfo.sourceType === "sheetworker") {return;}
       update_skills([`${skill}`]);
     });
   });
@@ -3885,52 +3885,52 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   // update tool on tool property change
   on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     var tool_id = eventinfo.sourceAttribute.substring(15, 35);
     update_tool(tool_id);
   });
 
   // update attack on attack property change
   on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("ATTACK CHANGE DETECTED!");
     var attackid = eventinfo.sourceAttribute.substring(17, 37);
     update_attacks(attackid);
   });
 
   on("change:repeating_weapons:atkname change:repeating_weapons:atkflag change:repeating_weapons:atkbase change:repeating_weapons:atkattr change:repeating_weapons:atkskill change:repeating_weapons:dmgflag change:repeating_weapons:dmgbase change:repeating_weapons:dmgattr change:repeating_weapons:dmgskill change:repeating_weapons:dmgroll change:repeating_weapons:dmgtype change:repeating_weapons:dmgcustcrit change:repeating_weapons:ammo change:repeating_weapons:saveattr change:repeating_weapons:atkrange", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("WEAPON CHANGE DETECTED!");
     update_attacks("all");
   });
 
   on("change:repeating_weapons:equipped", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("WEAPON CHANGE DETECTED!");
     var weaponid = eventinfo.sourceAttribute.substring(18,38);
     update_equipped_weapon(weaponid);
   });
 
   on("change:repeating_weapons:type change:repeating_weapons:class", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_weapon_type_flag();
     update_active_attacks();
   });
 
   on("change:repeating_attack:type change:repeating_attack:class", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_attack_type_flag();
     update_active_attacks();
   });
 
   on("change:repeating_attack:dmgtype change:repeating_weapons:dmgtype", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_attack_dmg2_flag();
   });
 
   // update global damage on global damage mod change
   on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType === "sheetworker") {return;}
     update_globaldamage();
   });
 
@@ -3986,7 +3986,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on(`change:repeating_inventory:hasattack`, function(eventinfo) {
-    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
 
     const itemid = eventinfo.sourceAttribute.substring(20, 40);
     getAttrs([`repeating_inventory_${itemid}_itemattackid`], function(v) {
@@ -4006,9 +4006,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:repeating_inventory:itemname change:repeating_inventory:itemproperties change:repeating_inventory:itemmodifiers change:repeating_inventory:itemcount", function(eventinfo) {
-    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {
-      return;
-    }
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
 
     var itemid = eventinfo.sourceAttribute.substring(20, 40);
     getAttrs(["repeating_inventory_" + itemid + "_itemattackid", "repeating_inventory_" + itemid + "_itemresourceid"], function(v) {
@@ -4024,24 +4022,24 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   ['other_resource','repeating_resource:resource_left','repeating_resource:resource_right'].forEach(attr => {
-      on(`change:${attr} change:${attr}_name`, (eventinfo) => {
-          if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
-          const resourceid = (eventinfo.sourceAttribute.includes("_name")) ? eventinfo.sourceAttribute.slice(0, -5) : eventinfo.sourceAttribute;
-          getAttrs([`${resourceid}_itemid`], (v) => {
-              const value = eventinfo.newValue;
-              //Update repeating_inventory if an itemid is associated with a resource
-              if (v[`${resourceid}_itemid`] && v[`${resourceid}_itemid`] != "") {
-                  const itemid = v[`${resourceid}_itemid`];
-                  let update = {};
-                  if (eventinfo.sourceAttribute.includes("_name")) {
-                      update[`repeating_inventory_${itemid}_itemname`]  = eventinfo.newValue;
-                  } else {
-                      update[`repeating_inventory_${itemid}_itemcount`] = eventinfo.newValue;
-                  };
-                  setAttrs(update, {silent: true}, () => {update_weight()});
-              };
-          });
+    on(`change:${attr} change:${attr}_name`, (eventinfo) => {
+      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+      const resourceid = (eventinfo.sourceAttribute.includes("_name")) ? eventinfo.sourceAttribute.slice(0, -5) : eventinfo.sourceAttribute;
+      getAttrs([`${resourceid}_itemid`], (v) => {
+        const value = eventinfo.newValue;
+        //Update repeating_inventory if an itemid is associated with a resource
+        if (v[`${resourceid}_itemid`] && v[`${resourceid}_itemid`] != "") {
+          const itemid = v[`${resourceid}_itemid`];
+          let update = {};
+          if (eventinfo.sourceAttribute.includes("_name")) {
+            update[`repeating_inventory_${itemid}_itemname`]  = eventinfo.newValue;
+          } else {
+            update[`repeating_inventory_${itemid}_itemcount`] = eventinfo.newValue;
+          };
+          setAttrs(update, {silent: true}, () => {update_weight()});
+        };
       });
+    });
   });
 
   on("change:repeating_inventory:itemweight change:repeating_inventory:itemcount change:cp change:sp change:ep change:gp change:pp change:encumberance_setting change:size change:carrying_capacity_mod", function() {
