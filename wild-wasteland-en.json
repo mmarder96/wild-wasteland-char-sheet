@@ -352,6 +352,7 @@
 	"warning-armor-sets-u": "<input type=\"checkbox\" name=\"attr_armorwarning\" value=\"hide\">WARNING - AC IS NOT INCORRECT. UNEQUIP EXTRA ARMOR OR SHIELD FROM ITEM DETAILS.",
 	"armor-name-u": "ARMOR NAME",
 	"dt:-u": "DT:",
+	"clothing": "Clothing",
 	"light-armor": "Light armor",
 	"medium-armor": "Medium armor",
 	"heavy-armor": "Heavy armor",

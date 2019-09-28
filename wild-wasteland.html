@@ -1680,12 +1680,13 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <input class="subfield" type="text" name="attr_armordt"> -->
                     <span class="label" data-i18n="type:-u">TYPE:</span>
                     <select name="attr_armor_type">
-                      <option value="0" data-i18n="light-armor">Light armor</option>
-                      <option value="1" data-i18n="medium-armor">Medium armor</option>
-                      <option value="2" data-i18n="heavy-armor">Heavy armor</option>
-                      <option value="3" data-i18n="power-armor">Power armor</option>
-                      <option value="4" data-i18n="accessory">Accessory</option>
-                      <option value="5" selected="selected">—</option>
+                      <option value="clothing" data-i18n="clothing">Clothing</option>
+                      <option value="light" data-i18n="light-armor">Light armor</option>
+                      <option value="medium" data-i18n="medium-armor">Medium armor</option>
+                      <option value="heavy" data-i18n="heavy-armor">Heavy armor</option>
+                      <option value="power" data-i18n="power-armor">Power armor</option>
+                      <option value="accessory" data-i18n="accessory">Accessory</option>
+                      <option value="" selected="selected">—</option>
                     </select>
                     <span class="label" data-i18n="prop:-u">PROP:</span>
                     <input class="subfield" type="text" name="attr_armorproperties">
@@ -4079,13 +4080,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:custom_ac_flag change:custom_ac_base change:custom_ac_part1 change:custom_ac_part2 change:custom_ac_shield", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
-      update_dt();
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+    update_dt();
   });
 
   on("change:pb_type change:pb_custom", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
-      update_pb();
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+    update_pb();
   });
 
   on("change:dtype", function(eventinfo) {
@@ -4132,34 +4133,34 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   [`ac`,`attack`,'save','skill',].forEach(attr => {
-      on(`change:global_${attr}_mod_flag`, (eventinfo) => {
-          const mod = (attr === "attack") ? "tohitmod" : `${attr}mod`;
-          if(eventinfo.newValue === "1") {
-              const firstAttr       = (attr === "ac")  ? "val" : "roll";
-              const firstAttrValue  = (attr === "ac")  ? 1 : "1d4";
-              const secondAttrValue = (attr === "ac")  ? "Defense" : (attr === "skill") ? "GUIDANCE" : "BLESS";
+    on(`change:global_${attr}_mod_flag`, (eventinfo) => {
+      const mod = (attr === "attack") ? "tohitmod" : `${attr}mod`;
+      if(eventinfo.newValue === "1") {
+        const firstAttr       = (attr === "ac")  ? "val" : "roll";
+        const firstAttrValue  = (attr === "ac")  ? 1 : "1d4";
+        const secondAttrValue = (attr === "ac")  ? "Defense" : (attr === "skill") ? "GUIDANCE" : "BLESS";
 
-              getSectionIDs(mod, (ids) => {
-                  if(!ids || ids.length === 0) {
-                      var update = {};
-                      var rowid = generateRowID();
-                      update[`repeating_${mod}_${rowid}_global_${attr}_${firstAttr}`]= `${firstAttrValue}`;
-                      update[`repeating_${mod}_${rowid}_global_${attr}_name`]        = `${secondAttrValue}`;
-                      update[`repeating_${mod}_${rowid}_global_${attr}_active_flag`] = "1";
-                      setAttrs(update);
-                  }
-              });
-          } else {
-              getSectionIDs(mod, function(ids) {
-                  var update = {};
-                  var rowid = generateRowID();
-                  _.each(ids, function(rowid) {
-                      update[`repeating_${mod}_${rowid}_global_${attr}_active_flag`] = "0";
-                  });
-                  setAttrs(update);
-              });
+        getSectionIDs(mod, (ids) => {
+          if(!ids || ids.length === 0) {
+            var update = {};
+            var rowid = generateRowID();
+            update[`repeating_${mod}_${rowid}_global_${attr}_${firstAttr}`]= `${firstAttrValue}`;
+            update[`repeating_${mod}_${rowid}_global_${attr}_name`]        = `${secondAttrValue}`;
+            update[`repeating_${mod}_${rowid}_global_${attr}_active_flag`] = "1";
+            setAttrs(update);
           }
-      });
+        });
+      } else {
+        getSectionIDs(mod, function(ids) {
+          var update = {};
+          var rowid = generateRowID();
+          _.each(ids, function(rowid) {
+            update[`repeating_${mod}_${rowid}_global_${attr}_active_flag`] = "0";
+          });
+          setAttrs(update);
+        });
+      }
+    });
   });
 
   on("change:repeating_skillmod remove:repeating_skillmod", function(eventinfo) {
@@ -4182,7 +4183,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     setAttrs({monster_confirm_flag: ""});
     getAttrs(["drop_category"], function(v) {
       if(v["drop_category"]) {
-          handle_drop(v["drop_category"]);
+        handle_drop(v["drop_category"]);
       }
     });
   });
@@ -4263,7 +4264,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:experience", function(eventinfo) {
-      set_level();
+    set_level();
   });
 
   var update_attr = function(attr) {
@@ -4352,46 +4353,45 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   // TODO implement armor
   var update_save = function (attr) {
-      var save_attrs = [attr + "_mod", attr + "_save_prof", attr + "_save_mod","pb","global_save_mod","pb_type"];
-      getSectionIDs("repeating_inventory", function(idarray) {
-          _.each(idarray, function(currentID, i) {
-              save_attrs.push("repeating_inventory_" + currentID + "_equipped");
-              save_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
-          });
-
-          getAttrs(save_attrs, function(v) {
-              var attr_mod = v[attr + "_mod"] ? parseInt(v[attr + "_mod"], 10) : 0;
-              var prof = v[attr + "_save_prof"] && v[attr + "_save_prof"] != 0 && !isNaN(v["pb"]) ? parseInt(v["pb"], 10) : 0;
-              var save_mod = v[attr + "_save_mod"] && !isNaN(parseInt(v[attr + "_save_mod"], 10)) ? parseInt(v[attr + "_save_mod"], 10) : 0;
-              var global = v["global_save_mod"] && !isNaN(v["global_save_mod"]) ? parseInt(v["global_save_mod"], 10) : 0;
-              var items = 0;
-              _.each(idarray, function(currentID) {
-                  if(v["repeating_inventory_" + currentID + "_equipped"] && v["repeating_inventory_" + currentID + "_equipped"] === "1" && v["repeating_inventory_" + currentID + "_itemmodifiers"] && (v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("saving throws") > -1 || v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr + " save") > -1)) {
-                      var mods = v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
-                      _.each(mods, function(mod) {
-                          if(mod.indexOf(attr + " save") > -1) {
-                              var substr = mod.slice(mod.lastIndexOf(attr + " save") + attr.length + " save".length);
-                              var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
-                          }
-                          else if(mod.indexOf("saving throws") > -1) {
-                              var substr = mod.slice(mod.lastIndexOf("saving throws") + "saving throws".length);
-                              var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
-                          };
-                          if(bonus && bonus != 0) {
-                              items = items + bonus;
-                          };
-                      });
-                  }
-              });
-              var total = attr_mod + prof + save_mod + global + items;
-              if(v["pb_type"] && v["pb_type"] === "die" && v[attr + "_save_prof"] != 0 && attr != "death") {
-                  total = total + "+" + v["pb"];
-              };
-              var update = {};
-              update[attr + "_save_bonus"] = total;
-              setAttrs(update, {silent: true});
-          });
+    var save_attrs = [attr + "_mod", attr + "_save_prof", attr + "_save_mod","pb","global_save_mod","pb_type"];
+    getSectionIDs("repeating_inventory", function(idarray) {
+      _.each(idarray, function(currentID, i) {
+        save_attrs.push("repeating_inventory_" + currentID + "_equipped");
+        save_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
       });
+
+      getAttrs(save_attrs, function(v) {
+        var attr_mod = v[attr + "_mod"] ? parseInt(v[attr + "_mod"], 10) : 0;
+        var prof = v[attr + "_save_prof"] && v[attr + "_save_prof"] != 0 && !isNaN(v["pb"]) ? parseInt(v["pb"], 10) : 0;
+        var save_mod = v[attr + "_save_mod"] && !isNaN(parseInt(v[attr + "_save_mod"], 10)) ? parseInt(v[attr + "_save_mod"], 10) : 0;
+        var global = v["global_save_mod"] && !isNaN(v["global_save_mod"]) ? parseInt(v["global_save_mod"], 10) : 0;
+        var items = 0;
+        _.each(idarray, function(currentID) {
+          if(v["repeating_inventory_" + currentID + "_equipped"] && v["repeating_inventory_" + currentID + "_equipped"] === "1" && v["repeating_inventory_" + currentID + "_itemmodifiers"] && (v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("saving throws") > -1 || v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr + " save") > -1)) {
+            var mods = v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
+            _.each(mods, function(mod) {
+              if(mod.indexOf(attr + " save") > -1) {
+                var substr = mod.slice(mod.lastIndexOf(attr + " save") + attr.length + " save".length);
+                var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
+              } else if(mod.indexOf("saving throws") > -1) {
+                var substr = mod.slice(mod.lastIndexOf("saving throws") + "saving throws".length);
+                var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
+              };
+              if(bonus && bonus != 0) {
+                items = items + bonus;
+              };
+            });
+          }
+        });
+        var total = attr_mod + prof + save_mod + global + items;
+        if(v["pb_type"] && v["pb_type"] === "die" && v[attr + "_save_prof"] != 0 && attr != "death") {
+          total = total + "+" + v["pb"];
+        };
+        var update = {};
+        update[attr + "_save_bonus"] = total;
+        setAttrs(update, {silent: true});
+      });
+    });
   };
 
   var update_all_saves = function() {
@@ -4406,8 +4406,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_all_ability_checks = function(){
-      update_initiative();
-      update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
+    update_initiative();
+    update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
   };
 
   var update_skills = function (skills_array) {
@@ -4496,33 +4496,31 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_tool = function(tool_id) {
-      if(tool_id.substring(0,1) === "-" && tool_id.length === 20) {
-          do_update_tool([tool_id]);
-      }
-      else if(tool_id === "all") {
-          getSectionIDs("repeating_tool", function(idarray) {
-              do_update_tool(idarray);
+    if(tool_id.substring(0,1) === "-" && tool_id.length === 20) {
+      do_update_tool([tool_id]);
+    } else if(tool_id === "all") {
+      getSectionIDs("repeating_tool", function(idarray) {
+        do_update_tool(idarray);
+      });
+    } else {
+      getSectionIDs("repeating_tool", function(idarray) {
+        var tool_attribs = [];
+        _.each(idarray, function(id) {
+          tool_attribs.push("repeating_tool_" + id + "_toolattr_base");
+        });
+        getAttrs(tool_attribs, function(v) {
+          var attr_tool_ids = [];
+          _.each(idarray, function(id) {
+            if(v["repeating_tool_" + id + "_toolattr_base"] && v["repeating_tool_" + id + "_toolattr_base"].indexOf(tool_id) > -1) {
+              attr_tool_ids.push(id);
+            }
           });
-      }
-      else {
-          getSectionIDs("repeating_tool", function(idarray) {
-              var tool_attribs = [];
-              _.each(idarray, function(id) {
-                  tool_attribs.push("repeating_tool_" + id + "_toolattr_base");
-              });
-              getAttrs(tool_attribs, function(v) {
-                  var attr_tool_ids = [];
-                  _.each(idarray, function(id) {
-                      if(v["repeating_tool_" + id + "_toolattr_base"] && v["repeating_tool_" + id + "_toolattr_base"].indexOf(tool_id) > -1) {
-                          attr_tool_ids.push(id);
-                      }
-                  });
-                  if(attr_tool_ids.length > 0) {
-                      do_update_tool(attr_tool_ids);
-                  }
-              });
-          });
-      };
+          if(attr_tool_ids.length > 0) {
+            do_update_tool(attr_tool_ids);
+          }
+        });
+      });
+    };
   };
 
   var do_update_tool = function(tool_array) {
@@ -4705,20 +4703,20 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var create_attack_from_item = function(itemid, options) {
-      var update = {};
-      var newrowid = generateRowID();
-      update["repeating_inventory_" + itemid + "_itemattackid"] = newrowid;
-      if(options && options.versatile) {
-          var newrowid2 = generateRowID();
-          update["repeating_inventory_" + itemid + "_itemattackid"] += "," + newrowid2;
-          setAttrs(update, {}, function() {
-              update_attack_from_item(itemid, newrowid, {newattack: true, versatile: "primary"});
-              update_attack_from_item(itemid, newrowid2, {newattack: true, versatile: "secondary"});
-          });
-      }
-      else {
-          setAttrs(update, {}, update_attack_from_item(itemid, newrowid, {newattack: true}));
-      }
+    var update = {};
+    var newrowid = generateRowID();
+    update["repeating_inventory_" + itemid + "_itemattackid"] = newrowid;
+    if(options && options.versatile) {
+      var newrowid2 = generateRowID();
+      update["repeating_inventory_" + itemid + "_itemattackid"] += "," + newrowid2;
+      setAttrs(update, {}, function() {
+        update_attack_from_item(itemid, newrowid, {newattack: true, versatile: "primary"});
+        update_attack_from_item(itemid, newrowid2, {newattack: true, versatile: "secondary"});
+      });
+    }
+    else {
+      setAttrs(update, {}, update_attack_from_item(itemid, newrowid, {newattack: true}));
+    }
   };
 
   var update_attack_from_item = function(itemid, attackid, options) {
@@ -5389,11 +5387,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var remove_attack = function(attackid) {
-      removeRepeatingRow("repeating_attack_" + attackid);
+    removeRepeatingRow("repeating_attack_" + attackid);
   };
 
   var remove_weapon = function(weaponid) {
-      removeRepeatingRow("repeating_weapon_" + attackid);
+    removeRepeatingRow("repeating_weapon_" + attackid);
   };
 
   var update_equipped_weapon = function(weaponid) {
@@ -5546,41 +5544,41 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   }
 
   const remove_resource = (id) => {
-      const attr = (id === "other_resource") ? id : `repeating_resource_${id}_itemid`;
-      let update = {};
-      getAttrs([`${attr}`], (v) => {
-          const itemid = v[`${attr}`];
-          //Uncheck Use As A Resource in inventory for an item if its resource row is deleted
-          if (itemid) {
-              update[`repeating_inventory_${itemid}_useasresource`]  = 0;
-              update[`repeating_inventory_${itemid}_itemresourceid`] = "";
-          };
-          if (id == "other_resource") {
-              update["other_resource"]        = "";
-              update["other_resource_name"]   = "";
-              update["other_resource_itemid"] = "";
-              setAttrs(update, {silent: true});
+    const attr = (id === "other_resource") ? id : `repeating_resource_${id}_itemid`;
+    let update = {};
+    getAttrs([`${attr}`], (v) => {
+      const itemid = v[`${attr}`];
+      //Uncheck Use As A Resource in inventory for an item if its resource row is deleted
+      if (itemid) {
+        update[`repeating_inventory_${itemid}_useasresource`]  = 0;
+        update[`repeating_inventory_${itemid}_itemresourceid`] = "";
+      };
+      if (id == "other_resource") {
+        update["other_resource"]        = "";
+        update["other_resource_name"]   = "";
+        update["other_resource_itemid"] = "";
+        setAttrs(update, {silent: true});
+      } else {
+        const currentID = id.replace("repeating_resource_", "").substring(0,20);
+        const side  = (id.includes("left")) ? `right` : `left`;
+        //Get the inputs for the opposite side to see if they are empty.
+        //If they are empty delete the entire row. Otherwise set the side that was the source of this event to empty strings
+        getAttrs([`repeating_resource_${currentID}_resource_${side}`, `repeating_resource_${currentID}_resource_${side}_name`, `repeating_resource_${currentID}_resource_${side}_max`], (v) => {
+          const Name  = v[`repeating_resource_${currentID}_resource_${side}_name`] || false;
+          const Value = v[`repeating_resource_${currentID}_resource_${side}`] || false;
+          const Max   = v[`repeating_resource_${currentID}_resource_${side}_max`] || false;
+          if (!Name && !Value && !Max) {
+            removeRepeatingRow(`repeating_resource_${currentID}`);
           } else {
-              const currentID = id.replace("repeating_resource_", "").substring(0,20);
-              const side  = (id.includes("left")) ? `right` : `left`;
-              //Get the inputs for the opposite side to see if they are empty.
-              //If they are empty delete the entire row. Otherwise set the side that was the source of this event to empty strings
-              getAttrs([`repeating_resource_${currentID}_resource_${side}`, `repeating_resource_${currentID}_resource_${side}_name`, `repeating_resource_${currentID}_resource_${side}_max`], (v) => {
-                  const Name  = v[`repeating_resource_${currentID}_resource_${side}_name`] || false;
-                  const Value = v[`repeating_resource_${currentID}_resource_${side}`] || false;
-                  const Max   = v[`repeating_resource_${currentID}_resource_${side}_max`] || false;
-                  if (!Name && !Value && !Max) {
-                      removeRepeatingRow(`repeating_resource_${currentID}`);
-                  } else {
-                      update[`repeating_resource_${id}`]        = "";
-                      update[`repeating_resource_${id}_name`]   = "";
-                      update[`repeating_resource_${id}_max`]    = "";
-                      update[`repeating_resource_${id}_itemid`] = "";
-                  };
-                  setAttrs(update, {silent: true});
-              });
+            update[`repeating_resource_${id}`]        = "";
+            update[`repeating_resource_${id}_name`]   = "";
+            update[`repeating_resource_${id}_max`]    = "";
+            update[`repeating_resource_${id}_itemid`] = "";
           };
-      });
+          setAttrs(update, {silent: true});
+        });
+      };
+    });
   };
 
   const update_weight = function() {
@@ -5969,55 +5967,48 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_passive_perception = function() {
-      getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(v) {
-          var pass_per = 10;
-          var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
-          var mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
-          var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
-          // if(v["pb_type"] && v["pb_type"] === "die" && v["perception_bonus"] && isNaN(v["perception_bonus"]) && v["perception_bonus"].indexOf("+") > -1) {
-          //     var pieces = v["perception_bonus"].split(/\+|d/);
-          //     var base = !isNaN(parseInt(pieces[0],10)) ? parseInt(pieces[0],10) : 0;
-          //     var num_dice = !isNaN(parseInt(pieces[1],10)) ? parseInt(pieces[1],10) : 1;
-          //     var half_pb_die = !isNaN(parseInt(pieces[2],10)) ? parseInt(pieces[2],10)/2 : 2;
-          //     bonus = base + (num_dice * half_pb_die);
-          // }
-          pass_per = pass_per + per_mod + bonus + mod;
-          setAttrs({passive_perception: pass_per})
-      });
+    getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(v) {
+      var pass_per = 10;
+      var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
+      var mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
+      var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
+      pass_per = pass_per + per_mod + bonus + mod;
+      setAttrs({passive_perception: pass_per})
+    });
   };
 
   var update_critical_strike = function() {
-      getAttrs(["luck_mod","critical_strike_mod","luck_bonus"], function(v) {
-          var crit = 10;
-          var luk_mod = !isNaN(parseInt(v["luck_mod"],10)) ? parseInt(v["luck_mod"],10) : 0;
-          var mod = !isNaN(parseInt(v["critical_strike_mod"],10)) ? parseInt(v["critical_strike_mod"],10) : 0;
-          var bonus = !isNaN(parseInt(v["luck_bonus"],10)) ? parseInt(v["luck_bonus"],10) : 0;
-          crit = crit + luk_mod + bonus + mod;
-          setAttrs({critical_strike: crit})
-      });
+    getAttrs(["luck_mod","critical_strike_mod","luck_bonus"], function(v) {
+      var crit = 10;
+      var luk_mod = !isNaN(parseInt(v["luck_mod"],10)) ? parseInt(v["luck_mod"],10) : 0;
+      var mod = !isNaN(parseInt(v["critical_strike_mod"],10)) ? parseInt(v["critical_strike_mod"],10) : 0;
+      var bonus = !isNaN(parseInt(v["luck_bonus"],10)) ? parseInt(v["luck_bonus"],10) : 0;
+      crit = crit + luk_mod + bonus + mod;
+      setAttrs({critical_strike: crit})
+    });
   };
 
   var organize_section_proficiencies = function() {
-      getSectionIDs("proficiencies", function(ids) {
-          var attribs = ["_reporder_repeating_proficiencies"];
-          _.each(ids, function(id) {
-              attribs.push("repeating_proficiencies_" + id + "_prof_type");
-              attribs.push("repeating_proficiencies_" + id + "_name");
-          });
-
-          getAttrs(attribs, function(v) {
-              var final_array = _(ids).chain().sortBy(function(id) {
-                  return v["repeating_proficiencies_" + id + "_name"];
-              }).sortBy(function(id) {
-                  return v["repeating_proficiencies_" + id + "_prof_type"];
-              }).value();
-              _.each(final_array, function(id) {
-              });
-              if(final_array && final_array.length > 0) {
-                  setSectionOrder("proficiencies", final_array);
-              };
-          });
+    getSectionIDs("proficiencies", function(ids) {
+      var attribs = ["_reporder_repeating_proficiencies"];
+      _.each(ids, function(id) {
+        attribs.push("repeating_proficiencies_" + id + "_prof_type");
+        attribs.push("repeating_proficiencies_" + id + "_name");
       });
+
+      getAttrs(attribs, function(v) {
+        var final_array = _(ids).chain().sortBy(function(id) {
+          return v["repeating_proficiencies_" + id + "_name"];
+        }).sortBy(function(id) {
+          return v["repeating_proficiencies_" + id + "_prof_type"];
+        }).value();
+        _.each(final_array, function(id) {
+        });
+        if(final_array && final_array.length > 0) {
+          setSectionOrder("proficiencies", final_array);
+        };
+      });
+    });
   };
 
   var update_challenge = function() {
@@ -6171,15 +6162,15 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_npc_saves = () => {
-      const list = ["npc_str_save_base","npc_dex_save_base","npc_con_save_base","npc_int_save_base","npc_wis_save_base","npc_cha_save_base"];
-      const type = "save";
-      update_npc_lists(list, type);
+    const list = ["npc_str_save_base","npc_dex_save_base","npc_con_save_base","npc_int_save_base","npc_wis_save_base","npc_cha_save_base"];
+    const type = "save";
+    update_npc_lists(list, type);
   };
 
   const update_npc_skills = () => {
-      const list = ["npc_acrobatics_base","npc_animal_handling_base","npc_arcana_base","npc_athletics_base","npc_deception_base","npc_history_base","npc_insight_base","npc_intimidation_base","npc_investigation_base","npc_medicine_base","npc_nature_base","npc_perception_base","npc_performance_base","npc_persuasion_base","npc_religion_base","npc_sleight_of_hand_base","npc_stealth_base","npc_survival_base"];
-      const type = "skills";
-      update_npc_lists(list, type);
+    const list = ["npc_acrobatics_base","npc_animal_handling_base","npc_arcana_base","npc_athletics_base","npc_deception_base","npc_history_base","npc_insight_base","npc_intimidation_base","npc_investigation_base","npc_medicine_base","npc_nature_base","npc_perception_base","npc_performance_base","npc_persuasion_base","npc_religion_base","npc_sleight_of_hand_base","npc_stealth_base","npc_survival_base"];
+    const type = "skills";
+    update_npc_lists(list, type);
   };
 
   const update_npc_lists = (list, type) => {
@@ -6220,25 +6211,25 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_npc_action = function(update_id, legendary) {
-      if(update_id.substring(0,1) === "-" && update_id.length === 20) {
-          do_update_npc_action([update_id], legendary);
-      }
-      else if(update_id === "all") {
-          var legendary_array = [];
-          var actions_array = [];
-          getSectionIDs("repeating_npcaction-l", function(idarray) {
-              legendary_array = idarray;
-              if(legendary_array.length > 0) {
-                  do_update_npc_action(legendary_array, true);
-              }
-              getSectionIDs("repeating_npcaction", function(idarray) {
-                  actions_array = idarray.filter(function(i) {return legendary_array.indexOf(i) < 0;});
-                  if(actions_array.length > 0) {
-                      do_update_npc_action(actions_array, false);
-                  };
-              });
-          });
-      };
+    if(update_id.substring(0,1) === "-" && update_id.length === 20) {
+      do_update_npc_action([update_id], legendary);
+    }
+    else if(update_id === "all") {
+      var legendary_array = [];
+      var actions_array = [];
+      getSectionIDs("repeating_npcaction-l", function(idarray) {
+        legendary_array = idarray;
+        if(legendary_array.length > 0) {
+          do_update_npc_action(legendary_array, true);
+        }
+        getSectionIDs("repeating_npcaction", function(idarray) {
+          actions_array = idarray.filter(function(i) {return legendary_array.indexOf(i) < 0;});
+          if(actions_array.length > 0) {
+            do_update_npc_action(actions_array, false);
+          };
+        });
+      });
+    };
   };
 
   var do_update_npc_action = function(action_array, legendary) {
@@ -6340,250 +6331,249 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var parse_roll_string = function(rollstring) {
-      var out = {array: [], avg: 0, rolls: []};
+    var out = {array: [], avg: 0, rolls: []};
 
-      if(!rollstring || rollstring === "") {
-          return out;
-      }
-
-      var rs_regex_initial = /(\-?\d+(?:d\d+)?)/ig;
-      var rs_regex_repeating = /([\+\-])(\-?\d+(?:d\d+)?)/ig;
-      var rs_nospace = rollstring.replace(/\s/g, '');
-      var rs_initial = rs_regex_initial.exec(rs_nospace);
-
-      if(rs_initial) {
-          out.array.push(rs_initial[1]);
-          rs_regex_repeating.lastIndex = rs_regex_initial.lastIndex;
-          var rs_repeating;
-          while(rs_repeating = rs_regex_repeating.exec(rs_nospace)) {
-              out.array.push(rs_repeating[1], rs_repeating[2]);
-          }
-      }
-
-      var add = true;
-      var dice_regex = /(\d+)d(\d+)/i;
-      var dice;
-
-      out.array.forEach(function(value, index, array) {
-          if(value === "+") {
-              add = true;
-          } else if(value === "-") {
-              add = false;
-          } else if(dice = dice_regex.exec(value)){
-              // this value is a die roll
-              var dice_avg = Math.floor(+dice[1] * (+dice[2] / 2 + 0.5));
-              out.avg += add ? dice_avg : -dice_avg;
-              out.rolls.push(index);
-          } else {
-              // this value is a number
-              out.avg += add ? +value : -+value;
-          }
-      })
-
+    if(!rollstring || rollstring === "") {
       return out;
+    }
+
+    var rs_regex_initial = /(\-?\d+(?:d\d+)?)/ig;
+    var rs_regex_repeating = /([\+\-])(\-?\d+(?:d\d+)?)/ig;
+    var rs_nospace = rollstring.replace(/\s/g, '');
+    var rs_initial = rs_regex_initial.exec(rs_nospace);
+
+    if(rs_initial) {
+      out.array.push(rs_initial[1]);
+      rs_regex_repeating.lastIndex = rs_regex_initial.lastIndex;
+      var rs_repeating;
+      while(rs_repeating = rs_regex_repeating.exec(rs_nospace)) {
+        out.array.push(rs_repeating[1], rs_repeating[2]);
+      }
+    }
+
+    var add = true;
+    var dice_regex = /(\d+)d(\d+)/i;
+    var dice;
+
+    out.array.forEach(function(value, index, array) {
+      if(value === "+") {
+        add = true;
+      } else if(value === "-") {
+        add = false;
+      } else if(dice = dice_regex.exec(value)){
+        // this value is a die roll
+        var dice_avg = Math.floor(+dice[1] * (+dice[2] / 2 + 0.5));
+        out.avg += add ? dice_avg : -dice_avg;
+        out.rolls.push(index);
+      } else {
+        // this value is a number
+        out.avg += add ? +value : -+value;
+      }
+    })
+
+    return out;
   };
 
   var update_globaldamage = function(callback) {
-      getSectionIDs("damagemod", function(ids) {
-          if(ids) {
-              var fields = {};
-              var attr_name_list = [];
-              ids.forEach(function(id) {
-                  fields[id] = {};
-                  attr_name_list.push(`repeating_damagemod_${id}_global_damage_active_flag`, `repeating_damagemod_${id}_global_damage_name`, `repeating_damagemod_${id}_global_damage_damage`, `repeating_damagemod_${id}_global_damage_type`);
-              });
+    getSectionIDs("damagemod", function(ids) {
+      if(ids) {
+        var fields = {};
+        var attr_name_list = [];
+        ids.forEach(function(id) {
+          fields[id] = {};
+          attr_name_list.push(`repeating_damagemod_${id}_global_damage_active_flag`, `repeating_damagemod_${id}_global_damage_name`, `repeating_damagemod_${id}_global_damage_damage`, `repeating_damagemod_${id}_global_damage_type`);
+        });
 
-              getAttrs(attr_name_list, function(attrs) {
-                  var regex = /^repeating_damagemod_(.+)_global_damage_(active_flag|name|damage|type)$/;
-                  _.each(attrs, function(obj, name) {
-                      var r = regex.exec(name);
-                      if(r) {
-                          fields[r[1]][r[2]] = obj;
-                      };
-                  });
+        getAttrs(attr_name_list, function(attrs) {
+          var regex = /^repeating_damagemod_(.+)_global_damage_(active_flag|name|damage|type)$/;
+          _.each(attrs, function(obj, name) {
+            var r = regex.exec(name);
+            if(r) {
+              fields[r[1]][r[2]] = obj;
+            };
+          });
 
-                  var update = {global_damage_mod_roll: "", global_damage_mod_crit: "", global_damage_mod_type: ""};
+          var update = {global_damage_mod_roll: "", global_damage_mod_crit: "", global_damage_mod_type: ""};
 
-                  console.log("GLOBALDAMAGE");
-                  _.each(fields, function(element) {
-                      if(element.active_flag != "0") {
-                          if(element.name && element.name !== "") { update["global_damage_mod_roll"] += element.damage + '[' + element.name + ']' + "+"; }
-                          if(element.type && element.type !== "") { update["global_damage_mod_type"] += element.type + "/"; }
-                      }
-                  });
+          console.log("GLOBALDAMAGE");
+          _.each(fields, function(element) {
+            if(element.active_flag != "0") {
+              if(element.name && element.name !== "") { update["global_damage_mod_roll"] += element.damage + '[' + element.name + ']' + "+"; }
+              if(element.type && element.type !== "") { update["global_damage_mod_type"] += element.type + "/"; }
+            }
+          });
 
-                  update["global_damage_mod_roll"] = update["global_damage_mod_roll"].replace(/\+(?=$)/, '');
-                  update["global_damage_mod_type"] = update["global_damage_mod_type"].replace(/\/(?=$)/, '');
+          update["global_damage_mod_roll"] = update["global_damage_mod_roll"].replace(/\+(?=$)/, '');
+          update["global_damage_mod_type"] = update["global_damage_mod_type"].replace(/\/(?=$)/, '');
 
-                  // Remove any non-roll damage modifiers from the global damage modifier for the crit rolls
-                  // Will also remove any labels attached to these non-roll damage modifiers
-                  update["global_damage_mod_crit"] = update["global_damage_mod_roll"].replace(/(?:[+\-*\/%]|\*\*|^)\s*\d+(?:\[.*?])?(?!d\d+)/gi, '')
-                      // If what was just replace removed the first damage modifier, remove any now precending plus signs
-                      .replace(/(?:^\+)/i, '');
+          // Remove any non-roll damage modifiers from the global damage modifier for the crit rolls
+          // Will also remove any labels attached to these non-roll damage modifiers
+          // If what was just replace removed the first damage modifier, remove any now precending plus signs
+          update["global_damage_mod_crit"] = update["global_damage_mod_roll"].replace(/(?:[+\-*\/%]|\*\*|^)\s*\d+(?:\[.*?])?(?!d\d+)/gi, '').replace(/(?:^\+)/i, '');
 
-                  setAttrs(update, {silent:true}, function() {
-                      update_attacks("all");
-                      if(typeof callback == "function") callback();
-                  });
-              });
-          }
-      });
+          setAttrs(update, {silent:true}, function() {
+            update_attacks("all");
+            if(typeof callback == "function") callback();
+          });
+        });
+      }
+    });
   };
 
   var update_globalattack = function(callback) {
-      getSectionIDs("tohitmod", function(ids) {
-          if(ids) {
-              var fields = {};
-              var attr_name_list = [];
-              ids.forEach(function(id) {
-                  fields[id] = {};
-                  attr_name_list.push(`repeating_tohitmod_${id}_global_attack_active_flag`, `repeating_tohitmod_${id}_global_attack_roll`, `repeating_tohitmod_${id}_global_attack_name`);
-              });
-              getAttrs(attr_name_list, function(attrs) {
-                  var regex = /^repeating_tohitmod_(.+)_global_attack_(active_flag|roll|name)$/;
-                  _.each(attrs, function(obj, name) {
-                      var r = regex.exec(name);
-                      if(r) {
-                          fields[r[1]][r[2]] = obj;
-                      }
-                  });
+    getSectionIDs("tohitmod", function(ids) {
+      if(ids) {
+        var fields = {};
+        var attr_name_list = [];
+        ids.forEach(function(id) {
+          fields[id] = {};
+          attr_name_list.push(`repeating_tohitmod_${id}_global_attack_active_flag`, `repeating_tohitmod_${id}_global_attack_roll`, `repeating_tohitmod_${id}_global_attack_name`);
+        });
+        getAttrs(attr_name_list, function(attrs) {
+          var regex = /^repeating_tohitmod_(.+)_global_attack_(active_flag|roll|name)$/;
+          _.each(attrs, function(obj, name) {
+            var r = regex.exec(name);
+            if(r) {
+              fields[r[1]][r[2]] = obj;
+            }
+          });
 
-                  var update = {global_attack_mod: ""};
-                  console.log("GLOBALATTACK");
-                  _.each(fields, function(element) {
-                      if(element.active_flag != "0") {
-                          if(element.roll && element.roll !== "") { update["global_attack_mod"] += element.roll + "[" + element.name + "]" + "+"; }
-                      }
-                  });
-                  if(update["global_attack_mod"] !== "") {
-                      update["global_attack_mod"] = "[[" + update["global_attack_mod"].replace(/\+(?=$)/, '') + "]]";
-                  }
-                  setAttrs(update, {silent:true}, function() {
-                      if(typeof callback == "function") callback();
-                  });
-              });
+          var update = {global_attack_mod: ""};
+          console.log("GLOBALATTACK");
+          _.each(fields, function(element) {
+            if(element.active_flag != "0") {
+              if(element.roll && element.roll !== "") { update["global_attack_mod"] += element.roll + "[" + element.name + "]" + "+"; }
+            }
+          });
+          if(update["global_attack_mod"] !== "") {
+            update["global_attack_mod"] = "[[" + update["global_attack_mod"].replace(/\+(?=$)/, '') + "]]";
           }
-      });
+          setAttrs(update, {silent:true}, function() {
+            if(typeof callback == "function") callback();
+          });
+        });
+      }
+    });
   };
 
   var update_globalsaves = function(callback) {
-      getSectionIDs("savemod", function(ids) {
-          if(ids) {
-              var fields = {};
-              var attr_name_list = [];
-              ids.forEach(function(id) {
-                  fields[id] = {};
-                  attr_name_list.push(`repeating_savemod_${id}_global_save_active_flag`, `repeating_savemod_${id}_global_save_roll`, `repeating_savemod_${id}_global_save_name`);
-              });
-              getAttrs(attr_name_list, function(attrs) {
-                  var regex = /^repeating_savemod_(.+)_global_save_(active_flag|roll|name)$/;
-                  _.each(attrs, function(obj, name) {
-                      var r = regex.exec(name);
-                      if(r) {
-                          fields[r[1]][r[2]] = obj;
-                      }
-                  });
+    getSectionIDs("savemod", function(ids) {
+      if(ids) {
+        var fields = {};
+        var attr_name_list = [];
+        ids.forEach(function(id) {
+          fields[id] = {};
+          attr_name_list.push(`repeating_savemod_${id}_global_save_active_flag`, `repeating_savemod_${id}_global_save_roll`, `repeating_savemod_${id}_global_save_name`);
+        });
+        getAttrs(attr_name_list, function(attrs) {
+          var regex = /^repeating_savemod_(.+)_global_save_(active_flag|roll|name)$/;
+          _.each(attrs, function(obj, name) {
+            var r = regex.exec(name);
+            if(r) {
+              fields[r[1]][r[2]] = obj;
+            }
+          });
 
-                  var update = {global_save_mod: ""};
-                  console.log("GLOBAL SAVES");
-                  _.each(fields, function(element) {
-                      if(element.active_flag != "0") {
-                          if(element.roll && element.roll !== "") { update["global_save_mod"] += element.roll + "[" + element.name + "]" + "+"; }
-                      }
-                  });
-                  if(update["global_save_mod"] !== "") {
-                      update["global_save_mod"] = "[[" + update["global_save_mod"].replace(/\+(?=$)/, '') + "]]";
-                  }
-                  setAttrs(update, {silent:true}, function() {
-                      if(typeof callback == "function") callback();
-                  });
-              });
+          var update = {global_save_mod: ""};
+          console.log("GLOBAL SAVES");
+          _.each(fields, function(element) {
+            if(element.active_flag != "0") {
+              if(element.roll && element.roll !== "") { update["global_save_mod"] += element.roll + "[" + element.name + "]" + "+"; }
+            }
+          });
+          if(update["global_save_mod"] !== "") {
+            update["global_save_mod"] = "[[" + update["global_save_mod"].replace(/\+(?=$)/, '') + "]]";
           }
-      });
+          setAttrs(update, {silent:true}, function() {
+            if(typeof callback == "function") callback();
+          });
+        });
+      }
+    });
   };
 
   var update_globalskills = function(callback) {
       getSectionIDs("skillmod", function(ids) {
-          if(ids) {
-              var fields = {};
-              var attr_name_list = [];
-              ids.forEach(function(id) {
-                  fields[id] = {};
-                  attr_name_list.push(`repeating_skillmod_${id}_global_skill_active_flag`, `repeating_skillmod_${id}_global_skill_roll`, `repeating_skillmod_${id}_global_skill_name`);
-              });
-              getAttrs(attr_name_list, function(attrs) {
-                  var regex = /^repeating_skillmod_(.+)_global_skill_(active_flag|roll|name)$/;
-                  _.each(attrs, function(obj, name) {
-                      var r = regex.exec(name);
-                      if(r) {
-                          fields[r[1]][r[2]] = obj;
-                      }
-                  });
+        if(ids) {
+          var fields = {};
+          var attr_name_list = [];
+          ids.forEach(function(id) {
+            fields[id] = {};
+            attr_name_list.push(`repeating_skillmod_${id}_global_skill_active_flag`, `repeating_skillmod_${id}_global_skill_roll`, `repeating_skillmod_${id}_global_skill_name`);
+          });
+          getAttrs(attr_name_list, function(attrs) {
+            var regex = /^repeating_skillmod_(.+)_global_skill_(active_flag|roll|name)$/;
+            _.each(attrs, function(obj, name) {
+              var r = regex.exec(name);
+              if(r) {
+                fields[r[1]][r[2]] = obj;
+              }
+            });
 
-                  var update = {global_skill_mod: ""};
-                  console.log("GLOBAL SKILLS");
-                  _.each(fields, function(element) {
-                      if(element.active_flag != "0") {
-                          if(element.roll && element.roll !== "") { update["global_skill_mod"] += element.roll + "[" + element.name + "]" + "+"; }
-                      }
-                  });
-                  if(update["global_skill_mod"] !== "") {
-                      update["global_skill_mod"] = "[[" + update["global_skill_mod"].replace(/\+(?=$)/, '') + "]]";
-                  }
-                  setAttrs(update, {silent:true}, function() {
-                      if(typeof callback == "function") callback();
-                  });
-              });
-          }
-      });
+            var update = {global_skill_mod: ""};
+            console.log("GLOBAL SKILLS");
+            _.each(fields, function(element) {
+              if(element.active_flag != "0") {
+                if(element.roll && element.roll !== "") { update["global_skill_mod"] += element.roll + "[" + element.name + "]" + "+"; }
+              }
+            });
+            if(update["global_skill_mod"] !== "") {
+              update["global_skill_mod"] = "[[" + update["global_skill_mod"].replace(/\+(?=$)/, '') + "]]";
+            }
+            setAttrs(update, {silent:true}, function() {
+              if(typeof callback == "function") callback();
+            });
+          });
+        }
+    });
   };
 
   var check_l1_mancer = function() {
       getAttrs(["class", "base_level", "strength_base","dexterity_base","constitution_base","intelligence_base","wisdom_base","charisma_base","l1mancer_status","version","charactermancer_step"], function(v) {
-          if(!v["version"] || parseFloat(v["version"]) < 2.2) {
-              return;
-          }
-          if(v["l1mancer_status"] && v["l1mancer_status"] === "completed") {
-              return;
-          }
+        if(!v["version"] || parseFloat(v["version"]) < 2.2) {
+          return;
+        }
+        if(v["l1mancer_status"] && v["l1mancer_status"] === "completed") {
+          return;
+        }
 
-          if(v["charactermancer_step"] && v["charactermancer_step"].split("-")[0] == "l1") {
-              startCharactermancer(v["charactermancer_step"]);
+        if(v["charactermancer_step"] && v["charactermancer_step"].split("-")[0] == "l1") {
+          startCharactermancer(v["charactermancer_step"]);
+        }
+        else {
+          if(v["l1mancer_status"] && v["l1mancer_status"] === "relaunch") {
+            startCharactermancer("l1-welcome");
+          } else {
+            setAttrs({mancer_confirm_flag: 1});
           }
-          else {
-              if(v["l1mancer_status"] && v["l1mancer_status"] === "relaunch") {
-                  startCharactermancer("l1-welcome");
-              } else {
-                  setAttrs({mancer_confirm_flag: 1});
-              }
-          }
+        }
       });
   };
 
   var check_lp_mancer = function() {
-      getAttrs(["class", "base_level", "strength_base","dexterity_base","constitution_base","intelligence_base","wisdom_base","charisma_base","l1mancer_status", "lpmancer_status","version","charactermancer_step"], function(v) {
-          if(v["lpmancer_status"] === "active" && v["charactermancer_step"] && v["charactermancer_step"].split("-")[0] == "lp") {
-              startCharactermancer(v["charactermancer_step"]);
-          }
-      });
+    getAttrs(["class", "base_level", "strength_base","dexterity_base","constitution_base","intelligence_base","wisdom_base","charisma_base","l1mancer_status", "lpmancer_status","version","charactermancer_step"], function(v) {
+      if(v["lpmancer_status"] === "active" && v["charactermancer_step"] && v["charactermancer_step"].split("-")[0] == "lp") {
+        startCharactermancer(v["charactermancer_step"]);
+      }
+    });
   };
 
   var clear_npc_spell_attacks = function(complete) {
-      getSectionIDs("repeating_attack", function(attack_ids) {
-          var getList = [];
-          var done = false;
-          _.each(attack_ids, function(id) {
-              getList.push(`repeating_attack_${id}_spellid`);
-          });
-          getAttrs(getList, function(v) {
-              _.each(attack_ids, function(id) {
-                  if (v[`repeating_attack_${id}_spellid`] && v[`repeating_attack_${id}_spellid`].indexOf("npc_") != -1) {
-                      removeRepeatingRow(`repeating_attack_${id}`);
-                  }
-              });
-              complete();
-          });
+    getSectionIDs("repeating_attack", function(attack_ids) {
+      var getList = [];
+      var done = false;
+      _.each(attack_ids, function(id) {
+        getList.push(`repeating_attack_${id}_spellid`);
       });
+      getAttrs(getList, function(v) {
+        _.each(attack_ids, function(id) {
+          if (v[`repeating_attack_${id}_spellid`] && v[`repeating_attack_${id}_spellid`].indexOf("npc_") != -1) {
+            removeRepeatingRow(`repeating_attack_${id}`);
+          }
+        });
+        complete();
+      });
+    });
   }
 
   var versioning = function(finished) {
