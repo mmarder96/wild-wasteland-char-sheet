@@ -4046,11 +4046,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_armor:itemmodifiers change:repeating_armor:equipped", function(eventinfo) {
     console.log("CHANGE REPEATING ARMOR");
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
-    console.log(eventinfo.sourceAttribute)
     var armorid = eventinfo.sourceAttribute.substring(16, 36);
-    console.log(armorid)
     getAttrs(["repeating_armor_" + armorid + "_itemmodifiers"], function(attrs) {
-      console.log(attrs["repeating_armor_" + armorid + "_itemmodifiers"])
       if(attrs["repeating_armor_" + armorid + "_itemmodifiers"]) {
         check_itemmodifiers(attrs["repeating_armor_" + armorid + "_itemmodifiers"], eventinfo.previousValue);
       }
@@ -4067,9 +4064,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_inventory:itemmodifiers change:repeating_inventory:equipped", function(eventinfo) {
     console.log("CHANGE REPEATING INVENTORY");
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;};
-    console.log(eventinfo.sourceAttribute)
     var itemid = eventinfo.sourceAttribute.substring(20, 40);
-    console.log(itemid)
     getAttrs(["repeating_inventory_" + itemid + "_itemmodifiers"], function(attrs) {
       if(attrs["repeating_inventory_" + itemid + "_itemmodifiers"]) {
         check_itemmodifiers(attrs["repeating_inventory_" + itemid + "_itemmodifiers"], eventinfo.previousValue);
@@ -4410,7 +4405,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_skills = function (skills_array) {
       console.log("UPDATING SKILLS");
-      console.log("skills array: " + skills_array);
       var skill_parent = {barter: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
       var attrs_to_get = ["pb"];
       var update = {};
@@ -4433,9 +4427,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 attrs_to_get.push("repeating_inventory_" + curr_id + "_equipped");
                 attrs_to_get.push("repeating_inventory_" + curr_id + "_itemmodifiers");
             });
-            console.log(attrs_to_get)
             getAttrs(attrs_to_get, function(attr_dict) {
-              console.log(attr_dict)
               _.each(skills_array, function(skill) {
                 var attr_mod = attr_dict[skill_parent[skill] + "_mod"] ? parseInt(attr_dict[skill_parent[skill] + "_mod"], 10) : 0;
                 var prof = attr_dict[skill + "_prof"] != 0 && !isNaN(attr_dict["pb"]) ? parseInt(attr_dict["pb"], 10) : 0;
@@ -4446,7 +4438,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 _.each(armor_id_arr, function(curr_id) {
                   if(attr_dict["repeating_armor_" + curr_id + "_equipped"] && attr_dict["repeating_armor_" + curr_id + "_equipped"] === "1" && attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"] && (attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().replace(/ /g,"_").indexOf(skill) > -1 || attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1)) {
                     var mods = attr_dict["repeating_armor_" + curr_id + "_itemmodifiers"].toLowerCase().split(",");
-                    console.log( "inside update_skills - armor mods: " + mods)
                     _.each(mods, function(mod) {
                       if(mod.replace(/ /g,"_").indexOf(skill) > -1 || mod.indexOf("ability checks") > -1) {
                         if(mod.indexOf("-") > -1) {
@@ -5425,16 +5416,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var update = {};
     var callbacks = [];
     var attrs_to_get = [];
-    attrs_to_get.push("attr_equippedclothingid");
-    attrs_to_get.push("attr_equippedarmorid");
     getSectionIDs("repeating_armor", function(idarray) {
       _.each(idarray, function(id) {
         attrs_to_get.push("repeating_armor_" + id + "_equipped");
         attrs_to_get.push("repeating_armor_" + id + "_type");
       });
       getAttrs(attrs_to_get, function(attrs) {
-        console.log("armor attrs: " + attrs);
         if(attrs["repeating_armor_" + armorid + "_type"] === "clothing") {
+          // Update clothing
           _.each(idarray, function(id) {
             if(id != armorid) {
               if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1" && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] === "clothing") {
@@ -5450,6 +5439,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           });
           setAttrs(update, {silent:true});
         } else if(attrs["repeating_armor_" + armorid + "_type"] != "clothing" && attrs["repeating_armor_" + armorid + "_type"] != "accessory") {
+          // Update armor
           _.each(idarray, function(id) {
             if(id != armorid) {
               if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1" && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] != "clothing" && attrs["repeating_armor_" + armorid + "_type"] != "accessory") {
@@ -5459,11 +5449,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1") {
                 update["equippedarmorid"] = id;
               } else {
-                update["equippedclothingid"] = "";
+                update["equippedarmorid"] = "";
               }
             }
           });
           callbacks.push(() => {update_defense();});
+          callbacks.push(() => {update_speed();});
           setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         }
       });
@@ -5510,7 +5501,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         attrs_to_get.push("repeating_attack_" + id + "_type");
       });
       getAttrs(attrs_to_get, function(attrs) {
-        console.log(attrs);
         var update = {};
         _.each(idarray, function(id) {
           if(attrs["repeating_attack_" + id + "_type"]) {
@@ -5536,7 +5526,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         attrs_to_get.push("repeating_weapons_" + id + "_type");
       });
       getAttrs(attrs_to_get, function(attrs) {
-        console.log(attrs);
         var update = {};
         _.each(idarray, function(id) {
           if(attrs["repeating_weapons_" + id + "_type"]) {
@@ -5570,7 +5559,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           attrs_to_get.push("repeating_attack_" + id + "_dmgtype");
         });
         getAttrs(attrs_to_get, function(attrs) {
-          console.log(attrs);
           _.each(attack_idarray, function(id) {
             var dmg2flag;
             if (attrs["repeating_attack_" + id + "_dmgtype"] && attrs["repeating_attack_" + id + "_dmgtype"] != attrs["repeating_weapons_" + weaponid + "_dmgtype"]){
@@ -5581,7 +5569,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             } else {
               dmg2flag = 0;
             }
-            console.log("updating repeating_attack_" + id + "_dmg2flag: " + dmg2flag);
             update["repeating_attack_" + id + "_dmg2flag"] = dmg2flag;
           });
           callbacks.push(() => {update_attacks("all");});
@@ -5720,7 +5707,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   // TODO implement armor type penalty
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
-    attrs_to_get = ["equippedarmorid", "agility_mod", "pb"];
+    var attrs_to_get = ["equippedarmorid", "agility_mod", "pb"];
     getAttrs(attrs_to_get, function(a){
       var equipped_armor_id = a["equippedarmorid"];
       attrs_to_get.push("repeating_armor_" + equipped_armor_id + "_type");
@@ -5729,34 +5716,23 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           attrs_to_get.push("repeating_defmod_" + currentId + "_mod");
         });
         getAttrs(attrs_to_get, function(attrs) {
-          console.log(attrs);
           var update = {};
           var def_base = 10;
           var agility_mod = parseInt(attrs["agility_mod"], 10);
           var pb = parseInt(attrs["pb"], 10);
           var armor_mod = 0;
           var def_mod = 0;
-          var equipped_armor_id = attrs["equippedarmorid"];
           _.each(defmod_idarray, function(currentId, i) {
             if(attrs["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_defmod_" + currentId + "_mod"], 10))) {
               def_mod += parseInt(attrs["repeating_defmod_" + currentId + "_mod"], 10);
             }
           });
-          console.log("type: " + attrs["repeating_armor_" + equipped_armor_id + "_type"]);
           switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
-            case "medium":
-              armor_mod = agility_mod > 0 ? Math.floor(agility_mod/2) : 0;
-              break;
+            case "medium": armor_mod = agility_mod > 0 ? Math.floor(agility_mod/2) : 0; break;
             case "heavy":
-              armor_mod = 0;
-              break;
-            case "power":
-              armor_mod = 0;
-              break;
-            default:
-              armor_mod = agility_mod > 0 ? agility_mod : 0;
+            case "power": armor_mod = 0; break;
+            default: armor_mod = agility_mod > 0 ? agility_mod : 0;
           }
-          console.log("armor_mod: " + armor_mod);
           final_def = def_base + armor_mod + def_mod + pb;
           update["def"] = final_def;
           setAttrs(update, {silent: true});
@@ -5904,24 +5880,34 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_speed = function() {
-    attrs_to_get = ["agility_mod"];
-    getSectionIDs("repeating_spdmod", function(idArray){
-      _.each(idArray, function(currentId, i) {
-        attrs_to_get.push("repeating_spdmod_" + currentId + "_mod");
-      });
-      getAttrs(attrs_to_get, function(attr) {
-        var update = {};
-        var spd_base = 6;
-        var agility_mod = parseInt(attr["agility_mod"], 10);
-        var spd_mod = 0;
+    console.log("UPDATING SPEED!");
+    attrs_to_get = ["equippedarmorid", "agility_mod"];
+    getAttrs(attrs_to_get, function(a){
+      var equipped_armor_id = a["equippedarmorid"];
+      attrs_to_get.push("repeating_armor_" + equipped_armor_id + "_type");
+      getSectionIDs("repeating_spdmod", function(idArray){
         _.each(idArray, function(currentId, i) {
-          if(attr["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_spdmod_" + currentId + "_mod"], 10))) {
-            spd_mod += parseInt(attr["repeating_spdmod_" + currentId + "_mod"], 10);
-          }
+          attrs_to_get.push("repeating_spdmod_" + currentId + "_mod");
         });
-        final_spd = spd_base + Math.floor(agility_mod/2) + spd_mod;
-        update["speed"] = final_spd;
-        setAttrs(update, {silent: true});
+        getAttrs(attrs_to_get, function(attrs) {
+          var update = {};
+          var spd_base = 6;
+          var spd_bonus =  Math.floor(parseInt(attrs["agility_mod"], 10)/2);
+          var armor_mod = 0;
+          var spd_mod = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attrs["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_spdmod_" + currentId + "_mod"], 10))) {
+              spd_mod += parseInt(attrs["repeating_spdmod_" + currentId + "_mod"], 10);
+            }
+          });
+          switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
+            case "heavy": armor_mod = -1; break;
+            case "power": armor_mod = -2; break;
+          }
+          final_spd = spd_base + spd_bonus + armor_mod + spd_mod;
+          update["speed"] = final_spd;
+          setAttrs(update, {silent: true});
+        });
       });
     });
   }
