@@ -562,7 +562,6 @@ button[type=roll] * {
 
 .sheet-saving-throw-container,
 .sheet-skills-container {
-  width: 100%;
   border: 1px solid #666;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -719,6 +718,7 @@ button[type=roll] * {
 .sheet-equipment {
   width: 240px;
   margin-bottom: 10px;
+  padding-left: 4px;
 }
 
 .sheet-def-dt-speed-container div {
