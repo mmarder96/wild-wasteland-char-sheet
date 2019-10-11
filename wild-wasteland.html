@@ -5704,7 +5704,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   }
 
-  // TODO implement armor type penalty
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
     var attrs_to_get = ["equippedarmorid", "agility_mod", "pb"];
@@ -5728,12 +5727,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           });
           switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
-            case "medium": armor_mod = agility_mod > 0 ? Math.floor(agility_mod/2) : 0; break;
-            case "heavy":
-            case "power": armor_mod = 0; break;
-            default: armor_mod = agility_mod > 0 ? agility_mod : 0;
+            case "light": armor_mod = -1; break;
+            case "medium": armor_mod = -2; break;
+            case "heavy": armor_mod = -3; break;
+            case "power": armor_mod = -4; break;
           }
-          final_def = def_base + armor_mod + def_mod + pb;
+          final_def = def_base + agility_mod + armor_mod + def_mod + pb;
           update["def"] = final_def;
           setAttrs(update, {silent: true});
         });
