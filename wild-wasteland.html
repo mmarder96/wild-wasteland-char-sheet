@@ -5733,6 +5733,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             case "power": armor_mod = -4; break;
           }
           final_def = def_base + agility_mod + armor_mod + def_mod + pb;
+          final_def = final_def > 0 ? final_def : 0;
           update["def"] = final_def;
           setAttrs(update, {silent: true});
         });
