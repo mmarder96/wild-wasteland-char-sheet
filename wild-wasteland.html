@@ -5516,7 +5516,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent:true});
       });
     });
-  }
+  };
 
   var update_weapon_type_flag = function() {
     console.log("UPDATING WEAPON TYPE FLAG");
@@ -5541,7 +5541,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent:true});
       });
     });
-  }
+  };
 
   var update_attack_dmg2_flag = function() {
     console.log("UPDATING DMG2 FLAG");
@@ -5576,7 +5576,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       });
     });
-  }
+  };
 
   const remove_resource = (id) => {
     const attr = (id === "other_resource") ? id : `repeating_resource_${id}_itemid`;
@@ -5702,7 +5702,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent: true});
       });
     });
-  }
+  };
 
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
@@ -5739,7 +5739,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       });
     });
-  }
+  };
 
   var update_dt = function() {
     console.log("UPDATE DT");
@@ -5910,7 +5910,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       });
     });
-  }
+  };
 
   var check_customac = function(attr) {
     getAttrs(["custom_ac_flag","custom_ac_part1","custom_ac_part2"], function(v) {
@@ -6613,7 +6613,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         complete();
       });
     });
-  }
+  };
 
   var versioning = function(finished) {
       getAttrs(["version"], function(v) {
