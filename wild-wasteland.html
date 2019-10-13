@@ -1736,17 +1736,26 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="weight" type="text" name="attr_itemweight">
                   <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
                   <div class="subitem">
+                    <!--ITEM ATTRIBUTES-->
                     <input class="equipped" type="checkbox" name="attr_equipped" value="1" checked="checked">
                     <span class="equippedlabel" data-i18n="equipped-u">EQUIPPED</span>
-                    <input class="equipped" type="checkbox" name="attr_useasresource" value="1">
-                    <span class="equippedlabel" data-i18n="use-as-resource-u">USE AS A RESOURCE</span>
                     <input class="equipped" type="checkbox" name="attr_hasattack" value="1">
                     <span class="equippedlabel" data-i18n="has-attack-u">HAS AN ATTACK</span>
+                    <input class="equipped" type="checkbox" name="attr_isweapon" value="1">
+                    <span class="equippedlabel" data-i18n="weapon-u">WEAPON</span>
+                    <input class="equipped" type="checkbox" name="attr_isarmor" value="1">
+                    <span class="equippedlabel" data-i18n="armor-u">ARMOR</span>
+                    <input class="equipped" type="checkbox" name="attr_useasresource" value="1">
+                    <span class="equippedlabel" data-i18n="use-as-resource-u">USE AS A RESOURCE</span>
                     <span class="label" data-i18n="prop:-u">PROP:</span>
                     <input class="subfield" type="text" name="attr_itemproperties">
                     <span class="label" data-i18n="mods:-u">MODS:</span>
                     <input class="subfield" type="text" name="attr_itemmodifiers">
                     <textarea class="subtextarea" name="attr_itemcontent"></textarea>
+                    <!--ATTACK ATTRIBUTES-->
+                    <!--WEAPON ATTRIBUTES-->
+                    <!--ARMOR ATTRIBUTES-->
+                    <!--RESOURCE ATTRIBUTES-->
                   </div>
                   <input type="hidden" name="attr_itemattackid">
                   <input type="hidden" name="attr_itemresourceid">
@@ -5617,67 +5626,65 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_weight = function() {
-      let update = {};
-      let wtotal = 0;
-      let weight_attrs = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
-      getSectionIDs("repeating_inventory", (idarray) => {
-          _.each(idarray, (currentID, i) => {
-              weight_attrs.push(`repeating_inventory_${currentID}_itemweight`);
-              weight_attrs.push(`repeating_inventory_${currentID}_itemcount`);
-          });
-          getAttrs(weight_attrs, (v) => {
-              let coinWeight = 0;
-              ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
-                  coinWeight += (isNaN(parseInt(v[`${type}`], 10)) === false) ? parseInt(v[`${type}`], 10) : 0;
-              });
-              wtotal = wtotal + ((coinWeight) / 50);
-
-              _.each(idarray, (currentID, i) => {
-                  if (v[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(v[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
-                      count = v[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(v[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(v[`repeating_inventory_${currentID}_itemcount`]) : 1;
-                      wtotal = wtotal + (parseFloat(v[`repeating_inventory_${currentID}_itemweight`]) * count);
-                  }
-              });
-
-              update["weighttotal"] = wtotal;
-
-              const str_base = parseInt(v.strength, 10);
-              let size_multiplier = 1;
-              if (v["size"] && v["size"] != "") {
-                  const size = v["size"].toLowerCase().trim();
-                  size_multiplier =
-                      (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
-              };
-              let str = str_base*size_multiplier;
-              // Parse the carrying capacitiy modificator if any
-              if (v.carrying_capacity_mod) {
-                  const operator = v.carrying_capacity_mod.substring(0,1);
-                  const value    = v.carrying_capacity_mod.substring(1);
-                  if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
-                      str =
-                          (operator === "*" || operator == "x") ? str*parseFloat(value,10) :
-                          (operator === "+") ? str+parseFloat(value,10) :
-                          (operator === "-") ? str-parseFloat(value,10) :
-                          str;
-                  }
-              }
-
-              if (!v.encumberance_setting || v.encumberance_setting === "off") {
-                  update["encumberance"] = (wtotal > str*15) ? "OVER CARRYING CAPACITY" : " ";
-              } else if (v.encumberance_setting === "on") {
-                  update["encumberance"] =
-                      (wtotal > str*15) ? "IMMOBILE" :
-                      (wtotal > str*10) ? "HEAVILY ENCUMBERED" :
-                      (wtotal > str*5)  ? "ENCUMBERED" :
-                      " ";
-              } else {
-                  update["encumberance"] = " ";
-              }
-
-              setAttrs(update, {silent: true});
-
-          });
+    let update = {};
+    let wtotal = 0;
+    let weight_attrs = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
+    getSectionIDs("repeating_inventory", (idarray) => {
+      _.each(idarray, (currentID, i) => {
+        weight_attrs.push(`repeating_inventory_${currentID}_itemweight`);
+        weight_attrs.push(`repeating_inventory_${currentID}_itemcount`);
       });
+      getAttrs(weight_attrs, (v) => {
+        let coinWeight = 0;
+        ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
+          coinWeight += (isNaN(parseInt(v[`${type}`], 10)) === false) ? parseInt(v[`${type}`], 10) : 0;
+        });
+        wtotal = wtotal + ((coinWeight) / 50);
+
+        _.each(idarray, (currentID, i) => {
+          if (v[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(v[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
+            count = v[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(v[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(v[`repeating_inventory_${currentID}_itemcount`]) : 1;
+            wtotal = wtotal + (parseFloat(v[`repeating_inventory_${currentID}_itemweight`]) * count);
+          }
+        });
+        update["weighttotal"] = wtotal;
+
+        const str_base = parseInt(v.strength, 10);
+        let size_multiplier = 1;
+        if (v["size"] && v["size"] != "") {
+          const size = v["size"].toLowerCase().trim();
+          size_multiplier =
+            (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
+        };
+        let str = str_base*size_multiplier;
+        // Parse the carrying capacitiy modificator if any
+        if (v.carrying_capacity_mod) {
+          const operator = v.carrying_capacity_mod.substring(0,1);
+          const value    = v.carrying_capacity_mod.substring(1);
+          if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
+            str =
+              (operator === "*" || operator == "x") ? str*parseFloat(value,10) :
+              (operator === "+") ? str+parseFloat(value,10) :
+              (operator === "-") ? str-parseFloat(value,10) :
+              str;
+          }
+        }
+
+        if (!v.encumberance_setting || v.encumberance_setting === "off") {
+          update["encumberance"] = (wtotal > str*15) ? "OVER CARRYING CAPACITY" : " ";
+        } else if (v.encumberance_setting === "on") {
+          update["encumberance"] =
+            (wtotal > str*15) ? "IMMOBILE" :
+            (wtotal > str*10) ? "HEAVILY ENCUMBERED" :
+            (wtotal > str*5)  ? "ENCUMBERED" :
+            " ";
+        } else {
+          update["encumberance"] = " ";
+        }
+
+        setAttrs(update, {silent: true});
+      });
+    });
   };
 
   var update_hp_max = function() {
@@ -5979,7 +5986,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       let final_level   = Math.floor(Math.sqrt(2*exp/1000));
 
       update["base_level"] = final_level;
-      update["level"] = final_level;
+      update["level"]      = final_level;
 
       callbacks.push(() => {update_pb();} );
       callbacks.push(() => {update_hp_max();} );
@@ -6051,153 +6058,153 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_challenge = function() {
-      getAttrs(["npc_challenge"], function(v) {
-          var update = {};
-          var xp = 0;
-          var pb = 0;
-          switch(v.npc_challenge.toString()) {
-              case "0":
-                  xp = "10";
-                  pb = 2;
-                  break;
-              case "1/8":
-                  xp = "25";
-                  pb = 2;
-                  break;
-              case "1/4":
-                  xp = "50";
-                  pb = 2;
-                  break;
-              case "1/2":
-                  xp = "100";
-                  pb = 2;
-                  break;
-              case "1":
-                  xp = "200";
-                  pb = 2;
-                  break;
-              case "2":
-                  xp = "450";
-                  pb = 2;
-                  break;
-              case "3":
-                  xp = "700";
-                  pb = 2;
-                  break;
-              case "4":
-                  xp = "1100";
-                  pb = 2;
-                  break;
-              case "5":
-                  xp = "1800";
-                  pb = 3;
-                  break;
-              case "6":
-                  xp = "2300";
-                  pb = 3;
-                  break;
-              case "7":
-                  xp = "2900";
-                  pb = 3;
-                  break;
-              case "8":
-                  xp = "3900";
-                  pb = 3;
-                  break;
-              case "9":
-                  xp = "5000";
-                  pb = 4;
-                  break;
-              case "10":
-                  xp = "5900";
-                  pb = 4;
-                  break;
-              case "11":
-                  xp = "7200";
-                  pb = 4;
-                  break;
-              case "12":
-                  xp = "8400";
-                  pb = 4;
-                  break;
-              case "13":
-                  xp = "10000";
-                  pb = 5;
-                  break;
-              case "14":
-                  xp = "11500";
-                  pb = 5;
-                  break;
-              case "15":
-                  xp = "13000";
-                  pb = 5;
-                  break;
-              case "16":
-                  xp = "15000";
-                  pb = 5;
-                  break;
-              case "17":
-                  xp = "18000";
-                  pb = 6;
-                  break;
-              case "18":
-                  xp = "20000";
-                  pb = 6;
-                  break;
-              case "19":
-                  xp = "22000";
-                  pb = 6;
-                  break;
-              case "20":
-                  xp = "25000";
-                  pb = 6;
-                  break;
-              case "21":
-                  xp = "33000";
-                  pb = 7;
-                  break;
-              case "22":
-                  xp = "41000";
-                  pb = 7;
-                  break;
-              case "23":
-                  xp = "50000";
-                  pb = 7;
-                  break;
-              case "24":
-                  xp = "62000";
-                  pb = 7;
-                  break;
-              case "25":
-                  xp = "75000";
-                  pb = 8;
-                  break;
-              case "26":
-                  xp = "90000";
-                  pb = 8;
-                  break;
-              case "27":
-                  xp = "105000";
-                  pb = 8;
-                  break;
-              case "28":
-                  xp = "120000";
-                  pb = 8;
-                  break;
-              case "29":
-                  xp = "";
-                  pb = 9;
-                  break;
-              case "30":
-                  xp = "155000";
-                  pb = 9;
-                  break;
-          }
-          update["npc_xp"] = xp;
-          update["pb_custom"] = pb;
-          update["pb_type"] = "custom";
-          setAttrs(update, {silent: true}, function() {update_pb()});
-      });
+    getAttrs(["npc_challenge"], function(v) {
+      var update = {};
+      var xp = 0;
+      var pb = 0;
+      switch(v.npc_challenge.toString()) {
+        case "0":
+          xp = "10";
+          pb = 2;
+          break;
+        case "1/8":
+          xp = "25";
+          pb = 2;
+          break;
+        case "1/4":
+          xp = "50";
+          pb = 2;
+          break;
+        case "1/2":
+          xp = "100";
+          pb = 2;
+          break;
+        case "1":
+          xp = "200";
+          pb = 2;
+          break;
+        case "2":
+          xp = "450";
+          pb = 2;
+          break;
+        case "3":
+          xp = "700";
+          pb = 2;
+          break;
+        case "4":
+          xp = "1100";
+          pb = 2;
+          break;
+        case "5":
+          xp = "1800";
+          pb = 3;
+          break;
+        case "6":
+          xp = "2300";
+          pb = 3;
+          break;
+        case "7":
+          xp = "2900";
+          pb = 3;
+          break;
+        case "8":
+          xp = "3900";
+          pb = 3;
+          break;
+        case "9":
+          xp = "5000";
+          pb = 4;
+          break;
+        case "10":
+          xp = "5900";
+          pb = 4;
+          break;
+        case "11":
+          xp = "7200";
+          pb = 4;
+          break;
+        case "12":
+          xp = "8400";
+          pb = 4;
+          break;
+        case "13":
+          xp = "10000";
+          pb = 5;
+          break;
+        case "14":
+          xp = "11500";
+          pb = 5;
+          break;
+        case "15":
+          xp = "13000";
+          pb = 5;
+          break;
+        case "16":
+          xp = "15000";
+          pb = 5;
+          break;
+        case "17":
+          xp = "18000";
+          pb = 6;
+          break;
+        case "18":
+          xp = "20000";
+          pb = 6;
+          break;
+        case "19":
+          xp = "22000";
+          pb = 6;
+          break;
+        case "20":
+          xp = "25000";
+          pb = 6;
+          break;
+        case "21":
+          xp = "33000";
+          pb = 7;
+          break;
+        case "22":
+          xp = "41000";
+          pb = 7;
+          break;
+        case "23":
+          xp = "50000";
+          pb = 7;
+          break;
+        case "24":
+          xp = "62000";
+          pb = 7;
+          break;
+        case "25":
+          xp = "75000";
+          pb = 8;
+          break;
+        case "26":
+          xp = "90000";
+          pb = 8;
+          break;
+        case "27":
+          xp = "105000";
+          pb = 8;
+          break;
+        case "28":
+          xp = "120000";
+          pb = 8;
+          break;
+        case "29":
+          xp = "";
+          pb = 9;
+          break;
+        case "30":
+          xp = "155000";
+          pb = 9;
+          break;
+      }
+      update["npc_xp"] = xp;
+      update["pb_custom"] = pb;
+      update["pb_type"] = "custom";
+      setAttrs(update, {silent: true}, function() {update_pb()});
+    });
   };
 
   const update_npc_saves = () => {
