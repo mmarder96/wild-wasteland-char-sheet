@@ -6220,40 +6220,40 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_npc_lists = (list, type) => {
-      getAttrs(list, function(v) {
-          let update    = {};
-          let last_save = 0;
-          let npc_flag  = 0;
+    getAttrs(list, function(v) {
+      let update    = {};
+      let last_save = 0;
+      let npc_flag  = 0;
 
-          _.each(list.reverse(), (base) => {
-              const attr   = base.slice(4, -5); //Remove npc_ and _base
-              let item     = parseInt(v[`${base}`], 10);
+      _.each(list.reverse(), (base) => {
+        const attr   = base.slice(4, -5); //Remove npc_ and _base
+        let item     = parseInt(v[`${base}`], 10);
 
-              // CSS will add comma :after 2 & 4 and +/- :before
-              // 1 = Positive Number, 2 = Last Number, 3 = Negative Number, 4 = Last Negative Number
-              if (v[`${base}`] && !isNaN(item) || v[`${base}`] === 0) {
-                  if (last_save === 0) {
-                      last_save = 1;
-                      item_flag = item < 0 ? 4 : 2;
-                  } else {
-                      item_flag = item < 0 ? 3 : 1;
-                  }
-              } else {
-                  item_flag = 0;
-                  item      = "";
-              };
+        // CSS will add comma :after 2 & 4 and +/- :before
+        // 1 = Positive Number, 2 = Last Number, 3 = Negative Number, 4 = Last Negative Number
+        if (v[`${base}`] && !isNaN(item) || v[`${base}`] === 0) {
+          if (last_save === 0) {
+            last_save = 1;
+            item_flag = item < 0 ? 4 : 2;
+          } else {
+            item_flag = item < 0 ? 3 : 1;
+          }
+        } else {
+          item_flag = 0;
+          item      = "";
+        };
 
-              update[`npc_${attr}_flag`] = item_flag;
-              update[`npc_${attr}`]      = item;
+        update[`npc_${attr}_flag`] = item_flag;
+        update[`npc_${attr}`]      = item;
 
-              npc_flag += item_flag;
-          });
-
-          const flagAttr = (type === "save") ? "saving" : type;
-          update[`npc_${flagAttr}_flag`] = (npc_flag === 0) ? "" : npc_flag;
-
-          setAttrs(update, {silent: true});
+        npc_flag += item_flag;
       });
+
+      const flagAttr = (type === "save") ? "saving" : type;
+      update[`npc_${flagAttr}_flag`] = (npc_flag === 0) ? "" : npc_flag;
+
+      setAttrs(update, {silent: true});
+    });
   };
 
   var update_npc_action = function(update_id, legendary) {
@@ -6279,101 +6279,101 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var do_update_npc_action = function(action_array, legendary) {
-      var repvar = legendary ? "repeating_npcaction-l_" : "repeating_npcaction_";
-      var action_attribs = ["dtype"];
+    var repvar = legendary ? "repeating_npcaction-l_" : "repeating_npcaction_";
+    var action_attribs = ["dtype"];
+    _.each(action_array, function(actionid) {
+      action_attribs.push(repvar + actionid + "_attack_flag");
+      action_attribs.push(repvar + actionid + "_attack_type");
+      action_attribs.push(repvar + actionid + "_attack_range");
+      action_attribs.push(repvar + actionid + "_attack_target");
+      action_attribs.push(repvar + actionid + "_attack_tohit");
+      action_attribs.push(repvar + actionid + "_attack_damage");
+      action_attribs.push(repvar + actionid + "_attack_damagetype");
+      action_attribs.push(repvar + actionid + "_attack_damage2");
+      action_attribs.push(repvar + actionid + "_attack_damagetype2");
+    });
+
+    getAttrs(action_attribs, function(v) {
       _.each(action_array, function(actionid) {
-          action_attribs.push(repvar + actionid + "_attack_flag");
-          action_attribs.push(repvar + actionid + "_attack_type");
-          action_attribs.push(repvar + actionid + "_attack_range");
-          action_attribs.push(repvar + actionid + "_attack_target");
-          action_attribs.push(repvar + actionid + "_attack_tohit");
-          action_attribs.push(repvar + actionid + "_attack_damage");
-          action_attribs.push(repvar + actionid + "_attack_damagetype");
-          action_attribs.push(repvar + actionid + "_attack_damage2");
-          action_attribs.push(repvar + actionid + "_attack_damagetype2");
-      });
+        console.log("UPDATING NPC ACTION: " + actionid);
+        var callbacks = [];
+        var update = {};
+        var onhit = "";
+        var damage_flag = "";
+        var range = "";
+        var attack_flag = v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0" ? "{{attack=1}}" : "";
+        var tohit = v[repvar + actionid + "_attack_tohit"] && isNaN(parseInt(v[repvar + actionid + "_attack_tohit"], 10)) === false ? parseInt(v[repvar + actionid + "_attack_tohit"], 10) : 0;
+        if(v[repvar + actionid + "_attack_type"] && v[repvar + actionid + "_attack_range"]) {
+          if(v[repvar + actionid + "_attack_type"] === "Melee") {var rangetype = "Reach";} else {var rangetype = "Range";};
+          range = ", " + rangetype + " " + v[repvar + actionid + "_attack_range"];
+        }
+        var target = v[repvar + actionid + "_attack_target"] && v[repvar + actionid + "_attack_target"] != "" ? ", " + v[repvar + actionid + "_attack_target"] : ""
+        var attack_tohitrange = "+" + tohit + range + target;
+        var dmg1 = v[repvar + actionid + "_attack_damage"] && v[repvar + actionid + "_attack_damage"] != "" ? v[repvar + actionid + "_attack_damage"] : "";
+        var dmg1type = v[repvar + actionid + "_attack_damagetype"] && v[repvar + actionid + "_attack_damagetype"] != "" ? " " + v[repvar + actionid + "_attack_damagetype"] : "";
+        var dmg2 = v[repvar + actionid + "_attack_damage2"] && v[repvar + actionid + "_attack_damage2"] != "" ? v[repvar + actionid + "_attack_damage2"] : "";
+        var dmg2type = v[repvar + actionid + "_attack_damagetype2"] && v[repvar + actionid + "_attack_damagetype2"] != "" ? " " + v[repvar + actionid + "_attack_damagetype2"] : "";
+        var dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
 
-      getAttrs(action_attribs, function(v) {
-          _.each(action_array, function(actionid) {
-              console.log("UPDATING NPC ACTION: " + actionid);
-              var callbacks = [];
-              var update = {};
-              var onhit = "";
-              var damage_flag = "";
-              var range = "";
-              var attack_flag = v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0" ? "{{attack=1}}" : "";
-              var tohit = v[repvar + actionid + "_attack_tohit"] && isNaN(parseInt(v[repvar + actionid + "_attack_tohit"], 10)) === false ? parseInt(v[repvar + actionid + "_attack_tohit"], 10) : 0;
-              if(v[repvar + actionid + "_attack_type"] && v[repvar + actionid + "_attack_range"]) {
-                  if(v[repvar + actionid + "_attack_type"] === "Melee") {var rangetype = "Reach";} else {var rangetype = "Range";};
-                  range = ", " + rangetype + " " + v[repvar + actionid + "_attack_range"];
-              }
-              var target = v[repvar + actionid + "_attack_target"] && v[repvar + actionid + "_attack_target"] != "" ? ", " + v[repvar + actionid + "_attack_target"] : ""
-              var attack_tohitrange = "+" + tohit + range + target;
-              var dmg1 = v[repvar + actionid + "_attack_damage"] && v[repvar + actionid + "_attack_damage"] != "" ? v[repvar + actionid + "_attack_damage"] : "";
-              var dmg1type = v[repvar + actionid + "_attack_damagetype"] && v[repvar + actionid + "_attack_damagetype"] != "" ? " " + v[repvar + actionid + "_attack_damagetype"] : "";
-              var dmg2 = v[repvar + actionid + "_attack_damage2"] && v[repvar + actionid + "_attack_damage2"] != "" ? v[repvar + actionid + "_attack_damage2"] : "";
-              var dmg2type = v[repvar + actionid + "_attack_damagetype2"] && v[repvar + actionid + "_attack_damagetype2"] != "" ? " " + v[repvar + actionid + "_attack_damagetype2"] : "";
-              var dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
+        var parsed_dmg1 = parse_roll_string(dmg1);
+        var parsed_dmg2 = parse_roll_string(dmg2);
 
-              var parsed_dmg1 = parse_roll_string(dmg1);
-              var parsed_dmg2 = parse_roll_string(dmg2);
+        if(dmg1 != "") {
+          onhit = onhit + parsed_dmg1.avg + " (" + dmg1 + ")" + dmg1type + " damage";
+        };
+        dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
+        onhit = onhit + dmgspacer;
+        if(dmg2 != "") {
+          onhit = onhit + parsed_dmg2.avg + " (" + dmg2 + ")" + dmg2type + " damage";
+        };
+        if(dmg1 != "" || dmg2 != "") {damage_flag = damage_flag + "{{damage=1}} "};
+        if(dmg1 != "") {damage_flag = damage_flag + "{{dmg1flag=1}} "};
+        if(dmg2 != "") {damage_flag = damage_flag + "{{dmg2flag=1}} "};
 
-              if(dmg1 != "") {
-                  onhit = onhit + parsed_dmg1.avg + " (" + dmg1 + ")" + dmg1type + " damage";
-              };
-              dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
-              onhit = onhit + dmgspacer;
-              if(dmg2 != "") {
-                  onhit = onhit + parsed_dmg2.avg + " (" + dmg2 + ")" + dmg2type + " damage";
-              };
-              if(dmg1 != "" || dmg2 != "") {damage_flag = damage_flag + "{{damage=1}} "};
-              if(dmg1 != "") {damage_flag = damage_flag + "{{dmg1flag=1}} "};
-              if(dmg2 != "") {damage_flag = damage_flag + "{{dmg2flag=1}} "};
-
-              var crit1 = "";
-              if(parsed_dmg1.rolls.length > 0){
-                  parsed_dmg1.rolls.forEach(function(value) {
-                      crit1 += parsed_dmg1.array[value] + "+";
-                  });
-                  crit1 = crit1.substring(0, crit1.length - 1);
-              }
-
-              var crit2 = "";
-              if(parsed_dmg2.rolls.length > 0){
-                  parsed_dmg2.rolls.forEach(function(value) {
-                      crit2 += parsed_dmg2.array[value] + "+";
-                  });
-                  crit2 = crit2.substring(0, crit2.length - 1);
-              }
-
-              var rollbase = "";
-              if(v.dtype === "full") {
-                  rollbase = "@{wtype}&{template:npcaction} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=@{name}}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} {{description=@{show_desc}}} @{charname_output}";
-              }
-              else if(v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0") {
-                  if(legendary) {
-                      rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction-l_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction-l_npc_crit)}} {{type=[Attack](~repeating_npcaction-l_npc_dmg)}} {{typec=[Attack](~repeating_npcaction-l_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}"
-                  }
-                  else {
-                      rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction_npc_crit)}} {{type=[Attack](~repeating_npcaction_npc_dmg)}} {{typec=[Attack](~repeating_npcaction_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}";
-                  }
-              }
-              else if(dmg1 || dmg2) {
-                  rollbase = "@{wtype}&{template:npcdmg} @{damage_flag} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} @{charname_output}"
-              }
-              else {
-                  rollbase = "@{wtype}&{template:npcaction} @{npc_name_flag} {{rname=@{name}}} {{description=@{show_desc}}} @{charname_output}"
-              }
-
-              update[repvar + actionid + "_attack_tohitrange"] = attack_tohitrange;
-              update[repvar + actionid + "_attack_onhit"] = onhit;
-              update[repvar + actionid + "_damage_flag"] = damage_flag;
-              update[repvar + actionid + "_attack_crit"] = crit1;
-              update[repvar + actionid + "_attack_crit2"] = crit2;
-              update[repvar + actionid + "_rollbase"] = rollbase;
-              setAttrs(update, {silent: true});
+        var crit1 = "";
+        if(parsed_dmg1.rolls.length > 0){
+          parsed_dmg1.rolls.forEach(function(value) {
+            crit1 += parsed_dmg1.array[value] + "+";
           });
+          crit1 = crit1.substring(0, crit1.length - 1);
+        }
+
+        var crit2 = "";
+        if(parsed_dmg2.rolls.length > 0){
+          parsed_dmg2.rolls.forEach(function(value) {
+            crit2 += parsed_dmg2.array[value] + "+";
+          });
+          crit2 = crit2.substring(0, crit2.length - 1);
+        }
+
+        var rollbase = "";
+        if(v.dtype === "full") {
+          rollbase = "@{wtype}&{template:npcaction} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=@{name}}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} {{description=@{show_desc}}} @{charname_output}";
+        }
+        else if(v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0") {
+          if(legendary) {
+            rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction-l_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction-l_npc_crit)}} {{type=[Attack](~repeating_npcaction-l_npc_dmg)}} {{typec=[Attack](~repeating_npcaction-l_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}"
+          }
+          else {
+            rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction_npc_crit)}} {{type=[Attack](~repeating_npcaction_npc_dmg)}} {{typec=[Attack](~repeating_npcaction_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}";
+          }
+        }
+        else if(dmg1 || dmg2) {
+          rollbase = "@{wtype}&{template:npcdmg} @{damage_flag} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} @{charname_output}"
+        }
+        else {
+          rollbase = "@{wtype}&{template:npcaction} @{npc_name_flag} {{rname=@{name}}} {{description=@{show_desc}}} @{charname_output}"
+        }
+
+        update[repvar + actionid + "_attack_tohitrange"] = attack_tohitrange;
+        update[repvar + actionid + "_attack_onhit"] = onhit;
+        update[repvar + actionid + "_damage_flag"] = damage_flag;
+        update[repvar + actionid + "_attack_crit"] = crit1;
+        update[repvar + actionid + "_attack_crit2"] = crit2;
+        update[repvar + actionid + "_rollbase"] = rollbase;
+        setAttrs(update, {silent: true});
       });
+    });
   };
 
   var parse_roll_string = function(rollstring) {
@@ -6623,85 +6623,85 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var versioning = function(finished) {
-      getAttrs(["version"], function(v) {
-          if(v["version"] === "2.7") {
-              setAttrs({version: "2.7"}, function(){
-                  finished();
-              });
-              console.log("5th Edition OGL by Roll20 v" + v["version"]);
-              return;
-          }
-          else if(!v["version"] || v["version"] === "") {
-              console.log("NO VERSION FOUND");
-              no_version_bugfix(function() {
-                  versioning(finished);
-              });
-          }
-          else if(v["version"] === "2.6") {
-              console.log("UPGRADING TO v2.7");
-              upgrade_to_2_7(function() {
-                  setAttrs({version: "2.7"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.5") {
-              console.log("UPGRADING TO v2.6");
-              upgrade_to_2_6(function() {
-                  setAttrs({version: "2.6"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.4") {
-              console.log("UPGRADING TO v2.5");
-              upgrade_to_2_5(function() {
-                  setAttrs({version: "2.5"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.3") {
-              console.log("UPGRADING TO v2.4");
-              upgrade_to_2_4(function() {
-                  setAttrs({version: "2.4"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.2") {
-              console.log("UPGRADING TO v2.3");
-              upgrade_to_2_3(function() {
-                  setAttrs({version: "2.3"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.1") {
-              console.log("UPGRADING TO v2.2");
-              upgrade_to_2_2(function() {
-                  setAttrs({version: "2.2"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.0") {
-              console.log("UPGRADING TO v2.1");
-              upgrade_to_2_1(function() {
-                  setAttrs({version: "2.1"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else {
-              console.log("UPGRADING TO v2.0");
-              upgrade_to_2_0(function() {
-                  setAttrs({version: "2.0"}, function() {
-                      versioning(finished);
-                  });
-              });
-          };
-      });
+    getAttrs(["version"], function(v) {
+      if(v["version"] === "2.7") {
+        setAttrs({version: "2.7"}, function(){
+          finished();
+        });
+        console.log("5th Edition OGL by Roll20 v" + v["version"]);
+        return;
+      }
+      else if(!v["version"] || v["version"] === "") {
+        console.log("NO VERSION FOUND");
+        no_version_bugfix(function() {
+          versioning(finished);
+        });
+      }
+      else if(v["version"] === "2.6") {
+        console.log("UPGRADING TO v2.7");
+        upgrade_to_2_7(function() {
+          setAttrs({version: "2.7"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.5") {
+        console.log("UPGRADING TO v2.6");
+        upgrade_to_2_6(function() {
+          setAttrs({version: "2.6"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.4") {
+        console.log("UPGRADING TO v2.5");
+        upgrade_to_2_5(function() {
+          setAttrs({version: "2.5"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.3") {
+        console.log("UPGRADING TO v2.4");
+        upgrade_to_2_4(function() {
+          setAttrs({version: "2.4"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.2") {
+        console.log("UPGRADING TO v2.3");
+        upgrade_to_2_3(function() {
+          setAttrs({version: "2.3"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.1") {
+        console.log("UPGRADING TO v2.2");
+        upgrade_to_2_2(function() {
+          setAttrs({version: "2.2"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.0") {
+        console.log("UPGRADING TO v2.1");
+        upgrade_to_2_1(function() {
+          setAttrs({version: "2.1"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else {
+        console.log("UPGRADING TO v2.0");
+        upgrade_to_2_0(function() {
+          setAttrs({version: "2.0"}, function() {
+            versioning(finished);
+          });
+        });
+      };
+    });
   };
 
 </script>
