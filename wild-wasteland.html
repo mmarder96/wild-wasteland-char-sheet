@@ -4730,45 +4730,28 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     setAttrs(update, {}, update_attack_from_item(itemid, newrowid, {newattack: true}));
   };
 
-  // var create_attack_from_item = function(itemid, options) {
-  //   var update = {};
-  //   var newrowid = generateRowID();
-  //   update[`repeating_inventory_${itemid}_itemattackid`] = newrowid;
-  //   if(options && options.versatile) {
-  //     var newrowid2 = generateRowID();
-  //     update[`repeating_inventory_${itemid}_itemattackid`] += "," + newrowid2;
-  //     setAttrs(update, {}, function() {
-  //       update_attack_from_item(itemid, newrowid, {newattack: true, versatile: "primary"});
-  //       update_attack_from_item(itemid, newrowid2, {newattack: true, versatile: "secondary"});
-  //     });
-  //   }
-  //   else {
-  //     setAttrs(update, {}, update_attack_from_item(itemid, newrowid, {newattack: true}));
-  //   }
-  // };
-
   var update_attack_from_item = function(itemid, attackid, options) {
     console.log("UPDATING ATTACK FROM ITEM!");
     getAttrs([
-    `repeating_inventory_${itemid}_itemname`,
-    `repeating_inventory_${itemid}_attr_itemattackid`,
-    `repeating_inventory_${itemid}_attr_atk_cooldown`,
-    `repeating_inventory_${itemid}_attr_atk_atkname`,
-    `repeating_inventory_${itemid}_attr_atk_class`,
-    `repeating_inventory_${itemid}_attr_atk_type`,
-    `repeating_inventory_${itemid}_attr_atk_atkflag`,
-    `repeating_inventory_${itemid}_attr_atk_atkbase`,
-    `repeating_inventory_${itemid}_attr_atk_atkattr`,
-    `repeating_inventory_${itemid}_attr_atk_atkskill`,
-    `repeating_inventory_${itemid}_attr_atk_atkrange`,
-    `repeating_inventory_${itemid}_attr_atk_atkcritrange`,
-    `repeating_inventory_${itemid}_attr_atk_dmgflag`,
-    `repeating_inventory_${itemid}_attr_atk_dmgbase`,
-    `repeating_inventory_${itemid}_attr_atk_dmgattr`,
-    `repeating_inventory_${itemid}_attr_atk_dmgskill`,
-    `repeating_inventory_${itemid}_attr_atk_dmgroll`,
-    `repeating_inventory_${itemid}_attr_atk_dmgtype`,
-    `repeating_inventory_${itemid}_attr_atk_dmgcustcrit`,
+      `repeating_inventory_${itemid}_itemname`,
+      `repeating_inventory_${itemid}_itemattackid`,
+      `repeating_inventory_${itemid}_atk_cooldown`,
+      `repeating_inventory_${itemid}_atk_atkname`,
+      `repeating_inventory_${itemid}_atk_class`,
+      `repeating_inventory_${itemid}_atk_type`,
+      `repeating_inventory_${itemid}_atk_atkflag`,
+      `repeating_inventory_${itemid}_atk_atkbase`,
+      `repeating_inventory_${itemid}_atk_atkattr`,
+      `repeating_inventory_${itemid}_atk_atkskill`,
+      `repeating_inventory_${itemid}_atk_atkrange`,
+      `repeating_inventory_${itemid}_atk_atkcritrange`,
+      `repeating_inventory_${itemid}_atk_dmgflag`,
+      `repeating_inventory_${itemid}_atk_dmgbase`,
+      `repeating_inventory_${itemid}_atk_dmgattr`,
+      `repeating_inventory_${itemid}_atk_dmgskill`,
+      `repeating_inventory_${itemid}_atk_dmgroll`,
+      `repeating_inventory_${itemid}_atk_dmgtype`,
+      `repeating_inventory_${itemid}_atk_dmgcustcrit`,
     ], function(attrs) {
       var update = {};
       var itemtype;
@@ -4782,202 +4765,40 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var alt = {};
 
       if(options && options.newattack) {
-        update["repeating_attack_" + attackid + "_options-flag"] = "0";
-        update["repeating_attack_" + attackid + "_itemid"] = itemid;
+        update[`repeating_attack_${attackid}_options-flag`] = "0";
+        update[`repeating_attack_${attackid}_itemid`] = itemid;
+        update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_itemname`];
+      } else {
+        update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
       }
 
-      if(attrs["repeating_inventory_" + itemid + "_itemmodifiers"] && attrs["repeating_inventory_" + itemid + "_itemmodifiers"] != "") {
-        var mods = attrs["repeating_inventory_" + itemid + "_itemmodifiers"].split(",");
-        _.each(mods, function(mod) {
-          if(mod.indexOf("Item Type:") > -1) {itemtype = mod.split(":")[1].trim()}
-          else if(mod.indexOf("Alternate Secondary Damage Type:") > -1) {alt.damagetype2 = mod.split(":")[1].trim();}
-          else if(mod.indexOf("Alternate Secondary Damage:") > -1) {alt.damage2 = mod.split(":")[1].trim();}
-          else if(mod.indexOf("Alternate Damage Type:") > -1) {alt.damagetype = mod.split(":")[1].trim();}
-          else if(mod.indexOf("Alternate Damage:") > -1) {alt.damage = mod.split(":")[1].trim();}
-          else if(mod.indexOf("Secondary Damage Type:") > -1) {damagetype2 = mod.split(":")[1].trim()}
-          else if(mod.indexOf("Secondary Damage:") > -1) {damage2 = mod.split(":")[1].trim()}
-          else if(mod.indexOf("Damage Type:") > -1) {damagetype = mod.split(":")[1].trim()}
-          else if(mod.indexOf("Damage:") > -1) {damage = mod.split(":")[1].trim()}
-          else if(mod.indexOf("Range:") > -1) {range = mod.split(":")[1].trim()}
-          else if(mod.indexOf(" Attacks ") > -1) {attackmod = mod.split(" Attacks ")[1].trim()}
-          else if(mod.indexOf(" Damage ") > -1) {damagemod = mod.split(" Damage ")[1].trim()}
-        });
-      }
+      update[`repeating_attack_${attackid}_itemname`]      = attrs[`repeating_inventory_${itemid}_itemname`];
+      update[`repeating_attack_${attackid}_itemattackid`]  = attrs[`repeating_inventory_${itemid}_itemattackid`];
+      update[`repeating_attack_${attackid}_cooldown`]      = attrs[`repeating_inventory_${itemid}_atk_cooldown`];
+      update[`repeating_attack_${attackid}_class`]         = attrs[`repeating_inventory_${itemid}_atk_class`];
+      update[`repeating_attack_${attackid}_type`]          = attrs[`repeating_inventory_${itemid}_atk_type`];
+      update[`repeating_attack_${attackid}_atkflag`]       = attrs[`repeating_inventory_${itemid}_atk_atkflag`];
+      update[`repeating_attack_${attackid}_atkbase`]       = attrs[`repeating_inventory_${itemid}_atk_atkbase`];
+      update[`repeating_attack_${attackid}_atkattr`]       = attrs[`repeating_inventory_${itemid}_atk_atkattr`];
+      update[`repeating_attack_${attackid}_atkskill`]      = attrs[`repeating_inventory_${itemid}_atk_atkskill`];
+      update[`repeating_attack_${attackid}_atkrange`]      = attrs[`repeating_inventory_${itemid}_atk_atkrange`];
+      update[`repeating_attack_${attackid}_atkcritrange`]  = attrs[`repeating_inventory_${itemid}_atk_atkcritrange`];
+      update[`repeating_attack_${attackid}_dmgflag`]       = attrs[`repeating_inventory_${itemid}_atk_dmgflag`];
+      update[`repeating_attack_${attackid}_dmgbase`]       = attrs[`repeating_inventory_${itemid}_atk_dmgbase`];
+      update[`repeating_attack_${attackid}_dmgattr`]       = attrs[`repeating_inventory_${itemid}_atk_dmgattr`];
+      update[`repeating_attack_${attackid}_dmgskill`]      = attrs[`repeating_inventory_${itemid}_atk_dmgskill`];
+      update[`repeating_attack_${attackid}_dmgroll`]       = attrs[`repeating_inventory_${itemid}_atk_dmgroll`];
+      update[`repeating_attack_${attackid}_dmgtype`]       = attrs[`repeating_inventory_${itemid}_atk_dmgtype`];
+      update[`repeating_attack_${attackid}_dmgcustcrit`]   = attrs[`repeating_inventory_${itemid}_atk_dmgcustcrit`];
 
-      if(attrs["repeating_inventory_" + itemid + "_itemname"] && attrs["repeating_inventory_" + itemid + "_itemname"] != "") {
-        update["repeating_attack_" + attackid + "_atkname"] = attrs["repeating_inventory_" + itemid + "_itemname"];
-        if(options && options.versatile === "primary") {
-          update["repeating_attack_" + attackid + "_atkname"] += " (One-Handed)";
-        } else if(options && options.versatile === "secondary") {
-          update["repeating_attack_" + attackid + "_atkname"] += " (Two-Handed)";
-        }
-      }
-      if(options && options.versatile === "secondary") {
-        if(alt.damage) {
-          update["repeating_attack_" + attackid + "_dmgbase"] = alt.damage;
-        }
-        if(alt.damagetype) {
-          update["repeating_attack_" + attackid + "_dmgtype"] = alt.damagetype;
-        }
-        if(alt.damage2) {
-          update["repeating_attack_" + attackid + "_dmg2base"] = alt.damage2;
-          update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-          update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-        }
-        if(alt.damagetype2) {
-          update["repeating_attack_" + attackid + "_dmg2type"] = alt.damagetype2;
-        }
-        update["repeating_attack_" + attackid + "_versatile_alt"] = "1";
-      }
-      else {
-        if(damage) {
-          update["repeating_attack_" + attackid + "_dmgbase"] = damage;
-        }
-        if(damagetype) {
-          update["repeating_attack_" + attackid + "_dmgtype"] = damagetype;
-        }
-        if(damage2) {
-          update["repeating_attack_" + attackid + "_dmg2base"] = damage2;
-          update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-          update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-        }
-        if(damagetype2) {
-          update["repeating_attack_" + attackid + "_dmg2type"] = damagetype2;
-        }
-      }
-      if(range) {
-        update["repeating_attack_" + attackid + "_atkrange"] = range;
-      }
-      var finesse = attrs["repeating_inventory_" + itemid + "_itemproperties"] && /finesse/i.test(attrs["repeating_inventory_" + itemid + "_itemproperties"]);
-      if( (itemtype && itemtype.indexOf("Ranged") > -1) || (finesse && +attrs.dexterity > +attrs.strength)) {
-        update["repeating_attack_" + attackid + "_atkbase"] = "@{dexterity_mod}";
-        update["repeating_attack_" + attackid + "_dmgattr"] = "@{dexterity_mod}";
-      }
-      else {
-        update["repeating_attack_" + attackid + "_atkbase"] = "@{strength_mod}";
-        update["repeating_attack_" + attackid + "_dmgattr"] = "@{strength_mod}";
-      }
-      if(attackmod && damagemod && attackmod == damagemod) {
-        update["repeating_attack_" + attackid + "_atkmagic"] = parseInt(attackmod, 10);
-        update["repeating_attack_" + attackid + "_atkattr"] = "";
-        update["repeating_attack_" + attackid + "_dmgroll"] = "";
-      }
-      else {
-        if(attackmod) {
-          update["repeating_attack_" + attackid + "_atkattr"] = parseInt(attackmod, 10);
-        }
-        if(damagemod) {
-          update["repeating_attack_" + attackid + "_dmgroll"] = parseInt(damagemod, 10);
-        }
-        update["repeating_attack_" + attackid + "_atkmagic"] = "";
-      }
       var callback = function() {update_attacks(attackid, "item")};
       setAttrs(update, {silent: true}, callback);
     });
   };
 
-  // var update_attack_from_item = function(itemid, attackid, options) {
-  //   getAttrs(["repeating_inventory_" + itemid + "_itemname","repeating_inventory_" + itemid + "_itemproperties","repeating_inventory_" + itemid + "_itemmodifiers", "strength", "dexterity"], function(attrs) {
-  //     var update = {}; var itemtype; var damage; var damagetype; var damage2; var damagetype2; var attackmod; var damagemod; var range;
-  //     var alt = {};
-  //
-  //     if(options && options.newattack) {
-  //       update["repeating_attack_" + attackid + "_options-flag"] = "0";
-  //       update["repeating_attack_" + attackid + "_itemid"] = itemid;
-  //     }
-  //
-  //     if(attrs["repeating_inventory_" + itemid + "_itemmodifiers"] && attrs["repeating_inventory_" + itemid + "_itemmodifiers"] != "") {
-  //       var mods = attrs["repeating_inventory_" + itemid + "_itemmodifiers"].split(",");
-  //       _.each(mods, function(mod) {
-  //         if(mod.indexOf("Item Type:") > -1) {itemtype = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf("Alternate Secondary Damage Type:") > -1) {alt.damagetype2 = mod.split(":")[1].trim();}
-  //         else if(mod.indexOf("Alternate Secondary Damage:") > -1) {alt.damage2 = mod.split(":")[1].trim();}
-  //         else if(mod.indexOf("Alternate Damage Type:") > -1) {alt.damagetype = mod.split(":")[1].trim();}
-  //         else if(mod.indexOf("Alternate Damage:") > -1) {alt.damage = mod.split(":")[1].trim();}
-  //         else if(mod.indexOf("Secondary Damage Type:") > -1) {damagetype2 = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf("Secondary Damage:") > -1) {damage2 = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf("Damage Type:") > -1) {damagetype = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf("Damage:") > -1) {damage = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf("Range:") > -1) {range = mod.split(":")[1].trim()}
-  //         else if(mod.indexOf(" Attacks ") > -1) {attackmod = mod.split(" Attacks ")[1].trim()}
-  //         else if(mod.indexOf(" Damage ") > -1) {damagemod = mod.split(" Damage ")[1].trim()}
-  //       });
-  //     }
-  //
-  //     if(attrs["repeating_inventory_" + itemid + "_itemname"] && attrs["repeating_inventory_" + itemid + "_itemname"] != "") {
-  //       update["repeating_attack_" + attackid + "_atkname"] = attrs["repeating_inventory_" + itemid + "_itemname"];
-  //       if(options && options.versatile === "primary") {
-  //         update["repeating_attack_" + attackid + "_atkname"] += " (One-Handed)";
-  //       } else if(options && options.versatile === "secondary") {
-  //         update["repeating_attack_" + attackid + "_atkname"] += " (Two-Handed)";
-  //       }
-  //     }
-  //     if(options && options.versatile === "secondary") {
-  //       if(alt.damage) {
-  //         update["repeating_attack_" + attackid + "_dmgbase"] = alt.damage;
-  //       }
-  //       if(alt.damagetype) {
-  //         update["repeating_attack_" + attackid + "_dmgtype"] = alt.damagetype;
-  //       }
-  //       if(alt.damage2) {
-  //         update["repeating_attack_" + attackid + "_dmg2base"] = alt.damage2;
-  //         update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-  //         update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-  //       }
-  //       if(alt.damagetype2) {
-  //         update["repeating_attack_" + attackid + "_dmg2type"] = alt.damagetype2;
-  //       }
-  //       update["repeating_attack_" + attackid + "_versatile_alt"] = "1";
-  //     }
-  //     else {
-  //       if(damage) {
-  //         update["repeating_attack_" + attackid + "_dmgbase"] = damage;
-  //       }
-  //       if(damagetype) {
-  //         update["repeating_attack_" + attackid + "_dmgtype"] = damagetype;
-  //       }
-  //       if(damage2) {
-  //         update["repeating_attack_" + attackid + "_dmg2base"] = damage2;
-  //         update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-  //         update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-  //       }
-  //       if(damagetype2) {
-  //         update["repeating_attack_" + attackid + "_dmg2type"] = damagetype2;
-  //       }
-  //     }
-  //     if(range) {
-  //       update["repeating_attack_" + attackid + "_atkrange"] = range;
-  //     }
-  //     var finesse = attrs["repeating_inventory_" + itemid + "_itemproperties"] && /finesse/i.test(attrs["repeating_inventory_" + itemid + "_itemproperties"]);
-  //     if( (itemtype && itemtype.indexOf("Ranged") > -1) || (finesse && +attrs.dexterity > +attrs.strength)) {
-  //       update["repeating_attack_" + attackid + "_atkbase"] = "@{dexterity_mod}";
-  //       update["repeating_attack_" + attackid + "_dmgattr"] = "@{dexterity_mod}";
-  //     }
-  //     else {
-  //       update["repeating_attack_" + attackid + "_atkbase"] = "@{strength_mod}";
-  //       update["repeating_attack_" + attackid + "_dmgattr"] = "@{strength_mod}";
-  //     }
-  //     if(attackmod && damagemod && attackmod == damagemod) {
-  //       update["repeating_attack_" + attackid + "_atkmagic"] = parseInt(attackmod, 10);
-  //       update["repeating_attack_" + attackid + "_atkattr"] = "";
-  //       update["repeating_attack_" + attackid + "_dmgroll"] = "";
-  //     }
-  //     else {
-  //       if(attackmod) {
-  //         update["repeating_attack_" + attackid + "_atkattr"] = parseInt(attackmod, 10);
-  //       }
-  //       if(damagemod) {
-  //         update["repeating_attack_" + attackid + "_dmgroll"] = parseInt(damagemod, 10);
-  //       }
-  //       update["repeating_attack_" + attackid + "_atkmagic"] = "";
-  //     }
-  //     var callback = function() {update_attacks(attackid, "item")};
-  //     setAttrs(update, {silent: true}, callback);
-  //   });
-  // };
-
   var update_item_from_attack = function(itemid, attackid) {
     console.log("UPDATING ITEM FROM ATTACK!");
+
     getAttrs(["repeating_attack_" + attackid + "_atkname", "repeating_attack_" + attackid + "_dmgbase", "repeating_attack_" + attackid + "_dmg2base", "repeating_attack_" + attackid + "_dmgtype", "repeating_attack_" + attackid + "_dmg2type", "repeating_attack_" + attackid + "_atkrange", "repeating_attack_" + attackid + "_atkattr", "repeating_attack_" + attackid + "_dmgroll", "repeating_inventory_" + itemid + "_itemmodifiers", "repeating_attack_" + attackid + "_versatile_alt", "repeating_inventory_" + itemid + "_itemproperties", "repeating_attack_" + attackid + "_atkmagic"], function(attrs) {
       var update = {};
       var mods = attrs["repeating_inventory_" + itemid + "_itemmodifiers"];

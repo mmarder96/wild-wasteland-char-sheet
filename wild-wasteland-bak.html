@@ -1602,6 +1602,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <input class="subfield" type="text" name="attr_properties">
                     <textarea class="subtextarea" name="attr_description"></textarea>
                   </div>
+                  <input type="hidden" name="attr_itemid">
                   <input type="hidden" name="attr_itemattackid">
                   <input type="hidden" name="attr_itemresourceid">
                 </div>
@@ -1685,6 +1686,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <input class="subfield" type="text" name="attr_itemmodifiers">
                     <textarea class="subtextarea" name="attr_armorcontent"></textarea>
                   </div>
+                  <input type="hidden" name="attr_itemid">
                   <input type="hidden" name="attr_itemattackid">
                   <input type="hidden" name="attr_itemresourceid">
                 </div>
@@ -1738,17 +1740,42 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <div class="subitem">
                     <input class="equipped" type="checkbox" name="attr_equipped" value="1" checked="checked">
                     <span class="equippedlabel" data-i18n="equipped-u">EQUIPPED</span>
-                    <input class="equipped" type="checkbox" name="attr_useasresource" value="1">
-                    <span class="equippedlabel" data-i18n="use-as-resource-u">USE AS A RESOURCE</span>
                     <input class="equipped" type="checkbox" name="attr_hasattack" value="1">
                     <span class="equippedlabel" data-i18n="has-attack-u">HAS AN ATTACK</span>
+                    <input class="equipped" type="checkbox" name="attr_isweapon" value="1">
+                    <span class="equippedlabel" data-i18n="weapon-u">WEAPON</span>
+                    <input class="equipped" type="checkbox" name="attr_isarmor" value="1">
+                    <span class="equippedlabel" data-i18n="armor-u">ARMOR</span>
+                    <input class="equipped" type="checkbox" name="attr_useasresource" value="1">
+                    <span class="equippedlabel" data-i18n="use-as-resource-u">USE AS A RESOURCE</span>
                     <span class="label" data-i18n="prop:-u">PROP:</span>
                     <input class="subfield" type="text" name="attr_itemproperties">
                     <span class="label" data-i18n="mods:-u">MODS:</span>
                     <input class="subfield" type="text" name="attr_itemmodifiers">
                     <textarea class="subtextarea" name="attr_itemcontent"></textarea>
                   </div>
+                  <!--ATTACK ATTRIBUTES-->
                   <input type="hidden" name="attr_itemattackid">
+                  <input type="hidden" name="attr_atk_cooldown">
+                  <input type="hidden" name="attr_atk_atkname">
+                  <input type="hidden" name="attr_atk_class">
+                  <input type="hidden" name="attr_atk_type">
+                  <input type="hidden" name="attr_atk_atkflag">
+                  <input type="hidden" name="attr_atk_atkbase">
+                  <input type="hidden" name="attr_atk_atkattr">
+                  <input type="hidden" name="attr_atk_atkskill">
+                  <input type="hidden" name="attr_atk_atkrange">
+                  <input type="hidden" name="attr_atk_atkcritrange">
+                  <input type="hidden" name="attr_atk_dmgflag">
+                  <input type="hidden" name="attr_atk_dmgbase">
+                  <input type="hidden" name="attr_atk_dmgattr">
+                  <input type="hidden" name="attr_atk_dmgskill">
+                  <input type="hidden" name="attr_atk_dmgroll">
+                  <input type="hidden" name="attr_atk_dmgtype">
+                  <input type="hidden" name="attr_atk_dmgcustcrit">
+                  <!--WEAPON ATTRIBUTES-->
+                  <!--ARMOR ATTRIBUTES-->
+                  <!--RESOURCE ATTRIBUTES-->
                   <input type="hidden" name="attr_itemresourceid">
                 </div>
               </fieldset>
@@ -3978,13 +4005,20 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     setAttrs(update, {silent: true});
   });
 
-  on(`change:repeating_inventory:hasattack`, function(eventinfo) {
+  on("change:repeating_inventory:hasattack", function(eventinfo) {
+    console.log("UPDATING ITEM ATTACKS!");
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
 
     const itemid = eventinfo.sourceAttribute.substring(20, 40);
-    getAttrs([`repeating_inventory_${itemid}_itemattackid`], function(v) {
-      const hasattack = eventinfo.newValue, itemattackid = v[`repeating_inventory_${itemid}_itemattackid`];
-      (hasattack == 1) ? create_attack_from_item(itemid) : remove_attack(itemattackid);
+    getAttrs([`repeating_inventory_${itemid}_itemattackid`, `repeating_inventory_${itemid}_equipped`], function(attrs) {
+      console.log(eventinfo);
+      const oldHasattack = eventinfo.oldValue;
+      const hasattack = eventinfo.newValue;
+      const itemattackid = attrs[`repeating_inventory_${itemid}_itemattackid`];
+      const equipped = attrs[`repeating_inventory_${itemid}_equipped`];
+      const options = oldHasattack == 1 ? {newattack: false} : {newattack: true};
+      console.log(`hasattack: ${hasattack}`);
+      (hasattack == 1 && equipped == 1) ? create_attack_from_item(itemid, {newattack: true}) : remove_attack(itemattackid);
     });
   });
 
@@ -3993,7 +4027,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
     const itemid = eventinfo.sourceAttribute.substring(20, 40);
     getAttrs([`repeating_inventory_${itemid}_itemresourceid`], function(v) {
-      const useasresource = eventinfo.newValue, itemresourceid = v[`repeating_inventory_${itemid}_itemresourceid`];
+      const useasresource = eventinfo.newValue;
+      const itemresourceid = v[`repeating_inventory_${itemid}_itemresourceid`];
       (useasresource == 1) ? create_resource_from_item(itemid) : remove_resource(itemresourceid);
     });
   });
@@ -4040,7 +4075,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:repeating_armor:armordt change:repeating_armor:equipped", function(eventinfo) {
-    console.log("ARMOR DT CHANGED!")
+    console.log("ARMOR DT CHANGED!");
     update_dt();
   });
 
@@ -4084,9 +4119,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:dtype", function(eventinfo) {
-      if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
-      update_attacks("all");
-      update_npc_action("all");
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+    update_attacks("all");
+    update_npc_action("all");
   });
 
   on("change:initmod change:init_tiebreaker", function(eventinfo) {
@@ -4658,7 +4693,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var check_itemmodifiers = function(modifiers, previousValue) {
-    console.log("CHECKING ITEM MODIFIERS")
+    console.log("CHECKING ITEM MODIFIERS");
     var mods = modifiers.toLowerCase().split(",");
     if(previousValue) {
       prevmods = previousValue.toLowerCase().split(",");
@@ -4693,204 +4728,203 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var create_attack_from_item = function(itemid, options) {
+    console.log("CREATING ATTACK FROM ITEM!");
     var update = {};
     var newrowid = generateRowID();
-    update["repeating_inventory_" + itemid + "_itemattackid"] = newrowid;
-    if(options && options.versatile) {
-      var newrowid2 = generateRowID();
-      update["repeating_inventory_" + itemid + "_itemattackid"] += "," + newrowid2;
-      setAttrs(update, {}, function() {
-        update_attack_from_item(itemid, newrowid, {newattack: true, versatile: "primary"});
-        update_attack_from_item(itemid, newrowid2, {newattack: true, versatile: "secondary"});
-      });
-    }
-    else {
-      setAttrs(update, {}, update_attack_from_item(itemid, newrowid, {newattack: true}));
-    }
+    update[`repeating_inventory_${itemid}_itemattackid`] = newrowid;
+    setAttrs(update, {}, update_attack_from_item(itemid, newrowid, options));
   };
 
   var update_attack_from_item = function(itemid, attackid, options) {
-      getAttrs(["repeating_inventory_" + itemid + "_itemname","repeating_inventory_" + itemid + "_itemproperties","repeating_inventory_" + itemid + "_itemmodifiers", "strength", "dexterity"], function(v) {
-          var update = {}; var itemtype; var damage; var damagetype; var damage2; var damagetype2; var attackmod; var damagemod; var range;
-          var alt = {};
+    console.log("UPDATING ATTACK FROM ITEM!");
+    getAttrs([
+      `repeating_inventory_${itemid}_itemname`,
+      `repeating_inventory_${itemid}_itemattackid`,
+      `repeating_inventory_${itemid}_atk_cooldown`,
+      `repeating_inventory_${itemid}_atk_atkname`,
+      `repeating_inventory_${itemid}_atk_class`,
+      `repeating_inventory_${itemid}_atk_type`,
+      `repeating_inventory_${itemid}_atk_atkflag`,
+      `repeating_inventory_${itemid}_atk_atkbase`,
+      `repeating_inventory_${itemid}_atk_atkattr`,
+      `repeating_inventory_${itemid}_atk_atkskill`,
+      `repeating_inventory_${itemid}_atk_atkrange`,
+      `repeating_inventory_${itemid}_atk_atkcritrange`,
+      `repeating_inventory_${itemid}_atk_dmgflag`,
+      `repeating_inventory_${itemid}_atk_dmgbase`,
+      `repeating_inventory_${itemid}_atk_dmgattr`,
+      `repeating_inventory_${itemid}_atk_dmgskill`,
+      `repeating_inventory_${itemid}_atk_dmgroll`,
+      `repeating_inventory_${itemid}_atk_dmgtype`,
+      `repeating_inventory_${itemid}_atk_dmgcustcrit`,
+    ], function(attrs) {
+      var update = {};
+      var itemtype;
+      var damage;
+      var damagetype;
+      var damage2;
+      var damagetype2;
+      var attackmod;
+      var damagemod;
+      var range;
+      var alt = {};
 
-          if(options && options.newattack) {
-              update["repeating_attack_" + attackid + "_options-flag"] = "0";
-              update["repeating_attack_" + attackid + "_itemid"] = itemid;
-          }
+      if(options && options.newattack) {
+        update[`repeating_attack_${attackid}_options-flag`] = "0";
+        update[`repeating_attack_${attackid}_itemid`] = itemid;
+        update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_itemname`];
+      } else {
+        update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
+      }
 
-          if(v["repeating_inventory_" + itemid + "_itemmodifiers"] && v["repeating_inventory_" + itemid + "_itemmodifiers"] != "") {
-              var mods = v["repeating_inventory_" + itemid + "_itemmodifiers"].split(",");
-              _.each(mods, function(mod) {
-                  if(mod.indexOf("Item Type:") > -1) {itemtype = mod.split(":")[1].trim()}
-                  else if(mod.indexOf("Alternate Secondary Damage Type:") > -1) {alt.damagetype2 = mod.split(":")[1].trim();}
-                  else if(mod.indexOf("Alternate Secondary Damage:") > -1) {alt.damage2 = mod.split(":")[1].trim();}
-                  else if(mod.indexOf("Alternate Damage Type:") > -1) {alt.damagetype = mod.split(":")[1].trim();}
-                  else if(mod.indexOf("Alternate Damage:") > -1) {alt.damage = mod.split(":")[1].trim();}
-                  else if(mod.indexOf("Secondary Damage Type:") > -1) {damagetype2 = mod.split(":")[1].trim()}
-                  else if(mod.indexOf("Secondary Damage:") > -1) {damage2 = mod.split(":")[1].trim()}
-                  else if(mod.indexOf("Damage Type:") > -1) {damagetype = mod.split(":")[1].trim()}
-                  else if(mod.indexOf("Damage:") > -1) {damage = mod.split(":")[1].trim()}
-                  else if(mod.indexOf("Range:") > -1) {range = mod.split(":")[1].trim()}
-                  else if(mod.indexOf(" Attacks ") > -1) {attackmod = mod.split(" Attacks ")[1].trim()}
-                  else if(mod.indexOf(" Damage ") > -1) {damagemod = mod.split(" Damage ")[1].trim()}
-              });
-          }
+      update[`repeating_attack_${attackid}_cooldown`]      = attrs[`repeating_inventory_${itemid}_atk_cooldown`];
+      update[`repeating_attack_${attackid}_class`]         = attrs[`repeating_inventory_${itemid}_atk_class`];
+      update[`repeating_attack_${attackid}_type`]          = attrs[`repeating_inventory_${itemid}_atk_type`];
+      update[`repeating_attack_${attackid}_atkflag`]       = attrs[`repeating_inventory_${itemid}_atk_atkflag`];
+      update[`repeating_attack_${attackid}_atkbase`]       = attrs[`repeating_inventory_${itemid}_atk_atkbase`];
+      update[`repeating_attack_${attackid}_atkattr`]       = attrs[`repeating_inventory_${itemid}_atk_atkattr`];
+      update[`repeating_attack_${attackid}_atkskill`]      = attrs[`repeating_inventory_${itemid}_atk_atkskill`];
+      update[`repeating_attack_${attackid}_atkrange`]      = attrs[`repeating_inventory_${itemid}_atk_atkrange`];
+      update[`repeating_attack_${attackid}_atkcritrange`]  = attrs[`repeating_inventory_${itemid}_atk_atkcritrange`];
+      update[`repeating_attack_${attackid}_dmgflag`]       = attrs[`repeating_inventory_${itemid}_atk_dmgflag`];
+      update[`repeating_attack_${attackid}_dmgbase`]       = attrs[`repeating_inventory_${itemid}_atk_dmgbase`];
+      update[`repeating_attack_${attackid}_dmgattr`]       = attrs[`repeating_inventory_${itemid}_atk_dmgattr`];
+      update[`repeating_attack_${attackid}_dmgskill`]      = attrs[`repeating_inventory_${itemid}_atk_dmgskill`];
+      update[`repeating_attack_${attackid}_dmgroll`]       = attrs[`repeating_inventory_${itemid}_atk_dmgroll`];
+      update[`repeating_attack_${attackid}_dmgtype`]       = attrs[`repeating_inventory_${itemid}_atk_dmgtype`];
+      update[`repeating_attack_${attackid}_dmgcustcrit`]   = attrs[`repeating_inventory_${itemid}_atk_dmgcustcrit`];
 
-          if(v["repeating_inventory_" + itemid + "_itemname"] && v["repeating_inventory_" + itemid + "_itemname"] != "") {
-              update["repeating_attack_" + attackid + "_atkname"] = v["repeating_inventory_" + itemid + "_itemname"];
-              if(options && options.versatile === "primary") {
-                  update["repeating_attack_" + attackid + "_atkname"] += " (One-Handed)";
-              } else if(options && options.versatile === "secondary") {
-                  update["repeating_attack_" + attackid + "_atkname"] += " (Two-Handed)";
-              }
-          }
-          if(options && options.versatile === "secondary") {
-              if(alt.damage) {
-                  update["repeating_attack_" + attackid + "_dmgbase"] = alt.damage;
-              }
-              if(alt.damagetype) {
-                  update["repeating_attack_" + attackid + "_dmgtype"] = alt.damagetype;
-              }
-              if(alt.damage2) {
-                  update["repeating_attack_" + attackid + "_dmg2base"] = alt.damage2;
-                  update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-                  update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-              }
-              if(alt.damagetype2) {
-                  update["repeating_attack_" + attackid + "_dmg2type"] = alt.damagetype2;
-              }
-              update["repeating_attack_" + attackid + "_versatile_alt"] = "1";
-          }
-          else {
-              if(damage) {
-                  update["repeating_attack_" + attackid + "_dmgbase"] = damage;
-              }
-              if(damagetype) {
-                  update["repeating_attack_" + attackid + "_dmgtype"] = damagetype;
-              }
-              if(damage2) {
-                  update["repeating_attack_" + attackid + "_dmg2base"] = damage2;
-                  update["repeating_attack_" + attackid + "_dmg2attr"] = 0;
-                  update["repeating_attack_" + attackid + "_dmg2flag"] = "{{damage=1}} {{dmg2flag=1}}";
-              }
-              if(damagetype2) {
-                  update["repeating_attack_" + attackid + "_dmg2type"] = damagetype2;
-              }
-          }
-          if(range) {
-              update["repeating_attack_" + attackid + "_atkrange"] = range;
-          }
-          var finesse = v["repeating_inventory_" + itemid + "_itemproperties"] && /finesse/i.test(v["repeating_inventory_" + itemid + "_itemproperties"]);
-          if( (itemtype && itemtype.indexOf("Ranged") > -1) || (finesse && +v.dexterity > +v.strength)) {
-              update["repeating_attack_" + attackid + "_atkbase"] = "@{dexterity_mod}";
-              update["repeating_attack_" + attackid + "_dmgattr"] = "@{dexterity_mod}";
-          }
-          else {
-              update["repeating_attack_" + attackid + "_atkbase"] = "@{strength_mod}";
-              update["repeating_attack_" + attackid + "_dmgattr"] = "@{strength_mod}";
-          }
-          if(attackmod && damagemod && attackmod == damagemod) {
-              update["repeating_attack_" + attackid + "_atkmagic"] = parseInt(attackmod, 10);
-              update["repeating_attack_" + attackid + "_atkattr"] = "";
-              update["repeating_attack_" + attackid + "_dmgroll"] = "";
-          }
-          else {
-              if(attackmod) {
-                  update["repeating_attack_" + attackid + "_atkattr"] = parseInt(attackmod, 10);
-              }
-              if(damagemod) {
-                  update["repeating_attack_" + attackid + "_dmgroll"] = parseInt(damagemod, 10);
-              }
-              update["repeating_attack_" + attackid + "_atkmagic"] = "";
-          }
-          var callback = function() {update_attacks(attackid, "item")};
-          setAttrs(update, {silent: true}, callback);
-      });
+      var callback = function() {update_attacks(attackid, "item")};
+      setAttrs(update, {silent: true}, callback);
+    });
+  };
+
+  var update_item_from_attack = function(itemid, attackid) {
+    console.log("UPDATING ITEM FROM ATTACK!");
+    getAttrs([
+      `repeating_attack_${itemid}_atk_cooldown`,
+      `repeating_attack_${itemid}_atk_atk_name`,
+      `repeating_attack_${itemid}_atk_class`,
+      `repeating_attack_${itemid}_atk_type`,
+      `repeating_attack_${itemid}_atk_atkflag`,
+      `repeating_attack_${itemid}_atk_atkbase`,
+      `repeating_attack_${itemid}_atk_atkattr`,
+      `repeating_attack_${itemid}_atk_atkskill`,
+      `repeating_attack_${itemid}_atk_atkrange`,
+      `repeating_attack_${itemid}_atk_atkcritrange`,
+      `repeating_attack_${itemid}_atk_dmgflag`,
+      `repeating_attack_${itemid}_atk_dmgbase`,
+      `repeating_attack_${itemid}_atk_dmgattr`,
+      `repeating_attack_${itemid}_atk_dmgskill`,
+      `repeating_attack_${itemid}_atk_dmgroll`,
+      `repeating_attack_${itemid}_atk_dmgtype`,
+      `repeating_attack_${itemid}_atk_dmgcustcrit`,
+    ], function(attrs) {
+      var update {};
+
+      update[`repeating_attack_${itemid}_atk_cooldown`]     = attrs[`repeating_attack_${attackid}_cooldown`];
+      update[`repeating_attack_${itemid}_atk_atk_name`]     = attrs[`repeating_attack_${attackid}_atk_name`];
+      update[`repeating_attack_${itemid}_atk_class`]        = attrs[`repeating_attack_${attackid}_class`];
+      update[`repeating_attack_${itemid}_atk_type`]         = attrs[`repeating_attack_${attackid}_type`];
+      update[`repeating_attack_${itemid}_atk_atkflag`]      = attrs[`repeating_attack_${attackid}_atkflag`];
+      update[`repeating_attack_${itemid}_atk_atkbase`]      = attrs[`repeating_attack_${attackid}_atkbase`];
+      update[`repeating_attack_${itemid}_atk_atkattr`]      = attrs[`repeating_attack_${attackid}_atkattr`];
+      update[`repeating_attack_${itemid}_atk_atkskill`]     = attrs[`repeating_attack_${attackid}_atkskill`];
+      update[`repeating_attack_${itemid}_atk_atkrange`]     = attrs[`repeating_attack_${attackid}_atkrange`];
+      update[`repeating_attack_${itemid}_atk_atkcritrange`] = attrs[`repeating_attack_${attackid}_atkcritrange`];
+      update[`repeating_attack_${itemid}_atk_dmgflag`]      = attrs[`repeating_attack_${attackid}_dmgflag`];
+      update[`repeating_attack_${itemid}_atk_dmgbase`]      = attrs[`repeating_attack_${attackid}_dmgbase`];
+      update[`repeating_attack_${itemid}_atk_dmgattr`]      = attrs[`repeating_attack_${attackid}_dmgattr`];
+      update[`repeating_attack_${itemid}_atk_dmgskill`]     = attrs[`repeating_attack_${attackid}_dmgskill`];
+      update[`repeating_attack_${itemid}_atk_dmgroll`]      = attrs[`repeating_attack_${attackid}_dmgroll`];
+      update[`repeating_attack_${itemid}_atk_dmgtype`]      = attrs[`repeating_attack_${attackid}_dmgtype`];
+      update[`repeating_attack_${itemid}_atk_dmgcustcrit`]  = attrs[`repeating_attack_${attackid}_dmgcustcrit`];
+
+      setAttrs(update, {silent: true});
+    });
   };
 
   const create_resource_from_item = (itemid) => {
-      const newrowid = generateRowID();
-      let update     = {};
+    const newrowid = generateRowID();
+    let update     = {};
 
-      getAttrs(["other_resource_name"], (v) => {
-          //Use other_resource if it is empty
-          if (!v.other_resource_name || v.other_resource_name == "") {
-              update[`repeating_inventory_${itemid}_itemresourceid`] = "other_resource";
-              setAttrs(update, {}, update_resource_from_item(itemid, "other_resource", true));
-          //If other_resource is populated look through the repeating sections for an empty spot
+    getAttrs(["other_resource_name"], (v) => {
+      // Use other_resource if it is empty
+      if (!v.other_resource_name || v.other_resource_name == "") {
+        update[`repeating_inventory_${itemid}_itemresourceid`] = "other_resource";
+        setAttrs(update, {}, update_resource_from_item(itemid, "other_resource", true));
+      // If other_resource is populated look through the repeating sections for an empty spot
+      } else {
+        getSectionIDs(`repeating_resource`, (idarray) => {
+          if (idarray.length == 0) {
+            update[`repeating_inventory_${itemid}_itemresourceid`] = `${newrowid}_resource_left`;
+            setAttrs(update, {}, update_resource_from_item(itemid, `${newrowid}_resource_left`, true));
           } else {
-              getSectionIDs(`repeating_resource`, (idarray) => {
-                  if (idarray.length == 0) {
-                      update[`repeating_inventory_${itemid}_itemresourceid`] = `${newrowid}_resource_left`;
-                      setAttrs(update, {}, update_resource_from_item(itemid, `${newrowid}_resource_left`, true));
-                  } else {
-                      let array = [];
-                      _.each(idarray, (currentID, i) => {
-                          ["left", "right"].forEach(side => {
-                              array.push(`repeating_resource_${currentID}_resource_${side}`);
-                              array.push(`repeating_resource_${currentID}_resource_${side}_name`);
-                              array.push(`repeating_resource_${currentID}_resource_${side}_max`);
-                          });
-                      });
-                      getAttrs(array, (y) => {
-                          let existing = false;
-                         _.each(idarray, (currentID, i) => {
-                              ["left", "right"].forEach(side => {
-                                  const Name  = y[`repeating_resource_${currentID}_resource_${side}_name`] || false;
-                                  const Value = y[`repeating_resource_${currentID}_resource_${side}`] || false;
-                                  const Max   = y[`repeating_resource_${currentID}_resource_${side}_max`] || false;
-
-                                  //If Name, Value, & Max are empty and existing === false then populate a resource there
-                                  if ((!Name && !Value && !Max) && existing === false) {
-                                      update[`repeating_inventory_${itemid}_itemresourceid`] = `${currentID}_resource_${side}`;
-                                      setAttrs(update, {}, update_resource_from_item(itemid, `${currentID}_resource_${side}`, true));
-                                      existing = true;
-                                  };
-                              });
-                          });
-                         //If nothing is empty then generatae a new row
-                          if(!existing) {
-                              update[`repeating_inventory_${itemid}_itemresourceid`] = `${newrowid}_resource_left`;
-                              setAttrs(update, {}, update_resource_from_item(itemid, `${newrowid}_resource_left`, true));
-                          };
-                      });
-                  };
+            let array = [];
+            _.each(idarray, (currentID, i) => {
+              ["left", "right"].forEach(side => {
+                array.push(`repeating_resource_${currentID}_resource_${side}`);
+                array.push(`repeating_resource_${currentID}_resource_${side}_name`);
+                array.push(`repeating_resource_${currentID}_resource_${side}_max`);
               });
+            });
+            getAttrs(array, (y) => {
+              let existing = false;
+             _.each(idarray, (currentID, i) => {
+                ["left", "right"].forEach(side => {
+                  const Name  = y[`repeating_resource_${currentID}_resource_${side}_name`] || false;
+                  const Value = y[`repeating_resource_${currentID}_resource_${side}`] || false;
+                  const Max   = y[`repeating_resource_${currentID}_resource_${side}_max`] || false;
+
+                  // If Name, Value, & Max are empty and existing === false then populate a resource there
+                  if ((!Name && !Value && !Max) && existing === false) {
+                    update[`repeating_inventory_${itemid}_itemresourceid`] = `${currentID}_resource_${side}`;
+                    setAttrs(update, {}, update_resource_from_item(itemid, `${currentID}_resource_${side}`, true));
+                    existing = true;
+                  };
+                });
+              });
+              // If nothing is empty then generatae a new row
+              if(!existing) {
+                update[`repeating_inventory_${itemid}_itemresourceid`] = `${newrowid}_resource_left`;
+                setAttrs(update, {}, update_resource_from_item(itemid, `${newrowid}_resource_left`, true));
+              };
+            });
           };
-      });
+        });
+      };
+    });
   };
 
   var update_resource_from_item = function(itemid, resourceid, newresource) {
-      getAttrs(["repeating_inventory_" + itemid + "_itemname","repeating_inventory_" + itemid + "_itemcount"], function(v) {
-          var update = {}; var id;
+    getAttrs(["repeating_inventory_" + itemid + "_itemname","repeating_inventory_" + itemid + "_itemcount"], function(attrs) {
+      var update = {}; var id;
 
-          if(resourceid && resourceid == "other_resource") {
-              id = resourceid;
-          }
-          else {
-              id = "repeating_resource_" + resourceid;
-          };
+      if(resourceid && resourceid == "other_resource") {
+        id = resourceid;
+      }
+      else {
+        id = "repeating_resource_" + resourceid;
+      };
 
-          if(newresource) {
-              update[id + "_itemid"] = itemid;
-          } ;
+      if(newresource) {
+        update[id + "_itemid"] = itemid;
+      };
 
-          if(!v["repeating_inventory_" + itemid + "_itemname"]) {
-              update["repeating_inventory_" + itemid + "_useasresource"] = 0;
-              update["repeating_inventory_" + itemid + "_itemresourceid"] = "";
-              remove_resource(resourceid);
-          };
-          if(v["repeating_inventory_" + itemid + "_itemname"] && v["repeating_inventory_" + itemid + "_itemname"] != "") {
-              update[id + "_name"] = v["repeating_inventory_" + itemid + "_itemname"];
-          };
-          if(v["repeating_inventory_" + itemid + "_itemcount"] && v["repeating_inventory_" + itemid + "_itemcount"] != "") {
-              update[id] = v["repeating_inventory_" + itemid + "_itemcount"];
-          };
+      if(!attrs["repeating_inventory_" + itemid + "_itemname"]) {
+        update["repeating_inventory_" + itemid + "_useasresource"] = 0;
+        update["repeating_inventory_" + itemid + "_itemresourceid"] = "";
+        remove_resource(resourceid);
+      };
+      if(attrs["repeating_inventory_" + itemid + "_itemname"] && attrs["repeating_inventory_" + itemid + "_itemname"] != "") {
+        update[id + "_name"] = attrs["repeating_inventory_" + itemid + "_itemname"];
+      };
+      if(attrs["repeating_inventory_" + itemid + "_itemcount"] && attrs["repeating_inventory_" + itemid + "_itemcount"] != "") {
+        update[id] = attrs["repeating_inventory_" + itemid + "_itemcount"];
+      };
 
-          setAttrs(update, {silent: true});
-
-      });
+      setAttrs(update, {silent: true});
+    });
   };
 
   const update_attacks = (update_id, source) => {
@@ -4931,7 +4965,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var do_update_attack = function(attack_array, source) {
-    console.log('UPDATING ATTACK');
+    console.log("UPDATING ATTACK");
     getAttrs(["equippedweaponid"], function(attrs) {
       var weaponid = attrs["equippedweaponid"] ? attrs["equippedweaponid"] : "";
       var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
@@ -5217,165 +5251,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   };
 
-  var update_item_from_attack = function(itemid, attackid) {
-      getAttrs(["repeating_attack_" + attackid + "_atkname", "repeating_attack_" + attackid + "_dmgbase", "repeating_attack_" + attackid + "_dmg2base", "repeating_attack_" + attackid + "_dmgtype", "repeating_attack_" + attackid + "_dmg2type", "repeating_attack_" + attackid + "_atkrange", "repeating_attack_" + attackid + "_atkattr", "repeating_attack_" + attackid + "_dmgroll", "repeating_inventory_" + itemid + "_itemmodifiers", "repeating_attack_" + attackid + "_versatile_alt", "repeating_inventory_" + itemid + "_itemproperties", "repeating_attack_" + attackid + "_atkmagic"], function(v) {
-          var update = {};
-          var mods = v["repeating_inventory_" + itemid + "_itemmodifiers"];
-          var damage = v["repeating_attack_" + attackid + "_dmgbase"] ? v["repeating_attack_" + attackid + "_dmgbase"] : 0;
-          var damage2 = v["repeating_attack_" + attackid + "_dmg2base"] ? v["repeating_attack_" + attackid + "_dmg2base"] : 0;
-          var damagetype = v["repeating_attack_" + attackid + "_dmgtype"] ? v["repeating_attack_" + attackid + "_dmgtype"] : 0;
-          var damagetype2 = v["repeating_attack_" + attackid + "_dmg2type"] ? v["repeating_attack_" + attackid + "_dmg2type"] : 0;
-          var range = v["repeating_attack_" + attackid + "_atkrange"] ? v["repeating_attack_" + attackid + "_atkrange"] : 0;
-          var attackmod = v["repeating_attack_" + attackid + "_atkattr"] ? v["repeating_attack_" + attackid + "_atkattr"] : 0;
-          var damagemod = v["repeating_attack_" + attackid + "_dmgroll"] ? v["repeating_attack_" + attackid + "_dmgroll"] : 0;
-          var magicmod = v["repeating_attack_" + attackid + "_atkmagic"] ? v["repeating_attack_" + attackid + "_atkmagic"] : 0;
-          var atktype = "";
-          var altprefix = v["repeating_attack_" + attackid + "_versatile_alt"] === "1" ? "Alternate " : "";
-
-          if(/Alternate Damage:/i.test(v["repeating_inventory_" + itemid + "_itemmodifiers"])) {
-              update["repeating_inventory_" + itemid + "_itemname"] = v["repeating_attack_" + attackid + "_atkname"].replace(/\s*(?:\(One-Handed\)|\(Two-Handed\))/, "");
-          } else {
-              update["repeating_inventory_" + itemid + "_itemname"] = v["repeating_attack_" + attackid + "_atkname"];
-          }
-
-          var attack_type_regex = /(?:^|,)\s*Item Type: (Melee|Ranged) Weapon(?:,|$)/i;
-          var attack_type_results = attack_type_regex.exec(v["repeating_inventory_" + itemid + "_itemmodifiers"]);
-          atktype = attack_type_results ? attack_type_results[1] : "";
-          if(mods) {
-              mods = mods.split(",");
-          } else {
-              mods = [];
-          }
-
-          var damage_regex = new RegExp("^\\s*" + altprefix + "Damage:\\s*(.+)$", "i");
-          var damage_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(damage_found = damage_regex.exec(mods[i])) {
-                  if(damage !== 0) {
-                      mods[i] = mods[i].replace(damage_found[1], damage);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!damage_found && damage !== 0) {
-              mods.push(altprefix + "Damage: " + damage);
-          }
-
-          var damage2_regex = new RegExp("^\\s*" + altprefix + "Secondary Damage:\\s*(.+)$", "i");
-          var damage2_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(damage2_found = damage2_regex.exec(mods[i])) {
-                  if(damage2 !== 0) {
-                      mods[i] = mods[i].replace(damage2_found[1], damage2);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!damage2_found && damage2 !== 0) {
-              mods.push(altprefix + "Secondary Damage: " + damage2);
-          }
-
-          var dmgtype_regex = new RegExp("^\\s*" + altprefix + "Damage Type:\\s*(.+)$", "i");
-          var dmgtype_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(dmgtype_found = dmgtype_regex.exec(mods[i])) {
-                  if(damagetype !== 0) {
-                      mods[i] = mods[i].replace(dmgtype_found[1], damagetype);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!dmgtype_found && damagetype !== 0) {
-              mods.push(altprefix + "Damage Type: " + damagetype);
-          }
-
-          var dmgtype2_regex = new RegExp("^\\s*" + altprefix + "Secondary Damage Type:\\s*(.+)$", "i");
-          var dmgtype2_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(dmgtype2_found = dmgtype2_regex.exec(mods[i])) {
-                  if(damagetype2 !== 0) {
-                      mods[i] = mods[i].replace(dmgtype_found[1], damagetype);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!dmgtype2_found && damagetype2 !== 0) {
-              mods.push(altprefix + "Secondary Damage Type: " + damagetype2);
-          }
-
-          var range_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(range_found = /^\s*Range:\s*(.+)$/i.exec(mods[i])) {
-                  if(range !== 0) {
-                      mods[i] = mods[i].replace(range_found[1], range);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!range_found && range !== 0) {
-              mods.push("Range: " + range);
-          }
-
-          var attackmod_regex = new RegExp("^\\s*(?:" + (atktype !== "" ? atktype + "|" : "") + "Weapon) Attacks \\+?(.+)$", "i");
-          var attackmod_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(attackmod_found = attackmod_regex.exec(mods[i])) {
-                  if(magicmod !== 0 || attackmod !== 0) {
-                      mods[i] = mods[i].replace(attackmod_found[1], magicmod !== 0 ? magicmod : attackmod);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!attackmod_found && (magicmod !== 0 || attackmod !== 0)) {
-              var properties = v["repeating_inventory_" + itemid + "_itemproperties"];
-              if(properties && /Thrown/i.test(properties)) {
-                  mods.push("Weapon Attacks: " + (magicmod !== 0 ? magicmod : attackmod));
-              }
-              else {
-                  mods.push(atktype + " Attacks: " + (magicmod !== 0 ? magicmod : attackmod));
-              }
-          }
-
-          var damagemod_regex = new RegExp("^\\s*(?:" + (atktype !== "" ? atktype + "|" : "") + "Weapon) Damage \\+?(.+)$", "i");
-          var damagemod_found = false;
-          for(var i = 0; i < mods.length; i++) {
-              if(damagemod_found = damagemod_regex.exec(mods[i])) {
-                  if(magicmod !== 0 || damagemod !== 0) {
-                      mods[i] = mods[i].replace(damagemod_found[1], magicmod !== 0 ? magicmod : attackmod);
-                  } else {
-                      mods.splice(i, 1);
-                  }
-                  break;
-              }
-          }
-          if(!damagemod_found && (magicmod !== 0 || damagemod !== 0)) {
-              var properties = v["repeating_inventory_" + itemid + "_itemproperties"];
-              if(properties && /Thrown/i.test(properties)) {
-                  mods.push("Weapon Damage: " + (magicmod !== 0 ? magicmod : damagemod));
-              }
-              else {
-                  mods.push(atktype + " Damage: " + (magicmod !== 0 ? magicmod : damagemod));
-              }
-          }
-
-          update["repeating_inventory_" + itemid + "_itemmodifiers"] = mods.join(",");
-
-          setAttrs(update, {silent: true});
-      });
-  };
-
   var remove_attack = function(attackid) {
     removeRepeatingRow("repeating_attack_" + attackid);
   };
@@ -5517,7 +5392,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent:true});
       });
     });
-  }
+  };
 
   var update_weapon_type_flag = function() {
     console.log("UPDATING WEAPON TYPE FLAG");
@@ -5542,7 +5417,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent:true});
       });
     });
-  }
+  };
 
   var update_attack_dmg2_flag = function() {
     console.log("UPDATING DMG2 FLAG");
@@ -5577,7 +5452,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       });
     });
-  }
+  };
 
   const remove_resource = (id) => {
     const attr = (id === "other_resource") ? id : `repeating_resource_${id}_itemid`;
@@ -5618,67 +5493,65 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_weight = function() {
-      let update = {};
-      let wtotal = 0;
-      let weight_attrs = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
-      getSectionIDs("repeating_inventory", (idarray) => {
-          _.each(idarray, (currentID, i) => {
-              weight_attrs.push(`repeating_inventory_${currentID}_itemweight`);
-              weight_attrs.push(`repeating_inventory_${currentID}_itemcount`);
-          });
-          getAttrs(weight_attrs, (v) => {
-              let coinWeight = 0;
-              ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
-                  coinWeight += (isNaN(parseInt(v[`${type}`], 10)) === false) ? parseInt(v[`${type}`], 10) : 0;
-              });
-              wtotal = wtotal + ((coinWeight) / 50);
-
-              _.each(idarray, (currentID, i) => {
-                  if (v[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(v[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
-                      count = v[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(v[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(v[`repeating_inventory_${currentID}_itemcount`]) : 1;
-                      wtotal = wtotal + (parseFloat(v[`repeating_inventory_${currentID}_itemweight`]) * count);
-                  }
-              });
-
-              update["weighttotal"] = wtotal;
-
-              const str_base = parseInt(v.strength, 10);
-              let size_multiplier = 1;
-              if (v["size"] && v["size"] != "") {
-                  const size = v["size"].toLowerCase().trim();
-                  size_multiplier =
-                      (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
-              };
-              let str = str_base*size_multiplier;
-              // Parse the carrying capacitiy modificator if any
-              if (v.carrying_capacity_mod) {
-                  const operator = v.carrying_capacity_mod.substring(0,1);
-                  const value    = v.carrying_capacity_mod.substring(1);
-                  if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
-                      str =
-                          (operator === "*" || operator == "x") ? str*parseFloat(value,10) :
-                          (operator === "+") ? str+parseFloat(value,10) :
-                          (operator === "-") ? str-parseFloat(value,10) :
-                          str;
-                  }
-              }
-
-              if (!v.encumberance_setting || v.encumberance_setting === "off") {
-                  update["encumberance"] = (wtotal > str*15) ? "OVER CARRYING CAPACITY" : " ";
-              } else if (v.encumberance_setting === "on") {
-                  update["encumberance"] =
-                      (wtotal > str*15) ? "IMMOBILE" :
-                      (wtotal > str*10) ? "HEAVILY ENCUMBERED" :
-                      (wtotal > str*5)  ? "ENCUMBERED" :
-                      " ";
-              } else {
-                  update["encumberance"] = " ";
-              }
-
-              setAttrs(update, {silent: true});
-
-          });
+    let update = {};
+    let wtotal = 0;
+    let weight_attrs = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
+    getSectionIDs("repeating_inventory", (idarray) => {
+      _.each(idarray, (currentID, i) => {
+        weight_attrs.push(`repeating_inventory_${currentID}_itemweight`);
+        weight_attrs.push(`repeating_inventory_${currentID}_itemcount`);
       });
+      getAttrs(weight_attrs, (v) => {
+        let coinWeight = 0;
+        ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
+          coinWeight += (isNaN(parseInt(v[`${type}`], 10)) === false) ? parseInt(v[`${type}`], 10) : 0;
+        });
+        wtotal = wtotal + ((coinWeight) / 50);
+
+        _.each(idarray, (currentID, i) => {
+          if (v[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(v[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
+            count = v[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(v[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(v[`repeating_inventory_${currentID}_itemcount`]) : 1;
+            wtotal = wtotal + (parseFloat(v[`repeating_inventory_${currentID}_itemweight`]) * count);
+          }
+        });
+        update["weighttotal"] = wtotal;
+
+        const str_base = parseInt(v.strength, 10);
+        let size_multiplier = 1;
+        if (v["size"] && v["size"] != "") {
+          const size = v["size"].toLowerCase().trim();
+          size_multiplier =
+            (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
+        };
+        let str = str_base*size_multiplier;
+        // Parse the carrying capacitiy modificator if any
+        if (v.carrying_capacity_mod) {
+          const operator = v.carrying_capacity_mod.substring(0,1);
+          const value    = v.carrying_capacity_mod.substring(1);
+          if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
+            str =
+              (operator === "*" || operator == "x") ? str*parseFloat(value,10) :
+              (operator === "+") ? str+parseFloat(value,10) :
+              (operator === "-") ? str-parseFloat(value,10) :
+              str;
+          }
+        }
+
+        if (!v.encumberance_setting || v.encumberance_setting === "off") {
+          update["encumberance"] = (wtotal > str*15) ? "OVER CARRYING CAPACITY" : " ";
+        } else if (v.encumberance_setting === "on") {
+          update["encumberance"] =
+            (wtotal > str*15) ? "IMMOBILE" :
+            (wtotal > str*10) ? "HEAVILY ENCUMBERED" :
+            (wtotal > str*5)  ? "ENCUMBERED" :
+            " ";
+        } else {
+          update["encumberance"] = " ";
+        }
+
+        setAttrs(update, {silent: true});
+      });
+    });
   };
 
   var update_hp_max = function() {
@@ -5703,9 +5576,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         setAttrs(update, {silent: true});
       });
     });
-  }
+  };
 
-  // TODO implement armor type penalty
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
     var attrs_to_get = ["equippedarmorid", "agility_mod", "pb"];
@@ -5729,18 +5601,19 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           });
           switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
-            case "medium": armor_mod = agility_mod > 0 ? Math.floor(agility_mod/2) : 0; break;
-            case "heavy":
-            case "power": armor_mod = 0; break;
-            default: armor_mod = agility_mod > 0 ? agility_mod : 0;
+            case "light": armor_mod = -1; break;
+            case "medium": armor_mod = -2; break;
+            case "heavy": armor_mod = -3; break;
+            case "power": armor_mod = -4; break;
           }
-          final_def = def_base + armor_mod + def_mod + pb;
+          final_def = def_base + agility_mod + armor_mod + def_mod + pb;
+          final_def = final_def > 0 ? final_def : 0;
           update["def"] = final_def;
           setAttrs(update, {silent: true});
         });
       });
     });
-  }
+  };
 
   var update_dt = function() {
     console.log("UPDATE DT");
@@ -5911,7 +5784,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       });
     });
-  }
+  };
 
   var check_customac = function(attr) {
     getAttrs(["custom_ac_flag","custom_ac_part1","custom_ac_part2"], function(v) {
@@ -5980,7 +5853,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       let final_level   = Math.floor(Math.sqrt(2*exp/1000));
 
       update["base_level"] = final_level;
-      update["level"] = final_level;
+      update["level"]      = final_level;
 
       callbacks.push(() => {update_pb();} );
       callbacks.push(() => {update_hp_max();} );
@@ -6052,153 +5925,153 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_challenge = function() {
-      getAttrs(["npc_challenge"], function(v) {
-          var update = {};
-          var xp = 0;
-          var pb = 0;
-          switch(v.npc_challenge.toString()) {
-              case "0":
-                  xp = "10";
-                  pb = 2;
-                  break;
-              case "1/8":
-                  xp = "25";
-                  pb = 2;
-                  break;
-              case "1/4":
-                  xp = "50";
-                  pb = 2;
-                  break;
-              case "1/2":
-                  xp = "100";
-                  pb = 2;
-                  break;
-              case "1":
-                  xp = "200";
-                  pb = 2;
-                  break;
-              case "2":
-                  xp = "450";
-                  pb = 2;
-                  break;
-              case "3":
-                  xp = "700";
-                  pb = 2;
-                  break;
-              case "4":
-                  xp = "1100";
-                  pb = 2;
-                  break;
-              case "5":
-                  xp = "1800";
-                  pb = 3;
-                  break;
-              case "6":
-                  xp = "2300";
-                  pb = 3;
-                  break;
-              case "7":
-                  xp = "2900";
-                  pb = 3;
-                  break;
-              case "8":
-                  xp = "3900";
-                  pb = 3;
-                  break;
-              case "9":
-                  xp = "5000";
-                  pb = 4;
-                  break;
-              case "10":
-                  xp = "5900";
-                  pb = 4;
-                  break;
-              case "11":
-                  xp = "7200";
-                  pb = 4;
-                  break;
-              case "12":
-                  xp = "8400";
-                  pb = 4;
-                  break;
-              case "13":
-                  xp = "10000";
-                  pb = 5;
-                  break;
-              case "14":
-                  xp = "11500";
-                  pb = 5;
-                  break;
-              case "15":
-                  xp = "13000";
-                  pb = 5;
-                  break;
-              case "16":
-                  xp = "15000";
-                  pb = 5;
-                  break;
-              case "17":
-                  xp = "18000";
-                  pb = 6;
-                  break;
-              case "18":
-                  xp = "20000";
-                  pb = 6;
-                  break;
-              case "19":
-                  xp = "22000";
-                  pb = 6;
-                  break;
-              case "20":
-                  xp = "25000";
-                  pb = 6;
-                  break;
-              case "21":
-                  xp = "33000";
-                  pb = 7;
-                  break;
-              case "22":
-                  xp = "41000";
-                  pb = 7;
-                  break;
-              case "23":
-                  xp = "50000";
-                  pb = 7;
-                  break;
-              case "24":
-                  xp = "62000";
-                  pb = 7;
-                  break;
-              case "25":
-                  xp = "75000";
-                  pb = 8;
-                  break;
-              case "26":
-                  xp = "90000";
-                  pb = 8;
-                  break;
-              case "27":
-                  xp = "105000";
-                  pb = 8;
-                  break;
-              case "28":
-                  xp = "120000";
-                  pb = 8;
-                  break;
-              case "29":
-                  xp = "";
-                  pb = 9;
-                  break;
-              case "30":
-                  xp = "155000";
-                  pb = 9;
-                  break;
-          }
-          update["npc_xp"] = xp;
-          update["pb_custom"] = pb;
-          update["pb_type"] = "custom";
-          setAttrs(update, {silent: true}, function() {update_pb()});
-      });
+    getAttrs(["npc_challenge"], function(v) {
+      var update = {};
+      var xp = 0;
+      var pb = 0;
+      switch(v.npc_challenge.toString()) {
+        case "0":
+          xp = "10";
+          pb = 2;
+          break;
+        case "1/8":
+          xp = "25";
+          pb = 2;
+          break;
+        case "1/4":
+          xp = "50";
+          pb = 2;
+          break;
+        case "1/2":
+          xp = "100";
+          pb = 2;
+          break;
+        case "1":
+          xp = "200";
+          pb = 2;
+          break;
+        case "2":
+          xp = "450";
+          pb = 2;
+          break;
+        case "3":
+          xp = "700";
+          pb = 2;
+          break;
+        case "4":
+          xp = "1100";
+          pb = 2;
+          break;
+        case "5":
+          xp = "1800";
+          pb = 3;
+          break;
+        case "6":
+          xp = "2300";
+          pb = 3;
+          break;
+        case "7":
+          xp = "2900";
+          pb = 3;
+          break;
+        case "8":
+          xp = "3900";
+          pb = 3;
+          break;
+        case "9":
+          xp = "5000";
+          pb = 4;
+          break;
+        case "10":
+          xp = "5900";
+          pb = 4;
+          break;
+        case "11":
+          xp = "7200";
+          pb = 4;
+          break;
+        case "12":
+          xp = "8400";
+          pb = 4;
+          break;
+        case "13":
+          xp = "10000";
+          pb = 5;
+          break;
+        case "14":
+          xp = "11500";
+          pb = 5;
+          break;
+        case "15":
+          xp = "13000";
+          pb = 5;
+          break;
+        case "16":
+          xp = "15000";
+          pb = 5;
+          break;
+        case "17":
+          xp = "18000";
+          pb = 6;
+          break;
+        case "18":
+          xp = "20000";
+          pb = 6;
+          break;
+        case "19":
+          xp = "22000";
+          pb = 6;
+          break;
+        case "20":
+          xp = "25000";
+          pb = 6;
+          break;
+        case "21":
+          xp = "33000";
+          pb = 7;
+          break;
+        case "22":
+          xp = "41000";
+          pb = 7;
+          break;
+        case "23":
+          xp = "50000";
+          pb = 7;
+          break;
+        case "24":
+          xp = "62000";
+          pb = 7;
+          break;
+        case "25":
+          xp = "75000";
+          pb = 8;
+          break;
+        case "26":
+          xp = "90000";
+          pb = 8;
+          break;
+        case "27":
+          xp = "105000";
+          pb = 8;
+          break;
+        case "28":
+          xp = "120000";
+          pb = 8;
+          break;
+        case "29":
+          xp = "";
+          pb = 9;
+          break;
+        case "30":
+          xp = "155000";
+          pb = 9;
+          break;
+      }
+      update["npc_xp"] = xp;
+      update["pb_custom"] = pb;
+      update["pb_type"] = "custom";
+      setAttrs(update, {silent: true}, function() {update_pb()});
+    });
   };
 
   const update_npc_saves = () => {
@@ -6214,40 +6087,40 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_npc_lists = (list, type) => {
-      getAttrs(list, function(v) {
-          let update    = {};
-          let last_save = 0;
-          let npc_flag  = 0;
+    getAttrs(list, function(v) {
+      let update    = {};
+      let last_save = 0;
+      let npc_flag  = 0;
 
-          _.each(list.reverse(), (base) => {
-              const attr   = base.slice(4, -5); //Remove npc_ and _base
-              let item     = parseInt(v[`${base}`], 10);
+      _.each(list.reverse(), (base) => {
+        const attr   = base.slice(4, -5); //Remove npc_ and _base
+        let item     = parseInt(v[`${base}`], 10);
 
-              // CSS will add comma :after 2 & 4 and +/- :before
-              // 1 = Positive Number, 2 = Last Number, 3 = Negative Number, 4 = Last Negative Number
-              if (v[`${base}`] && !isNaN(item) || v[`${base}`] === 0) {
-                  if (last_save === 0) {
-                      last_save = 1;
-                      item_flag = item < 0 ? 4 : 2;
-                  } else {
-                      item_flag = item < 0 ? 3 : 1;
-                  }
-              } else {
-                  item_flag = 0;
-                  item      = "";
-              };
+        // CSS will add comma :after 2 & 4 and +/- :before
+        // 1 = Positive Number, 2 = Last Number, 3 = Negative Number, 4 = Last Negative Number
+        if (v[`${base}`] && !isNaN(item) || v[`${base}`] === 0) {
+          if (last_save === 0) {
+            last_save = 1;
+            item_flag = item < 0 ? 4 : 2;
+          } else {
+            item_flag = item < 0 ? 3 : 1;
+          }
+        } else {
+          item_flag = 0;
+          item      = "";
+        };
 
-              update[`npc_${attr}_flag`] = item_flag;
-              update[`npc_${attr}`]      = item;
+        update[`npc_${attr}_flag`] = item_flag;
+        update[`npc_${attr}`]      = item;
 
-              npc_flag += item_flag;
-          });
-
-          const flagAttr = (type === "save") ? "saving" : type;
-          update[`npc_${flagAttr}_flag`] = (npc_flag === 0) ? "" : npc_flag;
-
-          setAttrs(update, {silent: true});
+        npc_flag += item_flag;
       });
+
+      const flagAttr = (type === "save") ? "saving" : type;
+      update[`npc_${flagAttr}_flag`] = (npc_flag === 0) ? "" : npc_flag;
+
+      setAttrs(update, {silent: true});
+    });
   };
 
   var update_npc_action = function(update_id, legendary) {
@@ -6273,101 +6146,101 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var do_update_npc_action = function(action_array, legendary) {
-      var repvar = legendary ? "repeating_npcaction-l_" : "repeating_npcaction_";
-      var action_attribs = ["dtype"];
+    var repvar = legendary ? "repeating_npcaction-l_" : "repeating_npcaction_";
+    var action_attribs = ["dtype"];
+    _.each(action_array, function(actionid) {
+      action_attribs.push(repvar + actionid + "_attack_flag");
+      action_attribs.push(repvar + actionid + "_attack_type");
+      action_attribs.push(repvar + actionid + "_attack_range");
+      action_attribs.push(repvar + actionid + "_attack_target");
+      action_attribs.push(repvar + actionid + "_attack_tohit");
+      action_attribs.push(repvar + actionid + "_attack_damage");
+      action_attribs.push(repvar + actionid + "_attack_damagetype");
+      action_attribs.push(repvar + actionid + "_attack_damage2");
+      action_attribs.push(repvar + actionid + "_attack_damagetype2");
+    });
+
+    getAttrs(action_attribs, function(v) {
       _.each(action_array, function(actionid) {
-          action_attribs.push(repvar + actionid + "_attack_flag");
-          action_attribs.push(repvar + actionid + "_attack_type");
-          action_attribs.push(repvar + actionid + "_attack_range");
-          action_attribs.push(repvar + actionid + "_attack_target");
-          action_attribs.push(repvar + actionid + "_attack_tohit");
-          action_attribs.push(repvar + actionid + "_attack_damage");
-          action_attribs.push(repvar + actionid + "_attack_damagetype");
-          action_attribs.push(repvar + actionid + "_attack_damage2");
-          action_attribs.push(repvar + actionid + "_attack_damagetype2");
-      });
+        console.log("UPDATING NPC ACTION: " + actionid);
+        var callbacks = [];
+        var update = {};
+        var onhit = "";
+        var damage_flag = "";
+        var range = "";
+        var attack_flag = v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0" ? "{{attack=1}}" : "";
+        var tohit = v[repvar + actionid + "_attack_tohit"] && isNaN(parseInt(v[repvar + actionid + "_attack_tohit"], 10)) === false ? parseInt(v[repvar + actionid + "_attack_tohit"], 10) : 0;
+        if(v[repvar + actionid + "_attack_type"] && v[repvar + actionid + "_attack_range"]) {
+          if(v[repvar + actionid + "_attack_type"] === "Melee") {var rangetype = "Reach";} else {var rangetype = "Range";};
+          range = ", " + rangetype + " " + v[repvar + actionid + "_attack_range"];
+        }
+        var target = v[repvar + actionid + "_attack_target"] && v[repvar + actionid + "_attack_target"] != "" ? ", " + v[repvar + actionid + "_attack_target"] : ""
+        var attack_tohitrange = "+" + tohit + range + target;
+        var dmg1 = v[repvar + actionid + "_attack_damage"] && v[repvar + actionid + "_attack_damage"] != "" ? v[repvar + actionid + "_attack_damage"] : "";
+        var dmg1type = v[repvar + actionid + "_attack_damagetype"] && v[repvar + actionid + "_attack_damagetype"] != "" ? " " + v[repvar + actionid + "_attack_damagetype"] : "";
+        var dmg2 = v[repvar + actionid + "_attack_damage2"] && v[repvar + actionid + "_attack_damage2"] != "" ? v[repvar + actionid + "_attack_damage2"] : "";
+        var dmg2type = v[repvar + actionid + "_attack_damagetype2"] && v[repvar + actionid + "_attack_damagetype2"] != "" ? " " + v[repvar + actionid + "_attack_damagetype2"] : "";
+        var dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
 
-      getAttrs(action_attribs, function(v) {
-          _.each(action_array, function(actionid) {
-              console.log("UPDATING NPC ACTION: " + actionid);
-              var callbacks = [];
-              var update = {};
-              var onhit = "";
-              var damage_flag = "";
-              var range = "";
-              var attack_flag = v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0" ? "{{attack=1}}" : "";
-              var tohit = v[repvar + actionid + "_attack_tohit"] && isNaN(parseInt(v[repvar + actionid + "_attack_tohit"], 10)) === false ? parseInt(v[repvar + actionid + "_attack_tohit"], 10) : 0;
-              if(v[repvar + actionid + "_attack_type"] && v[repvar + actionid + "_attack_range"]) {
-                  if(v[repvar + actionid + "_attack_type"] === "Melee") {var rangetype = "Reach";} else {var rangetype = "Range";};
-                  range = ", " + rangetype + " " + v[repvar + actionid + "_attack_range"];
-              }
-              var target = v[repvar + actionid + "_attack_target"] && v[repvar + actionid + "_attack_target"] != "" ? ", " + v[repvar + actionid + "_attack_target"] : ""
-              var attack_tohitrange = "+" + tohit + range + target;
-              var dmg1 = v[repvar + actionid + "_attack_damage"] && v[repvar + actionid + "_attack_damage"] != "" ? v[repvar + actionid + "_attack_damage"] : "";
-              var dmg1type = v[repvar + actionid + "_attack_damagetype"] && v[repvar + actionid + "_attack_damagetype"] != "" ? " " + v[repvar + actionid + "_attack_damagetype"] : "";
-              var dmg2 = v[repvar + actionid + "_attack_damage2"] && v[repvar + actionid + "_attack_damage2"] != "" ? v[repvar + actionid + "_attack_damage2"] : "";
-              var dmg2type = v[repvar + actionid + "_attack_damagetype2"] && v[repvar + actionid + "_attack_damagetype2"] != "" ? " " + v[repvar + actionid + "_attack_damagetype2"] : "";
-              var dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
+        var parsed_dmg1 = parse_roll_string(dmg1);
+        var parsed_dmg2 = parse_roll_string(dmg2);
 
-              var parsed_dmg1 = parse_roll_string(dmg1);
-              var parsed_dmg2 = parse_roll_string(dmg2);
+        if(dmg1 != "") {
+          onhit = onhit + parsed_dmg1.avg + " (" + dmg1 + ")" + dmg1type + " damage";
+        };
+        dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
+        onhit = onhit + dmgspacer;
+        if(dmg2 != "") {
+          onhit = onhit + parsed_dmg2.avg + " (" + dmg2 + ")" + dmg2type + " damage";
+        };
+        if(dmg1 != "" || dmg2 != "") {damage_flag = damage_flag + "{{damage=1}} "};
+        if(dmg1 != "") {damage_flag = damage_flag + "{{dmg1flag=1}} "};
+        if(dmg2 != "") {damage_flag = damage_flag + "{{dmg2flag=1}} "};
 
-              if(dmg1 != "") {
-                  onhit = onhit + parsed_dmg1.avg + " (" + dmg1 + ")" + dmg1type + " damage";
-              };
-              dmgspacer = dmg1 != "" && dmg2 != "" ? " plus " : "";
-              onhit = onhit + dmgspacer;
-              if(dmg2 != "") {
-                  onhit = onhit + parsed_dmg2.avg + " (" + dmg2 + ")" + dmg2type + " damage";
-              };
-              if(dmg1 != "" || dmg2 != "") {damage_flag = damage_flag + "{{damage=1}} "};
-              if(dmg1 != "") {damage_flag = damage_flag + "{{dmg1flag=1}} "};
-              if(dmg2 != "") {damage_flag = damage_flag + "{{dmg2flag=1}} "};
-
-              var crit1 = "";
-              if(parsed_dmg1.rolls.length > 0){
-                  parsed_dmg1.rolls.forEach(function(value) {
-                      crit1 += parsed_dmg1.array[value] + "+";
-                  });
-                  crit1 = crit1.substring(0, crit1.length - 1);
-              }
-
-              var crit2 = "";
-              if(parsed_dmg2.rolls.length > 0){
-                  parsed_dmg2.rolls.forEach(function(value) {
-                      crit2 += parsed_dmg2.array[value] + "+";
-                  });
-                  crit2 = crit2.substring(0, crit2.length - 1);
-              }
-
-              var rollbase = "";
-              if(v.dtype === "full") {
-                  rollbase = "@{wtype}&{template:npcaction} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=@{name}}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} {{description=@{show_desc}}} @{charname_output}";
-              }
-              else if(v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0") {
-                  if(legendary) {
-                      rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction-l_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction-l_npc_crit)}} {{type=[Attack](~repeating_npcaction-l_npc_dmg)}} {{typec=[Attack](~repeating_npcaction-l_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}"
-                  }
-                  else {
-                      rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction_npc_crit)}} {{type=[Attack](~repeating_npcaction_npc_dmg)}} {{typec=[Attack](~repeating_npcaction_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}";
-                  }
-              }
-              else if(dmg1 || dmg2) {
-                  rollbase = "@{wtype}&{template:npcdmg} @{damage_flag} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} @{charname_output}"
-              }
-              else {
-                  rollbase = "@{wtype}&{template:npcaction} @{npc_name_flag} {{rname=@{name}}} {{description=@{show_desc}}} @{charname_output}"
-              }
-
-              update[repvar + actionid + "_attack_tohitrange"] = attack_tohitrange;
-              update[repvar + actionid + "_attack_onhit"] = onhit;
-              update[repvar + actionid + "_damage_flag"] = damage_flag;
-              update[repvar + actionid + "_attack_crit"] = crit1;
-              update[repvar + actionid + "_attack_crit2"] = crit2;
-              update[repvar + actionid + "_rollbase"] = rollbase;
-              setAttrs(update, {silent: true});
+        var crit1 = "";
+        if(parsed_dmg1.rolls.length > 0){
+          parsed_dmg1.rolls.forEach(function(value) {
+            crit1 += parsed_dmg1.array[value] + "+";
           });
+          crit1 = crit1.substring(0, crit1.length - 1);
+        }
+
+        var crit2 = "";
+        if(parsed_dmg2.rolls.length > 0){
+          parsed_dmg2.rolls.forEach(function(value) {
+            crit2 += parsed_dmg2.array[value] + "+";
+          });
+          crit2 = crit2.substring(0, crit2.length - 1);
+        }
+
+        var rollbase = "";
+        if(v.dtype === "full") {
+          rollbase = "@{wtype}&{template:npcaction} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=@{name}}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} {{description=@{show_desc}}} @{charname_output}";
+        }
+        else if(v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0") {
+          if(legendary) {
+            rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction-l_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction-l_npc_crit)}} {{type=[Attack](~repeating_npcaction-l_npc_dmg)}} {{typec=[Attack](~repeating_npcaction-l_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}"
+          }
+          else {
+            rollbase = "@{wtype}&{template:npcatk} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=[@{name}](~repeating_npcaction_npc_dmg)}} {{rnamec=[@{name}](~repeating_npcaction_npc_crit)}} {{type=[Attack](~repeating_npcaction_npc_dmg)}} {{typec=[Attack](~repeating_npcaction_npc_crit)}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{description=@{show_desc}}} @{charname_output}";
+          }
+        }
+        else if(dmg1 || dmg2) {
+          rollbase = "@{wtype}&{template:npcdmg} @{damage_flag} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} @{charname_output}"
+        }
+        else {
+          rollbase = "@{wtype}&{template:npcaction} @{npc_name_flag} {{rname=@{name}}} {{description=@{show_desc}}} @{charname_output}"
+        }
+
+        update[repvar + actionid + "_attack_tohitrange"] = attack_tohitrange;
+        update[repvar + actionid + "_attack_onhit"] = onhit;
+        update[repvar + actionid + "_damage_flag"] = damage_flag;
+        update[repvar + actionid + "_attack_crit"] = crit1;
+        update[repvar + actionid + "_attack_crit2"] = crit2;
+        update[repvar + actionid + "_rollbase"] = rollbase;
+        setAttrs(update, {silent: true});
       });
+    });
   };
 
   var parse_roll_string = function(rollstring) {
@@ -6614,88 +6487,88 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         complete();
       });
     });
-  }
+  };
 
   var versioning = function(finished) {
-      getAttrs(["version"], function(v) {
-          if(v["version"] === "2.7") {
-              setAttrs({version: "2.7"}, function(){
-                  finished();
-              });
-              console.log("5th Edition OGL by Roll20 v" + v["version"]);
-              return;
-          }
-          else if(!v["version"] || v["version"] === "") {
-              console.log("NO VERSION FOUND");
-              no_version_bugfix(function() {
-                  versioning(finished);
-              });
-          }
-          else if(v["version"] === "2.6") {
-              console.log("UPGRADING TO v2.7");
-              upgrade_to_2_7(function() {
-                  setAttrs({version: "2.7"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.5") {
-              console.log("UPGRADING TO v2.6");
-              upgrade_to_2_6(function() {
-                  setAttrs({version: "2.6"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.4") {
-              console.log("UPGRADING TO v2.5");
-              upgrade_to_2_5(function() {
-                  setAttrs({version: "2.5"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.3") {
-              console.log("UPGRADING TO v2.4");
-              upgrade_to_2_4(function() {
-                  setAttrs({version: "2.4"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.2") {
-              console.log("UPGRADING TO v2.3");
-              upgrade_to_2_3(function() {
-                  setAttrs({version: "2.3"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.1") {
-              console.log("UPGRADING TO v2.2");
-              upgrade_to_2_2(function() {
-                  setAttrs({version: "2.2"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else if(v["version"] === "2.0") {
-              console.log("UPGRADING TO v2.1");
-              upgrade_to_2_1(function() {
-                  setAttrs({version: "2.1"}, function() {
-                      versioning(finished);
-                  });
-              });
-          }
-          else {
-              console.log("UPGRADING TO v2.0");
-              upgrade_to_2_0(function() {
-                  setAttrs({version: "2.0"}, function() {
-                      versioning(finished);
-                  });
-              });
-          };
-      });
+    getAttrs(["version"], function(v) {
+      if(v["version"] === "2.7") {
+        setAttrs({version: "2.7"}, function(){
+          finished();
+        });
+        console.log("5th Edition OGL by Roll20 v" + v["version"]);
+        return;
+      }
+      else if(!v["version"] || v["version"] === "") {
+        console.log("NO VERSION FOUND");
+        no_version_bugfix(function() {
+          versioning(finished);
+        });
+      }
+      else if(v["version"] === "2.6") {
+        console.log("UPGRADING TO v2.7");
+        upgrade_to_2_7(function() {
+          setAttrs({version: "2.7"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.5") {
+        console.log("UPGRADING TO v2.6");
+        upgrade_to_2_6(function() {
+          setAttrs({version: "2.6"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.4") {
+        console.log("UPGRADING TO v2.5");
+        upgrade_to_2_5(function() {
+          setAttrs({version: "2.5"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.3") {
+        console.log("UPGRADING TO v2.4");
+        upgrade_to_2_4(function() {
+          setAttrs({version: "2.4"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.2") {
+        console.log("UPGRADING TO v2.3");
+        upgrade_to_2_3(function() {
+          setAttrs({version: "2.3"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.1") {
+        console.log("UPGRADING TO v2.2");
+        upgrade_to_2_2(function() {
+          setAttrs({version: "2.2"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else if(v["version"] === "2.0") {
+        console.log("UPGRADING TO v2.1");
+        upgrade_to_2_1(function() {
+          setAttrs({version: "2.1"}, function() {
+            versioning(finished);
+          });
+        });
+      }
+      else {
+        console.log("UPGRADING TO v2.0");
+        upgrade_to_2_0(function() {
+          setAttrs({version: "2.0"}, function() {
+            versioning(finished);
+          });
+        });
+      };
+    });
   };
 
 </script>
