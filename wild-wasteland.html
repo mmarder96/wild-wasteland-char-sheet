@@ -3947,6 +3947,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_attacks(attackid);
   });
 
+  on("change:repeating_weapons", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    console.log("WEAPON CHANGE DETECTED!");
+    console.log(eventinfo);
+    var weaponid = eventinfo.sourceAttribute.substring(18,38);
+    update_weapon_from_item(weaponid);
+  });
+
   on("change:repeating_weapons:atkname change:repeating_weapons:atkflag change:repeating_weapons:atkbase change:repeating_weapons:atkattr change:repeating_weapons:atkskill change:repeating_weapons:dmgflag change:repeating_weapons:dmgbase change:repeating_weapons:dmgattr change:repeating_weapons:dmgskill change:repeating_weapons:dmgroll change:repeating_weapons:dmgtype change:repeating_weapons:dmgcustcrit change:repeating_weapons:ammo change:repeating_weapons:saveattr change:repeating_weapons:atkrange", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("WEAPON CHANGE DETECTED!");
@@ -4958,7 +4966,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_weapon_from_item = function(itemid, weaponid, options) {
-    console.log("UPDATING ATTACK FROM ITEM!");
+    console.log("UPDATING WEAPON FROM ITEM!");
     getAttrs([
       `repeating_inventory_${itemid}_wpn_wpnname`,
       `repeating_inventory_${itemid}_wpn_shots`,
@@ -4994,11 +5002,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var alt = {};
 
       if(options && options.newweapon) {
-        update[`repeating_weapon_${weaponid}_options-flag`] = "0";
-        update[`repeating_weapon_${weaponid}_itemid`] = itemid;
-        update[`repeating_weapon_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_itemname`];
+        update[`repeating_weapons_${weaponid}_options-flag`] = "0";
+        update[`repeating_weapons_${weaponid}_itemid`] = itemid;
+        update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
-        update[`repeating_attack_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_wpn_wpnname`];
+        update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_wpn_wpnname`];
       }
 
       update[`repeating_weapons_${weaponid}_shots`]         = attrs[`repeating_inventory_${itemid}_wpn_shots`];
@@ -5496,7 +5504,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var remove_weapon = function(weaponid) {
-    removeRepeatingRow("repeating_weapon_" + weaponid);
+    removeRepeatingRow("repeating_weapons_" + weaponid);
   };
 
   var update_equipped_weapon = function(weaponid) {
