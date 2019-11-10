@@ -566,6 +566,7 @@ button[type=roll] * {
   border-radius: 5px;
   margin-bottom: 10px;
   padding-top: 10px;
+  padding-left: 5px;
 }
 
 .sheet-saving-throw,
