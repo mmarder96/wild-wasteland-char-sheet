@@ -4041,14 +4041,20 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     getAttrs([
       `repeating_inventory_${itemid}_equipped`,
       `repeating_inventory_${itemid}_hasattack`,
-      `repeating_inventory_${itemid}_itemattackid`
+      `repeating_inventory_${itemid}_isweapon`,
+      `repeating_inventory_${itemid}_itemattackid`,
+      `repeating_inventory_${itemid}_itemweaponid`
     ], function(attrs) {
       const equipped = attrs[`repeating_inventory_${itemid}_equipped`];
       const hasattack = attrs[`repeating_inventory_${itemid}_hasattack`];
       const itemattackid = attrs[`repeating_inventory_${itemid}_itemattackid`];
-      console.log(`hasattack: ${hasattack}`);
+      const isweapon = attrs[`repeating_inventory_${itemid}_isweapon`];
+      const itemweaponid = attrs[`repeating_inventory_${itemid}_itemweaponid`];
       console.log(`equipped: ${equipped}`);
-      (hasattack == 1 && equipped == 1) ? create_attack_from_item(itemid, {newattack: false}) : remove_attack(itemattackid);
+      console.log(`hasattack: ${hasattack}`);
+      console.log(`isweapon: ${isweapon}`);
+      (equipped == 1 && hasattack == 1) ? create_attack_from_item(itemid, {newattack: false}) : remove_attack(itemattackid);
+      (equipped == 1 && isweapon == 1) ? create_weapon_from_item(itemid, {newweapon: false}) : remove_weapon(itemweaponid);
     });
   });
 
@@ -4067,6 +4073,24 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       console.log(`hasattack: ${hasattack}`);
       console.log(`equipped: ${equipped}`);
       (hasattack == 1 && equipped == 1) ? create_attack_from_item(itemid, {newattack: true}) : remove_attack(itemattackid);
+    });
+  });
+
+  on("change:repeating_inventory:isweapon", function(eventinfo) {
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+
+    const itemid = eventinfo.sourceAttribute.substring(20, 40);
+    console.log(eventinfo);
+    getAttrs([
+      `repeating_inventory_${itemid}_equipped`,
+      `repeating_inventory_${itemid}_itemweaponid`
+    ], function(attrs) {
+      const isweapon = eventinfo.newValue;
+      const itemweaponid = attrs[`repeating_inventory_${itemid}_itemweaponid`];
+      const equipped = attrs[`repeating_inventory_${itemid}_equipped`];
+      console.log(`isweapon: ${isweapon}`);
+      console.log(`equipped: ${equipped}`);
+      (isweapon == 1 && equipped == 1) ? create_weapon_from_item(itemid, {newattack: true}) : remove_weapon(itemweaponid);
     });
   });
 
@@ -4282,10 +4306,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("remove:repeating_inventory", function(eventinfo) {
     var itemid = eventinfo.sourceAttribute.substring(20, 40);
     var attackids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] : undefined;
+    var weaponids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemweaponid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemweaponid"] : undefined;
     var resourceid = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] : undefined;
 
     if(attackids) {
       _.each(attackids.split(","), function(value) { remove_attack(value); });
+    }
+    if(weaponids) {
+      _.each(weaponids.split(","), function(value) { remove_weapon(value); });
     }
     if(resourceid) {
       remove_resource(resourceid);
@@ -5468,7 +5496,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var remove_weapon = function(weaponid) {
-    removeRepeatingRow("repeating_weapon_" + attackid);
+    removeRepeatingRow("repeating_weapon_" + weaponid);
   };
 
   var update_equipped_weapon = function(weaponid) {
