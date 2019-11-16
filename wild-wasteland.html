@@ -1929,7 +1929,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <span data-i18n="source:-u">SOURCE:</span>
                       <select name="attr_source">
                         <option selected="selected" data-i18n="racial">Racial</option>
-                        <option data-i18n="class">Class</option>
+                        <option data-i18n="trait">Trait</option>
                         <option data-i18n="perk">Perk</option>
                         <option data-i18n="background">Background</option>
                         <option data-i18n="other">Other</option>
@@ -4904,7 +4904,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[`repeating_attack_${attackid}_itemid`] = itemid;
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
-        update[`repeating_attack_${attackid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemattackid`];
+        update[`repeating_attack_${attackid}_itemid`] = itemid;
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
       }
 
@@ -5049,7 +5049,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[`repeating_weapons_${weaponid}_itemid`] = itemid;
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
-        update[`repeating_weapons_${weaponid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemweaponid`];
+        update[`repeating_weapons_${weaponid}_itemid`] = itemid;
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_wpn_wpnname`];
       }
 
@@ -5144,7 +5144,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_armor_from_item = function(itemid, armorid, options) {
     console.log("UPDATING ARMOR FROM ITEM!");
     getAttrs([
-      `repeating_inventory_${itemid}_itemarmorid`,
       `repeating_inventory_${itemid}_itemname`,
       `repeating_inventory_${itemid}_arm_armorname`,
       `repeating_inventory_${itemid}_arm_armordt`,
@@ -5162,7 +5161,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[`repeating_armor_${armorid}_itemid`] = itemid;
         update[`repeating_armor_${armorid}_armorname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
-        update[`repeating_armor_${armorid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemarmorid`];
+        update[`repeating_armor_${armorid}_itemid`] = itemid;
         update[`repeating_armor_${armorid}_armorname`] = attrs[`repeating_inventory_${itemid}_arm_armorname`];
       }
 
