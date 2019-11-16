@@ -275,6 +275,8 @@
 	"jack-of-all-u": "JACK OF ALL TRADES",
 	"attr:-u": "ATTRIBUTE:",
 	"tool-prof-u": "TOOL PROFICIENCIES",
+	"mods-u": "MODS",
+	"custom-mods-u": "CUSTOM MODIFIERS",
 	"other-prof-langs-u": "OTHER PROFICIENCIES &amp; LANGUAGES",
 	"prof-langs-u": "PROFICIENCIES &amp; LANGUAGES",
 	"init": "Initiative",

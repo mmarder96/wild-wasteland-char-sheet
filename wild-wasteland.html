@@ -1153,6 +1153,34 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
           </div>
           -->
+          <div class="custom_mods" style="margin-bottom: 10px; min-height: 50px; position: relative;">
+            <div class="top">
+              <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
+                  alt="active symbol"></span>
+              <span style="width: 90px;" data-i18n="name-u">NAME</span>
+              <span style="width: 85px;" data-i18n="mods-u">MODS</span>
+            </div>
+            <fieldset class="repeating_custom_mods">
+              <input type="hidden" class="activeflag" name="attr_active">
+              <div class="mods">
+                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                <div class="display">
+                  <input class="equipped" type="checkbox" name="attr_active" value="1">
+                  <input class="name" type="text" name="attr_modname" style="width: 85px;">
+                  <input type="hidden" name="attr_modifiers">
+                  <span name="attr_modifiers" style="width: 110px;"/>
+                </div>
+                <div class="options">
+                  <div class="row">
+                    <span data-i18n="mods:-u">MODS:</span>
+                    <textarea class="subtextarea" name="attr_modifiers"></textarea>
+                  </div>
+              </div>
+            </fieldset>
+            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
+              <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
+            </div>
+          </div>
         </div>
         <div class="col col2">
           <div class="hdice-dsaves-container" style="width: 242px;">
@@ -1260,7 +1288,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <button type="roll" name="roll_attack_dmg" style="display: none;" value="@{rollbase_dmg}"></button>
                   <button type="roll" name="roll_attack_crit" style="display: none;" value="@{rollbase_crit}"></button>
 
-                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>y</span>
                   <div class="subitem">
                     <input class="typeflag" type="hidden" name="attr_typeflag" value="none">
                     <span class="label" data-i18n="type:-u">TYPE:</span>
@@ -1484,7 +1512,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="equipped" type="checkbox" name="attr_equipped" value="1">
                   <input class="name" type="text" name="attr_wpnname">
                   <input class="weight" type="text" name="attr_shots">
-                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>y</span>
                   <div class="subitem">
                     <input class="typeflag" type="hidden" name="attr_typeflag" value="none">
                     <span class="label" data-i18n="type:-u">TYPE:</span>
@@ -1668,7 +1696,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="equipped" type="checkbox" name="attr_equipped" value="1">
                   <input class="name" type="text" name="attr_armorname">
                   <input class="weight" type="text" name="attr_armordt">
-                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>y</span>
                   <div class="subitem">
                     <span class="label" data-i18n="type:-u">TYPE:</span>
                     <select name="attr_type">
@@ -1736,7 +1764,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="weight" type="text" name="attr_itemcount" value="1">
                   <input class="name" type="text" name="attr_itemname">
                   <input class="weight" type="text" name="attr_itemweight">
-                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>i</span>
+                  <input class="inventorysubflag" type="checkbox" name="attr_inventorysubflag"><span>y</span>
                   <div class="subitem">
                     <input class="equipped" type="checkbox" name="attr_equipped" value="1" checked="checked">
                     <span class="equippedlabel" data-i18n="equipped-u">EQUIPPED</span>
