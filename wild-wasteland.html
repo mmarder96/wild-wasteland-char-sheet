@@ -1804,6 +1804,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="hidden" name="attr_wpn_description">
                   <!--ARMOR ATTRIBUTES-->
                   <input type="hidden" name="attr_itemarmorid">
+                  <input type="hidden" name="attr_arm_armorname">
+                  <input type="hidden" name="attr_arm_armordt">
+                  <input type="hidden" name="attr_arm_type">
+                  <input type="hidden" name="attr_arm_armorproperties">
+                  <input type="hidden" name="attr_arm_itemmodifers">
+                  <input type="hidden" name="attr_arm_armorcontent">
                   <!--RESOURCE ATTRIBUTES-->
                   <input type="hidden" name="attr_itemresourceid">
                 </div>
@@ -4050,19 +4056,25 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_inventory_${itemid}_equipped`,
       `repeating_inventory_${itemid}_hasattack`,
       `repeating_inventory_${itemid}_isweapon`,
+      `repeating_inventory_${itemid}_isarmor`,
       `repeating_inventory_${itemid}_itemattackid`,
-      `repeating_inventory_${itemid}_itemweaponid`
+      `repeating_inventory_${itemid}_itemweaponid`,
+      `repeating_inventory_${itemid}_itemarmorid`
     ], function(attrs) {
       const equipped = attrs[`repeating_inventory_${itemid}_equipped`];
       const hasattack = attrs[`repeating_inventory_${itemid}_hasattack`];
       const itemattackid = attrs[`repeating_inventory_${itemid}_itemattackid`];
       const isweapon = attrs[`repeating_inventory_${itemid}_isweapon`];
       const itemweaponid = attrs[`repeating_inventory_${itemid}_itemweaponid`];
+      const isarmor = attrs[`repeating_inventory_${itemid}_isarmor`];
+      const itemarmorid = attrs[`repeating_inventory_${itemid}_itemarmorid`];
       console.log(`equipped: ${equipped}`);
       console.log(`hasattack: ${hasattack}`);
       console.log(`isweapon: ${isweapon}`);
+      console.log(`isarmor: ${isarmor}`);
       (equipped == 1 && hasattack == 1) ? create_attack_from_item(itemid, {newattack: false}) : remove_attack(itemattackid);
       (equipped == 1 && isweapon == 1) ? create_weapon_from_item(itemid, {newweapon: false}) : remove_weapon(itemweaponid);
+      (equipped == 1 && isarmor == 1) ? create_armor_from_item(itemid, {newarmor: false}) : remove_armor(itemarmorid);
     });
   });
 
@@ -4099,6 +4111,24 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       console.log(`isweapon: ${isweapon}`);
       console.log(`equipped: ${equipped}`);
       (isweapon == 1 && equipped == 1) ? create_weapon_from_item(itemid, {newweapon: true}) : remove_weapon(itemweaponid);
+    });
+  });
+
+  on("change:repeating_inventory:isarmor", function(eventinfo) {
+    if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
+
+    const itemid = eventinfo.sourceAttribute.substring(20, 40);
+    console.log(eventinfo);
+    getAttrs([
+      `repeating_inventory_${itemid}_equipped`,
+      `repeating_inventory_${itemid}_itemarmorid`
+    ], function(attrs) {
+      const isarmor = eventinfo.newValue;
+      const itemarmorid = attrs[`repeating_inventory_${itemid}_itemarmorid`];
+      const equipped = attrs[`repeating_inventory_${itemid}_equipped`];
+      console.log(`isarmor: ${isarmor}`);
+      console.log(`equipped: ${equipped}`);
+      (isarmor == 1 && equipped == 1) ? create_armor_from_item(itemid, {newarmor: true}) : remove_armor(itemarmorid);
     });
   });
 
@@ -4154,13 +4184,28 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_weight();
   });
 
+  on("change:repeating_armor", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    console.log("ARMOR CHANGE DETECTED!");
+    console.log(eventinfo);
+    var armorid = eventinfo.sourceAttribute.substring(16, 36);
+    getAttrs([`repeating_armor_${armorid}_itemid`], function(attrs) {
+      console.log("ARMOR UPDATE ATTRS");
+      console.log(attrs);
+      if(attrs[`repeating_armor_${armorid}_itemid`] && attrs[`repeating_armor_${armorid}_itemid`] != "") {
+        var itemid = attrs[`repeating_armor_${armorid}_itemid`];
+        update_item_from_armor(itemid, armorid);
+      }
+    });
+  });
+
   on("change:repeating_armor:armordt change:repeating_armor:equipped", function(eventinfo) {
-    console.log("ARMOR DT CHANGED!");
+    console.log("ARMOR DT CHANGE DETECTED!");
     update_dt();
   });
 
   on("change:repeating_armor:itemmodifiers change:repeating_armor:equipped", function(eventinfo) {
-    console.log("CHANGE REPEATING ARMOR");
+    console.log("ARMOR MODIFIERS CHANGE DETECTED!");
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
     var armorid = eventinfo.sourceAttribute.substring(16, 36);
     getAttrs(["repeating_armor_" + armorid + "_itemmodifiers"], function(attrs) {
@@ -4172,7 +4217,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   on("change:repeating_armor:type", function(eventinfo) {
-    console.log("CHANGE REPEATING ARMOR");
+    console.log("ARMOR TYPE CHANGE DETECTED!");
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
     update_defense();
   });
@@ -4315,6 +4360,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var itemid = eventinfo.sourceAttribute.substring(20, 40);
     var attackids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] : undefined;
     var weaponids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemweaponid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemweaponid"] : undefined;
+    var armorids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemarmorid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemarmorid"] : undefined;
     var resourceid = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemresourceid"] : undefined;
 
     if(attackids) {
@@ -4322,6 +4368,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     }
     if(weaponids) {
       _.each(weaponids.split(","), function(value) { remove_weapon(value); });
+    }
+    if(armorids) {
+      _.each(armorids.split(","), function(value) { remove_armor(value); });
     }
     if(resourceid) {
       remove_resource(resourceid);
@@ -4822,8 +4871,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_attack_from_item = function(itemid, attackid, options) {
     console.log("UPDATING ATTACK FROM ITEM!");
     getAttrs([
-      `repeating_inventory_${itemid}_itemname`,
       `repeating_inventory_${itemid}_itemattackid`,
+      `repeating_inventory_${itemid}_itemname`,
       `repeating_inventory_${itemid}_atk_cooldown`,
       `repeating_inventory_${itemid}_atk_atkname`,
       `repeating_inventory_${itemid}_atk_class`,
@@ -4849,21 +4898,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_inventory_${itemid}_atk_atk_desc`
     ], function(attrs) {
       var update = {};
-      var itemtype;
-      var damage;
-      var damagetype;
-      var damage2;
-      var damagetype2;
-      var attackmod;
-      var damagemod;
-      var range;
-      var alt = {};
 
       if(options && options.newattack) {
         update[`repeating_attack_${attackid}_options-flag`] = "0";
         update[`repeating_attack_${attackid}_itemid`] = itemid;
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
+        update[`repeating_attack_${attackid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemattackid`];
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
       }
 
@@ -4966,6 +5007,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_weapon_from_item = function(itemid, weaponid, options) {
     console.log("UPDATING WEAPON FROM ITEM!");
     getAttrs([
+      `repeating_inventory_${itemid}_itemweaponid`,
       `repeating_inventory_${itemid}_itemname`,
       `repeating_inventory_${itemid}_wpn_wpnname`,
       `repeating_inventory_${itemid}_wpn_shots`,
@@ -5007,6 +5049,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[`repeating_weapons_${weaponid}_itemid`] = itemid;
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
+        update[`repeating_weapons_${weaponid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemweaponid`];
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_wpn_wpnname`];
       }
 
@@ -5085,6 +5128,74 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_inventory_${itemid}_wpn_dmgtype`]       = attrs[`repeating_weapons_${weaponid}_dmgtype`];
       update[`repeating_inventory_${itemid}_wpn_dmgcustcrit`]   = attrs[`repeating_weapons_${weaponid}_dmgcustcrit`];
       update[`repeating_inventory_${itemid}_wpn_properties`]    = attrs[`repeating_weapons_${weaponid}_properties`];
+
+      setAttrs(update, {silent: true});
+    });
+  };
+
+  var create_armor_from_item = function(itemid, options) {
+    console.log("CREATING ARMOR FROM ITEM!");
+    var update = {};
+    var newrowid = generateRowID();
+    update[`repeating_inventory_${itemid}_itemarmorid`] = newrowid;
+    setAttrs(update, {}, update_armor_from_item(itemid, newrowid, options));
+  };
+
+  var update_armor_from_item = function(itemid, armorid, options) {
+    console.log("UPDATING ARMOR FROM ITEM!");
+    getAttrs([
+      `repeating_inventory_${itemid}_itemarmorid`,
+      `repeating_inventory_${itemid}_itemname`,
+      `repeating_inventory_${itemid}_arm_armorname`,
+      `repeating_inventory_${itemid}_arm_armordt`,
+      `repeating_inventory_${itemid}_arm_type`,
+      `repeating_inventory_${itemid}_arm_armorproperties`,
+      `repeating_inventory_${itemid}_arm_itemmodifers`,
+      `repeating_inventory_${itemid}_arm_armorcontent`
+    ], function(attrs) {
+      console.log('ARMOR ITEM ATTRS');
+      console.log(attrs);
+      var update = {};
+
+      if(options && options.newarmor) {
+        update[`repeating_armor_${armorid}_options-flag`] = "0";
+        update[`repeating_armor_${armorid}_itemid`] = itemid;
+        update[`repeating_armor_${armorid}_armorname`] = attrs[`repeating_inventory_${itemid}_itemname`];
+      } else {
+        update[`repeating_armor_${armorid}_itemid`] = attrs[`repeating_inventory_${itemid}_itemarmorid`];
+        update[`repeating_armor_${armorid}_armorname`] = attrs[`repeating_inventory_${itemid}_arm_armorname`];
+      }
+
+      update[`repeating_armor_${armorid}_armordt`]          = attrs[`repeating_inventory_${itemid}_arm_armordt`];
+      update[`repeating_armor_${armorid}_type`]             = attrs[`repeating_inventory_${itemid}_arm_type`];
+      update[`repeating_armor_${armorid}_armorproperties`]  = attrs[`repeating_inventory_${itemid}_arm_armorproperties`];
+      update[`repeating_armor_${armorid}_itemmodifers`]     = attrs[`repeating_inventory_${itemid}_arm_itemmodifers`];
+      update[`repeating_armor_${armorid}_armorcontent`]     = attrs[`repeating_inventory_${itemid}_arm_armorcontent`];
+
+      setAttrs(update, {silent: true});
+    });
+  };
+
+  var update_item_from_armor = function(itemid, armorid) {
+    console.log("UPDATING ITEM FROM ARMOR!");
+
+    getAttrs([
+    `repeating_armor_${armorid}_armorname`,
+    `repeating_armor_${armorid}_armordt`,
+    `repeating_armor_${armorid}_type`,
+    `repeating_armor_${armorid}_armorproperties`,
+    `repeating_armor_${armorid}_itemmodifers`,
+    `repeating_armor_${armorid}_armorcontent`
+    ], function(attrs) {
+      console.log('ARMOR ATTRIBUTES TO UPDATE ITEM');
+      console.log(attrs);
+      var update = {};
+
+      update[`repeating_inventory_${itemid}_arm_armorname`]        = attrs[`repeating_armor_${armorid}_armorname`];
+      update[`repeating_inventory_${itemid}_arm_armordt`]          = attrs[`repeating_armor_${armorid}_armordt`];
+      update[`repeating_inventory_${itemid}_arm_type`]             = attrs[`repeating_armor_${armorid}_type`];
+      update[`repeating_inventory_${itemid}_arm_armorproperties`]  = attrs[`repeating_armor_${armorid}_armorproperties`];
+      update[`repeating_inventory_${itemid}_arm_armorcontent`]     = attrs[`repeating_armor_${armorid}_armorcontent`];
 
       setAttrs(update, {silent: true});
     });
@@ -5506,6 +5617,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var remove_weapon = function(weaponid) {
     removeRepeatingRow("repeating_weapons_" + weaponid);
+  };
+
+  var remove_armor = function(armorid) {
+    removeRepeatingRow("repeating_armor_" + armorid);
   };
 
   var update_equipped_weapon = function(weaponid) {
