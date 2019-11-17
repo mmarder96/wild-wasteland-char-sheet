@@ -3171,7 +3171,8 @@ span.sheet-spellconcentration {
   padding-left: 5px;
 }
 
-.sheet-mod .sheet-activeflag[value="0"] ~ .sheet-display,
+.sheet-custom_mods .sheet-activeflag[value="0"] ~ .sheet-mod input,
+.sheet-custom_mods .sheet-activeflag[value="0"] ~ .sheet-mod > .sheet-display,
 .sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-weapons .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
