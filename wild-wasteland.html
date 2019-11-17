@@ -3968,12 +3968,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   // update custom mod
-  on("change:repeating_custom_mods:active change:repeating_custom_mods:modname change:repeating_custom_mods:modifiers", function(eventinfo) {
+  on("change:repeating_modifier:active change:repeating_modifier:modname change:repeating_modifier:modifiers", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("CUSTOM MODIFIER CHANGE DETECTED!")
-    console.log(eventinfo);
-    var mod_id = eventinfo.sourceAttribute.substring(15, 35);
-    console.log(mod_id);
+    var mod_id = eventinfo.sourceAttribute.substring(19, 39);
     // update_custom_mod(mod_id);
   });
 
