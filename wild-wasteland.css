@@ -535,7 +535,7 @@ button[type=roll] * {
 .sheet-weapons input,
 .sheet-armor input,
 .sheet-equipment input,
-.sheet-mods input,
+.sheet-mod input,
 .sheet-tool input,
 .sheet-proficiencies input,
 .sheet-pc .sheet-traits input,
@@ -879,7 +879,7 @@ button[type=roll] * {
   min-height: 70px;
 }
 
-.sheet-mods textarea,
+.sheet-mod textarea,
 .sheet-tool textarea,
 .sheet-attacks textarea,
 .sheet-weapons textarea,
@@ -953,6 +953,7 @@ button[type=roll] * {
 
 .sheet-attacks .sheet-item button[type=roll],
 .sheet-weapons .sheet-item button[type=roll],
+.sheet-mod .sheet-display button[type=roll],
 .sheet-tool .sheet-display button[type=roll],
 .sheet-proficiency .sheet-display button[type=roll] {
   background-color: transparent;
@@ -968,6 +969,7 @@ button[type=roll] * {
 
 .sheet-attacks .sheet-item button[type=roll]::before,
 .sheet-weapons .sheet-item button[type=roll]::before,
+.sheet-mod .sheet-display button[type=roll]::before,
 .sheet-tool .sheet-display button[type=roll]::before,
 .sheet-proficiency .sheet-display button[type=roll]::before {
   content: "" !important;
@@ -976,7 +978,7 @@ button[type=roll] * {
 
 .sheet-attacks .sheet-display input,
 .sheet-weapons .sheet-display input,
-.sheet-mods .sheet-display input,
+.sheet-mod .sheet-display input,
 .sheet-tool .sheet-display input,
 .sheet-attacks .sheet-item input,
 .sheet-weapons .sheet-item input,
@@ -984,7 +986,7 @@ button[type=roll] * {
 .sheet-equipment .sheet-item input,
 .sheet-attacks .sheet-display span,
 .sheet-weapons .sheet-display span,
-.sheet-mods .sheet-display span,
+.sheet-mod .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
@@ -1001,7 +1003,7 @@ button[type=roll] * {
 
 .sheet-attacks .sheet-display span,
 .sheet-weapons .sheet-display span,
-.sheet-mods .sheet-display span,
+.sheet-mod .sheet-display span,
 .sheet-tool .sheet-display span,
 .sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
@@ -1036,12 +1038,12 @@ button[type=roll] * {
 
 }
 
-.sheet-mods .sheet-options-flag,
+.sheet-mod .sheet-options-flag,
 .sheet-tool .sheet-options-flag,
 .sheet-attacks .sheet-options-flag,
 .sheet-weapons .sheet-options-flag,
 .sheet-spell .sheet-options-flag,
-.sheet-mods .sheet-options-flag,
+.sheet-mod .sheet-options-flag,
 .sheet-tool .sheet-options-flag,
 .sheet-npc .sheet-npc_options-flag,
 .sheet-pc .sheet-trait .sheet-options-flag,
@@ -1067,7 +1069,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-options-flag + span,
 .sheet-weapons .sheet-options-flag + span,
 .sheet-spell .sheet-options-flag + span,
-.sheet-mods .sheet-options-flag + span,
+.sheet-mod .sheet-options-flag + span,
 .sheet-tool .sheet-options-flag + span,
 .sheet-npc .sheet-npc_options-flag + span,
 .sheet-trait .sheet-options-flag + span,
@@ -1104,7 +1106,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-options-flag:checked + span,
 .sheet-weapons .sheet-options-flag:checked + span,
 .sheet-spell .sheet-options-flag:checked + span,
-.sheet-mods .sheet-options-flag:checked + span,
+.sheet-mod .sheet-options-flag:checked + span,
 .sheet-tool .sheet-options-flag:checked + span,
 .sheet-npc .sheet-npc_options-flag:checked + span,
 .sheet-trait .sheet-options-flag:checked + span,
@@ -1125,7 +1127,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-attack:hover .sheet-options-flag + span,
 .sheet-weapons .sheet-attack:hover .sheet-options-flag + span,
 .sheet-spell:hover .sheet-options-flag + span,
-.sheet-mods:hover .sheet-options-flag + span,
+.sheet-mod:hover .sheet-options-flag + span,
 .sheet-tool:hover .sheet-options-flag + span,
 .sheet-npc:hover > .sheet-npc_options-flag + span,
 .sheet-trait:hover .sheet-options-flag + span,
@@ -1195,7 +1197,7 @@ button[type=roll] * {
 .sheet-licensecontainer,
 .sheet-attack,
 .sheet-spell,
-.sheet-mods,
+.sheet-mod,
 .sheet-tool,
 .sheet-npc,
 .sheet-action,
@@ -1208,7 +1210,7 @@ button[type=roll] * {
 .sheet-attack .sheet-options,
 .sheet-weapon .sheet-options,
 .sheet-spell .sheet-options,
-.sheet-mods .sheet-options,
+.sheet-mod .sheet-options,
 .sheet-tool .sheet-options,
 .sheet-npc .sheet-npc_options,
 .sheet-trait .sheet-options,
@@ -1245,7 +1247,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-options-flag:checked ~ .sheet-options,
 .sheet-weapons .sheet-options-flag:checked ~ .sheet-options,
 .sheet-spell .sheet-options-flag:checked ~ .sheet-options,
-.sheet-mods .sheet-options-flag:checked ~ .sheet-options,
+.sheet-mod .sheet-options-flag:checked ~ .sheet-options,
 .sheet-tool .sheet-options-flag:checked ~ .sheet-options,
 .sheet-npc .sheet-npc_options-flag:checked ~ .sheet-npc_options,
 .sheet-trait .sheet-options-flag:checked ~ .sheet-options,
@@ -1584,7 +1586,7 @@ span.sheet-spellconcentration {
   width: 18px;
 }
 
-.sheet-mods .sheet-options,
+.sheet-mod .sheet-options,
 .sheet-tool .sheet-options,
 .sheet-attack .sheet-options,
 .sheet-weapon .sheet-options,
@@ -1595,7 +1597,7 @@ span.sheet-spellconcentration {
   padding-left: 5px;
 }
 
-.sheet-mods .sheet-options span,
+.sheet-mod .sheet-options span,
 .sheet-tool .sheet-options span,
 .sheet-attack .sheet-options span,
 .sheet-weapon .sheet-item .sheet-subitem span,
@@ -1609,7 +1611,7 @@ span.sheet-spellconcentration {
   text-align: left;
 }
 
-.sheet-mods .sheet-options input,
+.sheet-mod .sheet-options input,
 .sheet-attack .sheet-options input[type=text],
 .sheet-weapon .sheet-options input[type=text],
 .sheet-spell .sheet-options input[type=text],
@@ -1625,7 +1627,7 @@ span.sheet-spellconcentration {
   width: initial;
 }
 
-.sheet-mods .sheet-options select,
+.sheet-mod .sheet-options select,
 .sheet-tool .sheet-options select,
 .sheet-attacks .sheet-options select,
 .sheet-weapons .sheet-options select,
@@ -1656,7 +1658,7 @@ span.sheet-spellconcentration {
   height: 18px;
 }
 
-.sheet-mods .sheet-options input[type=checkbox],
+.sheet-mod .sheet-options input[type=checkbox],
 .sheet-tool .sheet-options input[type=checkbox],
 .sheet-attack .sheet-options input[type=checkbox],
 .sheet-weapon .sheet-options input[type=checkbox],
@@ -2924,7 +2926,7 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
-.sheet-mods .sheet-options-flag,
+.sheet-mod .sheet-options-flag,
 .sheet-tool .sheet-options-flag,
 .sheet-attacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
@@ -2936,7 +2938,7 @@ span.sheet-spellconcentration {
   right: 0px;
 }
 
-.sheet-mods .sheet-options-flag + span,
+.sheet-mod .sheet-options-flag + span,
 .sheet-tool .sheet-options-flag + span,
 .sheet-attacks .sheet-inventorysubflag + span,
 .sheet-weapons .sheet-inventorysubflag + span,
@@ -2990,7 +2992,7 @@ span.sheet-spellconcentration {
   margin-left: 7px;
 }
 
-.sheet-mods input[type="checkbox"].sheet-equipped,
+.sheet-mod input[type="checkbox"].sheet-equipped,
 .sheet-tool input[type="checkbox"].sheet-equipped,
 .sheet-item input[type="checkbox"].sheet-equipped,
 .sheet-item .sheet-subitem input[type="checkbox"] {
@@ -3016,7 +3018,7 @@ span.sheet-spellconcentration {
   width: 185px;
 }
 
-.sheet-mods .sheet-subtextarea,
+.sheet-mod .sheet-subtextarea,
 .sheet-item .sheet-subitem .sheet-subtextarea {
   width: calc(100% - 15px);
   font-size: 10px;
@@ -3166,7 +3168,7 @@ span.sheet-spellconcentration {
   padding-left: 5px;
 }
 
-.sheet-mods .sheet-activeflag[value="0"] ~ .sheet-display,
+.sheet-mod .sheet-activeflag[value="0"] ~ .sheet-display,
 .sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-weapons .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,

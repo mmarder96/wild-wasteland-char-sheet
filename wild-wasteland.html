@@ -1160,21 +1160,22 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span style="width: 90px;" data-i18n="name-u">NAME</span>
               <span style="width: 85px;" data-i18n="mods-u">MODS</span>
             </div>
-            <fieldset class="repeating_custom_mods">
+            <fieldset class="repeating_modifier">
               <input type="hidden" class="activeflag" name="attr_active">
-              <div class="mods">
+              <div class="mod" style="margin-bottom: 5px;">
                 <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
                 <div class="display">
                   <input class="equipped" type="checkbox" name="attr_active" value="1">
                   <input class="name" type="text" name="attr_modname" style="width: 85px;">
                   <input type="hidden" name="attr_modifiers">
-                  <span name="attr_modifiers" style="width: 110px;"/>
+                  <span name="attr_modifiers" style="width: 110px;"></span>
                 </div>
                 <div class="options">
                   <div class="row">
                     <span data-i18n="mods:-u">MODS:</span>
                     <textarea class="subtextarea" name="attr_modifiers"></textarea>
                   </div>
+                </div>
               </div>
             </fieldset>
             <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
@@ -1501,7 +1502,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <div class="header" style="height: auto;">
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="equipped symbol"></span>
-                <span style="width: 175px; text-align: left;" data-i18n="weapon-name-u">WEAPON NAME</SPAN>
+                <span style="width: 175px; text-align: left;" data-i18n="weapon-name-u">WEAPON NAME</span>
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px; margin-bottom: -3px;  vertical-align: inherit;"
                     alt="ammo symbol"></span>
               </div>
@@ -3964,6 +3965,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   on("change:repeating_spdmod:mod", function() {
     update_speed();
+  });
+
+  // update custom mod
+  on("change:repeating_custom_mods:active change:repeating_custom_mods:modname change:repeating_custom_mods:modifiers", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    console.log("CUSTOM MODIFIER CHANGE DETECTED!")
+    console.log(eventinfo);
+    var mod_id = eventinfo.sourceAttribute.substring(15, 35);
+    console.log(mod_id);
+    // update_custom_mod(mod_id);
   });
 
   // update tool on tool property change
