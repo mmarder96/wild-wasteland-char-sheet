@@ -988,6 +988,7 @@ button[type=roll] * {
 .sheet-weapons .sheet-display span,
 .sheet-mod .sheet-display span,
 .sheet-tool .sheet-display span,
+.sheet-custom_mods .sheet-mod span,
 .sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
 .sheet-proficiencies .sheet-display span {
@@ -1004,6 +1005,7 @@ button[type=roll] * {
 .sheet-attacks .sheet-display span,
 .sheet-weapons .sheet-display span,
 .sheet-mod .sheet-display span,
+.sheet-custom_mods .sheet-mod span,
 .sheet-tool .sheet-display span,
 .sheet-armor .sheet-item span,
 .sheet-equipment .sheet-item span,
@@ -3038,6 +3040,7 @@ span.sheet-spellconcentration {
   pointer-events: none;
 }
 
+.sheet-custom_mods .sheet-mod .sheet-label,
 .sheet-item .sheet-subitem span {
   width: 35px;
   padding: 0px 0px 0px 10px;
