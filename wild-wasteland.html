@@ -1160,7 +1160,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span style="width: 85px;" data-i18n="name-u">NAME</span>
               <span style="width: 110px;" data-i18n="mods-u">MODS</span>
             </div>
-            <fieldset class="repeating_modifier">
+            <fieldset class="repeating_modifiers">
               <input type="hidden" class="activeflag" name="attr_active">
               <div class="mod" style="margin-bottom: 5px;">
                 <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
@@ -3968,10 +3968,15 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   // update custom mod
-  on("change:repeating_modifier:active change:repeating_modifier:modname change:repeating_modifier:modifiers", function(eventinfo) {
+  on("change:repeating_modifiers:active change:repeating_modifiers:modifiers", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("CUSTOM MODIFIER CHANGE DETECTED!")
     var mod_id = eventinfo.sourceAttribute.substring(19, 39);
+    // update attributes
+    ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
+      update_attr(`${attr}`);
+    });
+    update_hp_max();
     // update_custom_mod(mod_id);
   });
 
@@ -4468,72 +4473,105 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_attr = function(attr) {
     var update = {};
-    var attr_fields = [attr + "_base", attr + "_bonus"];
-    getSectionIDs("repeating_armor", function(armor_id_arr) {
-      _.each(armor_id_arr, function(currentID, i) {
-        attr_fields.push("repeating_armor_" + currentID + "_equipped");
-        attr_fields.push("repeating_armor_" + currentID + "_itemmodifiers");
+    var attrs_to_get = [attr + "_base", attr + "_bonus"];
+    getSectionIDs("repeating_modifiers", function(mod_id_arr) {
+      _.each(mod_id_arr, function(currentID, i) {
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_active");
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_modifiers");
       });
-      getSectionIDs("repeating_inventory", function(inv_id_arr) {
-        _.each(inv_id_arr, function(currentID, i) {
-          attr_fields.push("repeating_inventory_" + currentID + "_equipped");
-          attr_fields.push("repeating_inventory_" + currentID + "_itemmodifiers");
+      getSectionIDs("repeating_armor", function(armor_id_arr) {
+        _.each(armor_id_arr, function(currentID, i) {
+          attrs_to_get.push("repeating_armor_" + currentID + "_equipped");
+          attrs_to_get.push("repeating_armor_" + currentID + "_itemmodifiers");
         });
-        getAttrs(attr_fields, function(attrs) {
-          var base = attrs[attr + "_base"] && !isNaN(parseInt(attrs[attr + "_base"], 10)) ? parseInt(attrs[attr + "_base"], 10) : 10;
-          var bonus = attrs[attr + "_bonus"] && !isNaN(parseInt(attrs[attr + "_bonus"], 10)) ? parseInt(attrs[attr + "_bonus"], 10) : 0;
-          var armor_base = 0;
-          var armor_bonus = 0;
-          var item_base = 0;
-          var item_bonus = 0;
-          _.each(armor_id_arr, function(currentID) {
-            if((!attrs["repeating_armor_" + currentID + "_equipped"] || attrs["repeating_armor_" + currentID + "_equipped"] === "1") && attrs["repeating_armor_" + currentID + "_itemmodifiers"] && attrs["repeating_armor_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr > -1)) {
-              var mods = attrs["repeating_armor_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
-              _.each(mods, function(mod) {
-                if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
-                  if(mod.indexOf(":") > -1) {
-                    var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    armor_base = new_base && new_base > armor_base ? new_base : armor_base;
-                  }
-                  else if(mod.indexOf("-") > -1) {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    armor_bonus = new_mod ? armor_bonus - new_mod : armor_bonus;
-                  }
-                  else {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    armor_bonus = new_mod ? armor_bonus + new_mod : armor_bonus;
-                  }
-                };
-              });
-            }
+        getSectionIDs("repeating_inventory", function(inv_id_arr) {
+          _.each(inv_id_arr, function(currentID, i) {
+            attrs_to_get.push("repeating_inventory_" + currentID + "_equipped");
+            attrs_to_get.push("repeating_inventory_" + currentID + "_itemmodifiers");
           });
-          _.each(inv_id_arr, function(currentID) {
-            if((!attrs["repeating_inventory_" + currentID + "_equipped"] || attrs["repeating_inventory_" + currentID + "_equipped"] === "1") && attrs["repeating_inventory_" + currentID + "_itemmodifiers"] && attrs["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr > -1)) {
-              var mods = attrs["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
-              _.each(mods, function(mod) {
-                if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
-                  if(mod.indexOf(":") > -1) {
-                    var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    item_base = new_base && new_base > item_base ? new_base : item_base;
-                  }
-                  else if(mod.indexOf("-") > -1) {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
-                  }
-                  else {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
-                  }
-                };
-              });
-            }
-          });
+          getAttrs(attrs_to_get, function(attrs) {
+            var base = attrs[attr + "_base"] && !isNaN(parseInt(attrs[attr + "_base"], 10)) ? parseInt(attrs[attr + "_base"], 10) : 10;
+            var bonus = attrs[attr + "_bonus"] && !isNaN(parseInt(attrs[attr + "_bonus"], 10)) ? parseInt(attrs[attr + "_bonus"], 10) : 0;
+            var mod_base = 0;
+            var mod_bonus = 0;
+            var armor_base = 0;
+            var armor_bonus = 0;
+            var item_base = 0;
+            var item_bonus = 0;
+            _.each(mod_id_arr, function(currentID) {
+              if((!attrs["repeating_modifiers_" + currentID + "_active"] || attrs["repeating_modifiers_" + currentID + "_active"] === "1")
+              && attrs["repeating_modifiers_" + currentID + "_modifiers"] && attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().indexOf(attr > -1)) {
+                var mods = attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().split(",");
+                _.each(mods, function(mod) {
+                  if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
+                    if(mod.indexOf(":") > -1) {
+                      var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      mod_base = new_base && new_base > mod_base ? new_base : mod_base;
+                    }
+                    else if(mod.indexOf("-") > -1) {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      mod_bonus = new_mod ? mod_bonus - new_mod : mod_bonus;
+                    }
+                    else {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      mod_bonus = new_mod ? mod_bonus + new_mod : mod_bonus;
+                    }
+                  };
+                });
+              }
+            });
+            _.each(armor_id_arr, function(currentID) {
+              if((!attrs["repeating_armor_" + currentID + "_equipped"] || attrs["repeating_armor_" + currentID + "_equipped"] === "1")
+              && attrs["repeating_armor_" + currentID + "_itemmodifiers"] && attrs["repeating_armor_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr > -1)) {
+                var mods = attrs["repeating_armor_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
+                _.each(mods, function(mod) {
+                  if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
+                    if(mod.indexOf(":") > -1) {
+                      var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      armor_base = new_base && new_base > armor_base ? new_base : armor_base;
+                    }
+                    else if(mod.indexOf("-") > -1) {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      armor_bonus = new_mod ? armor_bonus - new_mod : armor_bonus;
+                    }
+                    else {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      armor_bonus = new_mod ? armor_bonus + new_mod : armor_bonus;
+                    }
+                  };
+                });
+              }
+            });
+            _.each(inv_id_arr, function(currentID) {
+              if((!attrs["repeating_inventory_" + currentID + "_equipped"] || attrs["repeating_inventory_" + currentID + "_equipped"] === "1")
+              && attrs["repeating_inventory_" + currentID + "_itemmodifiers"] && attrs["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr > -1)) {
+                var mods = attrs["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
+                _.each(mods, function(mod) {
+                  if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
+                    if(mod.indexOf(":") > -1) {
+                      var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      item_base = new_base && new_base > item_base ? new_base : item_base;
+                    }
+                    else if(mod.indexOf("-") > -1) {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      item_bonus = new_mod ? item_bonus - new_mod : item_bonus;
+                    }
+                    else {
+                      var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                      item_bonus = new_mod ? item_bonus + new_mod : item_bonus;
+                    }
+                  };
+                });
+              }
+            });
 
-          update[attr + "_flag"] = bonus > 0 || armor_bonus > 0 || armor_base > base || item_bonus > 0 || item_base > base ? 1 : 0;
-          base = base > armor_base ? base : armor_base;
-          base = base > item_base ? base : item_base;
-          update[attr] = base + bonus + armor_bonus + item_bonus;
-          setAttrs(update);
+            update[attr + "_flag"] = (bonus > 0 || mod_bonus > 0 || mod_bonus > base || armor_bonus > 0 || armor_base > base || item_bonus > 0 || item_base > base) ? 1 : 0;
+            base = base > mod_base ? base : mod_base;
+            base = base > armor_base ? base : armor_base;
+            base = base > item_base ? base : item_base;
+            update[attr] = base + bonus + mod_bonus + armor_bonus + item_bonus;
+            setAttrs(update);
+          });
         });
       });
     });
@@ -5956,24 +5994,54 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_hp_max = function() {
     attrs_to_get = ["level", "endurance"];
-    getSectionIDs("repeating_hpmod", function(idArray){
-      _.each(idArray, function(currentId, i) {
-        attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
+    getSectionIDs("repeating_modifiers", function(mod_id_arr){
+      _.each(mod_id_arr, function(currentID, i) {
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_active");
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_modifiers");
       });
-      getAttrs(attrs_to_get, function(attr) {
-        var update = {};
-        var hp_base = 30;
-        var endurance = parseInt(attr["endurance"], 10);
-        var level = parseInt(attr["level"], 10);
-        var hp_mod = 0;
+      getSectionIDs("repeating_hpmod", function(idArray){
         _.each(idArray, function(currentId, i) {
-          if(attr["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10))) {
-            hp_mod += parseInt(attr["repeating_hpmod_" + currentId + "_mod"], 10);
-          }
+          attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
         });
-        final_hp_max = hp_base + endurance + level + hp_mod;
-        update["hp_max"] = final_hp_max;
-        setAttrs(update, {silent: true});
+        getAttrs(attrs_to_get, function(attrs) {
+          var update = {};
+          var hp_base = 30;
+          var endurance = parseInt(attrs["endurance"], 10);
+          var level = parseInt(attrs["level"], 10);
+          var hp_mod = 0;
+          _.each(idArray, function(currentId, i) {
+            if(attrs["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_hpmod_" + currentId + "_mod"], 10))) {
+              hp_mod += parseInt(attrs["repeating_hpmod_" + currentId + "_mod"], 10);
+            }
+          });
+          // process global mods
+          _.each(mod_id_arr, function(currentID) {
+            if((!attrs["repeating_modifiers_" + currentID + "_active"] || attrs["repeating_modifiers_" + currentID + "_active"] === "1")
+            && attrs["repeating_modifiers_" + currentID + "_modifiers"] && attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().indexOf(attrs > -1)) {
+              var mods = attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().split(",");
+              _.each(mods, function(mod) {
+                if(mod.indexOf("hp") > -1 || mod.indexOf("health") || mod.indexOf("hit points")) {
+                  // TODO fix this
+                  if(mod.indexOf(":") > -1) {
+                    var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                    hp_base = new_base && new_base > hp_base ? new_base : hp_base;
+                  }
+                  else if(mod.indexOf("-") > -1) {
+                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                    hp_mod = new_mod ? hp_mod - new_mod : hp_mod;
+                  }
+                  else {
+                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                    hp_mod = new_mod ? hp_mod + new_mod : hp_mod;
+                  }
+                };
+              });
+            }
+          });
+          final_hp_max = hp_base + endurance + level + hp_mod;
+          update["hp_max"] = final_hp_max;
+          setAttrs(update, {silent: true});
+        });
       });
     });
   };
