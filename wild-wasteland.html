@@ -2559,6 +2559,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 <input type="hidden" name="attr_global_damage_mod_crit" value="0">
 <input type="hidden" name="attr_global_damage_mod_roll" value="0">
 <input type="hidden" name="attr_global_damage_mod_type" value="">
+<input type="hidden" name="attr_global_mods" value="">
 <input type="hidden" name="attr_global_attack_mod" value="">
 <input type="hidden" name="attr_global_save_mod" value="">
 <input type="hidden" name="attr_global_skill_mod" value="">
@@ -3971,6 +3972,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_modifiers:active change:repeating_modifiers:modifiers", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("CUSTOM MODIFIER CHANGE DETECTED!")
+    update_global_modifiers();
     var mod_id = eventinfo.sourceAttribute.substring(19, 39);
     // update attributes
     ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
@@ -4470,6 +4472,58 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:experience", function(eventinfo) {
     set_level();
   });
+
+  var update_global_modifiers = function() {
+    var mods = "";
+    var attrs_to_get = [];
+    var update = {};
+    attrs_to_get.push("global_mods");
+    getSectionIDs("repeating_modifiers", function(mod_id_arr) {
+      _.each(mod_id_arr, function(currentID, i) {
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_active");
+        attrs_to_get.push("repeating_modifiers_" + currentID + "_modifiers");
+      });
+      getSectionIDs("repeating_armor", function(armor_id_arr) {
+        _.each(armor_id_arr, function(currentID, i) {
+          attrs_to_get.push("repeating_armor_" + currentID + "_equipped");
+          attrs_to_get.push("repeating_armor_" + currentID + "_itemmodifiers");
+        });
+        getSectionIDs("repeating_inventory", function(inv_id_arr) {
+          _.each(inv_id_arr, function(currentID, i) {
+            attrs_to_get.push("repeating_inventory_" + currentID + "_equipped");
+            attrs_to_get.push("repeating_inventory_" + currentID + "_itemmodifiers");
+          });
+          getAttrs(attrs_to_get, function(attrs) {
+            console.log("GLOBAL MODS");
+            console.log(attrs["global_mods"]);
+            _.each(mod_id_arr, function(currentID) {
+              if((attrs["repeating_modifiers_" + currentID + "_active"] && attrs["repeating_modifiers_" + currentID + "_active"] === "1")
+              && attrs["repeating_modifiers_" + currentID + "_modifiers"] && attrs["repeating_modifiers_" + currentID + "_modifiers"] != "") {
+                var mod_mods = attrs["repeating_modifiers_" + currentID + "_modifiers"];
+                mods = mod_mods;
+              }
+            });
+            _.each(armor_id_arr, function(currentID) {
+              if((attrs["repeating_armor_" + currentID + "_equipped"] && attrs["repeating_armor_" + currentID + "_equipped"] === "1")
+              && attrs["repeating_armor_" + currentID + "_itemmodifiers"] && attrs["repeating_armor_" + currentID + "_itemmodifiers"] != "") {
+                var armor_mods = attrs["repeating_armor_" + currentID + "_itemmodifiers"];
+                mods = (mods != "") ? mods + ", " + armor_mods : armor_mods
+              }
+            });
+            _.each(inv_id_arr, function(currentID) {
+              if((attrs["repeating_inventory_" + currentID + "_equipped"] && attrs["repeating_inventory_" + currentID + "_equipped"] === "1")
+              && attrs["repeating_inventory_" + currentID + "_itemmodifiers"] && attrs["repeating_inventory_" + currentID + "_itemmodifiers"] != "") {
+                var inv_mods = attrs["repeating_inventory_" + currentID + "_itemmodifiers"];
+                mods = (mods != "") ? mods + ", " + inv_mods : inv_mods
+              }
+            });
+            update["global_mods"] = mods;
+            setAttrs(update);
+          });
+        });
+      });
+    });
+  }
 
   var update_attr = function(attr) {
     var update = {};
