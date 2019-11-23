@@ -4513,8 +4513,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             update["global_mods"] = mods;
             // TODO add callbacks
             callbacks.push(() => {update_attr("all");});
-            callbacks.push(() => {update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);});
+            callbacks.push(() => {update_skills("all");});
+            callbacks.push(() => {update_all_saves();});
+            callbacks.push(() => {update_initiative();});
             callbacks.push(() => {update_hp_max();});
+            // callbacks.push(() => {update_defense();});
+            // callbacks.push(() => {update_dt();});
+            // callbacks.push(() => {update_speed();});
             setAttrs(update, function() {callbacks.forEach(function(callback) { callback(); })});
           });
         });
@@ -4526,8 +4531,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var update = {};
     if (attr === "all") {
       ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
-        return update_attr(`${attr}`);
+        update_attr(`${attr}`);
       });
+      return;
     }
     var attrs_to_get = [attr + "_base", attr + "_bonus"];
     attrs_to_get.push("global_mods");
@@ -4573,6 +4579,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   // TODO implement armor
   var update_save = function (attr) {
+    if(attr === "all") {
+      ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
+        update_save(`${attr}`);
+      });
+      return;
+    }
+
     var save_attrs = [attr + "_mod", attr + "_save_prof", attr + "_save_mod","pb","global_save_mod","pb_type"];
     getSectionIDs("repeating_inventory", function(idarray) {
       _.each(idarray, function(currentID, i) {
@@ -4627,7 +4640,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_all_ability_checks = function(){
     update_initiative();
-    update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
+    update_skills("all");
   };
 
   var update_skills = function (skills_array) {
@@ -4636,6 +4649,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var attrs_to_get = ["pb","global_mods"];
     var update = {};
     var callbacks = [];
+
+    if(skills_array === "all") {
+      return update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);
+    }
 
     // get proficency and flat bonus of each skill
     _.each(skills_array, function(skill) {
@@ -5945,62 +5962,55 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_hp_max = function() {
-    attrs_to_get = ["level", "endurance"];
-    getSectionIDs("repeating_modifiers", function(mod_id_arr){
-      _.each(mod_id_arr, function(currentID, i) {
-        attrs_to_get.push("repeating_modifiers_" + currentID + "_active");
-        attrs_to_get.push("repeating_modifiers_" + currentID + "_modifiers");
+    console.log("UPDATING MAX HP!")
+    attrs_to_get = ["level", "endurance", "global_mods"];
+    getSectionIDs("repeating_hpmod", function(idArray) {
+      _.each(idArray, function(currentId, i) {
+        attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
       });
-      getSectionIDs("repeating_hpmod", function(idArray){
+      getAttrs(attrs_to_get, function(hp_attrs) {
+        var update = {};
+        var hp_base = 30;
+        var endurance = parseInt(hp_attrs["endurance"], 10);
+        var level = parseInt(hp_attrs["level"], 10);
+        var hp_mod = 0;
         _.each(idArray, function(currentId, i) {
-          attrs_to_get.push("repeating_hpmod_" + currentId + "_mod");
+          if(hp_attrs["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(hp_attrs["repeating_hpmod_" + currentId + "_mod"], 10))) {
+            hp_mod += parseInt(hp_attrs["repeating_hpmod_" + currentId + "_mod"], 10);
+          }
         });
-        getAttrs(attrs_to_get, function(attrs) {
-          var update = {};
-          var hp_base = 30;
-          var endurance = parseInt(attrs["endurance"], 10);
-          var level = parseInt(attrs["level"], 10);
-          var hp_mod = 0;
-          _.each(idArray, function(currentId, i) {
-            if(attrs["repeating_hpmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_hpmod_" + currentId + "_mod"], 10))) {
-              hp_mod += parseInt(attrs["repeating_hpmod_" + currentId + "_mod"], 10);
-            }
+        // process global mods
+        console.log("HP GLOBAL MODS");
+        console.log(hp_attrs);
+        if(hp_attrs["global_mods"] && hp_attrs["global_mods"] != "") {
+          var mods = hp_attrs["global_mods"].toLowerCase().split(",");
+          _.each(mods, function(mod) {
+            if(mod.indexOf("hp") > -1 || mod.indexOf("health") || mod.indexOf("hit points")) {
+              if(mod.indexOf(":") > -1) {
+                var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                hp_base = new_base && new_base > hp_base ? new_base : hp_base;
+              }
+              else if(mod.indexOf("-") > -1) {
+                var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                hp_mod = new_mod ? hp_mod - new_mod : hp_mod;
+              }
+              else {
+                var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                hp_mod = new_mod ? hp_mod + new_mod : hp_mod;
+              }
+            };
           });
-          // process global mods
-          _.each(mod_id_arr, function(currentID) {
-            if((!attrs["repeating_modifiers_" + currentID + "_active"] || attrs["repeating_modifiers_" + currentID + "_active"] === "1")
-            && attrs["repeating_modifiers_" + currentID + "_modifiers"] && attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().indexOf(attrs > -1)) {
-              var mods = attrs["repeating_modifiers_" + currentID + "_modifiers"].toLowerCase().split(",");
-              _.each(mods, function(mod) {
-                if(mod.indexOf("hp") > -1 || mod.indexOf("health") || mod.indexOf("hit points")) {
-                  // TODO fix this
-                  if(mod.indexOf(":") > -1) {
-                    var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    hp_base = new_base && new_base > hp_base ? new_base : hp_base;
-                  }
-                  else if(mod.indexOf("-") > -1) {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    hp_mod = new_mod ? hp_mod - new_mod : hp_mod;
-                  }
-                  else {
-                    var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                    hp_mod = new_mod ? hp_mod + new_mod : hp_mod;
-                  }
-                };
-              });
-            }
-          });
-          final_hp_max = hp_base + endurance + level + hp_mod;
-          update["hp_max"] = final_hp_max;
-          setAttrs(update, {silent: true});
-        });
+        }
+        final_hp_max = hp_base + endurance + level + hp_mod;
+        update["hp_max"] = final_hp_max;
+        setAttrs(update, {silent: true});
       });
     });
   };
 
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
-    var attrs_to_get = ["equippedarmorid", "agility_mod", "pb"];
+    var attrs_to_get = ["equippedarmorid", "agility_mod", "pb", "global_mods"];
     getAttrs(attrs_to_get, function(a){
       var equipped_armor_id = a["equippedarmorid"];
       attrs_to_get.push("repeating_armor_" + equipped_armor_id + "_type");
@@ -6008,19 +6018,21 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         _.each(defmod_idarray, function(currentId, i) {
           attrs_to_get.push("repeating_defmod_" + currentId + "_mod");
         });
-        getAttrs(attrs_to_get, function(attrs) {
+        getAttrs(attrs_to_get, function(def_attrs) {
           var update = {};
           var def_base = 10;
-          var agility_mod = parseInt(attrs["agility_mod"], 10);
-          var pb = parseInt(attrs["pb"], 10);
+          var agility_mod = parseInt(def_attrs["agility_mod"], 10);
+          var pb = parseInt(def_attrs["pb"], 10);
           var armor_mod = 0;
           var def_mod = 0;
+          var mod_base = 0;
+          var mod_bonus = 0;
           _.each(defmod_idarray, function(currentId, i) {
-            if(attrs["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_defmod_" + currentId + "_mod"], 10))) {
-              def_mod += parseInt(attrs["repeating_defmod_" + currentId + "_mod"], 10);
+            if(def_attrs["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10))) {
+              def_mod += parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10);
             }
           });
-          switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
+          switch(def_attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
             case "light": armor_mod = -1; break;
             case "medium": armor_mod = -2; break;
             case "heavy": armor_mod = -3; break;
@@ -6062,25 +6074,25 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 dt_attrs.push("repeating_inventory_" + currentID + "_equipped");
                 dt_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
               });
-              getAttrs(dt_attrs, function(attrs) {
+              getAttrs(dt_attrs, function(dt_attrs) {
                 // var custom_total = 0;
-                // if(attrs.custom_ac_flag === "1") {
-                //   var base = isNaN(parseInt(attrs.custom_ac_base, 10)) === false ? parseInt(attrs.custom_ac_base, 10) : 10;
-                //   var part1attr = attrs.custom_ac_part1.toLowerCase();
-                //   var part2attr = attrs.custom_ac_part2.toLowerCase();
-                //   var part1 = part1attr === "none" ? 0 : parseInt(attrs[part1attr + "_mod"], 10);
-                //   var part2 = part2attr === "none" ? 0 : parseInt(attrs[part2attr + "_mod"], 10);
+                // if(dt_attrs.custom_ac_flag === "1") {
+                //   var base = isNaN(parseInt(dt_attrs.custom_ac_base, 10)) === false ? parseInt(dt_attrs.custom_ac_base, 10) : 10;
+                //   var part1attr = dt_attrs.custom_ac_part1.toLowerCase();
+                //   var part2attr = dt_attrs.custom_ac_part2.toLowerCase();
+                //   var part1 = part1attr === "none" ? 0 : parseInt(dt_attrs[part1attr + "_mod"], 10);
+                //   var part2 = part2attr === "none" ? 0 : parseInt(dt_attrs[part2attr + "_mod"], 10);
                 //   custom_total = base + part1 + part2;
                 // }
                 var globaldtmod = 0;
                 _.each(dt_idarray, function(currentID, i) {
-                  if(!isNaN(parseInt(attrs["repeating_dtmod_" + currentID + "_mod"], 10))) {
-                    globaldtmod += parseInt(attrs["repeating_dtmod_" + currentID + "_mod"], 10);
+                  if(!isNaN(parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10))) {
+                    globaldtmod += parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10);
                   }
                 });
                 _.each(global_dt_idarray, function(currentID, i) {
-                  // if(attrs["repeating_global_dtmod_" + currentID + "_active_flag"] == "1" && !NaN(parseInt(attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10))) {
-                  //   globaldtmod += parseInt(attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10);
+                  // if(dt_attrs["repeating_global_dtmod_" + currentID + "_active_flag"] == "1" && !NaN(parseInt(dt_attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10))) {
+                  //   globaldtmod += parseInt(dt_attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10);
                   // }
                 });
                 var armor_dt = 0;
@@ -6089,12 +6101,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 // var shieldcount = 0;
                 // var `armoritems` = [];
 
-                if(attrs.simpleinventory === "complex") {
+                if(dt_attrs.simpleinventory === "complex") {
                   _.each(armor_idarray, function(currentID, i) {
-                    if(attrs["repeating_armor_" + currentID + "_equipped"] && attrs["repeating_armor_" + currentID + "_equipped"] === "1" && attrs["repeating_armor_" + currentID + "_armordt"] && !isNaN(parseInt(attrs["repeating_armor_" + currentID + "_armordt"], 10))) {
-                      armor_dt += parseInt(attrs["repeating_armor_" + currentID + "_armordt"], 10);
+                    if(dt_attrs["repeating_armor_" + currentID + "_equipped"] && dt_attrs["repeating_armor_" + currentID + "_equipped"] === "1" && dt_attrs["repeating_armor_" + currentID + "_armordt"] && !isNaN(parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10))) {
+                      armor_dt += parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10);
 
-                      // var mods = attrs["repeating_armor_" + currentID + "_itemmodifiers"].split(",");
+                      // var mods = dt_attrs["repeating_armor_" + currentID + "_itemmodifiers"].split(",");
                       // var ac = 0;
                       // var type = "mod";
                       // _.each(mods, function(mod) {
@@ -6156,11 +6168,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 update["dt"] = total_dt;
 
                 // if(custom_total > 0) {
-                //   if(armorcount > 0 || (shieldcount > 0 && attrs.custom_ac_shield != "yes")) {
+                //   if(armorcount > 0 || (shieldcount > 0 && dt_attrs.custom_ac_shield != "yes")) {
                 //     update["customacwarningflag"] = "show";
                 //   }
                 //   else {
-                //     update["dt"] = attrs.custom_ac_shield == "yes" ? custom_total + shieldac + globaldtmod + modac : custom_total + globaldtmod + modac;
+                //     update["dt"] = dt_attrs.custom_ac_shield == "yes" ? custom_total + shieldac + globaldtmod + modac : custom_total + globaldtmod + modac;
                 //   }
                 // }
 
@@ -6183,18 +6195,18 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         _.each(idArray, function(currentId, i) {
           attrs_to_get.push("repeating_spdmod_" + currentId + "_mod");
         });
-        getAttrs(attrs_to_get, function(attrs) {
+        getAttrs(attrs_to_get, function(spd_attrs) {
           var update = {};
           var spd_base = 6;
-          var spd_bonus =  Math.floor(parseInt(attrs["agility_mod"], 10)/2);
+          var spd_bonus =  Math.floor(parseInt(spd_attrs["agility_mod"], 10)/2);
           var armor_mod = 0;
           var spd_mod = 0;
           _.each(idArray, function(currentId, i) {
-            if(attrs["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(attrs["repeating_spdmod_" + currentId + "_mod"], 10))) {
-              spd_mod += parseInt(attrs["repeating_spdmod_" + currentId + "_mod"], 10);
+            if(spd_attrs["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(spd_attrs["repeating_spdmod_" + currentId + "_mod"], 10))) {
+              spd_mod += parseInt(spd_attrs["repeating_spdmod_" + currentId + "_mod"], 10);
             }
           });
-          switch(attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
+          switch(spd_attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
             case "heavy": armor_mod = -1; break;
             case "power": armor_mod = -2; break;
           }
@@ -6215,53 +6227,36 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_initiative = function() {
-    var attrs_to_get = ["agility","agility_mod","initmod","jack_of_all_trades","jack","init_tiebreaker","pb_type"];
-    getSectionIDs("repeating_inventory", function(idarray){
-      _.each(idarray, function(currentID, i) {
-        attrs_to_get.push("repeating_inventory_" + currentID + "_equipped");
-        attrs_to_get.push("repeating_inventory_" + currentID + "_itemmodifiers");
-      });
-      getAttrs(attrs_to_get, function(v) {
-        var update = {};
-        var final_init = parseInt(v["agility_mod"], 10);
-        if(v["initmod"] && !isNaN(parseInt(v["initmod"], 10))) {
-          final_init = final_init + parseInt(v["initmod"], 10);
-        }
-        if(v["init_tiebreaker"] && v["init_tiebreaker"] != 0) {
-          final_init = final_init + (parseInt(v["agility"], 10)/100);
-        }
-        if(v["jack_of_all_trades"] && v["jack_of_all_trades"] != 0) {
-          if(v["pb_type"] && v["pb_type"] === "die" && v["jack"]) {
-            // final_init = final_init + Math.floor(parseInt(v["jack"].substring(1),10)/2);
-            final_init = final_init + "+" + v["jack"];
-          }
-          else if(v["jack"] && !isNaN(parseInt(v["jack"], 10))) {
-            final_init = final_init + parseInt(v["jack"], 10);
-          }
-        }
-        _.each(idarray, function(currentID){
-          if(v["repeating_inventory_" + currentID + "_equipped"] && v["repeating_inventory_" + currentID + "_equipped"] === "1" && v["repeating_inventory_" + currentID + "_itemmodifiers"] && v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("ability checks") > -1) {
-            var mods = v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
-            _.each(mods, function(mod) {
-              if(mod.indexOf("ability checks") > -1) {
-                if(mod.indexOf("-") > -1) {
-                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                  final_init = new_mod ? final_init - new_mod : final_init;
-                }
-                else {
-                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-                  final_init = new_mod ? final_init + new_mod : final_init;
-                }
-              }
-            });
+    var attrs_to_get = ["agility","agility_mod","initmod","init_tiebreaker","pb_type","global_mods"];
+    getAttrs(attrs_to_get, function(init_attrs) {
+      var update = {};
+      var final_init = parseInt(init_attrs["agility_mod"], 10);
+      if(init_attrs["initmod"] && !isNaN(parseInt(init_attrs["initmod"], 10))) {
+        final_init = final_init + parseInt(init_attrs["initmod"], 10);
+      }
+      if(init_attrs["init_tiebreaker"] && init_attrs["init_tiebreaker"] != 0) {
+        final_init = final_init + (parseInt(init_attrs["agility"], 10)/100);
+      }
+      if(init_attrs["global_mods"] && init_attrs["rglobal_mods"] != "") {
+        var mods = init_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if(mod.indexOf("init") > -1 || mod.indexOf("initative") > -1) {
+            if(mod.indexOf("-") > -1) {
+              var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              final_init = new_mod ? final_init - new_mod : final_init;
+            }
+            else {
+              var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              final_init = new_mod ? final_init + new_mod : final_init;
+            }
           }
         });
-        if(final_init % 1 != 0) {
-          final_init = parseFloat(final_init.toPrecision(12)); // ROUNDING ERROR BUGFIX
-        }
-        update["initiative_bonus"] = final_init;
-        setAttrs(update, {silent: true});
-      });
+      }
+      if(final_init % 1 != 0) {
+        final_init = parseFloat(final_init.toPrecision(12)); // ROUNDING ERROR BUGFIX
+      }
+      update["initiative_bonus"] = final_init;
+      setAttrs(update, {silent: true});
     });
   };
 
@@ -6289,11 +6284,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var lvl = parseInt(attrs["level"],10);
       if(lvl < 5) {pb = "1"} else if(lvl < 10) {pb = "2"} else if(lvl < 15) {pb = "3"} else if(lvl < 20) {pb = "4"} else {pb = "5"}
       update["pb"] = pb;
+      callbacks.push( function() {update_skills("all");} );
       callbacks.push( function() {update_attacks("all");} );
       callbacks.push( function() {update_initiative();} );
       callbacks.push( function() {update_tool("all");} );
       callbacks.push( function() {update_all_saves();} );
-      callbacks.push( function() {update_skills(["barter", "energy_weapons", "explosives", "guns", "lockpick", "medicine", "melee_weapons", "repair", "science", "sneak", "speech", "survival", "unarmed"]);} );
 
       setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
     });
