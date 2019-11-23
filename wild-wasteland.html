@@ -3972,7 +3972,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_modifiers:active change:repeating_modifiers:modifiers change:repeating_armor:equipped change:repeating_armor:itemmodifiers change:repeating_inventory:equipped change:repeating_inventory:itemmodifiers", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("CUSTOM MODIFIER CHANGE DETECTED!")
-    var mod_id = eventinfo.sourceAttribute.substring(19, 39);
     update_global_modifiers();
   });
 
@@ -4636,6 +4635,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var skill_parent = {barter: "charisma", energy_weapons: "perception", explosives: "intelligence", guns: "perception", lockpick: "agility", medicine: "intelligence", melee_weapons: "strength", repair: "intelligence", science: "intelligence", sneak: "agility", speech: "charisma", survival: "intelligence", unarmed: "strength"};
     var attrs_to_get = ["pb","global_mods"];
     var update = {};
+    var callbacks = [];
 
     // get proficency and flat bonus of each skill
     _.each(skills_array, function(skill) {
@@ -4674,7 +4674,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[skill + "_check_bonus"] = total_skill_check_bonus
       });
 
-      setAttrs(update, {silent: true});
+      callbacks.push(() => {update_attacks("all");});
+
+      setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) { callback(); })});
     });
   };
 
