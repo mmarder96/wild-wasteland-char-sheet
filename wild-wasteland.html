@@ -1845,7 +1845,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </fieldset>
               <div class="weighttotal">
                 <span class="label" data-i18n="total-weight-u">TOTAL WEIGHT</span>
-                <input type="text" name="attr_weighttotal" value="0">
+                <input type="text" name="attr_weighttotal" value="0" style="width: 45px; float: left;">
+                <input type="text" value="/" style="width: 15px; float: left;">
+                <input type="text" name="attr_carrying_capacity" value="0" style="width: 45px; float: left;">
                 <input type="hidden" class="encumberance" name="attr_encumberance">
                 <span class="encumb immobile" data-i18n="immobile-u">IMMOBILE</span>
                 <span class="encumb heavily" data-i18n="heavily-encumbered-u">HEAVILY ENCUMBERED</span>
@@ -5962,7 +5964,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           size_multiplier =
             (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
         };
-        let cap = str_base*size_multiplier;
+        let cap = str_base * 10 * size_multiplier;
         // Parse the carrying capacitiy modificator if any
         if (wgt_attrs.carrying_capacity_mod) {
           const operator = wgt_attrs.carrying_capacity_mod.substring(0,1);
@@ -5975,14 +5977,15 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               cap;
           }
         }
+        update["carrying_capacity"] = cap;
 
         if (!wgt_attrs.encumberance_setting || wgt_attrs.encumberance_setting === "off") {
           update["encumberance"] = (wtotal > cap * 15) ? "OVER CARRYING CAPACITY" : " ";
         } else if (wgt_attrs.encumberance_setting === "on") {
           update["encumberance"] =
-            (wtotal > cap*15) ? "IMMOBILE" :
-            (wtotal > cap*10) ? "HEAVILY ENCUMBERED" :
-            (wtotal > cap*5)  ? "ENCUMBERED" :
+            (wtotal > cap * 1.5) ? "IMMOBILE" :
+            (wtotal > cap) ? "HEAVILY ENCUMBERED" :
+            (wtotal > cap * 0.5)  ? "ENCUMBERED" :
             " ";
         } else {
           update["encumberance"] = " ";

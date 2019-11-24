@@ -3031,9 +3031,10 @@ span.sheet-spellconcentration {
 }
 
 .sheet-equipment .sheet-weighttotal {
+  display: inline-block;
   position: relative;
   left: 5px;
-  width: 70px;
+  width: 105px;
 }
 
 .sheet-equipment .sheet-weighttotal input {
