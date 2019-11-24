@@ -2172,7 +2172,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <fieldset class="repeating_hpmod">
               <div style="padding-left: 15px; padding-bottom: 10px;">
                 <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source"><br>
+                <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
                 <input type="text" name="attr_mod" class="num">
               </div>
@@ -2183,7 +2183,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <fieldset class="repeating_defmod">
               <div style="padding-left: 15px; padding-bottom: 10px;">
                 <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source"><br>
+                <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
                 <input type="text" name="attr_mod" class="num">
               </div>
@@ -2194,7 +2194,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <fieldset class="repeating_dtmod">
               <div style="padding-left: 15px; padding-bottom: 10px;">
                 <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source"><br>
+                <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
                 <input type="text" name="attr_mod" class="num">
               </div>
@@ -2205,7 +2205,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <fieldset class="repeating_spdmod">
               <div style="padding-left: 15px; padding-bottom: 10px;">
                 <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source"><br>
+                <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
                 <input type="text" name="attr_mod" class="num">
               </div>
@@ -3874,9 +3874,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     on(`change:${attr}`, function() {
       update_mod(`${attr}`);
 
-      const cap = attr.charAt(0).toUpperCase() + attr.slice(1);
-      check_customac(cap);
-
       (attr === "strength") ? update_weight() : false;
       (attr === "endurance") ? update_hp_max() : false;
       (attr === "agility") ? update_initiative() : false;
@@ -4467,10 +4464,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   var update_global_modifiers = function() {
-    var mods = "";
-    var attrs_to_get = [];
-    var update = {};
-    var callbacks = [];
+    var attrs_to_get = ["global_mods"];
     getSectionIDs("repeating_modifiers", function(mod_id_arr) {
       _.each(mod_id_arr, function(currentID, i) {
         attrs_to_get.push("repeating_modifiers_" + currentID + "_active");
@@ -4487,11 +4481,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             attrs_to_get.push("repeating_inventory_" + currentID + "_itemmodifiers");
           });
           getAttrs(attrs_to_get, function(attrs) {
+            var update = {};
+            var callbacks = [];
+            var mods = "";
+            var prev_mods = attrs["global_mods"];
+            var update_attr_flag = false;
+            var update_critical_strike_flag = false;
+            var update_pb_flag = false;
+            var update_skills_flag = false;
+            var update_all_saves_flag = false;
+            var update_initiative_flag = false;
+            var update_hp_max_flag = false;
+            var update_defense_flag = false;
+            var update_dt_flag = false;
+            var update_speed_flag = false;
+
             _.each(mod_id_arr, function(currentID) {
               if((attrs["repeating_modifiers_" + currentID + "_active"] && attrs["repeating_modifiers_" + currentID + "_active"] === "1")
               && attrs["repeating_modifiers_" + currentID + "_modifiers"] && attrs["repeating_modifiers_" + currentID + "_modifiers"] != "") {
                 var mod_mods = attrs["repeating_modifiers_" + currentID + "_modifiers"];
-                mods = mod_mods;
+                mods = (mods != "") ? mods + ", " + mod_mods : mod_mods;
               }
             });
             _.each(armor_id_arr, function(currentID) {
@@ -4508,18 +4517,56 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 mods = (mods != "") ? mods + ", " + inv_mods : inv_mods
               }
             });
-            console.log("NEW GLOBAL MODS")
+
+            console.log("OLD GLOBAL MODS");
+            console.log(prev_mods);
+            console.log("NEW GLOBAL MODS");
             console.log(mods);
+
             update["global_mods"] = mods;
-            // TODO add callbacks
-            callbacks.push(() => {update_attr("all");});
-            callbacks.push(() => {update_skills("all");});
-            callbacks.push(() => {update_all_saves();});
-            callbacks.push(() => {update_initiative();});
-            callbacks.push(() => {update_hp_max();});
-            // callbacks.push(() => {update_defense();});
-            // callbacks.push(() => {update_dt();});
-            // callbacks.push(() => {update_speed();});
+
+            var mod_list = mods.toLowerCase().split(",").concat(prev_mods.toLowerCase().split(","));
+            _.each(mod_list, function(mod) {
+              ['strength','perception','endurance','charisma','intelligence','agility','luck','special'].forEach(attr => {
+                if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1 && mod.indexOf("saving throw") === -1){
+                  update_attr_flag = true;
+                }
+              });
+              ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed','skills'].forEach(skill => {
+                if(mod.indexOf(skill) > -1) {
+                  update_skill_flag = true;
+                }
+              });
+              if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1) {
+                update_critical_strike_flag = true;
+              } else if(mod.indexOf("tag") > -1) {
+                update_pb_flag = true;
+              } else if(mod.indexOf("save") > -1 || mod.indexOf("saving throw") > -1) {
+                update_all_saves_flag = true;
+              } else if(mod.indexOf("init") > -1) {
+                update_initiative_flag = true;
+              } else if(mod.indexOf("hp") > -1 || mod.indexOf("hit points") > -1 || mod.indexOf("health") > -1) {
+                update_hp_max_flag = true;
+              } else if(mod.indexOf("def") > -1) {
+                update_defense_flag = true;
+              } else if(mod.indexOf("dt") > -1 || mod.indexOf("damage threshold") > -1) {
+                update_dt_flag = true;
+              } else if(mod.indexOf("spd") > -1 || mod.indexOf("speed") > -1) {
+                update_speed_flag = true;
+              }
+            });
+
+            if(update_attr_flag){callbacks.push(() => {update_attr("all");});}
+            if(update_critical_strike_flag){callbacks.push(() => {update_critical_strike();});}
+            if(update_pb_flag){callbacks.push(() => {update_pb("global_mods");});}
+            if(update_skill_flag){callbacks.push(() => {update_skills("all");});}
+            if(update_all_saves_flag){callbacks.push(() => {update_all_saves();});}
+            if(update_initiative_flag){callbacks.push(() => {update_initiative();});}
+            if(update_hp_max_flag){callbacks.push(() => {update_hp_max();});}
+            if(update_defense_flag){callbacks.push(() => {update_defense();});}
+            if(update_dt_flag){callbacks.push(() => {update_dt();});}
+            if(update_speed_flag){callbacks.push(() => {update_speed();});}
+
             setAttrs(update, function() {callbacks.forEach(function(callback) { callback(); })});
           });
         });
@@ -4540,28 +4587,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     getAttrs(attrs_to_get, function(attrs) {
       var base = attrs[attr + "_base"] && !isNaN(parseInt(attrs[attr + "_base"], 10)) ? parseInt(attrs[attr + "_base"], 10) : 10;
       var bonus = attrs[attr + "_bonus"] && !isNaN(parseInt(attrs[attr + "_bonus"], 10)) ? parseInt(attrs[attr + "_bonus"], 10) : 0;
-      var mod_base = 0;
-      var mod_bonus = 0;
+      var attr_mod_bonus = 0;
       var mods = attrs["global_mods"].toLowerCase().split(",");
       _.each(mods, function(mod) {
-        if(mod.indexOf(attr) > -1 && mod.indexOf("save") === -1) {
+        if((mod.indexOf(attr) > -1 || mod.indexOf("special") > -1) && (mod.indexOf("save") === -1 && mod.indexOf("saving throw") === -1)) {
           if(mod.indexOf(":") > -1) {
-            var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-            mod_base = new_base && new_base > mod_base ? new_base : mod_base;
+            var new_attr_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+            base = new_attr_base && new_attr_base > base ? new_attr_base : base;
           }
           else if(mod.indexOf("-") > -1) {
-            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-            mod_bonus = new_mod ? mod_bonus - new_mod : mod_bonus;
+            var new_attr_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+            attr_mod_bonus = new_attr_mod ? attr_mod_bonus - new_attr_mod : attr_mod_bonus;
           }
           else {
-            var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-            mod_bonus = new_mod ? mod_bonus + new_mod : mod_bonus;
+            var new_attr_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+            attr_mod_bonus = new_attr_mod ? attr_mod_bonus + new_attr_mod : attr_mod_bonus;
           }
-        };
+        }
       });
-      update[attr + "_flag"] = (bonus > 0 || mod_bonus > 0 || mod_bonus > base) ? 1 : 0;
-      base = base > mod_base ? base : mod_base;
-      update[attr] = base + bonus + mod_bonus;
+      update[attr + "_flag"] = (bonus > 0 || attr_mod_bonus > 0 || attr_mod_bonus > base) ? 1 : 0;
+      update[attr] = base + bonus + attr_mod_bonus;
       setAttrs(update);
     });
   };
@@ -4586,44 +4631,35 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       return;
     }
 
-    var save_attrs = [attr + "_mod", attr + "_save_prof", attr + "_save_mod","pb","global_save_mod","pb_type"];
-    getSectionIDs("repeating_inventory", function(idarray) {
-      _.each(idarray, function(currentID, i) {
-        save_attrs.push("repeating_inventory_" + currentID + "_equipped");
-        save_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
-      });
+    var save_attrs = [attr + "_mod", attr + "_save_prof", attr + "_save_mod", "pb", "global_save_mod", "pb_type", "global_mods"];
 
-      getAttrs(save_attrs, function(v) {
-        var attr_mod = v[attr + "_mod"] ? parseInt(v[attr + "_mod"], 10) : 0;
-        var prof = v[attr + "_save_prof"] && v[attr + "_save_prof"] != 0 && !isNaN(v["pb"]) ? parseInt(v["pb"], 10) : 0;
-        var save_mod = v[attr + "_save_mod"] && !isNaN(parseInt(v[attr + "_save_mod"], 10)) ? parseInt(v[attr + "_save_mod"], 10) : 0;
-        var global = v["global_save_mod"] && !isNaN(v["global_save_mod"]) ? parseInt(v["global_save_mod"], 10) : 0;
-        var items = 0;
-        _.each(idarray, function(currentID) {
-          if(v["repeating_inventory_" + currentID + "_equipped"] && v["repeating_inventory_" + currentID + "_equipped"] === "1" && v["repeating_inventory_" + currentID + "_itemmodifiers"] && (v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf("saving throws") > -1 || v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().indexOf(attr + " save") > -1)) {
-            var mods = v["repeating_inventory_" + currentID + "_itemmodifiers"].toLowerCase().split(",");
-            _.each(mods, function(mod) {
-              if(mod.indexOf(attr + " save") > -1) {
-                var substr = mod.slice(mod.lastIndexOf(attr + " save") + attr.length + " save".length);
-                var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
-              } else if(mod.indexOf("saving throws") > -1) {
-                var substr = mod.slice(mod.lastIndexOf("saving throws") + "saving throws".length);
-                var bonus = substr && substr.length > 0 && !isNaN(parseInt(substr,10)) ? parseInt(substr,10) : 0;
-              };
-              if(bonus && bonus != 0) {
-                items = items + bonus;
-              };
-            });
+    getAttrs(save_attrs, function(save_attrs) {
+      var attr_mod = save_attrs[attr + "_mod"] ? parseInt(save_attrs[attr + "_mod"], 10) : 0;
+      var prof = save_attrs[attr + "_save_prof"] && save_attrs[attr + "_save_prof"] != 0 && !isNaN(save_attrs["pb"]) ? parseInt(save_attrs["pb"], 10) : 0;
+      var save_mod = save_attrs[attr + "_save_mod"] && !isNaN(parseInt(save_attrs[attr + "_save_mod"], 10)) ? parseInt(save_attrs[attr + "_save_mod"], 10) : 0;
+      var global_save_mod = save_attrs["global_save_mod"] && !isNaN(save_attrs["global_save_mod"]) ? parseInt(save_attrs["global_save_mod"], 10) : 0;
+      var mod_bonus = 0;
+      if(save_attrs["global_mods"] && save_attrs["global_mods"] != "" ) {
+        var mods = save_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if((mod.indexOf(attr) > -1 && mod.indexOf("save") > -1) || mod.indexOf("saving throws") > -1 ) {
+            if(mod.indexOf("-") > -1) {
+              var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              mod_bonus = new_mod ? mod_bonus - new_mod : mod_bonus;
+            } else {
+              var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              mod_bonus = new_mod ? mod_bonus + new_mod : mod_bonus;
+            }
           }
         });
-        var total = attr_mod + prof + save_mod + global + items;
-        if(v["pb_type"] && v["pb_type"] === "die" && v[attr + "_save_prof"] != 0 && attr != "death") {
-          total = total + "+" + v["pb"];
-        };
-        var update = {};
-        update[attr + "_save_bonus"] = total;
-        setAttrs(update, {silent: true});
-      });
+      }
+      var total = attr_mod + prof + save_mod + global_save_mod + mod_bonus;
+      if(save_attrs["pb_type"] && save_attrs["pb_type"] === "die" && save_attrs[attr + "_save_prof"] != 0 && attr != "death") {
+        total = total + "+" + save_attrs["pb"];
+      };
+      var update = {};
+      update[attr + "_save_bonus"] = total;
+      setAttrs(update, {silent: true});
     });
   };
 
@@ -5845,9 +5881,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           _.each(attack_idarray, function(id) {
             var dmg2flag;
             if (attrs["repeating_attack_" + id + "_dmgtype"] && attrs["repeating_attack_" + id + "_dmgtype"] != attrs["repeating_weapons_" + weaponid + "_dmgtype"]){
-            // if ((attrs["repeating_weapons_" + id + "_dmgflag"] && attrs["repeating_weapons_" + id + "_dmgflag"] != 0)
-            // && (attrs["repeating_attack_" + id + "_dmgtype"] && attrs["repeating_attack_" + id + "_dmgtype"] != "")
-            // && (attrs["repeating_attack_" + id + "_dmgtype"] && attrs["repeating_attack_" + id + "_dmgtype"] != attrs["repeating_weapons_" + weaponid + "_dmgtype"])) {
               dmg2flag = "{{damage=1}} {{dmg2flag=1}}";
             } else {
               dmg2flag = 0;
@@ -5979,13 +6012,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             hp_mod += parseInt(hp_attrs["repeating_hpmod_" + currentId + "_mod"], 10);
           }
         });
-        // process global mods
-        console.log("HP GLOBAL MODS");
-        console.log(hp_attrs);
         if(hp_attrs["global_mods"] && hp_attrs["global_mods"] != "") {
           var mods = hp_attrs["global_mods"].toLowerCase().split(",");
           _.each(mods, function(mod) {
-            if(mod.indexOf("hp") > -1 || mod.indexOf("health") || mod.indexOf("hit points")) {
+            if(mod.indexOf("hp") > -1 || mod.indexOf("health") > -1 || mod.indexOf("hit points") > -1) {
               if(mod.indexOf(":") > -1) {
                 var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
                 hp_base = new_base && new_base > hp_base ? new_base : hp_base;
@@ -6001,7 +6031,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             };
           });
         }
-        final_hp_max = hp_base + endurance + level + hp_mod;
+        var final_hp_max = hp_base + endurance + level + hp_mod;
         update["hp_max"] = final_hp_max;
         setAttrs(update, {silent: true});
       });
@@ -6011,8 +6041,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_defense = function() {
     console.log("UPDATING DEFENSE!");
     var attrs_to_get = ["equippedarmorid", "agility_mod", "pb", "global_mods"];
-    getAttrs(attrs_to_get, function(a){
-      var equipped_armor_id = a["equippedarmorid"];
+    getAttrs(attrs_to_get, function(def_attrs){
+      var equipped_armor_id = def_attrs["equippedarmorid"];
       attrs_to_get.push("repeating_armor_" + equipped_armor_id + "_type");
       getSectionIDs("repeating_defmod", function(defmod_idarray){
         _.each(defmod_idarray, function(currentId, i) {
@@ -6025,20 +6055,37 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var pb = parseInt(def_attrs["pb"], 10);
           var armor_mod = 0;
           var def_mod = 0;
-          var mod_base = 0;
-          var mod_bonus = 0;
-          _.each(defmod_idarray, function(currentId, i) {
-            if(def_attrs["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10))) {
-              def_mod += parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10);
-            }
-          });
           switch(def_attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
             case "light": armor_mod = -1; break;
             case "medium": armor_mod = -2; break;
             case "heavy": armor_mod = -3; break;
             case "power": armor_mod = -4; break;
           }
-          final_def = def_base + agility_mod + armor_mod + def_mod + pb;
+          _.each(defmod_idarray, function(currentId, i) {
+            if(def_attrs["repeating_defmod_" + currentId + "_mod"] && !isNaN(parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10))) {
+              def_mod += parseInt(def_attrs["repeating_defmod_" + currentId + "_mod"], 10);
+            }
+          });
+          if(def_attrs["global_mods"] && def_attrs["global_mods"] != "") {
+            var mods = def_attrs["global_mods"].toLowerCase().split(",");
+            _.each(mods, function(mod) {
+              if(mod.indexOf("def") > -1 || mod.indexOf("defense") > -1) {
+                if(mod.indexOf(":") > -1) {
+                  var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  def_base = new_base && new_base > def_base ? new_base : def_base;
+                }
+                else if(mod.indexOf("-") > -1) {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  def_mod = new_mod ? def_mod - new_mod : def_mod;
+                }
+                else {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  def_mod = new_mod ? def_mod + new_mod : def_mod;
+                }
+              };
+            });
+          }
+          var final_def = def_base + agility_mod + armor_mod + def_mod + pb;
           final_def = final_def > 0 ? final_def : 0;
           update["def"] = final_def;
           setAttrs(update, {silent: true});
@@ -6049,137 +6096,57 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_dt = function() {
     console.log("UPDATE DT");
-    getAttrs(["custom_ac_flag"], function(a) {
-      if(a.custom_ac_flag === "2") {return;}
-      var update = {};
-      var dt_attrs = ["simpleinventory","custom_ac_base","custom_ac_part1","custom_ac_part2","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod", "custom_ac_shield"];
-      getSectionIDs("repeating_dtmod", function(dt_idarray) {
-        _.each(dt_idarray, function(currentID, i) {
-          dt_attrs.push("repeating_dtmod_" + currentID + "_mod");
+    var dt_attrs = ["global_mods"];
+    getSectionIDs("repeating_dtmod", function(dt_idarray) {
+      _.each(dt_idarray, function(currentID, i) {
+        dt_attrs.push("repeating_dtmod_" + currentID + "_mod");
+      });
+      getSectionIDs("repeating_armor", function(armor_idarray) {
+        _.each(armor_idarray, function(currentID, i) {
+          dt_attrs.push("repeating_armor_" + currentID + "_equipped");
+          dt_attrs.push("repeating_armor_" + currentID + "_armordt");
+          dt_attrs.push("repeating_armor_" + currentID + "_type");
         });
-        getSectionIDs("repeating_global_dtmod", function(global_dt_idarray) {
-          _.each(global_dt_idarray, function(currentID, i) {
-            dt_attrs.push("repeating_global_dtmod_" + currentID + "_dt_val");
-            dt_attrs.push("repeating_global_dtmod_" + currentID + "_active_flag");
+        getAttrs(dt_attrs, function(dt_attrs) {
+          var update = {};
+          var dt_base = 0;
+          var armor_dt = 0;
+          var dt_mod = 0;
+          var final_dt = 0;
+          _.each(armor_idarray, function(currentID, i) {
+            if(dt_attrs["repeating_armor_" + currentID + "_equipped"] && dt_attrs["repeating_armor_" + currentID + "_equipped"] === "1"
+            && dt_attrs["repeating_armor_" + currentID + "_armordt"] && !isNaN(parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10))) {
+              armor_dt += parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10);
+            }
           });
-          getSectionIDs("repeating_armor", function(armor_idarray) {
-            _.each(armor_idarray, function(currentID, i) {
-              dt_attrs.push("repeating_armor_" + currentID + "_equipped");
-              dt_attrs.push("repeating_armor_" + currentID + "_armordt");
-              dt_attrs.push("repeating_armor_" + currentID + "_itemmodifiers");
-              dt_attrs.push("repeating_armor_" + currentID + "_type");
-            });
-            getSectionIDs("repeating_inventory", function(item_idarray) {
-              _.each(item_idarray, function(currentID, i) {
-                dt_attrs.push("repeating_inventory_" + currentID + "_equipped");
-                dt_attrs.push("repeating_inventory_" + currentID + "_itemmodifiers");
-              });
-              getAttrs(dt_attrs, function(dt_attrs) {
-                // var custom_total = 0;
-                // if(dt_attrs.custom_ac_flag === "1") {
-                //   var base = isNaN(parseInt(dt_attrs.custom_ac_base, 10)) === false ? parseInt(dt_attrs.custom_ac_base, 10) : 10;
-                //   var part1attr = dt_attrs.custom_ac_part1.toLowerCase();
-                //   var part2attr = dt_attrs.custom_ac_part2.toLowerCase();
-                //   var part1 = part1attr === "none" ? 0 : parseInt(dt_attrs[part1attr + "_mod"], 10);
-                //   var part2 = part2attr === "none" ? 0 : parseInt(dt_attrs[part2attr + "_mod"], 10);
-                //   custom_total = base + part1 + part2;
-                // }
-                var globaldtmod = 0;
-                _.each(dt_idarray, function(currentID, i) {
-                  if(!isNaN(parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10))) {
-                    globaldtmod += parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10);
-                  }
-                });
-                _.each(global_dt_idarray, function(currentID, i) {
-                  // if(dt_attrs["repeating_global_dtmod_" + currentID + "_active_flag"] == "1" && !NaN(parseInt(dt_attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10))) {
-                  //   globaldtmod += parseInt(dt_attrs["repeating_global_dtmod_" + currentID + "_dt_val"], 10);
-                  // }
-                });
-                var armor_dt = 0;
-                var total_dt = 0;
-                // var armorcount = 0;
-                // var shieldcount = 0;
-                // var `armoritems` = [];
-
-                if(dt_attrs.simpleinventory === "complex") {
-                  _.each(armor_idarray, function(currentID, i) {
-                    if(dt_attrs["repeating_armor_" + currentID + "_equipped"] && dt_attrs["repeating_armor_" + currentID + "_equipped"] === "1" && dt_attrs["repeating_armor_" + currentID + "_armordt"] && !isNaN(parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10))) {
-                      armor_dt += parseInt(dt_attrs["repeating_armor_" + currentID + "_armordt"], 10);
-
-                      // var mods = dt_attrs["repeating_armor_" + currentID + "_itemmodifiers"].split(",");
-                      // var ac = 0;
-                      // var type = "mod";
-                      // _.each(mods, function(mod) {
-                      //   if(mod.substring(0,10) === "Item Type:") {
-                      //     type = mod.substring(11, mod.length).trim().toLowerCase();
-                      //   }
-                      //   if(mod.toLowerCase().indexOf("ac:") > -1 || mod.toLowerCase().indexOf("ac +") > -1 || mod.toLowerCase().indexOf("ac+") > -1) {
-                      //     var regex = mod.replace(/[^0-9]/g, "");
-                      //     var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                      //     ac = ac + bonus;
-                      //   }
-                      //   if(mod.toLowerCase().indexOf("ac -") > -1 || mod.toLowerCase().indexOf("ac-") > -1) {
-                      //     var regex = mod.replace(/[^0-9]/g, "");
-                      //     var bonus = regex && regex.length > 0 && isNaN(parseInt(regex,10)) === false ? parseInt(regex,10) : 0;
-                      //     ac = ac - bonus;
-                      //   }
-                      // });
-                      // armoritems.push({type: type, ac: ac});
-
-                    }
-                  });
-                  // armorcount = armoritems.filter(function(item){ return item["type"].indexOf("armor") > -1 }).length;
-                  // shieldcount = armoritems.filter(function(item){ return item["type"].indexOf("shield") > -1 }).length;
-                  // var base = dexmod;
-                  // var base = 0;
-                  // var armorac = 10;
-                  // var shieldac = 0;
-                  // var modac = 0;
-                  // _.each(armoritems, function(item) {
-                  //   if(item["type"].indexOf("light armor") > -1) {
-                  //     armorac = item["ac"];
-                  //     base = dexmod;
-                  //   }
-                  //   else if(item["type"].indexOf("medium armor") > -1) {
-                  //     armorac = item["ac"];
-                  //     base = Math.min(dexmod, 2);
-                  //   }
-                  //   else if(item["type"].indexOf("heavy armor") > -1) {
-                  //     armorac = item["ac"];
-                  //     base = 0;
-                  //   }
-                  //   else if(item["type"].indexOf("shield") > -1) {
-                  //     shieldac = item["ac"];
-                  //   }
-                  //   else {
-                  //     modac = modac + item["ac"]
-                  //   }
-                  //
-                  // total = base + armorac + shieldac + modac;
-                };
-
-                // update["armorwarningflag"] = "hide";
-                // update["customacwarningflag"] = "hide";
-                // if(armorcount > 1 || shieldcount > 1) {
-                //     update["armorwarningflag"] = "show";
-                // }
-
-                total_dt = armor_dt + globaldtmod;
-                update["dt"] = total_dt;
-
-                // if(custom_total > 0) {
-                //   if(armorcount > 0 || (shieldcount > 0 && dt_attrs.custom_ac_shield != "yes")) {
-                //     update["customacwarningflag"] = "show";
-                //   }
-                //   else {
-                //     update["dt"] = dt_attrs.custom_ac_shield == "yes" ? custom_total + shieldac + globaldtmod + modac : custom_total + globaldtmod + modac;
-                //   }
-                // }
-
-                setAttrs(update, {silent: true});
-              });
-            });
+          _.each(dt_idarray, function(currentID, i) {
+            if(!isNaN(parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10))) {
+              dt_mod += parseInt(dt_attrs["repeating_dtmod_" + currentID + "_mod"], 10);
+            }
           });
+          if(dt_attrs["global_mods"] && dt_attrs["global_mods"] != "") {
+            var mods = dt_attrs["global_mods"].toLowerCase().split(",");
+            _.each(mods, function(mod) {
+              if(mod.indexOf("dt") > -1 || mod.indexOf("damage threshold") > -1) {
+                if(mod.indexOf(":") > -1) {
+                  var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  dt_base = new_base && new_base > dt_base ? new_base : dt_base;
+                }
+                else if(mod.indexOf("-") > -1) {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  dt_mod = new_mod ? dt_mod - new_mod : dt_mod;
+                }
+                else {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  dt_mod = new_mod ? dt_mod + new_mod : dt_mod;
+                }
+              };
+            });
+          }
+          var final_dt = dt_base + armor_dt + dt_mod;
+          final_dt = final_dt > 0 ? final_dt : 0;
+          update["dt"] = final_dt;
+          setAttrs(update, {silent: true});
         });
       });
     });
@@ -6187,7 +6154,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_speed = function() {
     console.log("UPDATING SPEED!");
-    attrs_to_get = ["equippedarmorid", "agility_mod"];
+    attrs_to_get = ["equippedarmorid", "agility_mod", "global_mods"];
     getAttrs(attrs_to_get, function(a){
       var equipped_armor_id = a["equippedarmorid"];
       attrs_to_get.push("repeating_armor_" + equipped_armor_id + "_type");
@@ -6201,28 +6168,39 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var spd_bonus =  Math.floor(parseInt(spd_attrs["agility_mod"], 10)/2);
           var armor_mod = 0;
           var spd_mod = 0;
+          switch(spd_attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
+            case "heavy": armor_mod = -1; break;
+            case "power": armor_mod = -2; break;
+          }
           _.each(idArray, function(currentId, i) {
             if(spd_attrs["repeating_spdmod_" + currentId + "_mod"] && !isNaN(parseInt(spd_attrs["repeating_spdmod_" + currentId + "_mod"], 10))) {
               spd_mod += parseInt(spd_attrs["repeating_spdmod_" + currentId + "_mod"], 10);
             }
           });
-          switch(spd_attrs["repeating_armor_" + equipped_armor_id + "_type"]) {
-            case "heavy": armor_mod = -1; break;
-            case "power": armor_mod = -2; break;
+          if(spd_attrs["global_mods"] && spd_attrs["global_mods"] != "") {
+            var mods = spd_attrs["global_mods"].toLowerCase().split(",");
+            _.each(mods, function(mod) {
+              if(mod.indexOf("spd") > -1 || mod.indexOf("speed") > -1) {
+                if(mod.indexOf(":") > -1) {
+                  var new_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  spd_base = new_base && new_base > spd_base ? new_base : spd_base;
+                }
+                else if(mod.indexOf("-") > -1) {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  spd_mod = new_mod ? spd_mod - new_mod : spd_mod;
+                }
+                else {
+                  var new_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                  spd_mod = new_mod ? spd_mod + new_mod : spd_mod;
+                }
+              };
+            });
           }
-          final_spd = spd_base + spd_bonus + armor_mod + spd_mod;
+          var final_spd = spd_base + spd_bonus + armor_mod + spd_mod;
           update["speed"] = final_spd;
           setAttrs(update, {silent: true});
         });
       });
-    });
-  };
-
-  var check_customac = function(attr) {
-    getAttrs(["custom_ac_flag","custom_ac_part1","custom_ac_part2"], function(v) {
-      if(v["custom_ac_flag"] && v["custom_ac_flag"] === "1" && ((v["custom_ac_part1"] && v["custom_ac_part1"] === attr) || (v["custom_ac_part2"] && v["custom_ac_part2"] === attr))) {
-          update_dt();
-      }
     });
   };
 
@@ -6276,19 +6254,41 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   };
 
-  var update_pb = function() {
+  var update_pb = function(source) {
+    console.log("UPDATING TAG SKILL BONUS!")
     callbacks = [];
-    getAttrs(["level","pb_type","pb_custom"], function(attrs) {
+    getAttrs(["level","global_mods"], function(pb_attrs) {
       var update = {};
-      var pb = 1;
-      var lvl = parseInt(attrs["level"],10);
-      if(lvl < 5) {pb = "1"} else if(lvl < 10) {pb = "2"} else if(lvl < 15) {pb = "3"} else if(lvl < 20) {pb = "4"} else {pb = "5"}
-      update["pb"] = pb;
+      var pb_base = 1;
+      var pb_bonus = 0;
+      var pb_mod_bonus = 0;
+      if (pb_attrs["level"] && !isNaN(parseInt(pb_attrs["level"],10))) {
+        var lvl = parseInt(pb_attrs["level"],10);
+        pb_bonus = Math.floor(lvl/5);
+      }
+      if(pb_attrs["global_mods"] && pb_attrs["global_mods"] != "") {
+        var mods = pb_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if(mod.indexOf("tag") > -1) {
+            if(mod.indexOf("-") > -1) {
+              var new_pb_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              pb_mod_bonus = new_pb_mod ? pb_mod_bonus - new_pb_mod : pb_mod_bonus;
+            }
+            else {
+              var new_pb_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              pb_mod_bonus = new_pb_mod ? pb_mod_bonus + new_pb_mod : pb_mod_bonus;
+            }
+          }
+        });
+      }
+
+      var final_pb = pb_base + pb_bonus + pb_mod_bonus;
+      update["pb"] = final_pb;
+
       callbacks.push( function() {update_skills("all");} );
+      callbacks.push( function() {update_all_saves();} );
       callbacks.push( function() {update_attacks("all");} );
       callbacks.push( function() {update_initiative();} );
-      callbacks.push( function() {update_tool("all");} );
-      callbacks.push( function() {update_all_saves();} );
 
       setAttrs(update, {silent: true}, function() {callbacks.forEach(function(callback) {callback(); })} );
     });
@@ -6296,23 +6296,41 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_passive_perception = function() {
     getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(v) {
-      var pass_per = 10;
+      var pass_per_base = 10;
       var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
-      var mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
-      var bonus = !isNaN(parseInt(v["perception_bonus"],10)) ? parseInt(v["perception_bonus"],10) : 0;
-      pass_per = pass_per + per_mod + bonus + mod;
-      setAttrs({passive_perception: pass_per})
+      var pass_per_mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
+      var final_pass_per = pass_per_base + per_mod + pass_per_mod;
+      setAttrs({passive_perception: final_pass_per})
     });
   };
 
   var update_critical_strike = function() {
-    getAttrs(["luck_mod","critical_strike_mod","luck_bonus"], function(v) {
-      var crit = 10;
-      var luk_mod = !isNaN(parseInt(v["luck_mod"],10)) ? parseInt(v["luck_mod"],10) : 0;
-      var mod = !isNaN(parseInt(v["critical_strike_mod"],10)) ? parseInt(v["critical_strike_mod"],10) : 0;
-      var bonus = !isNaN(parseInt(v["luck_bonus"],10)) ? parseInt(v["luck_bonus"],10) : 0;
-      crit = crit + luk_mod + bonus + mod;
-      setAttrs({critical_strike: crit})
+    getAttrs(["luck_mod","critical_strike_mod","luck_bonus","global_mods"], function(crit_attrs) {
+      var crit_base = 10;
+      var luk_mod = !isNaN(parseInt(crit_attrs["luck_mod"],10)) ? parseInt(crit_attrs["luck_mod"],10) : 0;
+      var luk_bonus = !isNaN(parseInt(crit_attrs["luck_bonus"],10)) ? parseInt(crit_attrs["luck_bonus"],10) : 0;
+      var crit_mod_bonus = !isNaN(parseInt(crit_attrs["critical_strike_mod"],10)) ? parseInt(crit_attrs["critical_strike_mod"],10) : 0;
+      if(crit_attrs["global_mods"] && crit_attrs["global_mods"] != "") {
+        var mods = crit_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1) {
+            if(mod.indexOf(":") > -1) {
+              var new_crit_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              crit_base = new_crit_base && new_crit_base > crit_base ? new_crit_base : crit_base;
+            }
+            else if(mod.indexOf("-") > -1) {
+              var new_crit_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              crit_mod_bonus = new_crit_mod ? crit_mod_bonus - new_crit_mod : crit_mod_bonus;
+            }
+            else {
+              var new_crit_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              crit_mod_bonus = new_crit_mod ? crit_mod_bonus + new_crit_mod : crit_mod_bonus;
+            }
+          };
+        });
+      }
+      var final_crit = crit_base + luk_mod + luk_bonus + crit_mod_bonus;
+      setAttrs({critical_strike: final_crit})
     });
   };
 

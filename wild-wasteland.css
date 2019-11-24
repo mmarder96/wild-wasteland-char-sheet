@@ -1623,7 +1623,7 @@ span.sheet-spellconcentration {
 .sheet-global-mod .sheet-options input[type=text] {
   display: inline-block;
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   border-bottom: 1px solid #D3D3D3;
   padding: 0px;
   width: initial;
