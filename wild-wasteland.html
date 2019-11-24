@@ -6744,11 +6744,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       });
       getAttrs(attrs_to_get, function(attrs){
         var update = {};
-        var global_atkbonus = "";
-        var global_dmgbonus = "";
-        var global_dmgtype = "";
-        var global_atkdmgtype = "";
         _.each(idArray, function(id) {
+          var global_atkbonus = "";
+          var global_dmgbonus = "";
+          var global_dmgtype = "";
+          var global_atkdmgtype = "";
           if(attrs[`repeating_tohitmod_${id}_global_atkbonus`] && attrs[`repeating_tohitmod_${id}_global_atkbonus`] != "") {
             if(attrs[`repeating_tohitmod_${id}_global_atkbonus`].indexOf("-") > -1) {
               global_atkbonus = attrs[`repeating_tohitmod_${id}_global_atkbonus`]
@@ -6764,8 +6764,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           }
           update[`repeating_tohitmod_${id}_global_atkdmgtype`] = (global_dmgbonus != "") ? global_dmgbonus + " " + global_dmgtype : "";
-          setAttrs(update, {silent:true});
         });
+        setAttrs(update, {silent:true});
       });
 
       // if(ids) {
