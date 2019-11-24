@@ -4065,16 +4065,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     let update = {};
 
     if (newValue === 0) {
-        // If radiation is 0 the reset radiation_1 to "No Effect" and blank the other spans
+      // If radiation is 0 the reset radiation_1 to "No Effect" and blank the other spans
       for(let i = 2; i <= 6; i++) { update[`radiation_${i}`] = ""}
       update[`radiation_1`] = getTranslationByKey(`radiation-status-0`)
     } else if (newValue > previousValue) {
-        // If radiation increase then add text to the spans
+      // If radiation increase then add text to the spans
       for(let i = previousValue; i <= newValue; i++)
       {update[`radiation_${i+1}`] = "▪ " + getTranslationByKey(`radiation-${i}`)}
       update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
     } else {
-        // If radiation decrease remove text from spans
+      // If radiation decrease remove text from spans
       for(let i = newValue+1; i <= previousValue+1; i++) {update[`radiation_${i+1}`] = ""}
       update[`radiation_1`] = getTranslationByKey(`radiation-status-${newValue}`)
     };
@@ -4534,7 +4534,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               });
               ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed','skills'].forEach(skill => {
                 if(mod.indexOf(skill) > -1) {
-                  update_skill_flag = true;
+                  update_skills_flag = true;
                 }
               });
               if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1) {
@@ -4559,7 +4559,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             if(update_attr_flag){callbacks.push(() => {update_attr("all");});}
             if(update_critical_strike_flag){callbacks.push(() => {update_critical_strike();});}
             if(update_pb_flag){callbacks.push(() => {update_pb("global_mods");});}
-            if(update_skill_flag){callbacks.push(() => {update_skills("all");});}
+            if(update_skills_flag){callbacks.push(() => {update_skills("all");});}
             if(update_all_saves_flag){callbacks.push(() => {update_all_saves();});}
             if(update_initiative_flag){callbacks.push(() => {update_initiative();});}
             if(update_hp_max_flag){callbacks.push(() => {update_hp_max();});}
@@ -5934,55 +5934,55 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   const update_weight = function() {
     let update = {};
     let wtotal = 0;
-    let weight_attrs = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
+    let attrs_to_get = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
     getSectionIDs("repeating_inventory", (idarray) => {
       _.each(idarray, (currentID, i) => {
-        weight_attrs.push(`repeating_inventory_${currentID}_itemweight`);
-        weight_attrs.push(`repeating_inventory_${currentID}_itemcount`);
+        attrs_to_get.push(`repeating_inventory_${currentID}_itemweight`);
+        attrs_to_get.push(`repeating_inventory_${currentID}_itemcount`);
       });
-      getAttrs(weight_attrs, (v) => {
+      getAttrs(attrs_to_get, (wgt_attrs) => {
         let coinWeight = 0;
         ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
-          coinWeight += (isNaN(parseInt(v[`${type}`], 10)) === false) ? parseInt(v[`${type}`], 10) : 0;
+          coinWeight += (isNaN(parseInt(wgt_attrs[`${type}`], 10)) === false) ? parseInt(wgt_attrs[`${type}`], 10) : 0;
         });
         wtotal = wtotal + ((coinWeight) / 50);
 
         _.each(idarray, (currentID, i) => {
-          if (v[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(v[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
-            count = v[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(v[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(v[`repeating_inventory_${currentID}_itemcount`]) : 1;
-            wtotal = wtotal + (parseFloat(v[`repeating_inventory_${currentID}_itemweight`]) * count);
+          if (wgt_attrs[`repeating_inventory_${currentID}_itemweight`] && isNaN(parseInt(wgt_attrs[`repeating_inventory_${currentID}_itemweight`], 10)) === false) {
+            count = wgt_attrs[`repeating_inventory_${currentID}_itemcount`] && isNaN(parseFloat(wgt_attrs[`repeating_inventory_${currentID}_itemcount`])) === false ? parseFloat(wgt_attrs[`repeating_inventory_${currentID}_itemcount`]) : 1;
+            wtotal = wtotal + (parseFloat(wgt_attrs[`repeating_inventory_${currentID}_itemweight`]) * count);
           }
         });
         update["weighttotal"] = wtotal;
 
-        const str_base = parseInt(v.strength, 10);
+        const str_base = parseInt(wgt_attrs.strength, 10);
         let size_multiplier = 1;
-        if (v["size"] && v["size"] != "") {
-          const size = v["size"].toLowerCase().trim();
+        if (wgt_attrs["size"] && wgt_attrs["size"] != "") {
+          const size = wgt_attrs["size"].toLowerCase().trim();
           size_multiplier =
             (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
         };
-        let str = str_base*size_multiplier;
+        let cap = str_base*size_multiplier;
         // Parse the carrying capacitiy modificator if any
-        if (v.carrying_capacity_mod) {
-          const operator = v.carrying_capacity_mod.substring(0,1);
-          const value    = v.carrying_capacity_mod.substring(1);
+        if (wgt_attrs.carrying_capacity_mod) {
+          const operator = wgt_attrs.carrying_capacity_mod.substring(0,1);
+          const value    = wgt_attrs.carrying_capacity_mod.substring(1);
           if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
-            str =
-              (operator === "*" || operator == "x") ? str*parseFloat(value,10) :
-              (operator === "+") ? str+parseFloat(value,10) :
-              (operator === "-") ? str-parseFloat(value,10) :
-              str;
+            cap =
+              (operator === "*" || operator == "x") ? cap * parseFloat(value,10) :
+              (operator === "+") ? cap + parseFloat(value,10) :
+              (operator === "-") ? cap - parseFloat(value,10) :
+              cap;
           }
         }
 
-        if (!v.encumberance_setting || v.encumberance_setting === "off") {
-          update["encumberance"] = (wtotal > str*15) ? "OVER CARRYING CAPACITY" : " ";
-        } else if (v.encumberance_setting === "on") {
+        if (!wgt_attrs.encumberance_setting || wgt_attrs.encumberance_setting === "off") {
+          update["encumberance"] = (wtotal > cap * 15) ? "OVER CARRYING CAPACITY" : " ";
+        } else if (wgt_attrs.encumberance_setting === "on") {
           update["encumberance"] =
-            (wtotal > str*15) ? "IMMOBILE" :
-            (wtotal > str*10) ? "HEAVILY ENCUMBERED" :
-            (wtotal > str*5)  ? "ENCUMBERED" :
+            (wtotal > cap*15) ? "IMMOBILE" :
+            (wtotal > cap*10) ? "HEAVILY ENCUMBERED" :
+            (wtotal > cap*5)  ? "ENCUMBERED" :
             " ";
         } else {
           update["encumberance"] = " ";
