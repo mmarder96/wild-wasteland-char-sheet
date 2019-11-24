@@ -1257,11 +1257,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_attackswarningflag">
               <div class="header" style="height: auto;">
-                <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
+                <span style="width: 30px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="cooldown symbol"></span>
                 <span class="label" style="width: 95px; text-align: left;" data-i18n="attack-name-u">ATTACK NAME</span>
                 <span class="label" style="width: 30px; text-align: left;" data-i18n="atk-u">ATK</span>
-                <span class="label" style="width: 75px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
+                <span class="label" style="width: 70px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
               </div>
               <fieldset class="repeating_attack">
                 <input type="hidden" class="activeflag" name="attr_activeflag" value="0">
@@ -1269,8 +1269,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input class="weight" type="text" name="attr_cooldown" style="margin-left: 3px;">
                   <input class="name" type="text" name="attr_atkname" style="width: 90px;">
                   <button class="atkroll" type="roll" name="roll_attack" value="@{rollbase}">
-                    <input type="text" name="attr_atkbonus" style="width: 25px; text-align: center; margin-left: -3px" value="">
-                    <input type="text" name="attr_atkdmgtype" style="width: 80px;" value="">
+                    <input type="text" name="attr_atkbonus" style="width: 30px; text-align: center; margin-left: -3px" value="">
+                    <input type="text" name="attr_atkdmgtype" style="width: 75px;" value="">
                   </button>
                   <button class= "atkroll_disabled" type="roll" name="roll_attack_disabled" value="" disabled>
                     <input type="text" name="attr_atkbonus" style="width: 25px; text-align: center; margin-left: -3px" value="">
@@ -1441,17 +1441,17 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <div class="item">
                     <!-- <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span> -->
                     <input type="checkbox" name="attr_global_attack_active_flag" value="1" class="equipped">
-                    <input class="name" type="text" name="attr_global_attack_name" style="margin-left: 5px; width: 90px;">
-                    <input type="text" name="attr_global_attack_roll" readonly="readonly" style="width: 25px; text-align: center; margin-left: 1px">
-                    <input type="text" name="attr_global_attack_dmgtype" readonly="readonly" style="width: 80px;">
+                    <input class="name" type="text" name="attr_global_atkname" style="margin-left: 5px; width: 90px;">
+                    <input type="text" name="attr_global_atkbonus_display" readonly="readonly" style="width: 30px; text-align: center; margin-left: 1px; padding: 5px 0px 5px 0px;">
+                    <input type="text" name="attr_global_atkdmgtype" readonly="readonly" style="width: 75px;">
                     <input class="inventorysubflag" type="checkbox" name="attr_options-flag"><span>y</span>
                     <div class="subitem">
                       <span data-i18n="atk:-u">ATK:</span>
-                      <input class="subfield" type="text" name="attr_global_attack_roll" value="" placeholder="0" style="width: 25px;">
+                      <input class="subfield" type="text" name="attr_global_atkbonus" value="" placeholder="0" style="width: 25px;">
                       <span data-i18n="dmg:-u">DMG:</span>
-                      <input class="subfield" type="text" name="attr_global_damage_damage" value="" placeholder="0" style="width: 25px;">
+                      <input class="subfield" type="text" name="attr_global_dmgbonus" value="" placeholder="0" style="width: 25px;">
                       <span data-i18n="type:-u">TYPE:</span>
-                      <input class="subfield" type="text" name="attr_global_damage_type" placeholder="—" style="width: 50px;">
+                      <input class="subfield" type="text" name="attr_global_dmgtype" placeholder="—" style="width: 50px;">
                     </div>
                   </div>
                 </fieldset>
@@ -6767,38 +6767,63 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_globalattack = function(callback) {
-    getSectionIDs("tohitmod", function(ids) {
-      if(ids) {
-        var fields = {};
-        var attr_name_list = [];
-        ids.forEach(function(id) {
-          fields[id] = {};
-          attr_name_list.push(`repeating_tohitmod_${id}_global_attack_active_flag`, `repeating_tohitmod_${id}_global_attack_roll`, `repeating_tohitmod_${id}_global_attack_name`);
-        });
-        getAttrs(attr_name_list, function(attrs) {
-          var regex = /^repeating_tohitmod_(.+)_global_attack_(active_flag|roll|name)$/;
-          _.each(attrs, function(obj, name) {
-            var r = regex.exec(name);
-            if(r) {
-              fields[r[1]][r[2]] = obj;
+    console.log("UPDATING GLOBAL ATTACK");
+    var attrs_to_get = [];
+    getSectionIDs("tohitmod", function(idArray) {
+      _.each(idArray, function(id) {
+        attrs_to_get.push(`repeating_tohitmod_${id}_global_atkbonus`);
+        attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgbonus`);
+        attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgtype`);
+      });
+      getAttrs(attrs_to_get, function(attrs){
+        var update = {};
+        var global_atkbonus = 0;
+        var global_dmgbonus = 0;
+        var global_dmgtype = "";
+        _.each(idArray, function(id) {
+          if(attrs[`repeating_tohitmod_${id}_global_atkbonus`] && attrs[`repeating_tohitmod_${id}_global_atkbonus`] != "") {
+            if(attrs[`repeating_tohitmod_${id}_global_atkbonus`].indexOf("-") > -1) {
+              var global_atkbonus_display = attrs[`repeating_tohitmod_${id}_global_atkbonus`]
+              update[`repeating_tohitmod_${id}_global_atkbonus_display`] = global_atkbonus_display
+            } else {
+              var global_atkbonus_display = "+" + attrs[`repeating_tohitmod_${id}_global_atkbonus`]
+              update[`repeating_tohitmod_${id}_global_atkbonus_display`] = global_atkbonus_display
             }
-          });
-
-          var update = {global_attack_mod: ""};
-          console.log("GLOBALATTACK");
-          _.each(fields, function(element) {
-            if(element.active_flag != "0") {
-              if(element.roll && element.roll !== "") { update["global_attack_mod"] += element.roll + "[" + element.name + "]" + "+"; }
-            }
-          });
-          if(update["global_attack_mod"] !== "") {
-            update["global_attack_mod"] = "[[" + update["global_attack_mod"].replace(/\+(?=$)/, '') + "]]";
           }
-          setAttrs(update, {silent:true}, function() {
-            if(typeof callback == "function") callback();
-          });
+          setAttrs(update, {silent:true});
         });
-      }
+      });
+
+      // if(ids) {
+      //   var fields = {};
+      //   var attr_name_list = [];
+      //   ids.forEach(function(id) {
+      //     fields[id] = {};
+      //     attr_name_list.push(`repeating_tohitmod_${id}_global_attack_active_flag`, `repeating_tohitmod_${id}_global_attack_roll`, `repeating_tohitmod_${id}_global_attack_name`);
+      //   });
+      //   getAttrs(attr_name_list, function(attrs) {
+      //     var regex = /^repeating_tohitmod_(.+)_global_attack_(active_flag|roll|name)$/;
+      //     _.each(attrs, function(obj, name) {
+      //       var r = regex.exec(name);
+      //       if(r) {
+      //         fields[r[1]][r[2]] = obj;
+      //       }
+      //     });
+      //
+      //     var update = {global_attack_mod: ""};
+      //     _.each(fields, function(element) {
+      //       if(element.active_flag != "0") {
+      //         if(element.roll && element.roll !== "") { update["global_attack_mod"] += element.roll + "[" + element.name + "]" + "+"; }
+      //       }
+      //     });
+      //     if(update["global_attack_mod"] !== "") {
+      //       update["global_attack_mod"] = "[[" + update["global_attack_mod"].replace(/\+(?=$)/, '') + "]]";
+      //     }
+      //     setAttrs(update, {silent:true}, function() {
+      //       if(typeof callback == "function") callback();
+      //     });
+      //   });
+      // }
     });
   };
 
