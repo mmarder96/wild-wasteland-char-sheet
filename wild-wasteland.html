@@ -1001,8 +1001,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     data-i18n='unarmed-core'>Unarmed <span>[STR]</span></button>
                 </div>
               </div>
-              <input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
-              <div class="hidden textarea globalattack">
+              <!--<input type="hidden" class="toggleflag" name="attr_global_skill_mod_flag">
+               <div class="hidden textarea globalattack">
                 <span class="label" data-i18n="global-skill-u">GLOBAL SKILL MODIFIER</span>
                 <fieldset class="repeating_skillmod">
                   <div class="global-mod">
@@ -1024,7 +1024,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </div>
                   </div>
                 </fieldset>
-              </div>
+              </div> -->
               <div class="label">
                 <span data-i18n="skills-u">SKILLS</span>
               </div>
@@ -1079,7 +1079,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   value="@{wtype}&{template:simple} {{rname=^{luck-save-u}}} {{mod=@{luck_save_bonus}}} {{r1=[[@{d20}+@{luck_save_bonus}]]}} @{rtype}+@{luck_save_bonus}]]}} {{global=@{global_save_mod}}} @{charname_output}"
                   data-i18n="luck">Luck</button>
               </div>
-              <input type="hidden" class="toggleflag" name="attr_global_save_mod_flag">
+              <!-- <input type="hidden" class="toggleflag" name="attr_global_save_mod_flag">
               <div class="hidden textarea globalattack">
                 <span class="label" data-i18n="global-save-u" style="position: relative; padding-bottom: 5px;">GLOBAL SAVE MODIFIER</span>
                 <fieldset class="repeating_savemod">
@@ -1102,7 +1102,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </div>
                   </div>
                 </fieldset>
-              </div>
+              </div> -->
               <div class="label">
                 <span data-i18n="saving-throws-u">SAVING THROWS</span>
               </div>
@@ -1435,30 +1435,28 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </fieldset>
               <input type="hidden" class="toggleflag" name="attr_global_attack_mod_flag">
-              <div class="hidden textbox globalattack">
-                <span class="label" data-i18n="global-attack-u">GLOBAL ATTACK MODIFIER</span>
+              <div class="globalattack">
+                <span class="label" data-i18n="global-attack-u">GLOBAL ATTACK MODIFIERS</span>
                 <fieldset class="repeating_tohitmod">
-                  <div class="global-mod">
-                    <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                    <input type="checkbox" name="attr_global_attack_active_flag" value="1" class="active-flag">
-                    <div class="options">
-                      <div class="row">
-                        <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_attack_name" value="" placeholder="—">
-                      </div>
-                      <div class="row">
-                        <span data-i18n="roll:-u">ROLL:</span>
-                        <input type="text" name="attr_global_attack_roll" value="" placeholder="—">
-                      </div>
-                    </div>
-                    <div class="globaldisplay">
-                      <span name="attr_global_attack_roll"></span>
-                      [<span name="attr_global_attack_name"></span>]
+                  <div class="item">
+                    <!-- <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span> -->
+                    <input type="checkbox" name="attr_global_attack_active_flag" value="1" class="equipped">
+                    <input class="name" type="text" name="attr_global_attack_name" style="margin-left: 5px; width: 90px;">
+                    <input type="text" name="attr_global_attack_roll" readonly="readonly" style="width: 25px; text-align: center; margin-left: 1px">
+                    <input type="text" name="attr_global_attack_dmgtype" readonly="readonly" style="width: 80px;">
+                    <input class="inventorysubflag" type="checkbox" name="attr_options-flag"><span>y</span>
+                    <div class="subitem">
+                      <span data-i18n="atk:-u">ATK:</span>
+                      <input class="subfield" type="text" name="attr_global_attack_roll" value="" placeholder="0" style="width: 25px;">
+                      <span data-i18n="dmg:-u">DMG:</span>
+                      <input class="subfield" type="text" name="attr_global_damage_damage" value="" placeholder="0" style="width: 25px;">
+                      <span data-i18n="type:-u">TYPE:</span>
+                      <input class="subfield" type="text" name="attr_global_damage_type" placeholder="—" style="width: 50px;">
                     </div>
                   </div>
                 </fieldset>
               </div>
-              <input type="hidden" class="toggleflag" name="attr_global_damage_mod_flag">
+              <!-- <input type="hidden" class="toggleflag" name="attr_global_damage_mod_flag">
               <div class="hidden globalattack global-dmg">
                 <span class="label" data-i18n="global-damage-u">GLOBAL DAMAGE MODIFIER</span>
                 <fieldset class="repeating_damagemod">
@@ -1488,7 +1486,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </div>
                   </div>
                 </fieldset>
-              </div>
+              </div> -->
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
           </div>

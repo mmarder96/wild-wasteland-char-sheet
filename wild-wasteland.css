@@ -1055,6 +1055,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options-flag,
 .sheet-traits .sheet-options-flag,
 .sheet-attacks .sheet-inventorysubflag,
+.sheet-attacks .globalattacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
 .sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag,
@@ -3534,16 +3535,6 @@ span.sheet-spellconcentration {
   color: #F00;
 }
 
-.sheet-globalattack input[type="checkbox"] {
-  display: inline;
-  height: 12px;
-  width: 12px;
-  -webkit-appearance: checkbox;
-  -moz-appearance: checkbox;
-  margin-left: 5px;
-  margin-top: 10px;
-}
-
 .sheet-globalattack textarea {
   width: 95%;
   display: inline;
@@ -3552,7 +3543,6 @@ span.sheet-spellconcentration {
 }
 
 .sheet-globalattack .sheet-label {
-  margin-bottom: 5px;
   padding-top: 5px;
   color: #A0A0A0;
   border-top: 1px dotted #A0A0A0;
