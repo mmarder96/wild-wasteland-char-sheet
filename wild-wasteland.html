@@ -1273,8 +1273,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <input type="text" name="attr_atkdmgtype" style="width: 75px;" value="">
                   </button>
                   <button class= "atkroll_disabled" type="roll" name="roll_attack_disabled" value="" disabled>
-                    <input type="text" name="attr_atkbonus" style="width: 25px; text-align: center; margin-left: -3px" value="">
-                    <input type="text" name="attr_atkdmgtype" style="width: 80px;" value="">
+                    <input type="text" name="attr_atkbonus" style="width: 30px; text-align: center; margin-left: -3px" value="">
+                    <input type="text" name="attr_atkdmgtype" style="width: 75px;" value="">
                   </button>
 
                   <input type="hidden" name="attr_rollbase">
@@ -1411,7 +1411,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
                     <span style="width: 35px;" data-i18n="vs-dc:-u">VS DC:</span>
                     <select style="width: 30px;" name="attr_savedc">
-                      <!-- <option value="(@{spell_save_dc})" selected="selected" data-i18n="spell-u">SPELL</option> -->
                       <option value="(@{strength_mod}+8+@{pb})" data-i18n="str-u">STR</option>
                       <option value="(@{perception_mod}+8+@{pb})" data-i18n="per-u">PER</option>
                       <option value="(@{endurance_mod}+8+@{pb})" data-i18n="end-u">END</option>
@@ -1439,10 +1438,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span class="label" data-i18n="global-attack-u">GLOBAL ATTACK MODIFIERS</span>
                 <fieldset class="repeating_tohitmod">
                   <div class="item">
-                    <!-- <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span> -->
                     <input type="checkbox" name="attr_global_attack_active_flag" value="1" class="equipped">
                     <input class="name" type="text" name="attr_global_atkname" style="margin-left: 5px; width: 90px;">
-                    <input type="text" name="attr_global_atkbonus_display" readonly="readonly" style="width: 30px; text-align: center; margin-left: 1px; padding: 5px 0px 5px 0px;">
+                    <input type="text" name="attr_global_atkbonus_display" readonly="readonly" style="width: 30px; text-align: center; margin-left: 1px; padding: 4px 0px 4px 0px;">
                     <input type="text" name="attr_global_atkdmgtype" readonly="readonly" style="width: 75px;">
                     <input class="inventorysubflag" type="checkbox" name="attr_options-flag"><span>y</span>
                     <div class="subitem">
@@ -1456,37 +1454,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   </div>
                 </fieldset>
               </div>
-              <!-- <input type="hidden" class="toggleflag" name="attr_global_damage_mod_flag">
-              <div class="hidden globalattack global-dmg">
-                <span class="label" data-i18n="global-damage-u">GLOBAL DAMAGE MODIFIER</span>
-                <fieldset class="repeating_damagemod">
-                  <div class="global-mod">
-                    <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                    <input type="checkbox" name="attr_global_damage_active_flag" value="1" class="active-flag">
-                    <div class="options">
-                      <div class="row">
-                        <span data-i18n="name:-u">NAME:</span>
-                        <input type="text" name="attr_global_damage_name" value="" placeholder="—">
-                      </div>
-                      <div class="row">
-                        <span data-i18n="dmg:-u">DAMAGE:</span>
-                        <input type="text" name="attr_global_damage_damage" value="" placeholder="—">
-                      </div>
-                      <div class="row">
-                        <span data-i18n="type:-u">TYPE:</span>
-                        <input type="text" name="attr_global_damage_type" value="" placeholder="—">
-                      </div>
-                    </div>
-                    <div class="display">
-                      <span class="title" name="attr_global_damage_name"></span>
-                      <span class="subheader">
-                        <span name="attr_global_damage_damage"></span>
-                        <span name="attr_global_damage_type"></span>
-                      </span>
-                    </div>
-                  </div>
-                </fieldset>
-              </div> -->
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
           </div>
