@@ -5677,8 +5677,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           update["repeating_attack_" + attackid + "_atkdmgtype"] = dmg + dmgspacer + dmg2 + " ";
           update["repeating_attack_" + attackid + "_rollbase"] = rollbase;
 
-          console.log("UPDATE ITEM FROM ATTACK?");
-          console.log(((attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "") && (!source || (source && source != "item"))));
           if((attrs["repeating_attack_" + attackid + "_itemid"] && attrs["repeating_attack_" + attackid + "_itemid"] != "") && (!source || (source && source != "item"))) {
             var itemid = attrs["repeating_attack_" + attackid + "_itemid"];
             callbacks.push( function() {update_item_from_attack(itemid, attackid);} );
