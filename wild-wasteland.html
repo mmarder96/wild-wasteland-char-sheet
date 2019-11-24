@@ -1837,7 +1837,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="hidden" name="attr_arm_armordt">
                   <input type="hidden" name="attr_arm_type">
                   <input type="hidden" name="attr_arm_armorproperties">
-                  <input type="hidden" name="attr_arm_itemmodifers">
+                  <input type="hidden" name="attr_arm_itemmodifiers">
                   <input type="hidden" name="attr_arm_armorcontent">
                   <!--RESOURCE ATTRIBUTES-->
                   <input type="hidden" name="attr_itemresourceid">
@@ -5229,7 +5229,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_inventory_${itemid}_arm_armordt`,
       `repeating_inventory_${itemid}_arm_type`,
       `repeating_inventory_${itemid}_arm_armorproperties`,
-      `repeating_inventory_${itemid}_arm_itemmodifers`,
+      `repeating_inventory_${itemid}_arm_itemmodifiers`,
       `repeating_inventory_${itemid}_arm_armorcontent`
     ], function(attrs) {
       console.log('ARMOR ITEM ATTRS');
@@ -5248,7 +5248,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_armor_${armorid}_armordt`]          = attrs[`repeating_inventory_${itemid}_arm_armordt`];
       update[`repeating_armor_${armorid}_type`]             = attrs[`repeating_inventory_${itemid}_arm_type`];
       update[`repeating_armor_${armorid}_armorproperties`]  = attrs[`repeating_inventory_${itemid}_arm_armorproperties`];
-      update[`repeating_armor_${armorid}_itemmodifers`]     = attrs[`repeating_inventory_${itemid}_arm_itemmodifers`];
+      update[`repeating_armor_${armorid}_itemmodifiers`]     = attrs[`repeating_inventory_${itemid}_arm_itemmodifiers`];
       update[`repeating_armor_${armorid}_armorcontent`]     = attrs[`repeating_inventory_${itemid}_arm_armorcontent`];
 
       setAttrs(update, {silent: true});
@@ -5259,12 +5259,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log("UPDATING ITEM FROM ARMOR!");
 
     getAttrs([
-    `repeating_armor_${armorid}_armorname`,
-    `repeating_armor_${armorid}_armordt`,
-    `repeating_armor_${armorid}_type`,
-    `repeating_armor_${armorid}_armorproperties`,
-    `repeating_armor_${armorid}_itemmodifers`,
-    `repeating_armor_${armorid}_armorcontent`
+      `repeating_armor_${armorid}_armorname`,
+      `repeating_armor_${armorid}_armordt`,
+      `repeating_armor_${armorid}_type`,
+      `repeating_armor_${armorid}_armorproperties`,
+      `repeating_armor_${armorid}_itemmodifiers`,
+      `repeating_armor_${armorid}_armorcontent`
     ], function(attrs) {
       console.log('ARMOR ATTRIBUTES TO UPDATE ITEM');
       console.log(attrs);
@@ -5274,7 +5274,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_inventory_${itemid}_arm_armordt`]          = attrs[`repeating_armor_${armorid}_armordt`];
       update[`repeating_inventory_${itemid}_arm_type`]             = attrs[`repeating_armor_${armorid}_type`];
       update[`repeating_inventory_${itemid}_arm_armorproperties`]  = attrs[`repeating_armor_${armorid}_armorproperties`];
-      update[`repeating_inventory_${itemid}_arm_itemmodifers`]     = attrs[`repeating_armor_${armorid}_itemmodifers`];
+      update[`repeating_inventory_${itemid}_arm_itemmodifiers`]     = attrs[`repeating_armor_${armorid}_itemmodifiers`];
       update[`repeating_inventory_${itemid}_arm_armorcontent`]     = attrs[`repeating_armor_${armorid}_armorcontent`];
 
       setAttrs(update, {silent: true});
