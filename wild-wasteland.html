@@ -3992,12 +3992,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_attack_dmg2_flag();
   });
 
-  // update global damage on global damage mod change
-  on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
-    if(eventinfo.sourceType === "sheetworker") {return;}
-    update_globaldamage();
-  });
-
   on("change:global_damage_mod_flag", function(eventinfo) {
     getSectionIDs("damagemod", function(ids) {
       var update = {};
@@ -6738,12 +6732,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     var attrs_to_get = [];
     getSectionIDs("tohitmod", function(idArray) {
       _.each(idArray, function(id) {
+        attrs_to_get.push(`repeating_tohitmod_${id}_global_attack_active_flag`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_atkbonus`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgbonus`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgtype`);
       });
       getAttrs(attrs_to_get, function(attrs){
         var update = {};
+        var global_attack_mod = "";
+        var global_damage_mod_roll = "";
+        var global_damage_mod_type = "";
         _.each(idArray, function(id) {
           var global_atkbonus = "";
           var global_dmgbonus = "";
@@ -6751,12 +6749,19 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var global_atkdmgtype = "";
           if(attrs[`repeating_tohitmod_${id}_global_atkbonus`] && attrs[`repeating_tohitmod_${id}_global_atkbonus`] != "") {
             if(attrs[`repeating_tohitmod_${id}_global_atkbonus`].indexOf("-") > -1) {
-              global_atkbonus = attrs[`repeating_tohitmod_${id}_global_atkbonus`]
+              global_atkbonus = attrs[`repeating_tohitmod_${id}_global_atkbonus`];
             } else {
-              global_atkbonus = "+" + attrs[`repeating_tohitmod_${id}_global_atkbonus`]
+              global_atkbonus = "+" + attrs[`repeating_tohitmod_${id}_global_atkbonus`];
             }
           }
-          update[`repeating_tohitmod_${id}_global_atkbonus_display`] = global_atkbonus
+          update[`repeating_tohitmod_${id}_global_atkbonus_display`] = global_atkbonus;
+          if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
+          && attrs[`repeating_tohitmod_${id}_global_atkbonus`] && attrs[`repeating_tohitmod_${id}_global_atkbonus`] != "") {
+            global_attack_mod = (global_attack_mod === "")
+              ? attrs[`repeating_tohitmod_${id}_global_atkbonus`]
+              : global_attack_mod + "+" + attrs[`repeating_tohitmod_${id}_global_atkbonus`];
+          }
+
           if(attrs[`repeating_tohitmod_${id}_global_dmgbonus`] && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] != "") {
             global_dmgbonus = attrs[`repeating_tohitmod_${id}_global_dmgbonus`];
             if (attrs[`repeating_tohitmod_${id}_global_dmgtype`] && attrs[`repeating_tohitmod_${id}_global_dmgtype`] != "") {
@@ -6764,40 +6769,28 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           }
           update[`repeating_tohitmod_${id}_global_atkdmgtype`] = (global_dmgbonus != "") ? global_dmgbonus + " " + global_dmgtype : "";
+          if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
+          && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] != "") {
+            global_damage_mod_roll = (global_damage_mod_roll === "")
+              ? attrs[`repeating_tohitmod_${id}_global_dmgbonus`]
+              : global_damage_mod_roll + "+" + attrs[`repeating_tohitmod_${id}_global_dmgbonus`];
+          }
+          if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
+          && attrs[`repeating_tohitmod_${id}_global_dmgtype`] && attrs[`repeating_tohitmod_${id}_global_dmgtype`] != "") {
+            global_damage_mod_type = (global_damage_mod_type === "")
+              ? attrs[`repeating_tohitmod_${id}_global_dmgtype`]
+              : global_damage_mod_type + "/" + attrs[`repeating_tohitmod_${id}_global_dmgtype`];
+          }
         });
-        setAttrs(update, {silent:true});
+        update["global_attack_mod"] = `[[${global_attack_mod}]]`;
+        update["global_damage_mod_roll"] = global_damage_mod_roll;
+        update["global_damage_mod_crit"] = global_damage_mod_roll;
+        update["global_damage_mod_type"] = global_damage_mod_type;
+        console.log("GLOBAL ATTACK");
+        console.log(attrs);
+        console.log(update);
+        setAttrs(update, {silent:true}, () => {update_attacks("all");});
       });
-
-      // if(ids) {
-      //   var fields = {};
-      //   var attr_name_list = [];
-      //   ids.forEach(function(id) {
-      //     fields[id] = {};
-      //     attr_name_list.push(`repeating_tohitmod_${id}_global_attack_active_flag`, `repeating_tohitmod_${id}_global_attack_roll`, `repeating_tohitmod_${id}_global_attack_name`);
-      //   });
-      //   getAttrs(attr_name_list, function(attrs) {
-      //     var regex = /^repeating_tohitmod_(.+)_global_attack_(active_flag|roll|name)$/;
-      //     _.each(attrs, function(obj, name) {
-      //       var r = regex.exec(name);
-      //       if(r) {
-      //         fields[r[1]][r[2]] = obj;
-      //       }
-      //     });
-      //
-      //     var update = {global_attack_mod: ""};
-      //     _.each(fields, function(element) {
-      //       if(element.active_flag != "0") {
-      //         if(element.roll && element.roll !== "") { update["global_attack_mod"] += element.roll + "[" + element.name + "]" + "+"; }
-      //       }
-      //     });
-      //     if(update["global_attack_mod"] !== "") {
-      //       update["global_attack_mod"] = "[[" + update["global_attack_mod"].replace(/\+(?=$)/, '') + "]]";
-      //     }
-      //     setAttrs(update, {silent:true}, function() {
-      //       if(typeof callback == "function") callback();
-      //     });
-      //   });
-      // }
     });
   };
 
