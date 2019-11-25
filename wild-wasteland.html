@@ -6747,8 +6747,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       getAttrs(attrs_to_get, function(attrs){
         var update = {};
         var global_attack_mod = "";
-        var global_damage_mod_roll = "";
-        var global_damage_mod_type = "";
+        var global_damage_mod_roll = "0";
+        var global_damage_mod_type = "0";
         _.each(idArray, function(id) {
           var global_atkbonus = "";
           var global_dmgbonus = "";
@@ -6778,18 +6778,18 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           update[`repeating_tohitmod_${id}_global_atkdmgtype`] = (global_dmgbonus != "") ? global_dmgbonus + " " + global_dmgtype : "";
           if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
           && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] != "") {
-            global_damage_mod_roll = (global_damage_mod_roll === "")
+            global_damage_mod_roll = (global_damage_mod_roll === "0")
               ? attrs[`repeating_tohitmod_${id}_global_dmgbonus`] + '[' + attrs[`repeating_tohitmod_${id}_global_atkname`] + ']'
               : global_damage_mod_roll + "+" + attrs[`repeating_tohitmod_${id}_global_dmgbonus`] + '[' + attrs[`repeating_tohitmod_${id}_global_atkname`] + ']';
           }
           if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
           && attrs[`repeating_tohitmod_${id}_global_dmgtype`] && attrs[`repeating_tohitmod_${id}_global_dmgtype`] != "") {
-            global_damage_mod_type = (global_damage_mod_type === "")
+            global_damage_mod_type = (global_damage_mod_type === "0")
               ? attrs[`repeating_tohitmod_${id}_global_dmgtype`]
               : global_damage_mod_type + "/" + attrs[`repeating_tohitmod_${id}_global_dmgtype`];
           }
         });
-        update["global_attack_mod"] = `[[${global_attack_mod}]]`;
+        update["global_attack_mod"] = (global_attack_mod === "") ? "" : `[[${global_attack_mod}]]`;
         update["global_damage_mod_roll"] = global_damage_mod_roll;
         update["global_damage_mod_crit"] = global_damage_mod_roll;
         update["global_damage_mod_type"] = global_damage_mod_type;
