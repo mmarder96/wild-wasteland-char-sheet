@@ -1434,7 +1434,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </fieldset>
               <input type="hidden" class="toggleflag" name="attr_global_attack_mod_flag">
-              <div class="globalattack">
+              <div class="hidden textarea globalattack">
                 <span class="label" data-i18n="global-attack-u">GLOBAL ATTACK MODIFIERS</span>
                 <fieldset class="repeating_tohitmod">
                   <div class="item">
@@ -3990,6 +3990,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_attack:dmgtype change:repeating_weapons:dmgtype", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_attack_dmg2_flag();
+  });
+
+  // update global damage on global damage mod change
+  on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    update_globaldamage();
   });
 
   on("change:global_damage_mod_flag", function(eventinfo) {
@@ -6733,6 +6739,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     getSectionIDs("tohitmod", function(idArray) {
       _.each(idArray, function(id) {
         attrs_to_get.push(`repeating_tohitmod_${id}_global_attack_active_flag`);
+        attrs_to_get.push(`repeating_tohitmod_${id}_global_atkname`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_atkbonus`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgbonus`);
         attrs_to_get.push(`repeating_tohitmod_${id}_global_dmgtype`);
@@ -6772,8 +6779,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
           && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] && attrs[`repeating_tohitmod_${id}_global_dmgbonus`] != "") {
             global_damage_mod_roll = (global_damage_mod_roll === "")
-              ? attrs[`repeating_tohitmod_${id}_global_dmgbonus`]
-              : global_damage_mod_roll + "+" + attrs[`repeating_tohitmod_${id}_global_dmgbonus`];
+              ? attrs[`repeating_tohitmod_${id}_global_dmgbonus`] + '[' + attrs[`repeating_tohitmod_${id}_global_atkname`] + ']'
+              : global_damage_mod_roll + "+" + attrs[`repeating_tohitmod_${id}_global_dmgbonus`] + '[' + attrs[`repeating_tohitmod_${id}_global_atkname`] + ']';
           }
           if (attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] && attrs[`repeating_tohitmod_${id}_global_attack_active_flag`] === "1"
           && attrs[`repeating_tohitmod_${id}_global_dmgtype`] && attrs[`repeating_tohitmod_${id}_global_dmgtype`] != "") {
