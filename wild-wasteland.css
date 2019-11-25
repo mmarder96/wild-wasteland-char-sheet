@@ -484,7 +484,7 @@ button[type=roll] * {
   height: 100%;
   width: 100%;
   border-radius: 25%;
-  background:url("https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/master/images/atomic_symbol.png") left top no-repeat;
+  background:url("https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/atomic_symbol.png") left top no-repeat;
   background-size: contain;
   cursor: pointer;
   position: absolute;
@@ -656,7 +656,7 @@ button[type=roll] * {
 }
 
 .sheet-radiation div span.sheet-ex-description {
-  font-size: 9px;
+  font-size: 10px;
   line-height: 9px;
   text-align: left;
   width: 152px;
@@ -1055,6 +1055,7 @@ button[type=roll] * {
 .sheet-proficiencies .sheet-options-flag,
 .sheet-traits .sheet-options-flag,
 .sheet-attacks .sheet-inventorysubflag,
+.sheet-attacks .globalattacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
 .sheet-armor .sheet-inventorysubflag,
 .sheet-equipment .sheet-inventorysubflag,
@@ -1623,7 +1624,7 @@ span.sheet-spellconcentration {
 .sheet-global-mod .sheet-options input[type=text] {
   display: inline-block;
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   border-bottom: 1px solid #D3D3D3;
   padding: 0px;
   width: initial;
@@ -3031,9 +3032,10 @@ span.sheet-spellconcentration {
 }
 
 .sheet-equipment .sheet-weighttotal {
+  display: inline-block;
   position: relative;
   left: 5px;
-  width: 70px;
+  width: 105px;
 }
 
 .sheet-equipment .sheet-weighttotal input {
@@ -3533,16 +3535,6 @@ span.sheet-spellconcentration {
   color: #F00;
 }
 
-.sheet-globalattack input[type="checkbox"] {
-  display: inline;
-  height: 12px;
-  width: 12px;
-  -webkit-appearance: checkbox;
-  -moz-appearance: checkbox;
-  margin-left: 5px;
-  margin-top: 10px;
-}
-
 .sheet-globalattack textarea {
   width: 95%;
   display: inline;
@@ -3551,7 +3543,6 @@ span.sheet-spellconcentration {
 }
 
 .sheet-globalattack .sheet-label {
-  margin-bottom: 5px;
   padding-top: 5px;
   color: #A0A0A0;
   border-top: 1px dotted #A0A0A0;
