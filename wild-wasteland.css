@@ -407,6 +407,11 @@ button[type=roll]:hover *,
   color: #EC2127;
 }
 
+button[type=roll]:disabled,
+button[type=roll][disabled] * {
+  color: #999;
+}
+
 button[type=roll] * {
   pointer-events: none;
 }
@@ -958,12 +963,13 @@ button[type=roll] * {
 .sheet-proficiency .sheet-display button[type=roll] {
   background-color: transparent;
   color: black;
+  opacity: 1;
   border: none;
   background-image: none;
   text-shadow: none;
   box-shadow: none;
   padding: 0px;
-  margin: 0px;
+  margin: -3px 0px 0px 0px;
   font-weight: bold;
 }
 
@@ -3007,6 +3013,39 @@ span.sheet-spellconcentration {
 
 .sheet-item .sheet-name {
   width: 180px;
+}
+
+.sheet-item .sheet-cooldowncontainer {
+  display: inline-block;
+}
+
+.sheet-item .sheet-cooldowncontainer .sheet-cooldown {
+  opacity: 0;
+  height: 0px;
+  width: 0px;
+  pointer-events: none;
+  display: inline;
+  position: absolute;
+}
+
+.sheet-item .sheet-cooldowncontainer input[type="text"].sheet-cooldown,
+.sheet-item .sheet-cooldowncontainer input[type="text"].sheet-cooldowncur {
+  width: 22px;
+  text-align: center;
+}
+
+.sheet-item .sheet-cooldowncontainer:hover .sheet-cooldown,
+.sheet-item .sheet-cooldowncontainer .sheet-cooldown:focus {
+  opacity: 1;
+  height: 20px;
+  width: 22px;
+  pointer-events: auto;
+  position: static;
+}
+
+.sheet-item .sheet-cooldowncontainer:hover .sheet-cooldowncur,
+.sheet-item .sheet-cooldowncontainer .sheet-cooldown:focus ~ .sheet-cooldowncur {
+  display: none;
 }
 
 .sheet-item input[type="text"].sheet-weight {
