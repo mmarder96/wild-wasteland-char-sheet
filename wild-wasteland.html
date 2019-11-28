@@ -1257,8 +1257,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_attackswarningflag">
               <div class="header" style="height: auto;">
-                <input type="image" name="progress_cooldwon" src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png"
-                 style="width: 15px; margin: 0px 7px -3px 7px; vertical-align: inherit;" alt="cooldown symbol"/>
+                <button type="action" name="act_increment_cooldowns" style="background: transparent; border: none; margin-bottom: -3px;">
+                  <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/cooldown.png" style="width: 15px;" alt="cooldown symbol"/>
+                </button>
                 <span class="label" style="width: 95px; text-align: left;" data-i18n="attack-name-u">ATTACK NAME</span>
                 <span class="label" style="width: 30px; text-align: left;" data-i18n="atk-u">ATK</span>
                 <span class="label" style="width: 70px; text-align: left;" data-i18n="dmg-type-u">DMG/TYPE</span>
@@ -1267,12 +1268,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <input type="hidden" class="activeflag" name="attr_activeflag" value="0">
                 <div class="item">
                   <div class="cooldowncontainer">
-                  <input class="cooldown" type="text" name="attr_cooldown" style="margin-left: 3px;">
-                  <input type="hidden" name="attr_cooldowncur" value="0">
-                  <input type="text" class="cooldowncur" name="attr_cooldowncur" readonly="readonly" style="margin-left: 3px;">
+                    <input class="cooldown" type="text" name="attr_cooldown" style="margin-left: 3px;">
+                    <input type="hidden" name="attr_cooldowncur" value="0">
+                    <input type="text" class="cooldowncur" name="attr_cooldowncur" readonly="readonly" style="margin-left: 3px;">
                   </div>
                   <input class="name" type="text" name="attr_atkname" style="width: 90px;">
-                  <button class="atkroll" type="roll" name="roll_attack" value="@{rollbase}">
+                  <button class="atkroll" type="roll" name="roll_attack" value="@{rollbase}" onclick="increment_cooldowns()">
                     <input type="text" name="attr_atkbonus" style="width: 30px; text-align: center; margin-left: -3px" value="">
                     <input type="text" name="attr_atkdmgtype" style="width: 75px;" value="">
                   </button>
@@ -4361,6 +4362,22 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_passive_perception();
   });
 
+  on("change:repeating_attack:cooldown", function(eventinfo) {
+    var attackid = eventinfo.sourceAttribute.substring(17, 37);
+    var attrs_to_get = [`repeating_${attackid}_cooldown`];
+    getAttrs(attrs_to_get, function(attrs){
+      var update = {};
+      if (!isNaN(parseInt(attrs[`repeating_${attackid}_cooldown`],10))) {
+        update[`repeating_${attackid}_cooldowncur`] = parseInt(attrs[`repeating_${attackid}_cooldown`],10);
+      }
+      setAttrs(update, {silent:true});
+    });
+  });
+
+  on("clicked:increment_cooldowns", function() {
+    increment_cooldowns()
+  });
+
   on("remove:repeating_inventory", function(eventinfo) {
     var itemid = eventinfo.sourceAttribute.substring(20, 40);
     var attackids = eventinfo.removedInfo && eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] ? eventinfo.removedInfo["repeating_inventory_" + itemid + "_itemattackid"] : undefined;
@@ -5334,6 +5351,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       setAttrs(update, {silent: true});
     });
   };
+
+  var increment_cooldowns = function() {
+    attrs_to_get = [];
+    getSectionIDs("repeating_attack", function(attackids) {
+      _.each(attackids, function(id) {
+        attrs_to_get.push(`repeating_attack_${id}_cooldown`);
+        attrs_to_get.push(`repeating_attack_${id}_cooldowncur`);
+      });
+      getAttrs(attrs_to_get, function(attrs) {
+        var update = {};
+        _.each(attackids, function(id) {
+          var cooldown = parseInt(attrs[`repeating_attack_${id}_cooldown`],10);
+          var cooldowncur = parseInt(attrs[`repeating_attack_${id}_cooldowncur`],10);
+          cooldowncur = (cooldowncur === 0) ? cooldowncur = cooldown : cooldowncur -= 1;
+          update[`repeating_attack_${id}_cooldowncur`] = cooldowncur;
+        });
+        setAttrs(update, {silent:true});
+      });
+    });
+  }
 
   const update_attacks = (update_id, source) => {
     if (update_id.substring(0,1) === "-" && update_id.length === 20) {
