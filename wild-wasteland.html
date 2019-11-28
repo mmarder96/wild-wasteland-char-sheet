@@ -1108,79 +1108,49 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
           </div>
-          <!--
-          <div class="tool_proficiencies" style="margin-bottom: 10px; min-height: 50px; position: relative;">
-            <div class="top">
-              <span class="label" style="width: 106px;" data-i18n="tool-u">SKILL</span>
-              <span class="label" style="width: 85px;" data-i18n="attr-u">ATTRIBUTE</span>
-            </div>
-            <fieldset class="repeating_tool">
-              <div class="tool">
-                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                <div class="options">
-                  <div class="row">
-                    <span data-i18n="name:-u">NAME:</span>
-                    <input type="text" name="attr_toolname" style="width: 120px;">
+          <div class="textbox traits">
+            <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="complex">
+            <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
+            <div class="complex">
+              <fieldset class="repeating_traits">
+                <div class="trait">
+                  <button type="roll" name="roll_output" class="output" value="@{wtype}&{template:traits} @{charname_output} {{name=@{name}}} {{source=@{source}: @{source_type}}} {{description=@{description}}}">w</button>
+                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                  <input class="display-flag" type="checkbox" name="attr_display_flag">
+                  <div class="options">
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="name:-u">NAME:</span>
+                      <input type="text" name="attr_name" style="width: 120px;">
+                    </div>
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="source:-u">SOURCE:</span>
+                      <select name="attr_source">
+                        <option selected="selected" data-i18n="racial">Racial</option>
+                        <option data-i18n="trait">Trait</option>
+                        <option data-i18n="perk">Perk</option>
+                        <option data-i18n="background">Background</option>
+                        <option data-i18n="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="source-type:-u">SOURCE TYPE:</span>
+                      <input type="text" name="attr_source_type" style="width: 150px;" placeholder="—">
+                    </div>
+                    <div class="row">
+                      <textarea name="attr_description" style="min-height: 200px; height: 200px;"></textarea>
+                    </div>
                   </div>
-                  <div class="row">
-                    <span data-i18n="attr:-u">ATTRIBUTE:</span>
-                    <select name="attr_toolattr_base">
-                      <option value="@{strength_mod}" selected="selected" data-i18n="strength-u">STRENGTH</option>
-                      <option value="@{perception_mod}" selected="selected" data-i18n="perception-u">PERCEPTION</option>
-                      <option value="@{endurance_mod}" selected="selected" data-i18n="endurance-u">ENDURANCE</option>
-                      <option value="@{charisma_mod}" selected="selected" data-i18n="charisma-u">CHARISMA</option>
-                      <option value="@{intelligence_mod}" selected="selected" data-i18n="intelligence-u">INTELLIGENCE</option>
-                      <option value="@{agility_mod}" data-i18n="agility-u">AGILITY</option>
-                      <option value="@{luck_mod}" data-i18n="luck-u">LUCK</option>
-                      <option value="?{Attribute?|Strength,@{strength_mod}|Perception,@{perception_mod}|Endurance,@{endurance_mod}|Charisma,@{charisma_mod}|Intelligence,@{intelligence_mod}|Agility,@{agility_mod}}|Luck,@{luck_mod}}" data-i18n="query-attr-u">QUERY ATTRIBUTE</option>
-                    </select>
-                    <span data-i18n="mods:-u">MODS:</span>
-                    <input type="text" class="num" name="attr_tool_mod" title="@{tool_mod}" value="0">
-                  </div>
-                </div>
-                <div class="display">
-                  <button type="roll" name="roll_tool"
-                    value="@{wtype}&{template:simple} {{rname=@{toolname}}} {{mod=@{toolbonus}}} {{r1=[[@{d20}+@{toolbonus}]]}} @{rtype}+@{toolbonus}]]}} {{global=@{global_skill_mod}}} @{charname_output}">
-                    <span name="attr_toolname" style="width: 100px;"></span>
-                    <input type="hidden" name="attr_toolbonus">
-                    <input type="text" name="attr_toolattr" style="width: 120px;">
-                  </button>
-                </div>
-              </div>
-            </fieldset>
-            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
-              <span data-i18n="custom-skills-u" style="display: inline;">CUSTOM SKILLS</span>
-            </div>
-          </div>
-          -->
-          <div class="custom_mods" style="margin-bottom: 10px; min-height: 50px; position: relative;">
-            <div class="top">
-              <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
-                  alt="active symbol"></span>
-              <span style="width: 85px;" data-i18n="name-u">NAME</span>
-              <span style="width: 110px;" data-i18n="mods-u">MODS</span>
-            </div>
-            <fieldset class="repeating_modifiers">
-              <input type="hidden" class="activeflag" name="attr_active">
-              <div class="mod" style="margin-bottom: 5px;">
-                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                <div class="display">
-                  <input class="equipped" type="checkbox" name="attr_active" value="1">
-                  <input class="name" type="text" name="attr_modname" style="width: 85px;">
-                  <input type="hidden" name="attr_modifiers">
-                  <span name="attr_modifiers" style="width: 110px;"></span>
-                </div>
-                <div class="options">
-                  <div class="row">
-                    <span class="label" data-i18n="mods:-u">MODS:</span>
-                    <textarea class="subtextarea" name="attr_modifiers"></textarea>
+                  <div class="display" style="margin-bottom: 2px;">
+                    <span class="title" name="attr_name"></span>
+                    <span class="subheader">
+                      <span name="attr_source"></span><span>: </span><span name="attr_source_type"></span>
+                    </span>
+                    <span class="desc" name="attr_description"></span>
                   </div>
                 </div>
-              </div>
-            </fieldset>
-            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
-              <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
+              </fieldset>
             </div>
+            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">PERKS & TRAITS</span>
           </div>
         </div>
         <div class="col col2">
@@ -1211,7 +1181,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 data-i18n="death-saves-u">DEATH SAVES</button>
             </div>
           </div>
-
           <div class="hp">
             <div class="top">
               <span data-i18n="hp-max-u">Hit Point Maximum</span>
@@ -1220,7 +1189,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <input type="number" name="attr_hp" title="@{hp}" step="1" min="0">
             <span class="label" data-i18n="hp-current-u">CURRENT HIT POINTS</span>
           </div>
-
           <div class="def-dt-speed-container">
             <div class="def">
               <input class="sheet-no_events" type="text" name="attr_def" title="@{def}">
@@ -1235,7 +1203,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span class="label" data-i18n="speed-u">SPEED</span>
             </div>
           </div>
-
           <input type="hidden" class="radiation-toggle" name="attr_radiation_toggle" value="0">
           <div class="radiation" style="position: relative;">
             <input type="number" name="attr_radiation_level" step="1" min="0" max="10">
@@ -1249,7 +1216,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" data-i18n="radiation-u">RADIATION LEVEL</span>
           </div>
-
           <input type="hidden" class="ammoflag" name="attr_ammotracking">
           <div class="attacks">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
@@ -1462,7 +1428,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
           </div>
-
           <div class="weapons">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
             <textarea class="simple" name="attr_weapons"></textarea>
@@ -1609,27 +1574,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
           </div>
-
-          <input type="hidden" class="toggleflag" name="attr_global_dt_mod_flag">
-          <div class="equipment hidden">
-            <div class="textarea globalattack acmod">
-              <fieldset class="repeating_acmod">
-                <div class="global-mod">
-                  <input type="checkbox" name="attr_options-flag" class="options-flag" checked="checked" style="top: -15px;"><span>y</span>
-                  <input type="checkbox" name="attr_global_dt_active_flag" value="1" class="active-flag">
-                  <div class="options">
-                    <label>Value: <input type="number" name="attr_global_dt_val" placeholder="1" step="1"></label>
-                    <label>Name: <input type="text" name="attr_global_dt_name" placeholder="—"></label>
-                  </div>
-                  <div class="display">
-                    <span class="title"><span name="attr_global_dt_val"></span> [<span name="attr_global_dt_name"></span>]</span>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <span class="label" data-i18n="global-dt-u">GLOBAL DT MODIFIER</span>
-          </div>
-
           <div class="armor">
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
             <textarea class="simple" name="attr_armor"></textarea>
@@ -1693,8 +1637,81 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="armor-u">ARMOR</span>
           </div>
-
-          <div class="equipment">
+          <div class="custom_mods" style="margin-bottom: 10px; min-height: 50px; position: relative;">
+            <div class="top">
+              <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
+                  alt="active symbol"></span>
+              <span style="width: 85px;" data-i18n="name-u">NAME</span>
+              <span style="width: 110px;" data-i18n="mods-u">MODS</span>
+            </div>
+            <fieldset class="repeating_modifiers">
+              <input type="hidden" class="activeflag" name="attr_active">
+              <div class="mod" style="margin-bottom: 5px;">
+                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                <div class="display">
+                  <input class="equipped" type="checkbox" name="attr_active" value="1">
+                  <input class="name" type="text" name="attr_modname" style="width: 85px;">
+                  <input type="hidden" name="attr_modifiers">
+                  <span name="attr_modifiers" style="width: 110px;"></span>
+                </div>
+                <div class="options">
+                  <div class="row">
+                    <span class="label" data-i18n="mods:-u">MODS:</span>
+                    <textarea class="subtextarea" name="attr_modifiers"></textarea>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
+              <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
+            </div>
+          </div>
+        </div>
+        <div class="col col3">
+          <div class="resources">
+            <div class="hdice-dsaves-container" style="width: 246px;">
+              <div class="subcontainer" style="height: 64px; width: 119px;">
+                <div class="top">
+                  <span style="margin-left: 5px;" data-i18n="total">Total</span>
+                  <input type="text" name="attr_class_resource_max" title="@{class_resource_max}">
+                </div>
+                <input type="number" name="attr_class_resource" title="@{class_resource}" style="margin-bottom: -6px;">
+                <input type="text" class="label" name="attr_class_resource_name" title="@{class_resource_name}" placeholder="CLASS RESOURCE" data-i18n-placeholder="class-resource-u">
+              </div>
+              <div class="subcontainer" style="height: 64px; width: 119px; float: right;">
+                <div class="top">
+                  <span style="margin-left: 5px;" data-i18n="total">Total</span>
+                  <input type="text" name="attr_other_resource_max" title="@{other_resource_max}">
+                </div>
+                <input type="number" name="attr_other_resource" title="@{other_resource}" style="margin-bottom: -6px;">
+                <input type="text" class="label" name="attr_other_resource_name" title="@{other_resource_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
+                <input type="hidden" name="attr_other_resource_itemid">
+              </div>
+            </div>
+            <fieldset class="repeating_resource">
+              <div class="hdice-dsaves-container" style="width: 246px;">
+                <div class="subcontainer" style="height: 64px; width: 119px;">
+                  <div class="top">
+                    <span data-i18n="total">Total</span>
+                    <input type="text" name="attr_resource_left_max" title="@{repeating_resource_left_max}">
+                  </div>
+                  <input type="number" name="attr_resource_left" title="@{repeating_resource_left}" style="margin-bottom: -6px;">
+                  <input type="text" class="label" name="attr_resource_left_name" title="@{repeating_resource_left_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
+                  <input type="hidden" name="attr_resource_left_itemid">
+                </div>
+                <div class="subcontainer" style="height: 64px; width: 119px;">
+                  <div class="top">
+                    <span data-i18n="total">Total</span>
+                    <input type="text" name="attr_resource_right_max" title="@{repeating_resource_right_max}">
+                  </div>
+                  <input type="number" name="attr_resource_right" title="@{repeating_resource_right}" style="margin-bottom: -6px;">
+                  <input type="text" class="label" name="attr_resource_right_name" title="@{repeating_resource_right_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
+                  <input type="hidden" name="attr_resource_right_itemid">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="equipment" style="min-height: 541px; width: 95%; margin-left: 2px; padding-left: 5px;">
             <div class="money">
               <div class="coin">
                 <span class="label" style="width: 15px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/money.png" style="width: 15px; margin-bottom: -4px; vertical-align: inherit;"
@@ -1826,135 +1843,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
-          </div>
-        </div>
-        <div class="col col3">
-          <!-- <div class="textbox pibf">
-            <input class="options-flag" type="checkbox" name="attr_options-flag-personality" checked="checked"><span>y</span>
-            <div class="options">
-              <textarea name="attr_personality_traits" style="min-height: 50px; height: 50px;"></textarea>
-            </div>
-            <div class="display">
-              <span name="attr_personality_traits"></span>
-            </div>
-            <span class="label" data-i18n="personality-traits-u">PERSONALITY TRAITS</span>
-          </div>
-          <div class="textbox pibf">
-            <input class="options-flag" type="checkbox" name="attr_options-flag-ideals" checked="checked"><span>y</span>
-            <div class="options">
-              <textarea name="attr_ideals"></textarea>
-            </div>
-            <div class="display">
-              <span name="attr_ideals"></span>
-            </div>
-            <span class="label" data-i18n="ideals-u">IDEALS</span>
-          </div>
-          <div class="textbox pibf">
-            <input class="options-flag" type="checkbox" name="attr_options-flag-bonds" checked="checked"><span>y</span>
-            <div class="options">
-              <textarea name="attr_bonds"></textarea>
-            </div>
-            <div class="display">
-              <span name="attr_bonds"></span>
-            </div>
-            <span class="label" data-i18n="bonds-u">BONDS</span>
-          </div>
-          <div class="textbox pibf">
-            <input class="options-flag" type="checkbox" name="attr_options-flag-flaws" checked="checked"><span>y</span>
-            <div class="options">
-              <textarea name="attr_flaws" style="min-height: 46px; height: 46px;"></textarea>
-            </div>
-            <div class="display">
-              <span name="attr_flaws"></span>
-            </div>
-            <span class="label" data-i18n="flaws-u">FLAWS</span>
-          </div>-->
-          <div class="resources">
-            <div class="hdice-dsaves-container" style="width: 246px;">
-              <div class="subcontainer" style="height: 64px; width: 119px;">
-                <div class="top">
-                  <span style="margin-left: 5px;" data-i18n="total">Total</span>
-                  <input type="text" name="attr_class_resource_max" title="@{class_resource_max}">
-                </div>
-                <input type="number" name="attr_class_resource" title="@{class_resource}" style="margin-bottom: -6px;">
-                <input type="text" class="label" name="attr_class_resource_name" title="@{class_resource_name}" placeholder="CLASS RESOURCE" data-i18n-placeholder="class-resource-u">
-              </div>
-              <div class="subcontainer" style="height: 64px; width: 119px; float: right;">
-                <div class="top">
-                  <span style="margin-left: 5px;" data-i18n="total">Total</span>
-                  <input type="text" name="attr_other_resource_max" title="@{other_resource_max}">
-                </div>
-                <input type="number" name="attr_other_resource" title="@{other_resource}" style="margin-bottom: -6px;">
-                <input type="text" class="label" name="attr_other_resource_name" title="@{other_resource_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
-                <input type="hidden" name="attr_other_resource_itemid">
-              </div>
-            </div>
-            <fieldset class="repeating_resource">
-              <div class="hdice-dsaves-container" style="width: 246px;">
-                <div class="subcontainer" style="height: 64px; width: 119px;">
-                  <div class="top">
-                    <span data-i18n="total">Total</span>
-                    <input type="text" name="attr_resource_left_max" title="@{repeating_resource_left_max}">
-                  </div>
-                  <input type="number" name="attr_resource_left" title="@{repeating_resource_left}" style="margin-bottom: -6px;">
-                  <input type="text" class="label" name="attr_resource_left_name" title="@{repeating_resource_left_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
-                  <input type="hidden" name="attr_resource_left_itemid">
-                </div>
-                <div class="subcontainer" style="height: 64px; width: 119px;">
-                  <div class="top">
-                    <span data-i18n="total">Total</span>
-                    <input type="text" name="attr_resource_right_max" title="@{repeating_resource_right_max}">
-                  </div>
-                  <input type="number" name="attr_resource_right" title="@{repeating_resource_right}" style="margin-bottom: -6px;">
-                  <input type="text" class="label" name="attr_resource_right_name" title="@{repeating_resource_right_name}" placeholder="OTHER RESOURCE" data-i18n-placeholder="other-resource-u">
-                  <input type="hidden" name="attr_resource_right_itemid">
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="textbox traits" style="min-height: 545px;">
-            <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="complex">
-            <textarea class="sheet-simple" name="attr_features_and_traits" style="min-height: 450px; height: 450px;"></textarea>
-            <div class="complex">
-              <fieldset class="repeating_traits">
-                <div class="trait">
-                  <button type="roll" name="roll_output" class="output" value="@{wtype}&{template:traits} @{charname_output} {{name=@{name}}} {{source=@{source}: @{source_type}}} {{description=@{description}}}">w</button>
-                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                  <input class="display-flag" type="checkbox" name="attr_display_flag">
-                  <div class="options">
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="name:-u">NAME:</span>
-                      <input type="text" name="attr_name" style="width: 120px;">
-                    </div>
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="source:-u">SOURCE:</span>
-                      <select name="attr_source">
-                        <option selected="selected" data-i18n="racial">Racial</option>
-                        <option data-i18n="trait">Trait</option>
-                        <option data-i18n="perk">Perk</option>
-                        <option data-i18n="background">Background</option>
-                        <option data-i18n="other">Other</option>
-                      </select>
-                    </div>
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="source-type:-u">SOURCE TYPE:</span>
-                      <input type="text" name="attr_source_type" style="width: 150px;" placeholder="—">
-                    </div>
-                    <div class="row">
-                      <textarea name="attr_description" style="min-height: 200px; height: 200px;"></textarea>
-                    </div>
-                  </div>
-                  <div class="display" style="margin-bottom: 2px;">
-                    <span class="title" name="attr_name"></span>
-                    <span class="subheader">
-                      <span name="attr_source"></span><span>: </span><span name="attr_source_type"></span>
-                    </span>
-                    <span class="desc" name="attr_description"></span>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">PERKS & TRAITS</span>
           </div>
           <input type="hidden" class="missing-info-flag" name="attr_missing_info">
           <div class="missing-info">
