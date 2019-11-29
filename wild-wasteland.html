@@ -1109,7 +1109,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
           </div>
-          <div class="textbox traits">
+          <div class="textbox traits" style="min-height: 20px; width: 95%;">
             <input type="hidden" class="traitsflag" name="attr_simpletraits" value="0">
             <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
             <div class="complex">
@@ -1229,6 +1229,39 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span class="ex-description" name="attr_radiation_6"></span>
             </div>
             <span class="label" data-i18n="radiation-u">RADIATION LEVEL</span>
+          </div>
+          <div class="custom_mods">
+            <input type="hidden" class="modsflag" name="attr_simplemods" value="0">
+            <textarea class="simple" name="attr_global_mods"></textarea>
+            <div class="complex">
+              <div class="top">
+                <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
+                    alt="active symbol"></span>
+                <span style="width: 85px;" data-i18n="name-u">NAME</span>
+                <span style="width: 110px;" data-i18n="mods-u">MODS</span>
+              </div>
+              <fieldset class="repeating_modifiers">
+                <input type="hidden" class="activeflag" name="attr_active">
+                <div class="mod" style="margin-bottom: 5px;">
+                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                  <div class="display">
+                    <input class="equipped" type="checkbox" name="attr_active" value="1">
+                    <input class="name" type="text" name="attr_modname" style="width: 85px;">
+                    <input type="hidden" name="attr_modifiers">
+                    <span name="attr_modifiers" style="width: 110px;"></span>
+                  </div>
+                  <div class="options">
+                    <div class="row">
+                      <span class="label" data-i18n="mods:-u">MODS:</span>
+                      <textarea class="subtextarea" name="attr_modifiers"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
+              <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
+            </div>
           </div>
           <input type="hidden" class="ammoflag" name="attr_ammotracking" value="0">
           <div class="attacks">
@@ -1391,8 +1424,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="Endurance" data-i18n="end-u">END</option>
                       <option value="Charisma" data-i18n="cha-u">CHA</option>
                       <option value="Intelligence" data-i18n="int-u">INT</option>
-                      <option value="Agility" data-i18n="cha-u">AGL</option>
-                      <option value="Luck" data-i18n="cha-u">LUK</option>
+                      <option value="Agility" data-i18n="agl-u">AGL</option>
+                      <option value="Luck" data-i18n="luk-u">LUK</option>
                     </select>
                     <span style="width: 35px;" data-i18n="vs-dc:-u">VS DC:</span>
                     <select style="width: 30px;" name="attr_savedc">
@@ -1650,39 +1683,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </fieldset>
             </div>
             <span class="label" style="margin-top: 0px; bottom: 0px;" data-i18n="armor-u">ARMOR</span>
-          </div>
-          <div class="custom_mods">
-            <input type="hidden" class="modsflag" name="attr_simplemods" value="0">
-            <textarea class="simple" name="attr_global_mods"></textarea>
-            <div class="complex">
-              <div class="top">
-                <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
-                    alt="active symbol"></span>
-                <span style="width: 85px;" data-i18n="name-u">NAME</span>
-                <span style="width: 110px;" data-i18n="mods-u">MODS</span>
-              </div>
-              <fieldset class="repeating_modifiers">
-                <input type="hidden" class="activeflag" name="attr_active">
-                <div class="mod" style="margin-bottom: 5px;">
-                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                  <div class="display">
-                    <input class="equipped" type="checkbox" name="attr_active" value="1">
-                    <input class="name" type="text" name="attr_modname" style="width: 85px;">
-                    <input type="hidden" name="attr_modifiers">
-                    <span name="attr_modifiers" style="width: 110px;"></span>
-                  </div>
-                  <div class="options">
-                    <div class="row">
-                      <span class="label" data-i18n="mods:-u">MODS:</span>
-                      <textarea class="subtextarea" name="attr_modifiers"></textarea>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
-              <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
-            </div>
           </div>
         </div>
         <div class="col col3">
@@ -2041,7 +2041,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
             </div> -->
             <div class="row">
-              <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
+              <input type="checkbox" name="attr_global_attack_mod_flag" value="1">
               <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
             </div>
             <div class="row">

@@ -960,6 +960,7 @@ button[type=roll] * {
   display: inline-block;
 }
 
+.sheet-custom_mods,
 .sheet-attacks,
 .sheet-weapons {
   min-height: 50px;
@@ -2611,10 +2612,6 @@ span.sheet-spellconcentration {
   content: ")";
 }
 
-.sheet-traits {
-  min-height: 20px;
-}
-
 .sheet-npc .sheet-display .sheet-traits .sheet-trait,
 .sheet-npc .sheet-reaction .sheet-trait {
   position: relative;
@@ -3087,7 +3084,7 @@ span.sheet-spellconcentration {
   font-size: 10px;
   padding: 0px 5px 0px 5px;
   min-height: 32px;
-  height: 32px;
+  height: 37px;
   margin: 0px;
 }
 
