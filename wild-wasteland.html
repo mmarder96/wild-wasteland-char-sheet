@@ -1110,7 +1110,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
           </div>
           <div class="textbox traits">
-            <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="0">
+            <input type="hidden" class="traitsflag" name="attr_simpletraits" value="0">
             <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
             <div class="complex">
               <fieldset class="repeating_traits">
@@ -1151,7 +1151,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </fieldset>
             </div>
-            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">PERKS & TRAITS</span>
+            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; bottom: 0px;">PERKS & TRAITS</span>
           </div>
         </div>
         <div class="col col2">
@@ -1232,7 +1232,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
           </div>
           <input type="hidden" class="ammoflag" name="attr_ammotracking" value="0">
           <div class="attacks">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
+            <input type="hidden" class="attacksflag" name="attr_simpleattacks" value="0">
             <textarea class="simple" name="attr_attacks"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_attackswarningflag">
@@ -1443,7 +1443,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
           </div>
           <div class="weapons">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
+            <input type="hidden" class="weaponsflag" name="attr_simpleweapons" value="0">
             <textarea class="simple" name="attr_weapons"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
@@ -1589,7 +1589,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
           </div>
           <div class="armor">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
+            <input type="hidden" class="armorflag" name="attr_simplearmor" value="0">
             <textarea class="simple" name="attr_armor"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_armorwarningflag">
@@ -1649,33 +1649,37 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </fieldset>
             </div>
-            <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="armor-u">ARMOR</span>
+            <span class="label" style="margin-top: 0px; bottom: 0px;" data-i18n="armor-u">ARMOR</span>
           </div>
-          <div class="custom_mods" style="margin-bottom: 10px; min-height: 50px; position: relative;">
-            <div class="top">
-              <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
-                  alt="active symbol"></span>
-              <span style="width: 85px;" data-i18n="name-u">NAME</span>
-              <span style="width: 110px;" data-i18n="mods-u">MODS</span>
-            </div>
-            <fieldset class="repeating_modifiers">
-              <input type="hidden" class="activeflag" name="attr_active">
-              <div class="mod" style="margin-bottom: 5px;">
-                <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                <div class="display">
-                  <input class="equipped" type="checkbox" name="attr_active" value="1">
-                  <input class="name" type="text" name="attr_modname" style="width: 85px;">
-                  <input type="hidden" name="attr_modifiers">
-                  <span name="attr_modifiers" style="width: 110px;"></span>
-                </div>
-                <div class="options">
-                  <div class="row">
-                    <span class="label" data-i18n="mods:-u">MODS:</span>
-                    <textarea class="subtextarea" name="attr_modifiers"></textarea>
+          <div class="custom_mods">
+            <input type="hidden" class="modsflag" name="attr_simplemods" value="0">
+            <textarea class="simple" name="attr_global_mods"></textarea>
+            <div class="complex">
+              <div class="top">
+                <span style="width: 20px; padding-left: 5px"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
+                    alt="active symbol"></span>
+                <span style="width: 85px;" data-i18n="name-u">NAME</span>
+                <span style="width: 110px;" data-i18n="mods-u">MODS</span>
+              </div>
+              <fieldset class="repeating_modifiers">
+                <input type="hidden" class="activeflag" name="attr_active">
+                <div class="mod" style="margin-bottom: 5px;">
+                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                  <div class="display">
+                    <input class="equipped" type="checkbox" name="attr_active" value="1">
+                    <input class="name" type="text" name="attr_modname" style="width: 85px;">
+                    <input type="hidden" name="attr_modifiers">
+                    <span name="attr_modifiers" style="width: 110px;"></span>
+                  </div>
+                  <div class="options">
+                    <div class="row">
+                      <span class="label" data-i18n="mods:-u">MODS:</span>
+                      <textarea class="subtextarea" name="attr_modifiers"></textarea>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </fieldset>
+              </fieldset>
+            </div>
             <div class="label" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
               <span data-i18n="custom-mods-u" style="display: inline;">CUSTOM MODIFIERS</span>
             </div>
@@ -1734,7 +1738,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
             <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
-            <textarea class="simple" name="attr_equipment"></textarea>
+            <textarea class="simple" name="attr_equipment" style="min-height: 500px;"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_armorwarningflag">
               <div class="warning">
@@ -1857,7 +1861,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span class="encumb over" data-i18n="over-encumbered-u">OVER ENCUMBERED</span>
               </div>
             </div>
-            <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
+            <span class="label" style="margin-top: 0px; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
           </div>
           <input type="hidden" class="missing-info-flag" name="attr_missing_info">
           <div class="missing-info">
@@ -1988,6 +1992,106 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
         </div>
       <div class="body">
         <div class="col col1">
+          <div class="general_options">
+            <div class="version">
+              <span data-i18n="version">v</span>
+              <input type="text" name="attr_version">
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_npc" value="1">
+              <span data-i18n="npc-u">NPC</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_dtype" value="1">
+              <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
+              <!-- <select class="dtype" name="attr_dtype">
+                <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
+                <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
+              </select> -->
+            </div>
+            <!-- <div class="row">
+              <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
+              <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
+            </div> -->
+            <!-- <div class="row">
+              <span data-i18n="tag-bonus:-u">TAG SKILL BONUS:</span>
+              <select class="dtype" name="attr_pb_type">
+                <option value="level" data-i18n="by-level">By Level (Default)</option>
+                <option value="die" data-i18n="prof-die">Proficency Die (DMG)</option>
+                <option value="custom" data-i18n="custom">Custom</option>
+              </select>
+              <input type="hidden" name="attr_pb_type">
+              <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
+            </div> -->
+            <div class="row">
+              <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
+              <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_charname_output" value="{{charname=@{character_name}}}" checked>
+              <span data-i18n="add-char-to-templates-u">ADD CHARACTER NAME TO TEMPLATES</span>
+              <!-- <select class="dtype" name="attr_charname_output">
+                <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
+                <option value="charname=@{character_name}" data-i18n="off">Off</option>
+              </select> -->
+            </div>
+            <div class="row">
+              <!-- <input type="checkbox" name="attr_level_calculations" value="1">
+              <span data-i18n="level-calculations:-u">AUTO LEVEL CALCULATIONS</span>
+              <select class="dtype" name="attr_level_calculations">
+                <option value="on" selected="selected" data-i18n="on">On</option>
+                <option value="off" data-i18n="off">Off</option>
+              </select> -->
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_encumberance_setting" value="1">
+              <span data-i18n="advanced-encumbrance-u">ADVANCED ENCUMBRANCE</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simpletraits" value="1">
+              <span data-i18n="simple-perks-traits-u">SIMPLE PERKS & TRAITS</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simpleattacks" value="1">
+              <span data-i18n="simple-attacks-u">SIMPLE ATTACKS</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simpleweapons" value="1">
+              <span data-i18n="simple-weapons-u">SIMPLE WEAPONS</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simplearmor" value="1">
+              <span data-i18n="simple-armor-u">SIMPLE ARMOR</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simpleinventory" value="1">
+              <span data-i18n="simple-inventory-u">SIMPLE INVENTORY</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_simplemods" value="1">
+              <span data-i18n="simple-custom-mods-u">SIMPLE CUSTOM MODS</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_ammotracking" value="1">
+              <span data-i18n="ammo-tracking-u">AMMO TRACKING</span>
+              <!-- <select name="attr_ammotracking">
+                <option value="on" data-i18n="on">On</option>
+                <option value="off" selected="selected" data-i18n="off">Off</option>
+              </select> -->
+              <span data-i18n-title="api-required-title" data-i18n="api-required-u" title="Try it now with easy one click API installation available with your Pro subscription." style="color:#666; cursor:help;">(API REQUIRED)</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_exhaustion_toggle" value="1" checked>
+              <span data-i18n="exhaustion-setting-u">SHOW EXHAUSTION TRACKING</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_radiation_toggle" value="1" checked>
+              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING</span>
+            </div>
+            <div class="row title">
+              <span data-i18n="general-opts-u">GENERAL OPTIONS</span>
+            </div>
+          </div>
           <div class="attribute_options" style="width: 234px;">
             <div class="row skill">
               <span data-i18n="strength-u">STRENGTH</span>
@@ -2018,16 +2122,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span>+</span><input type="text" class="num" name="attr_luck_bonus" value="0" placeholder="0" title="@{luck_bonus}">
             </div>
             <div class="row">
-              <span data-i18n="pass-perc-mod:-u">PASSIVE PERCEPTION MODIFIER:</span>
-              <input type="text" class="num" name="attr_passive_perception_mod" placeholder="0" value="0">
-            </div>
-            <div class="row">
-              <span data-i18n="critical-strike-mod:-u">CRITICAL STRIKE MODIFIER:</span>
-              <input type="text" class="num" name="attr_critical_strike_mod" placeholder="0" value="0">
-            </div>
-            <div class="row">
-              <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
-              <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
+              <input type="checkbox" name="attr_init_tiebreaker" value="@{agility}/100">
+              <span data-i18n="add-agl-tiebreaker-u">ADD AGL TIEBREAKER TO INITIATIVE</span>
             </div>
             <div class="row">
               <span data-i18n="initiative-style:-u">INITIATIVE STYLE:</span>
@@ -2038,64 +2134,28 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </select>
             </div>
             <div class="row">
-              <input type="checkbox" name="attr_init_tiebreaker" value="@{agility}/100">
-              <span data-i18n="add-agl-tiebreaker-u">ADD AGL TIEBREAKER TO INITIATIVE</span>
+              <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
+              <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
             </div>
             <div class="row">
-              <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
+              <span data-i18n="pass-perc-mod:-u">PASSIVE PERCEPTION MODIFIER:</span>
+              <input type="text" class="num" name="attr_passive_perception_mod" placeholder="0" value="0">
             </div>
-            <fieldset class="repeating_hpmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
-                <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source" style="width: 100px;">
-                <span data-i18n="mod:-u">MOD:</span>
-                <input type="text" name="attr_mod" class="num">
-              </div>
-            </fieldset>
             <div class="row">
-              <span data-i18n="defmods:-u">DEFENSE MODIFIERS:</span>
+              <span data-i18n="critical-strike-mod:-u">CRITICAL STRIKE MODIFIER:</span>
+              <input type="text" class="num" name="attr_critical_strike_mod" placeholder="0" value="0">
             </div>
-            <fieldset class="repeating_defmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
-                <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source" style="width: 100px;">
-                <span data-i18n="mod:-u">MOD:</span>
-                <input type="text" name="attr_mod" class="num">
-              </div>
-            </fieldset>
-            <div class="row">
-              <span data-i18n="dtmods:-u">DT MODIFIERS:</span>
-            </div>
-            <fieldset class="repeating_dtmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
-                <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source" style="width: 100px;">
-                <span data-i18n="mod:-u">MOD:</span>
-                <input type="text" name="attr_mod" class="num">
-              </div>
-            </fieldset>
-            <div class="row">
-              <span data-i18n="spdmods:-u">SPEED MODIFIERS:</span>
-            </div>
-            <fieldset class="repeating_spdmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
-                <span data-i18n="source:-u">SOURCE:</span>
-                <input type="text" name="attr_source" style="width: 100px;">
-                <span data-i18n="mod:-u">MOD:</span>
-                <input type="text" name="attr_mod" class="num">
-              </div>
-            </fieldset>
-            <div class="row">
+            <!-- <div class="row">
               <span data-i18n="armor-class-tracking:-u">ARMOR CLASS TRACKING:</span>
               <select name="attr_custom_ac_flag">
                 <option value="0" selected="selected" data-i18n="automatic">Automatic</option>
                 <option value="1" data-i18n="custom">Custom</option>
                 <option value="2" data-i18n="off">Off</option>
               </select>
-            </div>
-            <input class="toggleflag" type="hidden" name="attr_custom_ac_flag">
-            <div class="row hidden">
-              <span data-i18n="custom_ac:-u">CUSTOM AC:</span>
+            </div> -->
+            <!-- <input class="toggleflag" type="hidden" name="attr_custom_ac_flag"> -->
+            <!-- <div class="row hidden">
+              <span data-i18n="custom-dt:-u">CUSTOM DT:</span>
               <input type="text" class="num" name="attr_custom_ac_base" placeholder="10" value="10">
               <span>+</span>
               <select name="attr_custom_ac_part1">
@@ -2122,7 +2182,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <input type="checkbox" name="attr_custom_ac_shield" value="yes" checked>
               <span data-i18n="allow-shields-u">ALLOW SHIELDS?</span>
               <hr style="margin: 2px">
-            </div>
+            </div> -->
             <div class="row">
               <span data-i18n="carrying-capacity-mod:-u">CARRYING CAPACITY MODIFIER:</span>
               <input type="text" class="num" name="attr_carrying_capacity_mod" placeholder="*2">
@@ -2243,88 +2303,53 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
           </div>
         </div>
         <div class="col col3">
-          <div class="general_options">
-            <div class="version">
-              <span data-i18n="version">v</span>
-              <input type="text" name="attr_version">
-            </div>
+          <div class="attribute_options" style="width: 234px;">
             <div class="row">
-              <input type="checkbox" name="attr_npc" value="1">
-              <span data-i18n="npc-u">NPC</span>
+              <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
             </div>
+            <fieldset class="repeating_hpmod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
             <div class="row">
-              <input type="checkbox" name="attr_dtype" value="1">
-              <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
-              <!-- <select class="dtype" name="attr_dtype">
-                <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
-                <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
-              </select> -->
+              <span data-i18n="defmods:-u">DEFENSE MODIFIERS:</span>
             </div>
-            <!-- <div class="row">
-              <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
-              <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
-            </div> -->
-            <!-- <div class="row">
-              <span data-i18n="tag-bonus:-u">TAG SKILL BONUS:</span>
-              <select class="dtype" name="attr_pb_type">
-                <option value="level" data-i18n="by-level">By Level (Default)</option>
-                <option value="die" data-i18n="prof-die">Proficency Die (DMG)</option>
-                <option value="custom" data-i18n="custom">Custom</option>
-              </select>
-              <input type="hidden" name="attr_pb_type">
-              <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
-            </div> -->
+            <fieldset class="repeating_defmod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
             <div class="row">
-              <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
-              <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
+              <span data-i18n="dtmods:-u">DT MODIFIERS:</span>
             </div>
+            <fieldset class="repeating_dtmod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
             <div class="row">
-              <input type="checkbox" name="attr_charname_output" value="{{charname=@{character_name}}}" checked>
-              <span data-i18n="add-char-to-templates-u">ADD CHARACTER NAME TO TEMPLATES</span>
-              <!-- <select class="dtype" name="attr_charname_output">
-                <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
-                <option value="charname=@{character_name}" data-i18n="off">Off</option>
-              </select> -->
+              <span data-i18n="spdmods:-u">SPEED MODIFIERS:</span>
             </div>
-            <div class="row">
-              <!-- <input type="checkbox" name="attr_level_calculations" value="1">
-              <span data-i18n="level-calculations:-u">AUTO LEVEL CALCULATIONS</span>
-              <select class="dtype" name="attr_level_calculations">
-                <option value="on" selected="selected" data-i18n="on">On</option>
-                <option value="off" data-i18n="off">Off</option>
-              </select>
-            </div> -->
-            <div class="row">
-              <input type="checkbox" name="attr_encumberance_setting" value="1">
-              <span data-i18n="advanced-encumbrance-u">ADVANCED ENCUMBRANCE</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_simpleinventory" value="1">
-              <span data-i18n="simple-inventory-u">SIMPLE INVENTORY</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_simpletraits" value="1">
-              <span data-i18n="simple-perks-traits-u">SIMPLE PERKS & TRAITS</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_ammotracking" value="1">
-              <span data-i18n="ammo-tracking-u">AMMO TRACKING</span>
-              <!-- <select name="attr_ammotracking">
-                <option value="on" data-i18n="on">On</option>
-                <option value="off" selected="selected" data-i18n="off">Off</option>
-              </select> -->
-              <span data-i18n-title="api-required-title" data-i18n="api-required-u" title="Try it now with easy one click API installation available with your Pro subscription." style="color:#666; cursor:help;">(API REQUIRED)</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_exhaustion_toggle" value="1" checked>
-              <span data-i18n="exhaustion-setting-u">SHOW EXHAUSTION TRACKING</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_radiation_toggle" value="1" checked>
-              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING</span>
-            </div>
+            <fieldset class="repeating_spdmod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
             <div class="row title">
-              <span data-i18n="general-opts-u">GENERAL OPTIONS</span>
+              <span data-i18n="secondary-attribute-opts-u">SECONDARY ATTRIBUTE OPTIONS</span>
             </div>
           </div>
         </div>

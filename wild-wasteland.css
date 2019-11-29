@@ -640,7 +640,7 @@ button[type=roll] * {
   width: 100%;
   text-align: center;
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 .sheet-globalattack span {
@@ -718,6 +718,10 @@ button[type=roll] * {
 .sheet-attacks,
 .sheet-weapons {
   padding-bottom: 10px;
+}
+
+.sheet-custom_mods {
+  padding-top: 5px;
 }
 
 .sheet-textbox-container textarea {
@@ -889,6 +893,7 @@ button[type=roll] * {
 .sheet-attacks,
 .sheet-weapons,
 .sheet-armor,
+.sheet-custom_mods,
 .sheet-equipment {
   position: relative;
   min-height: 70px;
@@ -899,9 +904,10 @@ button[type=roll] * {
 .sheet-attacks textarea,
 .sheet-weapons textarea,
 .sheet-armor textarea,
+.sheet-custom_mods textarea,
 .sheet-equipment textarea {
-  width: calc(100% - 69px);
-  margin: 0px 0px 0px -5px;
+  width: 93%;
+  margin: 0px 0px 0px 5px;
   resize: vertical;
   border: none;
   display: inline-block;
@@ -2924,6 +2930,8 @@ span.sheet-spellconcentration {
 .sheet-armor .sheet-simple,
 .sheet-equipment .sheet-complex,
 .sheet-equipment .sheet-simple,
+.sheet-custom_mods .sheet-complex,
+.sheet-custom_mods .sheet-simple,
 .sheet-proficiencies .sheet-complex,
 .sheet-proficiencies .sheet-simple,
 .sheet-traits .sheet-complex,
@@ -2931,18 +2939,20 @@ span.sheet-spellconcentration {
   display: none;
 }
 
-.sheet-attacks .sheet-inventoryflag[value="0"] ~ .sheet-complex,
-.sheet-attacks .sheet-inventoryflag[value="1"] ~ .sheet-simple,
-.sheet-weapons .sheet-inventoryflag[value="0"] ~ .sheet-complex,
-.sheet-weapons .sheet-inventoryflag[value="1"] ~ .sheet-simple,
-.sheet-armor .sheet-inventoryflag[value="0"] ~ .sheet-complex,
-.sheet-armor .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-attacks .sheet-attacksflag[value="0"] ~ .sheet-complex,
+.sheet-attacks .sheet-attacksflag[value="1"] ~ .sheet-simple,
+.sheet-weapons .sheet-weaponsflag[value="0"] ~ .sheet-complex,
+.sheet-weapons .sheet-weaponsflag[value="1"] ~ .sheet-simple,
+.sheet-armor .sheet-armorflag[value="0"] ~ .sheet-complex,
+.sheet-armor .sheet-armorflag[value="1"] ~ .sheet-simple,
+.sheet-custom_mods .sheet-modsflag[value="0"] ~ .sheet-complex,
+.sheet-custom_mods .sheet-modsflag[value="1"] ~ .sheet-simple,
 .sheet-equipment .sheet-inventoryflag[value="0"] ~ .sheet-complex,
 .sheet-equipment .sheet-inventoryflag[value="1"] ~ .sheet-simple,
 .sheet-proficiencies .sheet-inventoryflag[value="0"] ~ .sheet-complex,
 .sheet-proficiencies .sheet-inventoryflag[value="1"] ~ .sheet-simple,
-.sheet-traits .sheet-inventoryflag[value="0"] ~ .sheet-complex,
-.sheet-traits .sheet-inventoryflag[value="1"] ~ .sheet-simple {
+.sheet-traits .sheet-traitsflag[value="0"] ~ .sheet-complex,
+.sheet-traits .sheet-traitsflag[value="1"] ~ .sheet-simple {
   display: inline-block;
 }
 
