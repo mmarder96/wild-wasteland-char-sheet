@@ -247,11 +247,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
         <span data-i18n="npc-u">NPC</span>
       </div>
       <div class="row">
-        <span data-i18n="auto-dmg-roll:-u">AUTO DAMAGE ROLL:</span>
-        <select class="dtype" name="attr_dtype">
+        <input type="checkbox" name="attr_dtype" value="1">
+        <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
+        <!-- <select class="dtype" name="attr_dtype">
           <option value="pick" data-i18n="never-dmg">Don't Auto Roll Damage</option>
           <option value="full" data-i18n="always-dmg">Auto Roll Damage & Crit</option>
-        </select>
+        </select> -->
       </div>
       <div class="row">
         <span data-i18n="npc-name-in-rolls:-u">NPC NAME IN ROLLS:</span>
@@ -2252,17 +2253,18 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="npc-u">NPC</span>
             </div>
             <div class="row">
-              <span data-i18n="auto-dmg-roll:-u">AUTO DAMAGE ROLL:</span>
-              <select class="dtype" name="attr_dtype">
+              <input type="checkbox" name="attr_dtype" value="1">
+              <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
+              <!-- <select class="dtype" name="attr_dtype">
                 <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
                 <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
-              </select>
+              </select> -->
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
               <input type="text" name="attr_core_die" value="1d20" placeholder="1d20" title="@{core_die}">
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <span data-i18n="tag-bonus:-u">TAG SKILL BONUS:</span>
               <select class="dtype" name="attr_pb_type">
                 <option value="level" data-i18n="by-level">By Level (Default)</option>
@@ -2271,17 +2273,18 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </select>
               <input type="hidden" name="attr_pb_type">
               <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
+            </div> -->
+            <div class="row">
+              <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
+              <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
             </div>
             <div class="row">
-                <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
-                <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
-            </div>
-            <div class="row">
-              <span data-i18n="add-char-to-templates:-u">ADD CHARACTER NAME TO TEMPLATES:</span>
-              <select class="dtype" name="attr_charname_output">
-                    <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
+              <input type="checkbox" name="attr_charname_output" value="{{charname=@{character_name}}}" checked>
+              <span data-i18n="add-char-to-templates-u">ADD CHARACTER NAME TO TEMPLATES</span>
+              <!-- <select class="dtype" name="attr_charname_output">
+                <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
                 <option value="charname=@{character_name}" data-i18n="off">Off</option>
-              </select>
+              </select> -->
             </div>
             <div class="row">
               <!-- <input type="checkbox" name="attr_level_calculations" value="1">
@@ -5577,17 +5580,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
           var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
 
-          if(attrs.dtype === "full") {
-            pickbase = "full";
+          if(attrs.dtype === "1") {
             rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-            pickbase = "pick";
             rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-            pickbase = "dmg";
             rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
           } else {
-            pickbase = "empty";
             rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=@{ammo} @{charname_output}"
           }
 
@@ -6567,7 +6566,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         }
 
         var rollbase = "";
-        if(v.dtype === "full") {
+        if(v.dtype === "1") {
           rollbase = "@{wtype}&{template:simpleaction} " + attack_flag + " @{damage_flag} @{npc_name_flag} {{rname=@{name}}} {{r1=[[@{d20}+(@{attack_tohit}+0)]]}} @{rtype}+(@{attack_tohit}+0)]]}} {{dmg1=[[@{attack_damage}+0]]}} {{dmg1type=@{attack_damagetype}}} {{dmg2=[[@{attack_damage2}+0]]}} {{dmg2type=@{attack_damagetype2}}} {{crit1=[[@{attack_crit}+0]]}} {{crit2=[[@{attack_crit2}+0]]}} {{description=@{show_desc}}} @{charname_output}";
         }
         else if(v[repvar + actionid + "_attack_flag"] && v[repvar + actionid + "_attack_flag"] != "0") {
