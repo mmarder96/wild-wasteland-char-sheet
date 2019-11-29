@@ -2002,12 +2002,29 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="npc-u">NPC</span>
             </div>
             <div class="row">
-              <input type="checkbox" name="attr_dtype" value="1">
-              <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
-              <!-- <select class="dtype" name="attr_dtype">
-                <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
-                <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
+              <input type="checkbox" name="attr_charname_output" value="{{charname=@{character_name}}}" checked>
+              <span data-i18n="add-char-to-templates-u">ADD CHARACTER NAME TO TEMPLATES</span>
+              <!-- <select class="dtype" name="attr_charname_output">
+                <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
+                <option value="charname=@{character_name}" data-i18n="off">Off</option>
               </select> -->
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_ammotracking" value="1">
+              <span data-i18n="ammo-tracking-u">AMMO TRACKING</span>
+              <!-- <select name="attr_ammotracking">
+                <option value="on" data-i18n="on">On</option>
+                <option value="off" selected="selected" data-i18n="off">Off</option>
+              </select> -->
+              <span data-i18n-title="api-required-title" data-i18n="api-required-u" title="Try it now with easy one click API installation available with your Pro subscription." style="color:#666; cursor:help;">(API REQUIRED)</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_exhaustion_toggle" value="1" checked>
+              <span data-i18n="exhaustion-setting-u">SHOW EXHAUSTION TRACKING</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_radiation_toggle" value="1" checked>
+              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING</span>
             </div>
             <!-- <div class="row">
               <span data-i18n="core-die-roll:-u">CORE DIE ROLL:</span>
@@ -2028,21 +2045,21 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
             </div>
             <div class="row">
-              <input type="checkbox" name="attr_charname_output" value="{{charname=@{character_name}}}" checked>
-              <span data-i18n="add-char-to-templates-u">ADD CHARACTER NAME TO TEMPLATES</span>
-              <!-- <select class="dtype" name="attr_charname_output">
-                <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
-                <option value="charname=@{character_name}" data-i18n="off">Off</option>
+              <input type="checkbox" name="attr_dtype" value="1">
+              <span data-i18n="auto-dmg-roll-u">AUTO DAMAGE ROLL</span>
+              <!-- <select class="dtype" name="attr_dtype">
+                <option value="pick" data-i18n="never-roll-dmg">Don't Auto Roll Damage</option>
+                <option value="full" data-i18n="always-roll-dmg">Auto Roll Damage & Crit</option>
               </select> -->
             </div>
-            <div class="row">
-              <!-- <input type="checkbox" name="attr_level_calculations" value="1">
+            <!-- <div class="row">
+              <input type="checkbox" name="attr_level_calculations" value="1">
               <span data-i18n="level-calculations:-u">AUTO LEVEL CALCULATIONS</span>
               <select class="dtype" name="attr_level_calculations">
                 <option value="on" selected="selected" data-i18n="on">On</option>
                 <option value="off" data-i18n="off">Off</option>
-              </select> -->
-            </div>
+              </select>
+            </div> -->
             <div class="row">
               <input type="checkbox" name="attr_encumberance_setting" value="1">
               <span data-i18n="advanced-encumbrance-u">ADVANCED ENCUMBRANCE</span>
@@ -2070,23 +2087,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <div class="row">
               <input type="checkbox" name="attr_simplemods" value="1">
               <span data-i18n="simple-custom-mods-u">SIMPLE CUSTOM MODS</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_ammotracking" value="1">
-              <span data-i18n="ammo-tracking-u">AMMO TRACKING</span>
-              <!-- <select name="attr_ammotracking">
-                <option value="on" data-i18n="on">On</option>
-                <option value="off" selected="selected" data-i18n="off">Off</option>
-              </select> -->
-              <span data-i18n-title="api-required-title" data-i18n="api-required-u" title="Try it now with easy one click API installation available with your Pro subscription." style="color:#666; cursor:help;">(API REQUIRED)</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_exhaustion_toggle" value="1" checked>
-              <span data-i18n="exhaustion-setting-u">SHOW EXHAUSTION TRACKING</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_radiation_toggle" value="1" checked>
-              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING</span>
             </div>
             <div class="row title">
               <span data-i18n="general-opts-u">GENERAL OPTIONS</span>

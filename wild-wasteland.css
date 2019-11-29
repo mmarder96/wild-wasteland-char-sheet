@@ -901,6 +901,7 @@ button[type=roll] * {
 
 .sheet-mod textarea,
 .sheet-tool textarea,
+.sheet-traits textarea,
 .sheet-attacks textarea,
 .sheet-weapons textarea,
 .sheet-armor textarea,
@@ -924,7 +925,6 @@ button[type=roll] * {
 }
 
 .sheet-textbox {
-  width: 95%;
   border: 1px solid #666;
   border-radius: 5px;
   margin-bottom: 5px;
