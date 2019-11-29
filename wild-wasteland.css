@@ -533,6 +533,7 @@ button[type=roll] * {
 .sheet-skill input[type=text],
 .sheet-def-dt-speed-container input,
 .sheet-hp input,
+.sheet-exhaustion input,
 .sheet-radiation input,
 .sheet-hdice-dsaves-container input[type=text],
 .sheet-hdice-dsaves-container input[type=number],
@@ -618,6 +619,7 @@ button[type=roll] * {
 .sheet-textbox-container .sheet-label span,
 .sheet-def-dt-speed-container span.sheet-label,
 .sheet-hp span,
+.sheet-exhaustion span.sheet-label,
 .sheet-radiation span.sheet-label,
 .sheet-hdice-dsaves-container span,
 .sheet-attacks span,
@@ -660,6 +662,7 @@ button[type=roll] * {
   width: 3.5em;
 }
 
+.sheet-exhaustion div span.sheet-ex-description,
 .sheet-radiation div span.sheet-ex-description {
   font-size: 10px;
   line-height: 9px;
@@ -668,21 +671,25 @@ button[type=roll] * {
   display: block;
 }
 
+.sheet-exhaustion span.sheet-label,
 .sheet-radiation span.sheet-label {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
 
+.sheet-exhaustion div.sheet-ex-descriptions,
 .sheet-radiation div.sheet-ex-descriptions {
   display: inline-block;
   padding-top: 5px;
 }
 
-.sheet-radiation-toggle[value="0"] ~ .sheet-radiation, {
+.sheet-exhaustion-toggle[value="0"] ~ .sheet-exhaustion,
+.sheet-radiation-toggle[value="0"] ~ .sheet-radiation {
   display: none;
 }
 
+.sheet-exhaustion input[type="number"],
 .sheet-radiation input[type="number"] {
   width: 80px;
   display:inline-block;
@@ -721,6 +728,7 @@ button[type=roll] * {
 
 .sheet-def-dt-speed-container,
 .sheet-hp,
+.sheet-exhaustion,
 .sheet-radiation,
 .sheet-hdice-dsaves-container,
 .sheet-attacks,
@@ -750,6 +758,7 @@ button[type=roll] * {
 }
 
 .sheet-hp,
+.sheet-exhaustion,
 .sheet-radiation,
 .sheet-subcontainer,
 .sheet-attacks,
@@ -764,6 +773,7 @@ button[type=roll] * {
   font-size: 30px;
 }
 
+.sheet-exhaustion input,
 .sheet-radiation input {
   font-size: 20px;
 }
@@ -2921,18 +2931,18 @@ span.sheet-spellconcentration {
   display: none;
 }
 
-.sheet-attacks .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-attacks .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
-.sheet-weapons .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-weapons .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
-.sheet-armor .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-armor .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
-.sheet-equipment .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-equipment .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
-.sheet-proficiencies .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-proficiencies .sheet-inventoryflag[value="simple"] ~ .sheet-simple,
-.sheet-traits .sheet-inventoryflag[value="complex"] ~ .sheet-complex,
-.sheet-traits .sheet-inventoryflag[value="simple"] ~ .sheet-simple {
+.sheet-attacks .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-attacks .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-weapons .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-weapons .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-armor .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-armor .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-equipment .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-equipment .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-proficiencies .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-proficiencies .sheet-inventoryflag[value="1"] ~ .sheet-simple,
+.sheet-traits .sheet-inventoryflag[value="0"] ~ .sheet-complex,
+.sheet-traits .sheet-inventoryflag[value="1"] ~ .sheet-simple {
   display: inline-block;
 }
 
@@ -3180,7 +3190,7 @@ span.sheet-spellconcentration {
 .sheet-equipment .sheet-encumberance[value="IMMOBILE"] ~ .sheet-immobile,
 .sheet-equipment .sheet-encumberance[value="HEAVILY ENCUMBERED"] ~ .sheet-heavily,
 .sheet-equipment .sheet-encumberance[value="ENCUMBERED"] ~ .sheet-encumbered,
-.sheet-equipment .sheet-encumberance[value="OVER CARRYING CAPACITY"] ~ .sheet-over {
+.sheet-equipment .sheet-encumberance[value="OVER ENCUMBERED"] ~ .sheet-over {
   display: block;
 }
 

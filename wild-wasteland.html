@@ -1109,7 +1109,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
           </div>
           <div class="textbox traits">
-            <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="complex">
+            <input type="hidden" class="inventoryflag" name="attr_simpletraits" value="0">
             <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
             <div class="complex">
               <fieldset class="repeating_traits">
@@ -1203,6 +1203,19 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span class="label" data-i18n="speed-u">SPEED</span>
             </div>
           </div>
+          <input type="hidden" class="exhaustion-toggle" name="attr_exhaustion_toggle" value="0">
+          <div class="exhaustion" style="position: relative;">
+            <input type="number" name="attr_exhaustion_level" step="1" min="0" max="6">
+            <div class="ex-descriptions">
+              <span class="ex-description" name="attr_exhaustion_1"></span>
+              <span class="ex-description" name="attr_exhaustion_2"></span>
+              <span class="ex-description" name="attr_exhaustion_3"></span>
+              <span class="ex-description" name="attr_exhaustion_4"></span>
+              <span class="ex-description" name="attr_exhaustion_5"></span>
+              <span class="ex-description" name="attr_exhaustion_6"></span>
+            </div>
+            <span class="label" data-i18n="exhaustion-u">EXHAUSTION LEVEL</span>
+          </div>
           <input type="hidden" class="radiation-toggle" name="attr_radiation_toggle" value="0">
           <div class="radiation" style="position: relative;">
             <input type="number" name="attr_radiation_level" step="1" min="0" max="10">
@@ -1216,9 +1229,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" data-i18n="radiation-u">RADIATION LEVEL</span>
           </div>
-          <input type="hidden" class="ammoflag" name="attr_ammotracking">
+          <input type="hidden" class="ammoflag" name="attr_ammotracking" value="0">
           <div class="attacks">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
             <textarea class="simple" name="attr_attacks"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_attackswarningflag">
@@ -1429,7 +1442,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="atk-abilities-u">ATTACKS & ABILITIES</span>
           </div>
           <div class="weapons">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
             <textarea class="simple" name="attr_weapons"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_weaponswarningflag">
@@ -1575,7 +1588,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="weapons-u">WEAPONS</span>
           </div>
           <div class="armor">
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
             <textarea class="simple" name="attr_armor"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_armorwarningflag">
@@ -1719,7 +1732,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <input type="text" name="attr_cp" title="@{cp}">
               </div>
             </div>
-            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="complex">
+            <input type="hidden" class="inventoryflag" name="attr_simpleinventory" value="0">
             <textarea class="simple" name="attr_equipment"></textarea>
             <div class="complex">
               <input type="hidden" class="warningflag" name="attr_armorwarningflag">
@@ -1835,11 +1848,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <input type="text" name="attr_weighttotal" value="0" style="width: 45px; float: left;">
                 <input type="text" value="/" style="width: 15px; float: left;">
                 <input type="text" name="attr_carrying_capacity" value="0" style="width: 45px; float: left;">
+                <input type="hidden" name="attr_encumberance_setting" value="0">
                 <input type="hidden" class="encumberance" name="attr_encumberance">
                 <span class="encumb immobile" data-i18n="immobile-u">IMMOBILE</span>
                 <span class="encumb heavily" data-i18n="heavily-encumbered-u">HEAVILY ENCUMBERED</span>
                 <span class="encumb encumbered" data-i18n="encumbered-u">ENCUMBERED</span>
-                <span class="encumb over" data-i18n="over-carrying-cap-u">OVER CARRYING CAPACITY</span>
+                <span class="encumb over" data-i18n="over-encumbered-u">OVER ENCUMBERED</span>
               </div>
             </div>
             <span class="label" style="margin-top: 0px; position: absolute; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
@@ -2259,82 +2273,52 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <input class="pb_custom" type="text" style="float:right;" name="attr_pb_custom" placeholder="2d10">
             </div>
             <div class="row">
-              <input type="checkbox" name="attr_global_skill_mod_flag" value="1">
-              <span data-i18n="show-global-skill-field-u">SHOW GLOBAL SKILL MODIFIER FIELD</span>
-            </div>
-            <div class="row">
-              <input type="checkbox" name="attr_global_save_mod_flag" value="1">
-              <span data-i18n="show-global-save-field-u">SHOW GLOBAL SAVE MODIFIER FIELD</span>
-            </div>
-            <div class="row">
-                <input type="checkbox" name="attr_global_attack_mod_flag" value="1">
+                <input type="checkbox" name="attr_global_attack_mod_flag" value="1" checked>
                 <span data-i18n="show-global-attack-field-u">SHOW GLOBAL ATTACK MODIFIER FIELD</span>
-            </div>
-            <div class="row">
-                <input type="checkbox" name="attr_global_damage_mod_flag" value="1">
-                <span data-i18n="show-global-damage-field-u">SHOW GLOBAL DAMAGE MODIFIER FIELD</span>
-            </div>
-            <div class="row">
-                <input type="checkbox" name="attr_global_dt_mod_flag" value="1">
-                <span data-i18n="show-global-dt-field-u">SHOW GLOBAL DT MODIFIER FIELD</span>
             </div>
             <div class="row">
               <span data-i18n="add-char-to-templates:-u">ADD CHARACTER NAME TO TEMPLATES:</span>
               <select class="dtype" name="attr_charname_output">
-                    <option value="{{charname=@{character_name}}}" data-i18n="on">On</option>
-                <option value="charname=@{character_name}" selected="selected" data-i18n="off">Off</option>
+                    <option value="{{charname=@{character_name}}}" selected="selected" data-i18n="on">On</option>
+                <option value="charname=@{character_name}" data-i18n="off">Off</option>
               </select>
             </div>
             <div class="row">
-              <span data-i18n="level-calculations:-u">LEVEL CALCULATIONS:</span>
+              <!-- <input type="checkbox" name="attr_level_calculations" value="1">
+              <span data-i18n="level-calculations:-u">AUTO LEVEL CALCULATIONS</span>
               <select class="dtype" name="attr_level_calculations">
                 <option value="on" selected="selected" data-i18n="on">On</option>
                 <option value="off" data-i18n="off">Off</option>
               </select>
+            </div> -->
+            <div class="row">
+              <input type="checkbox" name="attr_encumberance_setting" value="1">
+              <span data-i18n="advanced-encumbrance-u">ADVANCED ENCUMBRANCE</span>
             </div>
             <div class="row">
-              <span data-i18n="encumbrance:-u">ENCUMBRANCE:</span>
-              <select name="attr_encumberance_setting">
-                <option value="off" data-i18n="simple">Simple</option>
-                <option value="on" data-i18n="variant-phb">Variant (PHB p176)</option>
-                <option value="disabled" data-i18n="off">Off</option>
-              </select>
+              <input type="checkbox" name="attr_simpleinventory" value="1">
+              <span data-i18n="simple-inventory-u">SIMPLE INVENTORY</span>
             </div>
             <div class="row">
-              <span data-i18n="inventory:-u">INVENTORY:</span>
-              <select name="attr_simpleinventory">
-                <option value="complex" data-i18n="compendium-compatible">Compendium Compatible</option>
-                <option value="simple" data-i18n="simple">Simple</option>
-              </select>
+              <input type="checkbox" name="attr_simpletraits" value="1">
+              <span data-i18n="simple-perks-traits-u">SIMPLE PERKS & TRAITS</span>
             </div>
             <div class="row">
-              <span data-i18n="perks-traits-u">PERKS AND TRAITS</span><span>:</span>
-              <select name="attr_simpletraits">
-                <option value="complex" data-i18n="compendium-compatible">Compendium Compatible</option>
-                <option value="simple" data-i18n="simple">Simple</option>
-              </select>
-            </div>
-            <div class="row">
-              <span data-i18n="prof-langs-u">PROFICENCIES AND LANGUAGES</span><span>:</span>
-              <select name="attr_simpleproficencies">
-                <option value="complex" data-i18n="compendium-compatible">Compendium Compatible</option>
-                <option value="simple" data-i18n="simple">Simple</option>
-              </select>
-            </div>
-            <div class="row">
-              <span data-i18n="ammo-tracking:-u">AMMO TRACKING:</span>
-              <select name="attr_ammotracking">
+              <input type="checkbox" name="attr_ammotracking" value="1">
+              <span data-i18n="ammo-tracking-u">AMMO TRACKING</span>
+              <!-- <select name="attr_ammotracking">
                 <option value="on" data-i18n="on">On</option>
                 <option value="off" selected="selected" data-i18n="off">Off</option>
-              </select>
+              </select> -->
               <span data-i18n-title="api-required-title" data-i18n="api-required-u" title="Try it now with easy one click API installation available with your Pro subscription." style="color:#666; cursor:help;">(API REQUIRED)</span>
             </div>
             <div class="row">
-              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING:</span>
-              <select name="attr_radiation_toggle">
-                <option value="1" data-i18n="on">On</option>
-                <option value="0" data-i18n="off" selected="selected">Off</option>
-              </select>
+              <input type="checkbox" name="attr_exhaustion_toggle" value="1" checked>
+              <span data-i18n="exhaustion-setting-u">SHOW EXHAUSTION TRACKING</span>
+            </div>
+            <div class="row">
+              <input type="checkbox" name="attr_radiation_toggle" value="1" checked>
+              <span data-i18n="radiation-setting-u">SHOW RADIATION TRACKING</span>
             </div>
             <div class="row title">
               <span data-i18n="general-opts-u">GENERAL OPTIONS</span>
@@ -2423,6 +2407,13 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 <input type="hidden" name="attr_global_attack_mod" value="">
 <input type="hidden" name="attr_global_save_mod" value="">
 <input type="hidden" name="attr_global_skill_mod" value="">
+
+<input type="hidden" name="attr_exhaustion_1" value="">
+<input type="hidden" name="attr_exhaustion_2" value="">
+<input type="hidden" name="attr_exhaustion_3" value="">
+<input type="hidden" name="attr_exhaustion_4" value="">
+<input type="hidden" name="attr_exhaustion_5" value="">
+<input type="hidden" name="attr_exhaustion_6" value="">
 
 <input type="hidden" name="attr_radiation_1" value="">
 <input type="hidden" name="attr_radiation_2" value="">
@@ -3906,6 +3897,38 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       }
       setAttrs(update);
     });
+  });
+
+  on("change:exhaustion_toggle", function(eventinfo) {
+    if(eventinfo.newValue !== "0") {
+      getAttrs(["exhaustion_level"], function(attrs) {
+        if(!attrs.exhaustion_level || attrs.exhaustion_level === "") {
+          var update = {};
+          update.exhaustion_level = "0";
+          setAttrs(update);
+        }
+      });
+    }
+  });
+
+  on("change:exhaustion_level", function(eventinfo) {
+    const newValue = parseInt(eventinfo.newValue) || 0, previousValue = parseInt(eventinfo.previousValue) || 0;
+    let update = {};
+
+   if (newValue === 0) {
+      //If exhaustion is 0 the reset exhaustion_1 to "No Effect" and blank the other spans
+      for(let i = 2; i <= 6; i++) { update[`exhaustion_${i}`] = ""}
+      update[`exhaustion_1`] = "• " + getTranslationByKey(`exhaustion-0`)
+    } else if (newValue > previousValue) {
+      //If exhaustion increase then add text to the spans
+      for(let i = previousValue; i <= newValue; i++)
+      {update[`exhaustion_${i}`] = "• " + getTranslationByKey(`exhaustion-${i}`)}
+    } else {
+      //If exhaustion decrease remove text from spans
+      for(let i = newValue + 1; i <= previousValue; i++) {update[`exhaustion_${i}`] = ""}
+    };
+
+    setAttrs(update, {silent: true});
   });
 
   on("change:radiation_toggle", function(eventinfo) {
@@ -5873,9 +5896,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         }
         update["carrying_capacity"] = cap;
 
-        if (!wgt_attrs.encumberance_setting || wgt_attrs.encumberance_setting === "off") {
-          update["encumberance"] = (wtotal > cap * 15) ? "OVER CARRYING CAPACITY" : " ";
-        } else if (wgt_attrs.encumberance_setting === "on") {
+        if (!wgt_attrs.encumberance_setting || wgt_attrs.encumberance_setting === "0") {
+          update["encumberance"] = (wtotal > cap) ? "OVER ENCUMBERED" : " ";
+        } else if (wgt_attrs.encumberance_setting === "1") {
           update["encumberance"] =
             (wtotal > cap * 1.5) ? "IMMOBILE" :
             (wtotal > cap) ? "HEAVILY ENCUMBERED" :
@@ -5884,7 +5907,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         } else {
           update["encumberance"] = " ";
         }
-
+        console.log(wgt_attrs);
+        console.log(update);
         setAttrs(update, {silent: true});
       });
     });
