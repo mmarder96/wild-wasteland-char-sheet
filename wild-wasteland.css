@@ -860,6 +860,14 @@ button[type=roll] * {
   width: inherit;
 }
 
+.sheet-nextpage {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 5px;
+  right: 1px;
+}
+
 .sheet-money {
   width: 70px;
   display: inline-block;
@@ -885,9 +893,9 @@ button[type=roll] * {
 
 .sheet-coin input {
   display: inline-block;
-  font-size: 12px;
+  font-size: 12px !important;
   padding: 0px;
-  width: 40px;
+  width: 40px !important;
 }
 
 .sheet-attacks,
@@ -2919,6 +2927,17 @@ span.sheet-spellconcentration {
   color: #EC2127;
 }
 
+.sheet-equipment,
+.sheet-traits {
+  display: none;
+}
+
+.sheet-pageflag[value="0"] ~ .sheet-equipment,
+.sheet-pageflag[value="1"] ~ .sheet-traits {
+  display: inline-block;
+}
+
+
 .sheet-attacks .sheet-complex,
 .sheet-attacks .sheet-simple,
 .sheet-weapons .sheet-complex,
@@ -2955,6 +2974,7 @@ span.sheet-spellconcentration {
 
 .sheet-mod .sheet-options-flag,
 .sheet-tool .sheet-options-flag,
+.sheet-pibf .sheet-options-flag,
 .sheet-attacks .sheet-inventorysubflag,
 .sheet-weapons .sheet-inventorysubflag,
 .sheet-armor .sheet-inventorysubflag,
@@ -2967,6 +2987,7 @@ span.sheet-spellconcentration {
 
 .sheet-mod .sheet-options-flag + span,
 .sheet-tool .sheet-options-flag + span,
+.sheet-pibf .sheet-options-flag + span,
 .sheet-attacks .sheet-inventorysubflag + span,
 .sheet-weapons .sheet-inventorysubflag + span,
 .sheet-armor .sheet-inventorysubflag + span,
@@ -2993,7 +3014,6 @@ span.sheet-spellconcentration {
 .sheet-traits .sheet-complex {
   width: 100%;
   vertical-align: top;
-  padding-top: 5px;
   margin-bottom: 15px;
 }
 

@@ -1109,49 +1109,45 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
           </div>
-          <div class="textbox traits" style="min-height: 20px; width: 95%;">
-            <input type="hidden" class="traitsflag" name="attr_simpletraits" value="0">
-            <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
-            <div class="complex">
-              <fieldset class="repeating_traits">
-                <div class="trait">
-                  <button type="roll" name="roll_output" class="output" value="@{wtype}&{template:traits} @{charname_output} {{name=@{name}}} {{source=@{source}: @{source_type}}} {{description=@{description}}}">w</button>
-                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
-                  <input class="display-flag" type="checkbox" name="attr_display_flag">
-                  <div class="options">
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="name:-u">NAME:</span>
-                      <input type="text" name="attr_name" style="width: 120px;">
-                    </div>
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="source:-u">SOURCE:</span>
-                      <select name="attr_source">
-                        <option selected="selected" data-i18n="racial">Racial</option>
-                        <option data-i18n="trait">Trait</option>
-                        <option data-i18n="perk">Perk</option>
-                        <option data-i18n="background">Background</option>
-                        <option data-i18n="other">Other</option>
-                      </select>
-                    </div>
-                    <div class="row">
-                      <span style="padding-left: 5px;" data-i18n="source-type:-u">SOURCE TYPE:</span>
-                      <input type="text" name="attr_source_type" style="width: 150px;" placeholder="—">
-                    </div>
-                    <div class="row">
-                      <textarea name="attr_description" style="min-height: 200px; height: 200px;"></textarea>
-                    </div>
-                  </div>
-                  <div class="display" style="margin-bottom: 2px;">
-                    <span class="title" name="attr_name"></span>
-                    <span class="subheader">
-                      <span name="attr_source"></span><span>: </span><span name="attr_source_type"></span>
-                    </span>
-                    <span class="desc" name="attr_description"></span>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; bottom: 0px;">PERKS & TRAITS</span>
+          <div class="textbox pibf" style="width: 95%;">
+              <input class="options-flag" type="checkbox" name="attr_options-flag-personality" checked="checked"><span>y</span>
+              <div class="options">
+                  <textarea name="attr_personality_traits" style="min-height: 50px; height: 50px;"></textarea>
+              </div>
+              <div class="display">
+                  <span name="attr_personality_traits"></span>
+              </div>
+              <span class="label" data-i18n="personality-traits-u">PERSONALITY TRAITS</span>
+          </div>
+          <div class="textbox pibf" style="width: 95%;">
+              <input class="options-flag" type="checkbox" name="attr_options-flag-ideals" checked="checked"><span>y</span>
+              <div class="options">
+                  <textarea name="attr_ideals"></textarea>
+              </div>
+              <div class="display">
+                  <span name="attr_ideals"></span>
+              </div>
+              <span class="label" data-i18n="ideals-u">IDEALS</span>
+          </div>
+          <div class="textbox pibf" style="width: 95%;">
+              <input class="options-flag" type="checkbox" name="attr_options-flag-bonds" checked="checked"><span>y</span>
+              <div class="options">
+                  <textarea name="attr_bonds"></textarea>
+              </div>
+              <div class="display">
+                  <span name="attr_bonds"></span>
+              </div>
+              <span class="label" data-i18n="bonds-u">BONDS</span>
+          </div>
+          <div class="textbox pibf" style="width: 95%;">
+              <input class="options-flag" type="checkbox" name="attr_options-flag-flaws" checked="checked"><span>y</span>
+              <div class="options">
+                  <textarea name="attr_flaws" style="min-height: 46px; height: 46px;"></textarea>
+              </div>
+              <div class="display">
+                  <span name="attr_flaws"></span>
+              </div>
+              <span class="label" data-i18n="flaws-u">FLAWS</span>
           </div>
         </div>
         <div class="col col2">
@@ -1485,8 +1481,9 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/equipped.png" style="width: 15px; margin-bottom: -3px; vertical-align: inherit;"
                     alt="equipped symbol"></span>
                 <span style="width: 175px; text-align: left;" data-i18n="weapon-name-u">WEAPON NAME</span>
-                <span style="width: 25px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px; margin-bottom: -4px;  vertical-align: inherit;"
-                    alt="ammo symbol"></span>
+                <button type="action" name="act_reload" style="background: transparent; border: none;">
+                  <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/ammo.png" style="width: 15px;" alt="ammo"/>
+                </button>
               </div>
               <input type="hidden" name="attr_equippedweaponid">
               <fieldset class="repeating_weapons">
@@ -1729,7 +1726,11 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </fieldset>
           </div>
-          <div class="equipment" style="min-height: 541px; width: 95%; margin-left: 2px; padding-left: 5px;">
+          <input type="hidden" class="pageflag" name="attr_currpage" value="0">
+          <div class="equipment" style="min-height: 541px; width: 95%; padding-left: 5px;">
+            <button type="action" name="act_switch_page" class="sheet-nextpage" style="background: transparent; border: none; margin-bottom: -3px;">
+              <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/next-page.png" style="width: 20px;" alt="next page"/>
+            </button>
             <div class="money">
               <div class="coin">
                 <span class="label" style="width: 15px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/money.png" style="width: 15px; margin-bottom: -4px; vertical-align: inherit;"
@@ -1862,6 +1863,60 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
             </div>
             <span class="label" style="margin-top: 0px; position:absolute; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
+          </div>
+          <div class="textbox traits" style="min-height: 20px; width: 95%;">
+            <input type="hidden" class="traitsflag" name="attr_simpletraits" value="0">
+            <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
+            <div class="complex">
+              <div class="money">
+                <div class="coin">
+                  <span class="label" style="width: 15px;"><img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/money.png" style="width: 15px; margin-bottom: -4px; vertical-align: inherit;"
+                      alt="money symbol"></span>
+                  <input type="text" name="attr_cp" title="@{cp}">
+                </div>
+              </div>
+              <button type="action" name="act_switch_page" class="sheet-nextpage" style="background: transparent; border: none; margin-bottom: -3px;">
+                <img src="https://raw.githubusercontent.com/mmarder96/wild-wasteland-char-sheet/dev/images/next-page.png" style="width: 20px;" alt="next page"/>
+              </button>
+              <fieldset class="repeating_traits">
+                <div class="trait">
+                  <button type="roll" name="roll_output" class="output" value="@{wtype}&{template:traits} @{charname_output} {{name=@{name}}} {{source=@{source}: @{source_type}}} {{description=@{description}}}">w</button>
+                  <input class="options-flag" type="checkbox" name="attr_options-flag" checked="checked"><span>y</span>
+                  <input class="display-flag" type="checkbox" name="attr_display_flag">
+                  <div class="options">
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="name:-u">NAME:</span>
+                      <input type="text" name="attr_name" style="width: 120px;">
+                    </div>
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="source:-u">SOURCE:</span>
+                      <select name="attr_source">
+                        <option selected="selected" data-i18n="racial">Racial</option>
+                        <option data-i18n="trait">Trait</option>
+                        <option data-i18n="perk">Perk</option>
+                        <option data-i18n="background">Background</option>
+                        <option data-i18n="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="row">
+                      <span style="padding-left: 5px;" data-i18n="source-type:-u">SOURCE TYPE:</span>
+                      <input type="text" name="attr_source_type" style="width: 150px;" placeholder="—">
+                    </div>
+                    <div class="row">
+                      <textarea name="attr_description" style="min-height: 200px; height: 200px;"></textarea>
+                    </div>
+                  </div>
+                  <div class="display" style="margin-bottom: 2px;">
+                    <span class="title" name="attr_name"></span>
+                    <span class="subheader">
+                      <span name="attr_source"></span><span>: </span><span name="attr_source_type"></span>
+                    </span>
+                    <span class="desc" name="attr_description"></span>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; bottom: 0px;">PERKS & TRAITS</span>
           </div>
           <input type="hidden" class="missing-info-flag" name="attr_missing_info">
           <div class="missing-info">
@@ -4304,7 +4359,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   on("change:repeating_attack:cooldown", function(eventinfo) {
     var attackid = eventinfo.sourceAttribute.substring(17, 37);
     var attrs_to_get = [`repeating_${attackid}_cooldown`];
-    getAttrs(attrs_to_get, function(attrs){
+    getAttrs(attrs_to_get, function(attrs) {
       var update = {};
       if (!isNaN(parseInt(attrs[`repeating_${attackid}_cooldown`],10))) {
         update[`repeating_${attackid}_cooldowncur`] = parseInt(attrs[`repeating_${attackid}_cooldown`],10);
@@ -4313,8 +4368,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  on("clicked:increment_cooldowns", function() {
-    increment_cooldowns()
+  on("clicked:increment_cooldowns", function(eventinfo) {
+    increment_cooldowns();
+  });
+
+  on("clicked:reload", function(eventinfo) {
+    console.log("RELOADING!");
+    // reload_weapon();
+  });
+
+  on("clicked:switch_page", function(eventinfo) {
+    console.log("SWITCHING PAGE!");
+    var attrs_to_get = ["currpage"];
+    getAttrs(attrs_to_get, function(attrs) {
+      var update = {};
+      var page = attrs["currpage"];
+      var newpage = (page === "0") ? "1" : "0";
+      update["currpage"] = newpage;
+      console.log(update);
+      setAttrs(update, {silent:true});
+    });
   });
 
   on("remove:repeating_inventory", function(eventinfo) {
@@ -5671,6 +5744,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       });
     });
   };
+
+  // var reload_weapon = function(weaponid) {
+  //   console.log("RELOADING")!
+  // }
 
   var update_equipped_armor = function(armorid) {
     console.log("UPDATING EQUIPPED ARMOR!");
