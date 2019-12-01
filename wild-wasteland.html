@@ -1864,7 +1864,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <span class="label" style="margin-top: 0px; position:absolute; bottom: 0px;" data-i18n="equipment-u">EQUIPMENT</span>
           </div>
-          <div class="textbox traits" style="min-height: 20px; width: 95%;">
+          <div class="textbox traits" style="min-height: 541px; width: 95%;">
             <input type="hidden" class="traitsflag" name="attr_simpletraits" value="0">
             <textarea class="sheet-simple" name="attr_features_and_traits"></textarea>
             <div class="complex">
@@ -1916,7 +1916,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                 </div>
               </fieldset>
             </div>
-            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; bottom: 0px;">PERKS & TRAITS</span>
+            <span class="label" data-i18n="perks-traits-u" style="margin-top: 0px; position: absolute; bottom: 0px;">PERKS & TRAITS</span>
           </div>
           <input type="hidden" class="missing-info-flag" name="attr_missing_info">
           <div class="missing-info">
@@ -3948,6 +3948,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_active_attacks();
   });
 
+  on("change:repeating_weapons:mag", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    var weaponid = eventinfo.sourceAttribute.substring(18,38);
+    reload_weapon(weaponsid);
+  });
+
   on("change:repeating_attack:type change:repeating_attack:class", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_attack_type_flag();
@@ -4374,7 +4380,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   on("clicked:reload", function(eventinfo) {
     console.log("RELOADING!");
-    // reload_weapon();
+    var attrs_to_get = ["equippedweaponid"];
+    getAttrs(attrs_to_get, function(attrs) {
+      if (attrs["equippedweaponid"] != "") {
+        var equippedweaponid = attrs["equippedweaponid"];
+        reload_weapon(equippedweaponid);
+      }
+    });
   });
 
   on("clicked:switch_page", function(eventinfo) {
@@ -5745,9 +5757,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   };
 
-  // var reload_weapon = function(weaponid) {
-  //   console.log("RELOADING")!
-  // }
+  var reload_weapon = function(weaponid) {
+    console.log("RELOADING!");
+    var attrs_to_get = [`repeating_weapons_${weaponid}_mag`];
+    getAttrs(attrs_to_get, function(attrs) {
+      var update = {};
+      var new_shots = attrs[`repeating_weapons_${weaponid}_mag`];
+      update[`repeating_weapons_${weaponid}_shots`] = new_shots;
+      setAttrs(update, {silent:true});
+    });
+  }
 
   var update_equipped_armor = function(armorid) {
     console.log("UPDATING EQUIPPED ARMOR!");
