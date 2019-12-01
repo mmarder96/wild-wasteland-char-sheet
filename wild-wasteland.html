@@ -2190,57 +2190,19 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
             </div>
             <div class="row">
               <span data-i18n="initiative-mod:-u">INITIATIVE MODIFIER:</span>
-              <input type="text" class="num" name="attr_initmod" placeholder="0" value="0">
+              <input type="text" class="num" name="attr_initmod" placeholder="x2">
             </div>
             <div class="row">
               <span data-i18n="pass-perc-mod:-u">PASSIVE PERCEPTION MODIFIER:</span>
-              <input type="text" class="num" name="attr_passive_perception_mod" placeholder="0" value="0">
+              <input type="text" class="num" name="attr_passive_perception_mod" placeholder="x2">
             </div>
             <div class="row">
               <span data-i18n="critical-strike-mod:-u">CRITICAL STRIKE MODIFIER:</span>
-              <input type="text" class="num" name="attr_critical_strike_mod" placeholder="0" value="0">
+              <input type="text" class="num" name="attr_critical_strike_mod" placeholder="x2">
             </div>
-            <!-- <div class="row">
-              <span data-i18n="armor-class-tracking:-u">ARMOR CLASS TRACKING:</span>
-              <select name="attr_custom_ac_flag">
-                <option value="0" selected="selected" data-i18n="automatic">Automatic</option>
-                <option value="1" data-i18n="custom">Custom</option>
-                <option value="2" data-i18n="off">Off</option>
-              </select>
-            </div> -->
-            <!-- <input class="toggleflag" type="hidden" name="attr_custom_ac_flag"> -->
-            <!-- <div class="row hidden">
-              <span data-i18n="custom-dt:-u">CUSTOM DT:</span>
-              <input type="text" class="num" name="attr_custom_ac_base" placeholder="10" value="10">
-              <span>+</span>
-              <select name="attr_custom_ac_part1">
-                <option value="none" selected="selected" data-i18n="none-u">NONE</option>
-                <option value="Strength" data-i18n="str-u">STR</option>
-                <option value="Perception" data-i18n="per-u">PER</option>
-                <option value="Endurance" data-i18n="end-u">END</option>
-                <option value="Charisma" data-i18n="cha-u">CHA</option>
-                <option value="Intelligence" data-i18n="int-u">INT</option>
-                <option value="Agility" data-i18n="agl-u">AGL</option>
-                <option value="Luck" data-i18n="luk-u">LUK</option>
-              </select>
-              <span>+</span>
-              <select name="attr_custom_ac_part2">
-                <option value="none" selected="selected" data-i18n="none-u">NONE</option>
-                <option value="Strength" data-i18n="str-u">STR</option>
-                <option value="Perception" data-i18n="per-u">PER</option>
-                <option value="Endurance" data-i18n="end-u">END</option>
-                <option value="Charisma" data-i18n="cha-u">CHA</option>
-                <option value="Intelligence" data-i18n="int-u">INT</option>
-                <option value="Agility" data-i18n="agl-u">AGL</option>
-                <option value="Luck" data-i18n="luk-u">LUK</option>
-              </select><br>
-              <input type="checkbox" name="attr_custom_ac_shield" value="yes" checked>
-              <span data-i18n="allow-shields-u">ALLOW SHIELDS?</span>
-              <hr style="margin: 2px">
-            </div> -->
             <div class="row">
               <span data-i18n="carrying-capacity-mod:-u">CARRYING CAPACITY MODIFIER:</span>
-              <input type="text" class="num" name="attr_carrying_capacity_mod" placeholder="*2">
+              <input type="text" class="num" name="attr_carrying_capacity_mod" placeholder="x2">
             </div>
             <div class="row title">
               <span data-i18n="attribute-opts-u">ATTRIBUTE OPTIONS</span>
@@ -4362,6 +4324,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_passive_perception();
   });
 
+  on("change:critical_strike_mod", function(eventinfo) {
+    update_critical_strike();
+  });
+
   on("change:repeating_attack:cooldown", function(eventinfo) {
     var attackid = eventinfo.sourceAttribute.substring(17, 37);
     var attrs_to_get = [`repeating_${attackid}_cooldown`];
@@ -5981,9 +5947,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       });
       getAttrs(attrs_to_get, (wgt_attrs) => {
         let coinWeight = 0;
-        ["cp", "sp", "ep", "gp", "pp"].forEach((type)=> {
-          coinWeight += (isNaN(parseInt(wgt_attrs[`${type}`], 10)) === false) ? parseInt(wgt_attrs[`${type}`], 10) : 0;
-        });
+        coinWeight += (isNaN(parseInt(wgt_attrs["cp"], 10)) === false) ? parseInt(wgt_attrs["cp"], 10) : 0;
         wtotal = wtotal + ((coinWeight) / 50);
 
         _.each(idarray, (currentID, i) => {
@@ -5992,6 +5956,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             wtotal = wtotal + (parseFloat(wgt_attrs[`repeating_inventory_${currentID}_itemweight`]) * count);
           }
         });
+        wtotal = Math.floor(wtotal);
         update["weighttotal"] = wtotal;
 
         const str_base = parseInt(wgt_attrs.strength, 10);
@@ -6014,6 +5979,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               cap;
           }
         }
+        cap = Math.floor(cap);
         update["carrying_capacity"] = cap;
 
         if (!wgt_attrs.encumberance_setting || wgt_attrs.encumberance_setting === "0") {
@@ -6027,8 +5993,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         } else {
           update["encumberance"] = " ";
         }
-        console.log(wgt_attrs);
-        console.log(update);
         setAttrs(update, {silent: true});
       });
     });
@@ -6249,9 +6213,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     getAttrs(attrs_to_get, function(init_attrs) {
       var update = {};
       var final_init = parseInt(init_attrs["agility_mod"], 10);
-      if(init_attrs["initmod"] && !isNaN(parseInt(init_attrs["initmod"], 10))) {
-        final_init = final_init + parseInt(init_attrs["initmod"], 10);
-      }
       if(init_attrs["init_tiebreaker"] && init_attrs["init_tiebreaker"] != 0) {
         final_init = final_init + (parseInt(init_attrs["agility"], 10)/100);
       }
@@ -6269,6 +6230,17 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           }
         });
+      }
+      if(init_attrs["initmod"]) {
+        const operator = init_attrs["initmod"].substring(0,1);
+        const value    = init_attrs["initmod"].substring(1);
+        if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
+          final_init =
+            (operator === "*" || operator == "x") ? final_init * parseFloat(value,10) :
+            (operator === "+") ? final_init + parseFloat(value,10) :
+            (operator === "-") ? final_init - parseFloat(value,10) :
+            final_init;
+        }
       }
       if(final_init % 1 != 0) {
         final_init = parseFloat(final_init.toPrecision(12)); // ROUNDING ERROR BUGFIX
@@ -6335,11 +6307,22 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var update_passive_perception = function() {
-    getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(v) {
+    getAttrs(["pb_type","perception_mod","passive_perception_mod","perception_bonus"], function(attrs) {
       var pass_per_base = 10;
-      var per_mod = !isNaN(parseInt(v["perception_mod"],10)) ? parseInt(v["perception_mod"],10) : 0;
-      var pass_per_mod = !isNaN(parseInt(v["passive_perception_mod"],10)) ? parseInt(v["passive_perception_mod"],10) : 0;
-      var final_pass_per = pass_per_base + per_mod + pass_per_mod;
+      var per_mod = !isNaN(parseInt(attrs["perception_mod"],10)) ? parseInt(attrs["perception_mod"],10) : 0;
+      var final_pass_per = pass_per_base + per_mod;
+      if(attrs["passive_perception_mod"]) {
+        const operator = attrs["passive_perception_mod"].substring(0,1);
+        const value    = attrs["passive_perception_mod"].substring(1);
+        if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
+          final_pass_per =
+            (operator === "*" || operator == "x") ? final_pass_per * parseFloat(value,10) :
+            (operator === "+") ? final_pass_per + parseFloat(value,10) :
+            (operator === "-") ? final_pass_per - parseFloat(value,10) :
+            final_pass_per;
+        }
+      }
+      final_pass_per = Math.floor(final_pass_per);
       setAttrs({passive_perception: final_pass_per})
     });
   };
@@ -6349,7 +6332,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var crit_base = 10;
       var luk_mod = !isNaN(parseInt(crit_attrs["luck_mod"],10)) ? parseInt(crit_attrs["luck_mod"],10) : 0;
       var luk_bonus = !isNaN(parseInt(crit_attrs["luck_bonus"],10)) ? parseInt(crit_attrs["luck_bonus"],10) : 0;
-      var crit_mod_bonus = !isNaN(parseInt(crit_attrs["critical_strike_mod"],10)) ? parseInt(crit_attrs["critical_strike_mod"],10) : 0;
+      var crit_mod_bonus = 0;
       if(crit_attrs["global_mods"] && crit_attrs["global_mods"] != "") {
         var mods = crit_attrs["global_mods"].toLowerCase().split(",");
         _.each(mods, function(mod) {
@@ -6370,6 +6353,18 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         });
       }
       var final_crit = crit_base + luk_mod + luk_bonus + crit_mod_bonus;
+      if (crit_attrs["critical_strike_mod"]) {
+        const operator = crit_attrs["critical_strike_mod"].substring(0,1);
+        const value    = crit_attrs["critical_strike_mod"].substring(1);
+        if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
+          final_crit =
+            (operator === "*" || operator == "x") ? final_crit * parseFloat(value,10) :
+            (operator === "+") ? final_crit + parseFloat(value,10) :
+            (operator === "-") ? final_crit - parseFloat(value,10) :
+            final_crit;
+        }
+      }
+      final_crit = Math.floor(final_crit);
       setAttrs({critical_strike: final_crit})
     });
   };
