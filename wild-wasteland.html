@@ -5636,9 +5636,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
           var dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
           var critrange = attrs["critrange"] && !isNaN(parseInt(attrs["critrange"],10)) ? parseInt(attrs["critrange"],10) : 20;
+          var wpncritange = critrange;
+          if (attrs["repeating_weapons_" + weaponid + "_atkcritrange"] && attrs["repeating_weapons_" + weaponid + "_atkcritrange"] != "") {
+            let critrangemod = attrs["repeating_weapons_" + weaponid + "_atkcritrange"];
+            if(critrangemod.indexOf("+") > -1) {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              wpncritange = critrangemod ? wpncritange + critrangemod : wpncritange;
+            }
+            else if(critrangemod.indexOf("-") > -1) {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              wpncritange = critrangemod ? wpncritange - critrangemod : wpncritange;
+            }
+            else {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              wpncritange = critrangemod ? critrangemod : wpncritange;
+            }
+          }
+          attrs["repeating_weapons_" + weaponid + "_atkcritrange"] && !isNaN(parseInt(attrs["repeating_weapons_" + weaponid + "_atkcritrange"],10)) ? parseInt(attrs["repeating_weapons_" + weaponid + "_atkcritrange"],10) : critrange;
           var atkcritrange = critrange;
           if (attrs["repeating_attack_" + attackid + "_atkcritrange"] && attrs["repeating_attack_" + attackid + "_atkcritrange"] != "") {
-            var critrangemod = attrs["repeating_attack_" + attackid + "_atkcritrange"];
+            let critrangemod = attrs["repeating_attack_" + attackid + "_atkcritrange"];
             if(critrangemod.indexOf("+") > -1) {
               critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
               atkcritrange = critrangemod ? atkcritrange + critrangemod : atkcritrange;
@@ -5652,6 +5669,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               atkcritrange = critrangemod ? critrangemod : atkcritrange;
             }
           }
+          atkcritrange = (atkcritrange < wpncritange) ? atkcritrange : wpncritange;
           var critical_strike = attrs["critical_strike"] && !isNaN(parseInt(attrs["critical_strike"], 10)) ? attrs["critical_strike"] : 0;
           var crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? critical_strike + " + " + attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : critical_strike;
           var crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : 0;
