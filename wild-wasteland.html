@@ -1318,12 +1318,12 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
                     <select class="ranged" name="attr_class" style="width: 90px;">
                       <option value="pistol" data-i18n="pistol">Pistol</option>
-                      <option value="smg" data-i18n="smg">Submachine gun</option>
+                      <option value="smg" data-i18n="smg">SMG</option>
                       <option value="shotgun" data-i18n="shotgun">Shotgun</option>
                       <option value="ar" data-i18n="ar">Assault rifle</option>
                       <option value="br" data-i18n="br">Battle rifle</option>
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
-                      <option value="lmg" data-i18n="lmg">Light machine gun</option>
+                      <option value="lmg" data-i18n="lmg">LMG</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
                       <option value="none" selected="selected">—</option>
                     </select>
@@ -1494,7 +1494,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               </div>
               <input type="hidden" name="attr_equippedweaponid">
               <fieldset class="repeating_weapons">
-                <input type="hidden" class="equippedflag" name="attr_equipped">
+                <input type="hidden" class="equippedflag" name="attr_equipped" value="0">
                 <div class="item">
                   <input class="equipped" type="checkbox" name="attr_equipped" value="1">
                   <input class="name" type="text" name="attr_wpnname">
@@ -1508,7 +1508,6 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="ranged" data-i18n="ranged">Ranged</option>
                       <option value="none" selected="selected">—</option>
                     </select>
-                    <input class="classflag" type="hidden" name="attr_classflag">
                     <span class="label" data-i18n="class:-u">CLASS:</span>
                     <select class="melee" name="attr_class" style="width: 63px;">
                       <option value="unarmed" data-i18n="unarmed">Unarmed</option>
@@ -1661,7 +1660,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <input type="hidden" name="attr_equippedclothingid">
               <input type="hidden" name="attr_equippedarmorid">
               <fieldset class="repeating_armor">
-                <input type="hidden" class="equippedflag" name="attr_equipped">
+                <input type="hidden" class="equippedflag" name="attr_equipped" value="0">
                 <div class="item">
                   <input class="equipped" type="checkbox" name="attr_equipped" value="1">
                   <input class="name" type="text" name="attr_armorname">
@@ -1777,7 +1776,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     alt="Weight symbol"></span>
               </div>
               <fieldset class="repeating_inventory">
-                <input type="hidden" class="equippedflag" name="attr_equipped">
+                <input type="hidden" class="equippedflag" name="attr_equipped" value="0">
                 <div class="item">
                   <input class="weight" type="text" name="attr_itemcount" value="1">
                   <input class="name" type="text" name="attr_itemname">
@@ -1807,6 +1806,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="hidden" name="attr_atk_atkname">
                   <input type="hidden" name="attr_atk_class">
                   <input type="hidden" name="attr_atk_type">
+                  <input type="hidden" name="attr_atk_typeflag">
                   <input type="hidden" name="attr_atk_atkflag">
                   <input type="hidden" name="attr_atk_atkbase">
                   <input type="hidden" name="attr_atk_atkattr">
@@ -1831,6 +1831,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="hidden" name="attr_wpn_wpnname">
                   <input type="hidden" name="attr_wpn_shots">
                   <input type="hidden" name="attr_wpn_type">
+                  <input type="hidden" name="attr_wpn_typeflag">
                   <input type="hidden" name="attr_wpn_class">
                   <input type="hidden" name="attr_wpn_magflag">
                   <input type="hidden" name="attr_wpn_mag">
@@ -4074,10 +4075,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       const itemweaponid = attrs[`repeating_inventory_${itemid}_itemweaponid`];
       const isarmor = attrs[`repeating_inventory_${itemid}_isarmor`];
       const itemarmorid = attrs[`repeating_inventory_${itemid}_itemarmorid`];
-      console.log(`equipped: ${equipped}`);
-      console.log(`hasattack: ${hasattack}`);
-      console.log(`isweapon: ${isweapon}`);
-      console.log(`isarmor: ${isarmor}`);
       (equipped == 1 && hasattack == 1) ? create_attack_from_item(itemid, {newattack: false}) : remove_attack(itemattackid);
       (equipped == 1 && isweapon == 1) ? create_weapon_from_item(itemid, {newweapon: false}) : remove_weapon(itemweaponid);
       (equipped == 1 && isarmor == 1) ? create_armor_from_item(itemid, {newarmor: false}) : remove_armor(itemarmorid);
@@ -4998,6 +4995,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_inventory_${itemid}_atk_cooldown`,
       `repeating_inventory_${itemid}_atk_atkname`,
       `repeating_inventory_${itemid}_atk_class`,
+      `repeating_inventory_${itemid}_atk_typeflag`,
       `repeating_inventory_${itemid}_atk_type`,
       `repeating_inventory_${itemid}_atk_atkflag`,
       `repeating_inventory_${itemid}_atk_atkbase`,
@@ -5022,18 +5020,20 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var update = {};
 
       if(options && options.newattack) {
-        update[`repeating_attack_${attackid}_options-flag`] = "0";
+        update[`repeating_attack_${attackid}_options-flag`] = "1";
         update[`repeating_attack_${attackid}_itemid`] = itemid;
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
+        update[`repeating_attack_${attackid}_options-flag`] = "0";
         update[`repeating_attack_${attackid}_itemid`] = itemid;
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
       }
 
       update[`repeating_attack_${attackid}_actioncost`]    = attrs[`repeating_inventory_${itemid}_atk_actioncost`];
       update[`repeating_attack_${attackid}_cooldown`]      = attrs[`repeating_inventory_${itemid}_atk_cooldown`];
-      update[`repeating_attack_${attackid}_class`]         = attrs[`repeating_inventory_${itemid}_atk_class`];
       update[`repeating_attack_${attackid}_type`]          = attrs[`repeating_inventory_${itemid}_atk_type`];
+      update[`repeating_attack_${attackid}_typeflag`]          = attrs[`repeating_inventory_${itemid}_atk_typeflag`];
+      update[`repeating_attack_${attackid}_class`]         = attrs[`repeating_inventory_${itemid}_atk_class`];
       update[`repeating_attack_${attackid}_atkflag`]       = attrs[`repeating_inventory_${itemid}_atk_atkflag`];
       update[`repeating_attack_${attackid}_atkbase`]       = attrs[`repeating_inventory_${itemid}_atk_atkbase`];
       update[`repeating_attack_${attackid}_atkattr`]       = attrs[`repeating_inventory_${itemid}_atk_atkattr`];
@@ -5066,8 +5066,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_attack_${attackid}_actioncost`,
       `repeating_attack_${attackid}_cooldown`,
       `repeating_attack_${attackid}_atkname`,
-      `repeating_attack_${attackid}_class`,
+      `repeating_attack_${attackid}_typeflag`,
       `repeating_attack_${attackid}_type`,
+      `repeating_attack_${attackid}_class`,
       `repeating_attack_${attackid}_atkflag`,
       `repeating_attack_${attackid}_atkbase`,
       `repeating_attack_${attackid}_atkattr`,
@@ -5093,8 +5094,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_inventory_${itemid}_atk_actioncost`]   = attrs[`repeating_attack_${attackid}_actioncost`];
       update[`repeating_inventory_${itemid}_atk_cooldown`]     = attrs[`repeating_attack_${attackid}_cooldown`];
       update[`repeating_inventory_${itemid}_atk_atkname`]      = attrs[`repeating_attack_${attackid}_atkname`];
-      update[`repeating_inventory_${itemid}_atk_class`]        = attrs[`repeating_attack_${attackid}_class`];
       update[`repeating_inventory_${itemid}_atk_type`]         = attrs[`repeating_attack_${attackid}_type`];
+      update[`repeating_inventory_${itemid}_atk_typeflag`]    = attrs[`repeating_attack_${attackid}_typeflag`];
+      update[`repeating_inventory_${itemid}_atk_class`]        = attrs[`repeating_attack_${attackid}_class`];
       update[`repeating_inventory_${itemid}_atk_atkflag`]      = attrs[`repeating_attack_${attackid}_atkflag`];
       update[`repeating_inventory_${itemid}_atk_atkbase`]      = attrs[`repeating_attack_${attackid}_atkbase`];
       update[`repeating_inventory_${itemid}_atk_atkattr`]      = attrs[`repeating_attack_${attackid}_atkattr`];
@@ -5134,7 +5136,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_inventory_${itemid}_wpn_wpnname`,
       `repeating_inventory_${itemid}_wpn_shots`,
       `repeating_inventory_${itemid}_wpn_type`,
+      `repeating_inventory_${itemid}_wpn_typeflag`,
       `repeating_inventory_${itemid}_wpn_class`,
+      `repeating_inventory_${itemid}_wpn_magflag`,
       `repeating_inventory_${itemid}_wpn_mag`,
       `repeating_inventory_${itemid}_wpn_ammo`,
       `repeating_inventory_${itemid}_wpn_atkflag`,
@@ -5167,16 +5171,18 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var alt = {};
 
       if(options && options.newweapon) {
-        update[`repeating_weapons_${weaponid}_options-flag`] = "0";
+        update[`repeating_weapons_${weaponid}_options-flag`] = "1";
         update[`repeating_weapons_${weaponid}_itemid`] = itemid;
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_itemname`];
       } else {
+        update[`repeating_weapons_${weaponid}_options-flag`] = "0";
         update[`repeating_weapons_${weaponid}_itemid`] = itemid;
         update[`repeating_weapons_${weaponid}_wpnname`] = attrs[`repeating_inventory_${itemid}_wpn_wpnname`];
       }
 
       update[`repeating_weapons_${weaponid}_shots`]         = attrs[`repeating_inventory_${itemid}_wpn_shots`];
       update[`repeating_weapons_${weaponid}_type`]          = attrs[`repeating_inventory_${itemid}_wpn_type`];
+      update[`repeating_weapons_${weaponid}_typeflag`]      = attrs[`repeating_inventory_${itemid}_wpn_typeflag`];
       update[`repeating_weapons_${weaponid}_class`]         = attrs[`repeating_inventory_${itemid}_wpn_class`];
       update[`repeating_weapons_${weaponid}_magflag`]       = attrs[`repeating_inventory_${itemid}_wpn_magflag`];
       update[`repeating_weapons_${weaponid}_mag`]           = attrs[`repeating_inventory_${itemid}_wpn_mag`];
@@ -5208,6 +5214,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_weapons_${weaponid}_wpnname`,
       `repeating_weapons_${weaponid}_shots`,
       `repeating_weapons_${weaponid}_type`,
+      `repeating_weapons_${weaponid}_typeflag`,
       `repeating_weapons_${weaponid}_class`,
       `repeating_weapons_${weaponid}_magflag`,
       `repeating_weapons_${weaponid}_mag`,
@@ -5231,10 +5238,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var update = {};
 
       update[`repeating_inventory_${itemid}_wpn_wpnname`]       = attrs[`repeating_weapons_${weaponid}_wpnname`];
-      update[`repeating_inventory_${itemid}_wpn_maglag`]        = attrs[`repeating_weapons_${weaponid}_magflag`];
       update[`repeating_inventory_${itemid}_wpn_shots`]         = attrs[`repeating_weapons_${weaponid}_shots`];
       update[`repeating_inventory_${itemid}_wpn_type`]          = attrs[`repeating_weapons_${weaponid}_type`];
+      update[`repeating_inventory_${itemid}_wpn_typeflag`]      = attrs[`repeating_weapons_${weaponid}_typeflag`];
       update[`repeating_inventory_${itemid}_wpn_class`]         = attrs[`repeating_weapons_${weaponid}_class`];
+      update[`repeating_inventory_${itemid}_wpn_magflag`]       = attrs[`repeating_weapons_${weaponid}_magflag`];
       update[`repeating_inventory_${itemid}_wpn_mag`]           = attrs[`repeating_weapons_${weaponid}_mag`];
       update[`repeating_inventory_${itemid}_wpn_ammo`]          = attrs[`repeating_weapons_${weaponid}_ammo`];
       update[`repeating_inventory_${itemid}_wpn_atkflag`]       = attrs[`repeating_weapons_${weaponid}_atkflag`];
@@ -5251,6 +5259,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_inventory_${itemid}_wpn_dmgtype`]       = attrs[`repeating_weapons_${weaponid}_dmgtype`];
       update[`repeating_inventory_${itemid}_wpn_dmgcustcrit`]   = attrs[`repeating_weapons_${weaponid}_dmgcustcrit`];
       update[`repeating_inventory_${itemid}_wpn_properties`]    = attrs[`repeating_weapons_${weaponid}_properties`];
+      update[`repeating_inventory_${itemid}_wpn_description`]   = attrs[`repeating_weapons_${weaponid}_description`];
 
       console.log(update);
       setAttrs(update, {silent: true});
