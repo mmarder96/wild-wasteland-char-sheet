@@ -4463,6 +4463,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   var update_d20 = function() {
+    console.log("UPDATING D20!");
     var attrs_to_get = ["critrange", "critfail"];
     getAttrs(attrs_to_get, function(attrs) {
       var update = {};
@@ -6477,12 +6478,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               }
             };
           });
-          var final_critrange = critrange_base + critrange_bonus;
-          update["critrange"] = final_critrange;
-          callbacks.push(() => {update_d20();});
-          callbacks.push(() => {update_attacks("all");});
-          setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         }
+        var final_critrange = critrange_base + critrange_bonus;
+        update["critrange"] = final_critrange;
+        callbacks.push(() => {update_d20();});
+        callbacks.push(() => {update_attacks("all");});
+        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
       });
     });
   }
@@ -6522,11 +6523,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               }
             };
           });
-          var final_critfail = critfail_base + critfail_bonus;
-          update["critfail"] = final_critfail;
-          callbacks.push(() => {update_d20();});
-          setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         }
+        var final_critfail = critfail_base + critfail_bonus;
+        update["critfail"] = final_critfail;
+        callbacks.push(() => {update_d20();});
+        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
       });
     });
   }
