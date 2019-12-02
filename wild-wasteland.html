@@ -2338,7 +2338,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="critrangemods:-u">CRIT RANGE MODIFIERS:</span>
             </div>
             <fieldset class="repeating_critrangemod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -2349,7 +2349,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="critfailmods:-u">CRIT FAIL MODIFIERS:</span>
             </div>
             <fieldset class="repeating_critfailmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -2360,7 +2360,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
             </div>
             <fieldset class="repeating_hpmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -2371,7 +2371,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="defmods:-u">DEFENSE MODIFIERS:</span>
             </div>
             <fieldset class="repeating_defmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -2382,7 +2382,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="dtmods:-u">DT MODIFIERS:</span>
             </div>
             <fieldset class="repeating_dtmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -2393,7 +2393,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <span data-i18n="spdmods:-u">SPEED MODIFIERS:</span>
             </div>
             <fieldset class="repeating_spdmod">
-              <div style="padding-left: 15px; padding-bottom: 10px;">
+              <div style="padding-left: 15px; padding-bottom: 5px;">
                 <span data-i18n="source:-u">SOURCE:</span>
                 <input type="text" name="attr_source" style="width: 100px;">
                 <span data-i18n="mod:-u">MOD:</span>
@@ -3795,14 +3795,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  // update attribute on attr_base/attr_bonus change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
     on(`change:${attr}_base change:${attr}_bonus`, function() {
       update_attr(`${attr}`);
     });
   });
 
-  // update attribute_mod weight/initiative on attribute change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
     on(`change:${attr}`, function() {
       update_mod(`${attr}`);
@@ -3813,7 +3811,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  // update saves, attacks, tools, and skills on attribute_mod change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
     on(`change:${attr}_mod`, function() {
       update_save(`${attr}`);
@@ -3848,7 +3845,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  // update saves on attr_save_prof/attr_save_mod change
   ['strength','perception','endurance','charisma','intelligence','agility','luck'].forEach(attr => {
     on(`change:${attr}_save_prof change:${attr}_save_mod`, function(eventinfo) {
       if(eventinfo.sourceType === "sheetworker") {return;}
@@ -3861,19 +3857,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_hp_max();
   });
 
-  // update all saves on global_save_mod change
   on("change:global_save_mod", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_all_saves();
   });
 
-  // update death save on death_save_mod change
   on("change:death_save_mod", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_save("death");
   });
 
-  // update skill on skill_proficiency, skill_type, or skill_flat change
   ['barter','energy_weapons','explosives','guns','lockpick','medicine','melee_weapons','repair','science','sneak','speech','survival','unarmed'].forEach(skill => {
     on(`change:${skill}_prof change:${skill}_type change:${skill}_flat`, function(eventinfo) {
       if(eventinfo.sourceType === "sheetworker") {return;}
@@ -3881,7 +3874,14 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  // update hp on hp mod change
+  on("change:repeating_critrangemod:mod", function() {
+    update_critrange();
+  });
+
+  on("change:repeating_critfailmod:mod", function() {
+    update_critfail();
+  });
+
   on("change:repeating_hpmod:mod", function() {
     update_hp_max();
   });
@@ -3898,21 +3898,18 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_speed();
   });
 
-  // update custom mod
   on("change:repeating_modifiers:active change:repeating_modifiers:modifiers change:repeating_armor:equipped change:repeating_armor:itemmodifiers change:repeating_inventory:equipped change:repeating_inventory:itemmodifiers", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("CUSTOM MODIFIER CHANGE DETECTED!")
     update_global_modifiers();
   });
 
-  // update tool on tool property change
   on("change:repeating_tool:toolname change:repeating_tool:toolbonus_base change:repeating_tool:toolattr_base change:repeating_tool:tool_mod", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     var tool_id = eventinfo.sourceAttribute.substring(15, 35);
     update_tool(tool_id);
   });
 
-  // update attack on attack property change
   on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:atkcritrange change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:dmgcustcrit change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("ATTACK CHANGE DETECTED!");
@@ -3969,7 +3966,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_attack_dmg2_flag();
   });
 
-  // update global damage on global damage mod change
   on("change:repeating_damagemod remove:repeating_damagemod", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_globaldamage();
@@ -4530,7 +4526,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             var update_defense_flag = false;
             var update_dt_flag = false;
             var update_speed_flag = false;
-            var update_weight_flage = false;
+            var update_weight_flag = false;
 
             _.each(mod_id_arr, function(currentID) {
               if((attrs["repeating_modifiers_" + currentID + "_active"] && attrs["repeating_modifiers_" + currentID + "_active"] === "1")
@@ -6463,66 +6459,90 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
   var update_critrange = function() {
     console.log("UPDATING CRITRANGE!");
-    getAttrs(["global_mods"], function(critrange_attrs) {
-      var update = {};
-      var callbacks = [];
-      var critrange_base = 20;
-      var critrange_bonus = 0;
-      if(critrange_attrs["global_mods"] && critrange_attrs["global_mods"] != "") {
-        var mods = critrange_attrs["global_mods"].toLowerCase().split(",");
-        _.each(mods, function(mod) {
-          if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1) && mod.indexOf("fail") === -1) {
-            if(mod.indexOf(":") > -1) {
-              var new_critrange_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critrange_base = new_critrange_base && new_critrange_base < critrange_base ? new_critrange_base : critrange_base;
-            }
-            else if(mod.indexOf("-") > -1) {
-              var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critrange_bonus = new_critrange_mod ? critrange_bonus - new_critrange_mod : critrange_bonus;
-            } else {
-              var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critrange_bonus = new_critrange_mod ? critrange_bonus + new_critrange_mod : critrange_bonus;
-            }
-          };
+    var attrs_to_get = [];
+    getSectionIDs("repeating_critrangemod", function(idArray) {
+      attrs_to_get.push("global_mods");
+      _.each(idArray, function(currentId, i) {
+        attrs_to_get.push("repeating_critrangemod_" + currentId + "_mod");
+      });
+      getAttrs(attrs_to_get, function(critrange_attrs) {
+        var update = {};
+        var callbacks = [];
+        var critrange_base = 20;
+        var critrange_bonus = 0;
+        _.each(idArray, function(currentId, i) {
+          if(critrange_attrs["repeating_critrangemod_" + currentId + "_mod"] && !isNaN(parseInt(critrange_attrs["repeating_critrangemod_" + currentId + "_mod"], 10))) {
+            critrange_bonus += parseInt(critrange_attrs["repeating_critrangemod_" + currentId + "_mod"], 10);
+          }
         });
-        var final_critrange = critrange_base + critrange_bonus;
-        update["critrange"] = final_critrange;
-        callbacks.push(() => {update_d20();});
-        callbacks.push(() => {update_attacks("all");});
-        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
-      }
+        if(critrange_attrs["global_mods"] && critrange_attrs["global_mods"] != "") {
+          var mods = critrange_attrs["global_mods"].toLowerCase().split(",");
+          _.each(mods, function(mod) {
+            if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1) && mod.indexOf("fail") === -1) {
+              if(mod.indexOf(":") > -1) {
+                var new_critrange_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critrange_base = new_critrange_base && new_critrange_base < critrange_base ? new_critrange_base : critrange_base;
+              }
+              else if(mod.indexOf("-") > -1) {
+                var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critrange_bonus = new_critrange_mod ? critrange_bonus - new_critrange_mod : critrange_bonus;
+              } else {
+                var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critrange_bonus = new_critrange_mod ? critrange_bonus + new_critrange_mod : critrange_bonus;
+              }
+            };
+          });
+          var final_critrange = critrange_base + critrange_bonus;
+          update["critrange"] = final_critrange;
+          callbacks.push(() => {update_d20();});
+          callbacks.push(() => {update_attacks("all");});
+          setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
+        }
+      });
     });
   }
 
   var update_critfail = function() {
     console.log("UPDATING CRITFAIL!");
-    getAttrs(["global_mods"], function(critfail_attrs) {
-      var update = {};
-      var callbacks = [];
-      var critfail_base = 1;
-      var critfail_bonus = 0;
-      if(critfail_attrs["global_mods"] && critfail_attrs["global_mods"] != "") {
-        var mods = critfail_attrs["global_mods"].toLowerCase().split(",");
-        _.each(mods, function(mod) {
-          if(mod.indexOf("crit" > -1) && mod.indexOf("fail") > -1) {
-            if(mod.indexOf(":") > -1) {
-              var new_critfail_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critfail_base = new_critfail_base && new_critfail_base > critfail_base ? new_critfail_base : critfail_base;
-            }
-            else if(mod.indexOf("-") > -1) {
-              var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critfail_bonus = new_critfail_mod ? critfail_bonus - new_critfail_mod : critfail_bonus;
-            } else {
-              var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
-              critfail_bonus = new_critfail_mod ? critfail_bonus + new_critfail_mod : critfail_bonus;
-            }
-          };
+    attrs_to_get = [];
+    getSectionIDs("repeating_critrangemod", function(idArray) {
+      attrs_to_get.push("global_mods");
+      _.each(idArray, function(currentId, i) {
+        attrs_to_get.push("repeating_critrangemod_" + currentId + "_mod");
+      });
+      getAttrs(attrs_to_get, function(critfail_attrs) {
+        var update = {};
+        var callbacks = [];
+        var critfail_base = 1;
+        var critfail_bonus = 0;
+        _.each(idArray, function(currentId, i) {
+          if(critfail_attrs["repeating_critrangemod_" + currentId + "_mod"] && !isNaN(parseInt(critfail_attrs["repeating_critrangemod_" + currentId + "_mod"], 10))) {
+            critfail_bonus += parseInt(critfail_attrs["repeating_critrangemod_" + currentId + "_mod"], 10);
+          }
         });
-        var final_critfail = critfail_base + critfail_bonus;
-        update["critfail"] = final_critfail;
-        callbacks.push(() => {update_d20();});
-        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
-      }
+        if(critfail_attrs["global_mods"] && critfail_attrs["global_mods"] != "") {
+          var mods = critfail_attrs["global_mods"].toLowerCase().split(",");
+          _.each(mods, function(mod) {
+            if(mod.indexOf("crit" > -1) && mod.indexOf("fail") > -1) {
+              if(mod.indexOf(":") > -1) {
+                var new_critfail_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critfail_base = new_critfail_base && new_critfail_base > critfail_base ? new_critfail_base : critfail_base;
+              }
+              else if(mod.indexOf("-") > -1) {
+                var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critfail_bonus = new_critfail_mod ? critfail_bonus - new_critfail_mod : critfail_bonus;
+              } else {
+                var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                critfail_bonus = new_critfail_mod ? critfail_bonus + new_critfail_mod : critfail_bonus;
+              }
+            };
+          });
+          var final_critfail = critfail_base + critfail_bonus;
+          update["critfail"] = final_critfail;
+          callbacks.push(() => {update_d20();});
+          setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
+        }
+      });
     });
   }
 
