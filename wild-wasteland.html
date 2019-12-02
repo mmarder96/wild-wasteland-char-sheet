@@ -5423,7 +5423,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log("UPDATING ATTACK");
     getAttrs(["equippedweaponid"], function(attrs) {
       var weaponid = attrs["equippedweaponid"] ? attrs["equippedweaponid"] : "";
-      var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit"];
+      var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit","critical_strike"];
       _.each(attack_array, function(attackid) {
         attrs_to_get.push("repeating_attack_" + attackid + "_activeflag");
         attrs_to_get.push("repeating_attack_" + attackid + "_cooldown");
@@ -5454,12 +5454,12 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         attrs_to_get.push("repeating_attack_" + attackid + "_spelllevel");
 
         attrs_to_get.push("repeating_attack_" + attackid + "_itemid");
-        attrs_to_get.push("repeating_attack_" + attackid + "_ammo");
         attrs_to_get.push("repeating_attack_" + attackid + "_global_damage_mod_field");
 
         attrs_to_get.push("repeating_weapons_" + weaponid + "_atkname");
         attrs_to_get.push("repeating_weapons_" + weaponid + "_type");
         attrs_to_get.push("repeating_weapons_" + weaponid + "_class");
+        attrs_to_get.push("repeating_weapons_" + weaponid + "_ammo");
         attrs_to_get.push("repeating_weapons_" + weaponid + "_atkflag");
         attrs_to_get.push("repeating_weapons_" + weaponid + "_atkbase");
         attrs_to_get.push("repeating_weapons_" + weaponid + "_atkattr");
@@ -5634,11 +5634,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             dmg2 = "";
           }
 
-          dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
-          crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : dmgroll;
-          crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : wpndmgroll;
-          r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
-          r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
+          var dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
+          var critrange = attrs["critrange"] && attrs["critrange"] != "" ? attrs["critrange"] : "20";
+          var critical_strike = attrs["critical_strike"] && !isNaN(parseInt(attrs["critical_strike"], 10)) ? attrs["critical_strike"] : 0;
+          var crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? critical_strike + " + " + attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : critical_strike;
+          var crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : wpndmgroll;
+          var r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
+          var r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
 
           // ROLL FORMATTING
           if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
@@ -5676,14 +5678,16 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var globaldamage = `[[${attrs.global_damage_mod_roll && attrs.global_damage_mod_roll !== "" ? attrs.global_damage_mod_roll : "0"}]]`;
           var globaldamagecrit = `[[${attrs.global_damage_mod_crit && attrs.global_damage_mod_crit !== "" ? attrs.global_damage_mod_crit : "0"}]]`;
 
+          var ammo = (attrs["repeating_weapons_" + weaponid + "_ammo"]) ? attrs["repeating_weapons_" + weaponid + "_ammo"] : "";
+
           if(attrs.dtype === "1") {
-            rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}";
+            rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=" + ammo + " @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-            rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=@{ammo} @{charname_output}";
+            rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=" + ammo + " @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
-            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=@{ammo} @{charname_output}"
+            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=" + ammo + " @{charname_output}"
           } else {
-            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=@{ammo} @{charname_output}"
+            rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{saveflag} {{desc=@{atk_desc}}} ammo=" + ammo + " @{charname_output}"
           }
 
           update["repeating_attack_" + attackid + "_rollbase_dmg"] = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + wpndmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + dmgtype + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} @{charname_output}";
