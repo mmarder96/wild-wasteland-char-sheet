@@ -3287,14 +3287,16 @@ span.sheet-spellconcentration {
   display: inline-block;
 }
 
-.sheet-attack input[type=text].sheet-flat,
-.sheet-weapon input[type=text].sheet-flat {
+.sheet-item .sheet-subitem .sheet-flat {
   display: none;
 }
 
-.sheet-attack .sheet-flatflag[value*="saveflat"] ~ input[type=text].sheet-flat,
-.sheet-weapon .sheet-flatflag[value*="saveflat"] ~ input[type=text].sheet-flat {
+.sheet-item .sheet-subitem .sheet-flatflag[value*="saveflat"] ~ .sheet-flat {
+  width: 20px;
   display: inline-block;
+  font-weight: normal;
+  background-color: transparent;
+  padding: 0px;
 }
 
 

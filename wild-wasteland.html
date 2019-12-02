@@ -1442,7 +1442,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="(@{saveflat})" data-i18n="flat-u">FLAT</option>
                     </select>
                     <input class="flatflag" type="hidden" name="attr_savedc">
-                    <input class="subfield" type="num" name="attr_saveflat" placeholder="10" value="10" style="width: 20px; font-size: 11px">
+                    <input class="flat" type="num" name="attr_saveflat" placeholder="10" value="10">
 
                     <span style="width: 65px;" data-i18n="save-effect:-u">SAVE EFFECT:</span>
                     <input class="subfield" type="text" name="attr_saveeffect" placeholder="—" style="width: 160px;">
@@ -1528,7 +1528,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
                       <option value="none" selected="selected">—</option>
                     </select>
-                    <select class="none" name="attr_class" style="width: 90px;">
+                    <select class="none" name="attr_class" style="width: 63px;">
                       <option value="none" selected="selected">—</option>
                     </select>
                     <input type="checkbox" name="attr_magflag" value="1">
@@ -5183,8 +5183,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_weapons_${weaponid}_properties`,
       `repeating_weapons_${weaponid}_description`
     ], function(attrs) {
-      console.log('WEAPON ATTRIBUTES TO UPDATE ITEM');
-      console.log(attrs);
       var update = {};
 
       update[`repeating_inventory_${itemid}_wpn_wpnname`]       = attrs[`repeating_weapons_${weaponid}_wpnname`];
@@ -5209,6 +5207,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_inventory_${itemid}_wpn_dmgcustcrit`]   = attrs[`repeating_weapons_${weaponid}_dmgcustcrit`];
       update[`repeating_inventory_${itemid}_wpn_properties`]    = attrs[`repeating_weapons_${weaponid}_properties`];
 
+      console.log(update);
       setAttrs(update, {silent: true});
     });
   };
@@ -5266,8 +5265,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_armor_${armorid}_itemmodifiers`,
       `repeating_armor_${armorid}_armorcontent`
     ], function(attrs) {
-      console.log('ARMOR ATTRIBUTES TO UPDATE ITEM');
-      console.log(attrs);
       var update = {};
 
       update[`repeating_inventory_${itemid}_arm_armorname`]        = attrs[`repeating_armor_${armorid}_armorname`];
