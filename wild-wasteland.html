@@ -4530,6 +4530,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             var update_defense_flag = false;
             var update_dt_flag = false;
             var update_speed_flag = false;
+            var update_weight_flage = false;
 
             _.each(mod_id_arr, function(currentID) {
               if((attrs["repeating_modifiers_" + currentID + "_active"] && attrs["repeating_modifiers_" + currentID + "_active"] === "1")
@@ -4592,6 +4593,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                 update_dt_flag = true;
               } else if(mod.indexOf("spd") > -1 || mod.indexOf("speed") > -1) {
                 update_speed_flag = true;
+              } else if(mod.indexOf("wgt") > -1 || mod.indexOf("weight") > -1 || mod.indexOf("capacity") > -1) {
+                update_weight_flag = true;
               }
             });
 
@@ -4607,6 +4610,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             if(update_defense_flag){callbacks.push(() => {update_defense();});}
             if(update_dt_flag){callbacks.push(() => {update_dt();});}
             if(update_speed_flag){callbacks.push(() => {update_speed();});}
+            if(update_weight_flag){callbacks.push(() => {update_weight();});}
 
             setAttrs(update, function() {callbacks.forEach(function(callback) { callback(); })});
           });
@@ -6047,6 +6051,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   const update_weight = function() {
+    console.log("UPDATING WEIGHT!");
     let update = {};
     let wtotal = 0;
     let attrs_to_get = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod","global_mods"];
