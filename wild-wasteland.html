@@ -1377,7 +1377,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <span style="margin-left: 20px;" data-i18n="range:-u">RANGE:</span>
                     <input class="subfield" type="text" name="attr_atkrange" placeholder="—" style="width: 50px;">
                     <span style="width: 70px" data-i18n="crit-range-u">CRIT RANGE:</span>
-                    <input class="subfield" type="text" name="attr_atkcritrange" value="20" placeholder="20" style="width: 40px; font-size: 11px;">
+                    <input class="subfield" type="text" name="attr_atkcritrange" value="" placeholder="20" style="width: 40px; font-size: 11px;">
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <input type="hidden" name="attr_dmg2flag" value="">
@@ -1576,7 +1576,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <span style="margin-left: 20px;" data-i18n="range:-u">RANGE:</span>
                     <input class="subfield" type="text" name="attr_atkrange" placeholder="—" style="width: 50px;">
                     <span style="width: 70px" data-i18n="crit-range-u">CRIT RANGE:</span>
-                    <input class="subfield" type="text" name="attr_atkcritrange" value="20" placeholder="20" style="width: 40px; font-size: 11px;">
+                    <input class="subfield" type="text" name="attr_atkcritrange" value="" placeholder="20" style="width: 40px; font-size: 11px;">
 
                     <input type="checkbox" name="attr_dmgflag" value="{{damage=1}} {{dmg1flag=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="dmg:-u">DMG:</span>
@@ -3889,7 +3889,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   // update attack on attack property change
-  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
+  on("change:repeating_attack:atkname change:repeating_attack:atkflag change:repeating_attack:atkbase change:repeating_attack:atkattr change:repeating_attack:atkskill change:repeating_attack:atkcritrange change:repeating_attack:dmgflag change:repeating_attack:dmgbase change:repeating_attack:dmgattr change:repeating_attack:dmgskill change:repeating_attack:dmgroll change:repeating_attack:dmgtype change:repeating_attack:dmgcustcrit change:repeating_attack:saveflag change:repeating_attack:savedc change:repeating_attack:saveflat change:repeating_attack:dmgcustcrit change:repeating_attack:ammo change:repeating_attack:saveattr change:repeating_attack:atkrange", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     console.log("ATTACK CHANGE DETECTED!");
     var attackid = eventinfo.sourceAttribute.substring(17, 37);
@@ -5635,10 +5635,26 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           }
 
           var dmgspacer = attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0 && attrs["repeating_attack_" + attackid + "_dmg2flag"] && attrs["repeating_attack_" + attackid + "_dmg2flag"] != 0 ? "+ " : "";
-          var critrange = attrs["critrange"] && attrs["critrange"] != "" ? attrs["critrange"] : "20";
+          var critrange = attrs["critrange"] && !isNaN(parseInt(attrs["critrange"],10)) ? parseInt(attrs["critrange"],10) : 20;
+          var atkcritrange = critrange;
+          if (attrs["repeating_attack_" + attackid + "_atkcritrange"] && attrs["repeating_attack_" + attackid + "_atkcritrange"] != "") {
+            var critrangemod = attrs["repeating_attack_" + attackid + "_atkcritrange"];
+            if(critrangemod.indexOf("+") > -1) {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              atkcritrange = critrangemod ? atkcritrange + critrangemod : atkcritrange;
+            }
+            else if(critrangemod.indexOf("-") > -1) {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              atkcritrange = critrangemod ? atkcritrange - critrangemod : atkcritrange;
+            }
+            else {
+              critrangemod = !isNaN(parseInt(critrangemod.replace(/[^0-9]/g, ""), 10)) ? parseInt(critrangemod.replace(/[^0-9]/g, ""), 10) : false;
+              atkcritrange = critrangemod ? critrangemod : atkcritrange;
+            }
+          }
           var critical_strike = attrs["critical_strike"] && !isNaN(parseInt(attrs["critical_strike"], 10)) ? attrs["critical_strike"] : 0;
           var crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? critical_strike + " + " + attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : critical_strike;
-          var crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : wpndmgroll;
+          var crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : 0;
           var r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
           var r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
 
@@ -5681,9 +5697,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var ammo = (attrs["repeating_weapons_" + weaponid + "_ammo"]) ? attrs["repeating_weapons_" + weaponid + "_ammo"] : "";
 
           if(attrs.dtype === "1") {
-            rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=" + ammo + " @{charname_output}";
+            rollbase = "@{wtype}&{template:atkdmg} {{mod=@{atkbonus}}} {{rname=@{atkname}}} {{r1=[[" + r1 + "cs>" + atkcritrange + hbonus + "]]}} " + r2 + "cs" + atkcritrange + hbonus + "]]}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} {{crit1=[[" + crit1 + "[CRIT]]]}} {{crit2=[[" + crit2 + "[CRIT]]]}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} " + hldmgcrit + "  {{globalattack=@{global_attack_mod}}} {{globaldamage=" + globaldamage + "}} {{globaldamagecrit=" + globaldamagecrit + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=" + ammo + " @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0) {
-            rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>@{atkcritrange}" + hbonus + "]]}} " + r2 + "cs>@{atkcritrange}" + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=" + ammo + " @{charname_output}";
+            rollbase = "@{wtype}&{template:atk} {{mod=@{atkbonus}}} {{rname=[@{atkname}](~repeating_attack_attack_dmg)}} {{rnamec=[@{atkname}](~repeating_attack_attack_crit)}} {{r1=[[" + r1 + "cs>" + atkcritrange + hbonus + "]]}} " + r2 + "cs>" + atkcritrange + hbonus + "]]}} {{range=@{atkrange}}} {{desc=@{atk_desc}}} {{globalattack=@{global_attack_mod}}} ammo=" + ammo + " @{charname_output}";
           } else if(attrs["repeating_attack_" + attackid + "_dmgflag"] && attrs["repeating_attack_" + attackid + "_dmgflag"] != 0) {
             rollbase = "@{wtype}&{template:dmg} {{rname=@{atkname}}} @{atkflag} {{range=@{atkrange}}} @{dmgflag} {{dmg1=[[" + hdmg1 + "]]}} {{dmg1type=" + dmgtype + "}} @{dmg2flag} {{dmg2=[[" + hdmg2 + "]]}} {{dmg2type=" + wpndmgtype + "}} @{saveflag} {{desc=@{atk_desc}}} @{hldmg} {{globaldamage=" + globaldamage + "}} {{globaldamagetype=@{global_damage_mod_type}}} ammo=" + ammo + " @{charname_output}"
           } else {
