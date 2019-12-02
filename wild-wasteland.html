@@ -1802,6 +1802,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   </div>
                   <!--ATTACK ATTRIBUTES-->
                   <input type="hidden" name="attr_itemattackid">
+                  <input type="hidden" name="attr_atk_actioncost">
                   <input type="hidden" name="attr_atk_cooldown">
                   <input type="hidden" name="attr_atk_atkname">
                   <input type="hidden" name="attr_atk_class">
@@ -1831,6 +1832,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                   <input type="hidden" name="attr_wpn_shots">
                   <input type="hidden" name="attr_wpn_type">
                   <input type="hidden" name="attr_wpn_class">
+                  <input type="hidden" name="attr_wpn_magflag">
                   <input type="hidden" name="attr_wpn_mag">
                   <input type="hidden" name="attr_wpn_ammo">
                   <input type="hidden" name="attr_wpn_atkflag">
@@ -4947,6 +4949,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     getAttrs([
       `repeating_inventory_${itemid}_itemattackid`,
       `repeating_inventory_${itemid}_itemname`,
+      `repeating_inventory_${itemid}_atk_actioncost`,
       `repeating_inventory_${itemid}_atk_cooldown`,
       `repeating_inventory_${itemid}_atk_atkname`,
       `repeating_inventory_${itemid}_atk_class`,
@@ -4982,6 +4985,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update[`repeating_attack_${attackid}_atkname`] = attrs[`repeating_inventory_${itemid}_atk_atkname`];
       }
 
+      update[`repeating_attack_${attackid}_actioncost`]    = attrs[`repeating_inventory_${itemid}_atk_actioncost`];
       update[`repeating_attack_${attackid}_cooldown`]      = attrs[`repeating_inventory_${itemid}_atk_cooldown`];
       update[`repeating_attack_${attackid}_class`]         = attrs[`repeating_inventory_${itemid}_atk_class`];
       update[`repeating_attack_${attackid}_type`]          = attrs[`repeating_inventory_${itemid}_atk_type`];
@@ -5014,6 +5018,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log("UPDATING ITEM FROM ATTACK!");
 
     getAttrs([
+      `repeating_attack_${attackid}_actioncost`,
       `repeating_attack_${attackid}_cooldown`,
       `repeating_attack_${attackid}_atkname`,
       `repeating_attack_${attackid}_class`,
@@ -5040,6 +5045,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     ], function(attrs) {
       var update = {};
 
+      update[`repeating_inventory_${itemid}_atk_actioncost`]   = attrs[`repeating_attack_${attackid}_actioncost`];
       update[`repeating_inventory_${itemid}_atk_cooldown`]     = attrs[`repeating_attack_${attackid}_cooldown`];
       update[`repeating_inventory_${itemid}_atk_atkname`]      = attrs[`repeating_attack_${attackid}_atkname`];
       update[`repeating_inventory_${itemid}_atk_class`]        = attrs[`repeating_attack_${attackid}_class`];
@@ -5079,7 +5085,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_weapon_from_item = function(itemid, weaponid, options) {
     console.log("UPDATING WEAPON FROM ITEM!");
     getAttrs([
-      `repeating_inventory_${itemid}_itemweaponid`,
       `repeating_inventory_${itemid}_itemname`,
       `repeating_inventory_${itemid}_wpn_wpnname`,
       `repeating_inventory_${itemid}_wpn_shots`,
@@ -5128,6 +5133,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       update[`repeating_weapons_${weaponid}_shots`]         = attrs[`repeating_inventory_${itemid}_wpn_shots`];
       update[`repeating_weapons_${weaponid}_type`]          = attrs[`repeating_inventory_${itemid}_wpn_type`];
       update[`repeating_weapons_${weaponid}_class`]         = attrs[`repeating_inventory_${itemid}_wpn_class`];
+      update[`repeating_weapons_${weaponid}_magflag`]       = attrs[`repeating_inventory_${itemid}_wpn_magflag`];
       update[`repeating_weapons_${weaponid}_mag`]           = attrs[`repeating_inventory_${itemid}_wpn_mag`];
       update[`repeating_weapons_${weaponid}_ammo`]          = attrs[`repeating_inventory_${itemid}_wpn_ammo`];
       update[`repeating_weapons_${weaponid}_atkflag`]       = attrs[`repeating_inventory_${itemid}_wpn_atkflag`];
@@ -5158,6 +5164,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_weapons_${weaponid}_shots`,
       `repeating_weapons_${weaponid}_type`,
       `repeating_weapons_${weaponid}_class`,
+      `repeating_weapons_${weaponid}_magflag`,
       `repeating_weapons_${weaponid}_mag`,
       `repeating_weapons_${weaponid}_ammo`,
       `repeating_weapons_${weaponid}_atkflag`,
@@ -5181,6 +5188,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var update = {};
 
       update[`repeating_inventory_${itemid}_wpn_wpnname`]       = attrs[`repeating_weapons_${weaponid}_wpnname`];
+      update[`repeating_inventory_${itemid}_wpn_maglag`]        = attrs[`repeating_weapons_${weaponid}_magflag`];
       update[`repeating_inventory_${itemid}_wpn_shots`]         = attrs[`repeating_weapons_${weaponid}_shots`];
       update[`repeating_inventory_${itemid}_wpn_type`]          = attrs[`repeating_weapons_${weaponid}_type`];
       update[`repeating_inventory_${itemid}_wpn_class`]         = attrs[`repeating_weapons_${weaponid}_class`];
@@ -5829,7 +5837,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               update["repeating_attack_" + id + "_activeflag"] = "0";
             }
           });
-          console.log(attrs);
           callbacks.push(() => {update_attacks("all");});
           setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         });
