@@ -995,7 +995,7 @@ button[type=roll] * {
   text-shadow: none;
   box-shadow: none;
   padding: 0px;
-  margin: -3px 0px 0px 0px;
+  margin: 0px;
   font-weight: bold;
 }
 
@@ -3053,37 +3053,9 @@ span.sheet-spellconcentration {
   width: 180px;
 }
 
-.sheet-item .sheet-cooldowncontainer {
-  display: inline-block;
-}
-
-.sheet-item .sheet-cooldowncontainer .sheet-cooldown {
-  opacity: 0;
-  height: 0px;
-  width: 0px;
-  pointer-events: none;
-  display: inline;
-  position: absolute;
-}
-
-.sheet-item .sheet-cooldowncontainer input[type="text"].sheet-cooldown,
-.sheet-item .sheet-cooldowncontainer input[type="text"].sheet-cooldowncur {
+.sheet-item input[type="text"].sheet-cooldowncur {
   width: 22px;
   text-align: center;
-}
-
-.sheet-item .sheet-cooldowncontainer:hover .sheet-cooldown,
-.sheet-item .sheet-cooldowncontainer .sheet-cooldown:focus {
-  opacity: 1;
-  height: 20px;
-  width: 22px;
-  pointer-events: auto;
-  position: static;
-}
-
-.sheet-item .sheet-cooldowncontainer:hover .sheet-cooldowncur,
-.sheet-item .sheet-cooldowncontainer .sheet-cooldown:focus ~ .sheet-cooldowncur {
-  display: none;
 }
 
 .sheet-item input[type="text"].sheet-weight {
@@ -3253,6 +3225,7 @@ span.sheet-spellconcentration {
 .sheet-custom_mods .sheet-activeflag[value="0"] ~ .sheet-mod input,
 .sheet-custom_mods .sheet-activeflag[value="0"] ~ .sheet-mod > .sheet-display,
 .sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-name,
+.sheet-attacks .sheet-activeflag[value="0"] ~ .sheet-item > .sheet-cooldowncur,
 .sheet-weapons .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-armor .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name,
 .sheet-equipment .sheet-equippedflag[value="0"] ~ .sheet-item > .sheet-name {
@@ -3303,6 +3276,14 @@ span.sheet-spellconcentration {
 .sheet-weapons .sheet-typeflag[value*="melee"] ~ select.sheet-melee,
 .sheet-weapons .sheet-typeflag[value*="ranged"] ~ select.sheet-ranged,
 .sheet-weapons .sheet-typeflag[value*="none"] ~ select.sheet-none {
+  display: inline-block;
+}
+
+.sheet-ammobox {
+  display: none;
+}
+
+.sheet-magflag[value="1"] ~ .sheet-ammobox {
   display: inline-block;
 }
 

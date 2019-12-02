@@ -1276,11 +1276,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
               <fieldset class="repeating_attack">
                 <input type="hidden" class="activeflag" name="attr_activeflag" value="0">
                 <div class="item">
-                  <div class="cooldowncontainer">
-                    <input class="cooldown" type="text" name="attr_cooldown" style="margin-left: 3px;">
-                    <input type="hidden" name="attr_cooldowncur" value="0">
-                    <input type="text" class="cooldowncur" name="attr_cooldowncur" readonly="readonly" style="margin-left: 3px;">
-                  </div>
+                  <input type="text" class="cooldowncur" name="attr_cooldowncur" style="margin-left: 3px;">
                   <input class="name" type="text" name="attr_atkname" style="width: 90px;">
                   <button class="atkroll" type="roll" name="roll_attack" value="@{rollbase}" onclick="increment_cooldowns()">
                     <input type="text" name="attr_atkbonus" style="width: 30px; text-align: center; margin-left: -3px" value="">
@@ -1334,6 +1330,17 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     <select class="none" name="attr_class" style="width: 90px;">
                       <option value="none" selected="selected">—</option>
                     </select>
+
+                    <span class="label" style="width: 45px" data-i18n="action:-u">ACTION:</span>
+                    <select name="attr_actioncost" style="width: 60px;">
+                      <option value="major" data-i18n="major" selected="selected">Major action</option>
+                      <option value="minor" data-i18n="minor">Minor action</option>
+                      <option value="bonus" data-i18n="bonus">Bonus action</option>
+                      <option value="reaction" data-i18n="reaction">Reaction</option>
+                      <option value="free" data-i18n="free">Free action</option>
+                    </select>
+                    <span class="label" style="width: 65px;" data-i18n="cooldown:-u">COOLDOWN:</span>
+                    <input class="subfield" type="text" name="attr_cooldown" placeholder="0" value="0" style="width: 45px;">
 
                     <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
@@ -1503,32 +1510,36 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
                     </select>
                     <input class="classflag" type="hidden" name="attr_classflag">
                     <span class="label" data-i18n="class:-u">CLASS:</span>
-                    <select class="melee" name="attr_class" style="width: 90px;">
+                    <select class="melee" name="attr_class" style="width: 63px;">
                       <option value="unarmed" data-i18n="unarmed">Unarmed</option>
                       <option value="slash" data-i18n="slash">Slash</option>
                       <option value="blunt" data-i18n="blunt">Blunt</option>
                       <option value="pierce" data-i18n="pierce">Pierce</option>
                       <option value="none" selected="selected">—</option>
                     </select>
-                    <select class="ranged" name="attr_class" style="width: 90px;">
+                    <select class="ranged" name="attr_class" style="width: 63px;">
                       <option value="pistol" data-i18n="pistol">Pistol</option>
-                      <option value="smg" data-i18n="smg">Submachine gun</option>
+                      <option value="smg" data-i18n="smg">SMG</option>
                       <option value="shotgun" data-i18n="shotgun">Shotgun</option>
                       <option value="ar" data-i18n="ar">Assault rifle</option>
                       <option value="br" data-i18n="br">Battle rifle</option>
                       <option value="sniper" data-i18n="sniper">Sniper rifle</option>
-                      <option value="lmg" data-i18n="lmg">Light machine gun</option>
+                      <option value="lmg" data-i18n="lmg">LMG</option>
                       <option value="heavy" data-i18n="heavy">Heavy weapon</option>
                       <option value="none" selected="selected">—</option>
                     </select>
                     <select class="none" name="attr_class" style="width: 90px;">
                       <option value="none" selected="selected">—</option>
                     </select>
+                    <input type="checkbox" name="attr_magflag" value="1">
 
-                    <span class="label" data-i18n="mag:-u">MAG:</span>
-                    <input class="subfield ranged" type="text" name="attr_mag" placeholder="0" style="width: 55px; font-size: 11px;">
-                    <span class="label" data-i18n="ammo:-u">AMMO:</span>
-                    <input class="subfield" type="text" name="attr_ammo" placeholder="—" style="width: 90px;">
+                    <input class="magflag" type="hidden" name="attr_magflag">
+                    <div class="ammobox">
+                      <span class="label" data-i18n="mag:-u">MAG:</span>
+                      <input class="subfield ranged" type="text" name="attr_mag" placeholder="0" style="width: 55px; font-size: 11px;">
+                      <span class="label" data-i18n="ammo:-u">AMMO:</span>
+                      <input class="subfield" type="text" name="attr_ammo" placeholder="—" style="width: 90px;">
+                    </div>
 
                     <input type="checkbox" name="attr_atkflag" value="{{attack=1}}" checked="checked">
                     <span style="width: 30px;" data-i18n="atk:-u">ATK:</span>
@@ -3922,6 +3933,11 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_active_attacks();
   });
 
+  on("change:repeating_attack:cooldown change:repeating_attack:cooldowncur change:repeating_weapons:shots", function(eventinfo) {
+    if(eventinfo.sourceType === "sheetworker") {return;}
+    update_active_attacks();
+  });
+
   on("change:repeating_attack:dmgtype change:repeating_weapons:dmgtype", function(eventinfo) {
     if(eventinfo.sourceType === "sheetworker") {return;}
     update_attack_dmg2_flag();
@@ -5022,8 +5038,6 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       `repeating_attack_${attackid}_saveeffect`,
       `repeating_attack_${attackid}_atk_desc`
     ], function(attrs) {
-      console.log('ATTACK ATTRIBUTES TO UPDATE ITEM');
-      console.log(attrs);
       var update = {};
 
       update[`repeating_inventory_${itemid}_atk_cooldown`]     = attrs[`repeating_attack_${attackid}_cooldown`];
@@ -5343,6 +5357,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   };
 
   var increment_cooldowns = function() {
+    console.log("INCREMENTING COOLDOWNS!");
     attrs_to_get = [];
     getSectionIDs("repeating_attack", function(attackids) {
       _.each(attackids, function(id) {
@@ -5354,10 +5369,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         _.each(attackids, function(id) {
           var cooldown = parseInt(attrs[`repeating_attack_${id}_cooldown`],10);
           var cooldowncur = parseInt(attrs[`repeating_attack_${id}_cooldowncur`],10);
-          cooldowncur = (cooldowncur === 0) ? cooldowncur = cooldown : cooldowncur -= 1;
+          cooldowncur = (cooldowncur === cooldown) ? cooldown : cooldowncur + 1;
           update[`repeating_attack_${id}_cooldowncur`] = cooldowncur;
         });
-        setAttrs(update, {silent:true});
+        setAttrs(update, {silent:true}, update_active_attacks());
       });
     });
   }
@@ -5730,7 +5745,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       var update = {};
       var new_shots = attrs[`repeating_weapons_${weaponid}_mag`];
       update[`repeating_weapons_${weaponid}_shots`] = new_shots;
-      setAttrs(update, {silent:true});
+      setAttrs(update, {silent:true}, update_active_attacks());
     });
   }
 
@@ -5788,27 +5803,33 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log("UPDATING ACTIVE ATTACKS");
     var update = {};
     var callbacks = [];
-    var attrs_to_get = [];
+    var attrs_to_get = ["equippedweaponid"];
     attrs_to_get.push("equippedweaponid");
     getAttrs(attrs_to_get, function(attrs) {
       var weaponid = attrs["equippedweaponid"];
       attrs_to_get.push("repeating_weapons_" + weaponid + "_type");
       attrs_to_get.push("repeating_weapons_" + weaponid + "_class");
+      attrs_to_get.push("repeating_weapons_" + weaponid + "_shots");
       getSectionIDs("repeating_attack", function(attack_idarray) {
         _.each(attack_idarray, function(id) {
           attrs_to_get.push("repeating_attack_" + id + "_activeflag");
           attrs_to_get.push("repeating_attack_" + id + "_type");
           attrs_to_get.push("repeating_attack_" + id + "_class");
+          attrs_to_get.push("repeating_attack_" + id + "_cooldown");
+          attrs_to_get.push("repeating_attack_" + id + "_cooldowncur");
         });
         getAttrs(attrs_to_get, function(attrs) {
           _.each(attack_idarray, function(id) {
             if ((attrs["repeating_attack_" + id + "_type"] && attrs["repeating_attack_" + id + "_type"] === attrs["repeating_weapons_" + weaponid + "_type"] || attrs["repeating_attack_" + id + "_type"] === "none")
-            && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"] || attrs["repeating_attack_" + id + "_class"] === "none")) {
+            && (attrs["repeating_attack_" + id + "_class"] && attrs["repeating_attack_" + id + "_class"] === attrs["repeating_weapons_" + weaponid + "_class"] || attrs["repeating_attack_" + id + "_class"] === "none")
+            && (attrs["repeating_attack_" + id + "_cooldown"] && parseInt(attrs["repeating_attack_" + id + "_cooldown"],10) === attrs["repeating_attack_" + id + "_cooldowncur"])
+            && attrs["repeating_weapons_" + weaponid + "_shots"] != "0" ) {
               update["repeating_attack_" + id + "_activeflag"] = "1";
             } else {
               update["repeating_attack_" + id + "_activeflag"] = "0";
             }
           });
+          console.log(attrs);
           callbacks.push(() => {update_attacks("all");});
           setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
         });
@@ -5854,8 +5875,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           if(attrs["repeating_weapons_" + id + "_type"]) {
             if(attrs["repeating_weapons_" + id + "_type"] === "melee") {
               update["repeating_weapons_" + id + "_typeflag"] = "melee";
+              update["repeating_weapons_" + id + "_magflag"] = "0";
             } else if(attrs["repeating_weapons_" + id + "_type"] === "ranged") {
               update["repeating_weapons_" + id + "_typeflag"] = "ranged";
+              update["repeating_weapons_" + id + "_magflag"] = "1";
             } else {
               update["repeating_weapons_" + id + "_typeflag"] = "none";
             }
