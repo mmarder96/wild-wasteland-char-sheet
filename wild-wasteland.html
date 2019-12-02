@@ -2335,6 +2335,28 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
         <div class="col col3">
           <div class="attribute_options" style="width: 234px; min-height: 523px">
             <div class="row">
+              <span data-i18n="critrangemods:-u">CRIT RANGE MODIFIERS:</span>
+            </div>
+            <fieldset class="repeating_critrangemod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
+            <div class="row">
+              <span data-i18n="critfailmods:-u">CRIT FAIL MODIFIERS:</span>
+            </div>
+            <fieldset class="repeating_critfailmod">
+              <div style="padding-left: 15px; padding-bottom: 10px;">
+                <span data-i18n="source:-u">SOURCE:</span>
+                <input type="text" name="attr_source" style="width: 100px;">
+                <span data-i18n="mod:-u">MOD:</span>
+                <input type="text" name="attr_mod" class="num">
+              </div>
+            </fieldset>
+            <div class="row">
               <span data-i18n="hpmods:-u">HP MODIFIERS:</span>
             </div>
             <fieldset class="repeating_hpmod">
@@ -2440,6 +2462,8 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 -->
 
 <input type="hidden" name="attr_d20" value="1d20cs>20">
+<input type="hidden" name="attr_critrange" value="20">
+<input type="hidden" name="attr_critfail" value="1">
 <input type="hidden" name="attr_rtype" value="@{advantagetoggle}">
 <input type="hidden" name="attr_level" value="0">
 <input type="hidden" name="attr_pb" value="1">
@@ -4460,11 +4484,13 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   });
 
   var update_d20 = function() {
-    var attrs_to_get = ["critrange"];
+    var attrs_to_get = ["critrange", "critfail"];
     getAttrs(attrs_to_get, function(attrs) {
       var update = {};
       var critrange = !isNaN(parseInt(attrs["critrange"], 10)) ? parseInt(attrs["critrange"], 10) : 20
+      var critfail = !isNaN(parseInt(attrs["critfail"], 10)) ? parseInt(attrs["critfail"], 10) : 1
       var d20 = (critrange != 20) ? "1d20cs>" + critrange : "1d20";
+      d20 = (critfail != 1) ? d20 + "cf<" + critfail : d20;
       update["d20"] = d20;
       setAttrs(update, {silent:true});
     });
@@ -4494,6 +4520,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             var prev_mods = attrs["global_mods"];
             var update_attr_flag = false;
             var update_critrange_flag = false;
+            var update_critfail_flag = false;
             var update_critical_strike_flag = false;
             var update_pb_flag = false;
             var update_skills_flag = false;
@@ -4547,8 +4574,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
               });
               if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1 && mod.indexOf("range") === -1) {
                 update_critical_strike_flag = true;
-              } else if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1)) {
+              } else if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1) && mod.indexOf("fail") === -1) {
                 update_critrange_flag = true;
+              } else if(mod.indexOf("crit" > -1) && mod.indexOf("fail") > -1) {
+                update_critfail_flag = true;
               } else if(mod.indexOf("tag") > -1) {
                 update_pb_flag = true;
               } else if(mod.indexOf("save") > -1 || mod.indexOf("saving throw") > -1) {
@@ -4569,6 +4598,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             if(update_attr_flag){callbacks.push(() => {update_attr("all");});}
             if(update_critical_strike_flag){callbacks.push(() => {update_critical_strike();});}
             if(update_critrange_flag){callbacks.push(() => {update_critrange();});}
+            if(update_critfail_flag){callbacks.push(() => {update_critfail();});}
             if(update_pb_flag){callbacks.push(() => {update_pb("global_mods");});}
             if(update_skills_flag){callbacks.push(() => {update_skills("all");});}
             if(update_all_saves_flag){callbacks.push(() => {update_all_saves();});}
@@ -6019,7 +6049,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   const update_weight = function() {
     let update = {};
     let wtotal = 0;
-    let attrs_to_get = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod"];
+    let attrs_to_get = ["cp","sp","ep","gp","pp","encumberance_setting","strength","size","carrying_capacity_mod","global_mods"];
     getSectionIDs("repeating_inventory", (idarray) => {
       _.each(idarray, (currentID, i) => {
         attrs_to_get.push(`repeating_inventory_${currentID}_itemweight`);
@@ -6047,8 +6077,27 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             (size === "tiny") ? .5 : (size === "large") ? 2 : (size === "huge") ? 4 : (size === "gargantuan") ? 8 : size_multiplier;
         };
         let cap = str_base * 10 * size_multiplier;
+        let cap_bonus = 0;
+        if(wgt_attrs["global_mods"] && wgt_attrs["global_mods"] != "") {
+          var mods = wgt_attrs["global_mods"].toLowerCase().split(",");
+          _.each(mods, function(mod) {
+            if(mod.indexOf("wgt" > -1) || mod.indexOf("weight") > -1 || mod.indexOf("capacity") > -1) {
+              if(mod.indexOf(":") > -1) {
+                var new_cap = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                cap = new_cap && new_cap > cap ? new_cap : cap;
+              } else if(mod.indexOf("-") > -1) {
+                var new_cap_bonus = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                cap_bonus = new_cap_bonus ? cap_bonus - new_cap_bonus : cap_bonus;
+              } else {
+                var new_cap_bonus = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+                cap_bonus = new_cap_bonus ? cap_bonus + new_cap_bonus : cap_bonus;
+              }
+            };
+          });
+        }
+        cap += cap_bonus
         // Parse the carrying capacitiy modificator if any
-        if (wgt_attrs.carrying_capacity_mod) {
+        if(wgt_attrs.carrying_capacity_mod) {
           const operator = wgt_attrs.carrying_capacity_mod.substring(0,1);
           const value    = wgt_attrs.carrying_capacity_mod.substring(1);
           if(["*","x","+","-"].indexOf(operator) > -1 && isNaN(parseFloat(value,10)) === false) {
@@ -6417,7 +6466,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       if(critrange_attrs["global_mods"] && critrange_attrs["global_mods"] != "") {
         var mods = critrange_attrs["global_mods"].toLowerCase().split(",");
         _.each(mods, function(mod) {
-          if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1)) {
+          if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1) && mod.indexOf("fail") === -1) {
             if(mod.indexOf(":") > -1) {
               var new_critrange_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
               critrange_base = new_critrange_base && new_critrange_base < critrange_base ? new_critrange_base : critrange_base;
@@ -6435,6 +6484,38 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
         update["critrange"] = final_critrange;
         callbacks.push(() => {update_d20();});
         callbacks.push(() => {update_attacks("all");});
+        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
+      }
+    });
+  }
+
+  var update_critfail = function() {
+    console.log("UPDATING CRITFAIL!");
+    getAttrs(["global_mods"], function(critfail_attrs) {
+      var update = {};
+      var callbacks = [];
+      var critfail_base = 1;
+      var critfail_bonus = 0;
+      if(critfail_attrs["global_mods"] && critfail_attrs["global_mods"] != "") {
+        var mods = critfail_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if(mod.indexOf("crit" > -1) && mod.indexOf("fail") > -1) {
+            if(mod.indexOf(":") > -1) {
+              var new_critfail_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critfail_base = new_critfail_base && new_critfail_base > critfail_base ? new_critfail_base : critfail_base;
+            }
+            else if(mod.indexOf("-") > -1) {
+              var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critfail_bonus = new_critfail_mod ? critfail_bonus - new_critfail_mod : critfail_bonus;
+            } else {
+              var new_critfail_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critfail_bonus = new_critfail_mod ? critfail_bonus + new_critfail_mod : critfail_bonus;
+            }
+          };
+        });
+        var final_critfail = critfail_base + critfail_bonus;
+        update["critfail"] = final_critfail;
+        callbacks.push(() => {update_d20();});
         setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
       }
     });
