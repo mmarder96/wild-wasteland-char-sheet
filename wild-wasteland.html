@@ -2439,7 +2439,7 @@ $$ |  $$ |$$$$$$\ $$$$$$$  |$$$$$$$  |$$$$$$$$\ $$ | \$$ |      $$ |      $$$$$$
 
 -->
 
-<input type="hidden" name="attr_d20" value="1d20">
+<input type="hidden" name="attr_d20" value="1d20cs>20">
 <input type="hidden" name="attr_rtype" value="@{advantagetoggle}">
 <input type="hidden" name="attr_level" value="0">
 <input type="hidden" name="attr_pb" value="1">
@@ -4459,6 +4459,17 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     set_level();
   });
 
+  var update_d20 = function() {
+    var attrs_to_get = ["critrange"];
+    getAttrs(attrs_to_get, function(attrs) {
+      var update = {};
+      var critrange = !isNaN(parseInt(attrs["critrange"], 10)) ? parseInt(attrs["critrange"], 10) : 20
+      var d20 = (critrange != 20) ? "1d20cs>" + critrange : "1d20";
+      update["d20"] = d20;
+      setAttrs(update, {silent:true});
+    });
+  }
+
   var update_global_modifiers = function() {
     var attrs_to_get = ["global_mods"];
     getSectionIDs("repeating_modifiers", function(mod_id_arr) {
@@ -4482,6 +4493,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             var mods = "";
             var prev_mods = attrs["global_mods"];
             var update_attr_flag = false;
+            var update_critrange_flag = false;
             var update_critical_strike_flag = false;
             var update_pb_flag = false;
             var update_skills_flag = false;
@@ -4533,8 +4545,10 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
                   update_skills_flag = true;
                 }
               });
-              if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1) {
+              if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1 && mod.indexOf("range") === -1) {
                 update_critical_strike_flag = true;
+              } else if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1)) {
+                update_critrange_flag = true;
               } else if(mod.indexOf("tag") > -1) {
                 update_pb_flag = true;
               } else if(mod.indexOf("save") > -1 || mod.indexOf("saving throw") > -1) {
@@ -4554,6 +4568,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
 
             if(update_attr_flag){callbacks.push(() => {update_attr("all");});}
             if(update_critical_strike_flag){callbacks.push(() => {update_critical_strike();});}
+            if(update_critrange_flag){callbacks.push(() => {update_critrange();});}
             if(update_pb_flag){callbacks.push(() => {update_pb("global_mods");});}
             if(update_skills_flag){callbacks.push(() => {update_skills("all");});}
             if(update_all_saves_flag){callbacks.push(() => {update_all_saves();});}
@@ -5423,7 +5438,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     console.log("UPDATING ATTACK");
     getAttrs(["equippedweaponid"], function(attrs) {
       var weaponid = attrs["equippedweaponid"] ? attrs["equippedweaponid"] : "";
-      var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit","critical_strike"];
+      var attrs_to_get = ["level","d20","pb","pb_type","pbd_safe","dtype","globalmagicmod","strength_mod","perception_mod","endurance_mod","charisma_mod","intelligence_mod","agility_mod","luck_mod","barter_bonus","energy_weapons_bonus","explosives_bonus","guns_bonus","lockpick_bonus","medicine_bonus","melee_weapons_bonus","repair_bonus","science_bonus","sneak_bonus","speech_bonus","survival_bonus","unarmed_bonus","global_damage_mod_roll","global_damage_mod_crit","critrange","critical_strike"];
       _.each(attack_array, function(attackid) {
         attrs_to_get.push("repeating_attack_" + attackid + "_activeflag");
         attrs_to_get.push("repeating_attack_" + attackid + "_cooldown");
@@ -5673,7 +5688,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           var critical_strike = attrs["critical_strike"] && !isNaN(parseInt(attrs["critical_strike"], 10)) ? attrs["critical_strike"] : 0;
           var crit1 = attrs["repeating_attack_" + attackid + "_dmgcustcrit"] && attrs["repeating_attack_" + attackid + "_dmgcustcrit"] != "" ? critical_strike + " + " + attrs["repeating_attack_" + attackid + "_dmgcustcrit"] : critical_strike;
           var crit2 = attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] && attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] != "" ? attrs["repeating_weapons_" + weaponid + "_dmgcustcrit"] : 0;
-          var r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{d20}" : "0d20";
+          var r1 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "1d20" : "0d20";
           var r2 = attrs["repeating_attack_" + attackid + "_atkflag"] && attrs["repeating_attack_" + attackid + "_atkflag"] != 0 ? "@{rtype}" : "{{r2=[[0d20";
 
           // ROLL FORMATTING
@@ -6392,6 +6407,39 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   };
 
+  var update_critrange = function() {
+    console.log("UPDATING CRITRANGE!");
+    getAttrs(["global_mods"], function(critrange_attrs) {
+      var update = {};
+      var callbacks = [];
+      var critrange_base = 20;
+      var critrange_bonus = 0;
+      if(critrange_attrs["global_mods"] && critrange_attrs["global_mods"] != "") {
+        var mods = critrange_attrs["global_mods"].toLowerCase().split(",");
+        _.each(mods, function(mod) {
+          if(mod.indexOf("crit") > -1 && (mod.indexOf("thresh") > -1 || mod.indexOf("range") > -1)) {
+            if(mod.indexOf(":") > -1) {
+              var new_critrange_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critrange_base = new_critrange_base && new_critrange_base < critrange_base ? new_critrange_base : critrange_base;
+            }
+            else if(mod.indexOf("-") > -1) {
+              var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critrange_bonus = new_critrange_mod ? critrange_bonus - new_critrange_mod : critrange_bonus;
+            } else {
+              var new_critrange_mod = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
+              critrange_bonus = new_critrange_mod ? critrange_bonus + new_critrange_mod : critrange_bonus;
+            }
+          };
+        });
+        var final_critrange = critrange_base + critrange_bonus;
+        update["critrange"] = final_critrange;
+        callbacks.push(() => {update_d20();});
+        callbacks.push(() => {update_attacks("all");});
+        setAttrs(update, {silent:true}, () => {callbacks.forEach((callback) => {callback();})});
+      }
+    });
+  }
+
   var update_critical_strike = function() {
     getAttrs(["luck_mod","critical_strike_mod","luck_bonus","global_mods"], function(crit_attrs) {
       var crit_base = 10;
@@ -6401,7 +6449,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
       if(crit_attrs["global_mods"] && crit_attrs["global_mods"] != "") {
         var mods = crit_attrs["global_mods"].toLowerCase().split(",");
         _.each(mods, function(mod) {
-          if(mod.indexOf("crit") > -1 && mod.indexOf("thresh") === -1) {
+          if(mod.indexOf("crit") > -1 && mod.indexOf("range") === -1 && mod.indexOf("thresh") === -1) {
             if(mod.indexOf(":") > -1) {
               var new_crit_base = !isNaN(parseInt(mod.replace(/[^0-9]/g, ""), 10)) ? parseInt(mod.replace(/[^0-9]/g, ""), 10) : false;
               crit_base = new_crit_base && new_crit_base > crit_base ? new_crit_base : crit_base;
