@@ -3875,27 +3875,27 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     });
   });
 
-  on("change:repeating_critrangemod:mod", function() {
+  on("change:repeating_critrangemod:mod remove:repeating_critrangemod", function() {
     update_critrange();
   });
 
-  on("change:repeating_critfailmod:mod", function() {
+  on("change:repeating_critfailmod:mod remove:repeating_critfailmod", function() {
     update_critfail();
   });
 
-  on("change:repeating_hpmod:mod", function() {
+  on("change:repeating_hpmod:mod remove:repeating_hpmod", function() {
     update_hp_max();
   });
 
-  on("change:repeating_defmod:mod", function() {
+  on("change:repeating_defmod:mod remove:repeating_defmod", function() {
     update_defense();
   });
 
-  on("change:repeating_dtmod:mod", function() {
+  on("change:repeating_dtmod:mod remove:repeating_dtmod", function() {
     update_dt();
   });
 
-  on("change:repeating_spdmod:mod", function() {
+  on("change:repeating_spdmod:mod remove:repeating_spdmod", function() {
     update_speed();
   });
 
@@ -4228,7 +4228,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
     update_dt();
   });
 
-  on("change:pb_type change:pb_custom", function(eventinfo) {
+  on("change:pb_type change:pb_custom change:tag_skill_mod", function(eventinfo) {
     if(eventinfo.sourceType && eventinfo.sourceType === "sheetworker") {return;}
     update_pb();
   });
@@ -6385,7 +6385,7 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
   var update_pb = function(source) {
     console.log("UPDATING TAG SKILL BONUS!")
     callbacks = [];
-    getAttrs(["level","global_mods"], function(pb_attrs) {
+    getAttrs(["level","global_mods", "tag_skill_mod"], function(pb_attrs) {
       var update = {};
       var pb_base = 1;
       var pb_bonus = 0;
@@ -6408,6 +6408,9 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
             }
           }
         });
+      }
+      if(pb_attrs["tag_skill_mod"] && !isNaN(parseInt(pb_attrs["tag_skill_mod"],10))) {
+        pb_mod_bonus += parseInt(pb_attrs["tag_skill_mod"],10);
       }
 
       var final_pb = pb_base + pb_bonus + pb_mod_bonus;
