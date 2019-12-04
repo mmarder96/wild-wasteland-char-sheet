@@ -109,12 +109,12 @@ input[type=radio].sheet-tab-button:checked + span {
 }
 
 .sheet-npc_toggle[value="1"] ~ .sheet-advantagetoggle {
-  top: -10px;
+  top: -20px;
   left: 390px;
 }
 
 .sheet-npc_toggle[value="1"] ~ .sheet-advantagetoggle.sheet-whispertoggle {
-  top: -10px;
+  top: -20px;
   left: 120px;
 }
 
@@ -2456,7 +2456,7 @@ span.sheet-spellconcentration {
 }
 
 .sheet-npc .sheet-display .sheet-title span {
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Helvetica neue", Helvetica, sans-serif;
   font-size: 24px;
   width: 100%;
   text-transform: capitalize;

@@ -1,4 +1,3 @@
-
 <!--
 
 $$\   $$\ $$$$$$\ $$$$$$$\  $$$$$$$\  $$$$$$$$\ $$\   $$\       $$$$$$$$\ $$\        $$$$$$\   $$$$$$\   $$$$$$\
@@ -5838,7 +5837,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           // Update clothing
           _.each(idarray, function(id) {
             if(id != armorid) {
-              if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1" && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] === "clothing") {
+              if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1"
+              && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] === "clothing") {
                 update["repeating_armor_" + id + "_equipped"] = 0;
               }
             } else {
@@ -5854,7 +5854,8 @@ $$ |  $$ |$$\   $$ |      $$$  / \$$$ |$$ |  $$ |$$ |  $$ |$$ |\$$\  $$ |      $
           // Update armor
           _.each(idarray, function(id) {
             if(id != armorid) {
-              if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1" && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] != "clothing" && attrs["repeating_armor_" + armorid + "_type"] != "accessory") {
+              if(attrs["repeating_armor_" + id + "_equipped"] && attrs["repeating_armor_" + id + "_equipped"] === "1"
+              && attrs["repeating_armor_" + id + "_type"] && attrs["repeating_armor_" + id + "_type"] != "clothing" && attrs["repeating_armor_" + armorid + "_type"] != "accessory") {
                 update["repeating_armor_" + id + "_equipped"] = 0;
               }
             } else {
